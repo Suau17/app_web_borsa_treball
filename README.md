@@ -7,12 +7,11 @@
 -->
 
 <div align="center">
-  <h1>Node.JS Template</h1>
+  <h1>APP-WEB BORSA DE TREBALL</h1>
   <p>
-    Template for the projects developed in the Node.JS course of the LearnThis Academy elearning platform.
+    Aplicacion bolsa de trabajo para el instituo vidal i barraquer || <b>Proyecto final M12 DAW</b>.
     <br />
     <br />
-    <a style='font-size:16px' href="https://learnthisacademy.com" target='_blank'><strong>Explore LearnThis</strong></a>
     <br />
     <br />
   </p>
@@ -23,7 +22,7 @@
 
 ## About The Project
 
-The objective of the project is to provide a base project with the minimum necessary tools to develop a project based on Node.JS.
+El objetivo de este proyecto es crear una bolsa de trabajo completamente funcional para los alumnos y exalumnos del centro. 
 
 <!-- BUILT WITH -->
 
@@ -31,47 +30,7 @@ The objective of the project is to provide a base project with the minimum neces
 
 A number of tools have been added to improve the development experience and provide a good structure for any type of project.
 
--   [ESLint](https://eslint.org/) -> Statically analyzes your code to quickly find problems
--   [Standard.js](https://standardjs.com/) -> Configuration template for ESLint
--   [Prettier](https://prettier.io/) -> Opinionated code formatter
--   [Nodemon](https://www.npmjs.com/package/nodemon) -> Simple monitor script for use during development
--   [Lint-staged](https://www.npmjs.com/package/lint-staged) -> Runs linter and formatter before commits
+-   NodeJS
+-   MoongoDB
+-   React
 
-<!-- USAGE -->
-
-## Usage
-
-```
-👍 Click on USE THIS TEMPLATE button 👍
-```
-
-In this way you will create your project based on the following template
-
-After creating the repository and cloning it locally
-
-```
-npm i
-```
-
-<!-- LICENSE -->
-
-## License
-
-Distributed under the MIT License. See `LICENSE.md` for more information.
-
-<!-- MARKDOWN LINKS & IMAGES -->
-<!-- https://www.markdownguide.org/basic-syntax/#reference-style-links -->
-
-[contributors-shield]: https://img.shields.io/github/contributors/learnthisacademy/nodejs-template.svg?style=for-the-badge&color=92DCE5
-[contributors-url]: https://github.com/learnthisacademy/nodejs-template/graphs/contributors
-[forks-shield]: https://img.shields.io/github/forks/learnthisacademy/nodejs-template.svg?style=for-the-badge
-[forks-url]: https://github.com/learnthisacademy/nodejs-template/network/members
-[stars-shield]: https://img.shields.io/github/stars/learnthisacademy/nodejs-template.svg?style=for-the-badge
-[stars-url]: https://github.com/learnthisacademy/nodejs-template/stargazers
-[issues-shield]: https://img.shields.io/github/issues/learnthisacademy/nodejs-template.svg?style=for-the-badge
-[issues-url]: https://github.com/learnthisacademy/nodejs-template/issues
-[license-shield]: https://img.shields.io/github/license/learnthisacademy/nodejs-template.svg?style=for-the-badge
-[license-url]: https://github.com/learnthisacademy/nodejs-template/blob/main/LICENSE
-[learnthis-url]: http://learnthisacademy.com/
-[product-screenshot]: images/screenshot.png
-a
