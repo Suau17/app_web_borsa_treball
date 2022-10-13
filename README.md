@@ -5,14 +5,6 @@
 *** for contributors-url, forks-url, etc. This is an optional, concise syntax you may use.
 *** https://www.markdownguide.org/basic-syntax/#reference-style-links
 -->
-<div align="center">
-  
-  <a href="">[![Contributors][contributors-shield]][contributors-url]</a>
-  <a href="">[![Forks][forks-shield]][forks-url]</a>
-  <a href="">[![Stargazers][stars-shield]][stars-url]</a>
-  <a href="">[![Issues][issues-shield]][issues-url]</a>
-  <a href="">[![MIT License][license-shield]][license-url]</a>
-</div>
 
 <div align="center">
   <h1>Node.JS Template</h1>
