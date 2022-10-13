@@ -21,7 +21,7 @@ El objetivo de este proyecto es crear una bolsa de trabajo completamente funcion
 
 ## Built With
 
-Usaremos las siguientes herramientas para construir un backend y frontend agiles. 
+Usaremos las siguientes herramientas para construir un backend y frontend escalables. 
 
 -   NodeJS
 -   MoongoDB
