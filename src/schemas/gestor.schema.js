@@ -6,6 +6,7 @@ const userSchema = new Schema({
     cognoms : { type: 'string', required: true, minLenght: 4,  maxLength: 20},
     carrec : { type: 'string', required: true, minLenght: 4,  maxLength: 20},
     dni : { type: 'string', required: true, minLenght: 4,  maxLength: 20},
+    gestor : {type: 'boolean'},
     gestor : {type: 'boolean'}
 })
 
