@@ -2,7 +2,7 @@ import {Router} from 'express'
 
 const userRouter = Router()
 
-userRouter.post('/register')
+  userRouter.post('/register') 
 userRouter.post('/login')
 userRouter.post('/profile')
 userRouter.patch('/update-data')  

@@ -10,6 +10,18 @@ const ofertaLaboralSchema = new Schema({
     dateOfPublication : { type: 'date', required: true},
     expirationDate : { type: 'date'},
     createBy : { type: 'string', required: true, maxLength: 150},
+    User : [{
+        type: Schema.type.ObjectId,
+        ref: 'User'
+    }]
+})
+
+ofertaLaboralSchema.set('toJSON', {
+    transform: (document, returnedObject)=>{
+        returnedObject.id = returnedObject.id 
+        delete returnedObject._id
+        delete returnedObject.__v
+    }
 })
 
 const ofertaLaboral = model('ofertaLaboral', ofertaLaboralSchema)
