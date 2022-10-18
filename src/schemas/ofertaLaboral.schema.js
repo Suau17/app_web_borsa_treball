@@ -16,14 +16,10 @@ const ofertaLaboralSchema = new Schema({
     }]
 })
 
-ofertaLaboralSchema.set('toJSON', {
-    transform: (document, returnedObject)=>{
-        returnedObject.id = returnedObject.id 
-        delete returnedObject._id
-        delete returnedObject.__v
-    }
-})
+
 
 const ofertaLaboral = model('ofertaLaboral', ofertaLaboralSchema)
 
 export default ofertaLaboral
+
+ofertaLaboral.create({})
