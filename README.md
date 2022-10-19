@@ -27,3 +27,4 @@ Usaremos las siguientes herramientas para construir un backend y frontend escala
 -   MongoDB
 -   React
 
+
