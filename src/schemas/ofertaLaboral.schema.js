@@ -1,7 +1,7 @@
 import mongoose from "mongoose";
 const {model ,Schema} = mongoose
 
-const ofertaLaboralSchema = new Schema({
+const ofertaLaboralSchema = new mongoose.Schema({
     title : { type: 'string', required: true,  maxLength: 100},    
     description : { type: 'string', required: true},
     requirements : { type: 'string', required: true},
