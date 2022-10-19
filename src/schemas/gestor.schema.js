@@ -7,6 +7,7 @@ const userSchema = new Schema({
     carrec : { type: 'string', required: true, minLenght: 4,  maxLength: 20},
     dni : { type: 'string', required: true, minLenght: 4,  maxLength: 20},
     gestor : {type: 'boolean'},
+    ofertasPublicadas : {}
     
 })
 
