@@ -9,8 +9,8 @@ expressApp.use(express.json())
 
 
 // routes
-expressApp.use('/user', userRouter)
-
+expressApp.use('/', userRouter)
+expressApp.use('/register', userRouter)
 
 
 export default expressApp
