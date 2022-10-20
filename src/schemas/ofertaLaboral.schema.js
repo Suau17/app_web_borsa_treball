@@ -16,10 +16,8 @@ const ofertaLaboralSchema = new mongoose.Schema({
     }]
 })
 
+const OfertaLaboral = model('ofertaLaboral', ofertaLaboralSchema)
 
+export default OfertaLaboral
 
-const ofertaLaboral = model('ofertaLaboral', ofertaLaboralSchema)
-
-export default ofertaLaboral
-
-ofertaLaboral.create({})
+OfertaLaboral.create({})
