@@ -1,8 +1,11 @@
+import userRegistrerController from '#controllers/user-registrer.controller.js'
 import {Router} from 'express'
-
 const userRouter = Router()
 
-userRouter.post('/register')
+userRouter.get('/:', (req, res)=>{
+    res.send("hola")
+})
+userRouter.post('/register', userRegistrerController) 
 userRouter.post('/login')
 userRouter.post('/profile')
 userRouter.patch('/update-data')  
