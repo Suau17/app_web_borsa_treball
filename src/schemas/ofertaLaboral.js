@@ -9,7 +9,10 @@ const ofertaLaboralSchema = new mongoose.Schema({
     ciclo : { typse: 'string', required: true, maxLength: 150},
     dateOfPublication : { type: 'date', required: true},
     expirationDate : { type: 'date'},
-    createBy : { type: 'string', required: true, maxLength: 150},
+    createBy : [{
+        type: Schema.type.ObjectId,
+        ref: 'gestor.schema'
+    }],
     User : [{
         type: Schema.type.ObjectId,
         ref: 'User'
