@@ -1,8 +1,9 @@
 import userRegistrerController from '#controllers/user-registrer.controller.js'
 import {Router} from 'express'
+
 const userRouter = Router()
 
-userRouter.get('/:', (req, res)=>{
+userRouter.get('/', (req, res)=>{
     res.send("hola")
 })
 userRouter.post('/register', userRegistrerController) 
