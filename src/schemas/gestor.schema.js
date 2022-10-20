@@ -7,8 +7,16 @@ const gestorSchema = new Schema({
     carrec : { type: 'string', required: true, minLenght: 4,  maxLength: 20},
     dni : { type: 'string', required: true, minLenght: 4,  maxLength: 20},
     gestor : {type: 'boolean'},
-    ofertasPublicadas : [{Schema}],
-    perfilHabilitado : {type: 'boolean'}
+    perfilHabilitado : {type: 'boolean'},
+    ofertaLaboralPublicada : [{
+        type: Schema.type.ObjectId,
+        ref: 'ofertaLaboral'
+    }],
+    
+    refUser: [{
+        type: Schema.type.ObjectId,
+        ref: 'User'
+    }]
     
 })
 

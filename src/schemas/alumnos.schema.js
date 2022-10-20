@@ -8,7 +8,11 @@ const alumnoSchema = new Schema({
     data_naixement : { type: 'date', required: true},
     carnet : { type: 'boolean', required: true},
     estudis : { type: 'string', required: true},
-    cv : { type: 'boolean', required: true}
+   
+    refUser: [{
+        type: Schema.type.ObjectId,
+        ref: 'User'
+    }]
 })
 
 const alumnoModel = model('Alumno', alumnoSchema)
