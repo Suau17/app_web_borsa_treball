@@ -1,7 +1,7 @@
 import mongoose from "mongoose";
 const {model ,Schema} = mongoose
 
-const userSchema = new Schema({
+const alumnoSchema = new Schema({
     dni : { type: 'string', required: true, minLenght: 9,  maxLength: 9},    
     nom : { type: 'string', required: true},
     cognoms : { type: 'string', required: true},
@@ -11,6 +11,6 @@ const userSchema = new Schema({
     cv : { type: 'boolean', required: true}
 })
 
-const userModel = model('User', userSchema)
+const alumnoModel = model('Alumno', alumnoSchema)
 
-export default userModel
+export default alumnoModel
