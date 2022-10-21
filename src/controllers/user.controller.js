@@ -26,20 +26,24 @@ export const userRegistrerController = async (req, res) => {
 return res.send('usuario registrado con exito')
 }
 
-
- export const userLoginController = async (req, res) => {
+/*
+ exportconst userLoginController = async (req, res) => {
     const {_id, email, passwordHash} = req.body
 
     // comprobamos que el email exsiste en la DB
     const exsistingUserByEmail = await UserModel.findById(email).exec()
     if (!exsistingUserByEmail) return res.status(499).send('este email/usuario no esta registrado')  
     
-} 
+} */
  
 
-export const getUsersControllers = async (req, res) => {
- 
-        const total = await UserModel.find().count()
-        res.json({ total })
-    
-    }
+export const getUsersControllers =  (req, res) => {
+  
+    const total =  UserModel.find().exec(function (err, list_users) {
+        if (err) {
+            return next(err);
+        }
+        res.send( {listaUsuarios: list_users} )
+    })
+}
+
