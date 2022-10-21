@@ -1,4 +1,4 @@
-import userRegistrerController from '#controllers/oferta-register.controller.js'
+import userRegistrerController from '#controllers/oferta.controller.js'
 import {Router} from 'express'
 const userRouter = Router()
 
