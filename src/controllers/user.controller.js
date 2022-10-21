@@ -43,6 +43,7 @@ export const getUsersControllers =  (req, res) => {
         if (err) {
             return next(err);
         }
+        // en la view saldara una var con json list_users
         res.send( {listaUsuarios: list_users} )
     })
 }
