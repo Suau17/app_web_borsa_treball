@@ -25,9 +25,9 @@ export const userRegistrerController = async (req, res) => {
 
 return res.send('usuario registrado con exito')
 }
-/*
 
- const userLoginController = async (req, res) => {
+
+ export const userLoginController = async (req, res) => {
     const {_id, email, passwordHash} = req.body
 
     // comprobamos que el email exsiste en la DB
@@ -35,7 +35,7 @@ return res.send('usuario registrado con exito')
     if (!exsistingUserByEmail) return res.status(499).send('este email/usuario no esta registrado')  
     
 } 
- */
+ 
 
 export const getUsersControllers = async (req, res) => {
  
