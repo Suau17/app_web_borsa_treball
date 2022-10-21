@@ -1,4 +1,4 @@
-import userRegistrerController from '#controllers/user.controller.js'
+import * as userC from '#controllers/user.controller.js'
 import {Router} from 'express'
 
 const userRouter = Router()
@@ -6,7 +6,8 @@ const userRouter = Router()
 userRouter.get('/', (req, res)=>{
     res.send("hola")
 })
-userRouter.post('/register', userRegistrerController) 
+userRouter.get('/getUsers',  userC.getUsersControllers )
+userRouter.post('/register', userC.userRegistrerController)
 userRouter.post('/login')
 userRouter.post('/profile')
 userRouter.patch('/update-data')  
