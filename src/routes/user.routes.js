@@ -8,7 +8,7 @@ userRouter.get('/', (req, res)=>{
 })
 userRouter.get('/getUsers',  userC.getUsersControllers )
 userRouter.post('/register', userC.userRegistrerController)
-userRouter.post('/login', )
+userRouter.post('/login', userC.userLoginController )
 userRouter.post('/profile')
 userRouter.patch('/update-data')  
 userRouter.patch('/update-email')
