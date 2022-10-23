@@ -1,50 +1,53 @@
 import UserModel from "#schemas/User.js"
 // importamos el hash para encriptar
- import {hash} from 'bcrypt'
+import { hash, compare } from 'bcrypt'
 
 
 export const userRegistrerController = async (req, res) => {
-    const { _id ,name, description, email, passwordHash, rolUser} = req.body
+    const { _id, name, description, email, passwordHash, rolUser } = req.body
 
     const exsistingUserByEmail = await UserModel.findById(email).exec()
 
-    if (exsistingUserByEmail) return res.status(499).send('ya exsiste un usuario con ese email registrado')    
-   // cogemos la variable que viene del req.body y la encriptamos
-    const hashedPassword = await  hash(passwordHash, 12) 
+    if (exsistingUserByEmail) return res.status(499).send('ya exsiste un usuario con ese email registrado')
+    // cogemos la variable que viene del req.body y la encriptamos
+    const hashedPassword = await hash(passwordHash, 12)
 
-   const user = new UserModel({
-        _id, 
+    const user = new UserModel({
+        _id,
         name,
         description,
-        email, 
+        email,
         // asignamos la contraseña encriptada
-        passwordHash : hashedPassword,
+        passwordHash: hashedPassword,
         rolUser
     })
     await user.save()
 
-return res.send('usuario registrado con exito')
+    return res.send('usuario registrado con exito')
 }
 
-/*
- exportconst userLoginController = async (req, res) => {
-    const {_id, email, passwordHash} = req.body
+
+export const userLoginController = async (req, res) => {
+    const { email, password } = req.body
 
     // comprobamos que el email exsiste en la DB
-    const exsistingUserByEmail = await UserModel.findById(email).exec()
-    if (!exsistingUserByEmail) return res.status(499).send('este email/usuario no esta registrado')  
-    
-} */
- 
+    const exsistingUserByEmail = await UserModel.findOne({ email }).exec()
+    if (!exsistingUserByEmail) return res.status(401).send('incorrect credentials')
 
-export const getUsersControllers =  (req, res) => {
-  
-    const total =  UserModel.find().exec(function (err, list_users) {
+    const checkPassword = await compare(password, exsistingUserByEmail.passwordHash);
+
+    if (!checkPassword) return res.status(401).send('incorrect credentials')
+}
+
+
+export const getUsersControllers = (req, res) => {
+
+    UserModel.find().exec(function (err, list_users) {
         if (err) {
             return next(err);
         }
         // en la view saldara una var con json list_users
-        res.send( {listaUsuarios: list_users} )
+        res.send({ listaUsuarios: list_users })
     })
 }
 
