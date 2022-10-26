@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <%- include('../partials/head'); %>
+</head>
+<body class="container">
+
+<header>
+  <%- include('../partials/header'); %>
+</header>
+
+<main>
+	<div class="card mt-2">
+		
+		<div class="card-header">
+	     <h5 class="card-title">User List</h5>
+	  </div>
+      <table>
+      <% list.forEach( function(list_users) { %>
+        <tr>		      
+          <td><%= list_users.name %></td>
+          <td><%= list_users.description%></td>
+          <!-- <td>					      	
+              <a class="btn btn-secondary" href="/user/update/<%=user._id%>" class="card-link">Edit</a>
+          </td>		       -->
+        </tr>
+       <% }); %>	
+    </table>
+    <!-- <div class="card-body">
+	    
+			<table class="table table-striped">
+		  		<thead>
+				    <tr>		      
+				      <th scope="col">Name</th>
+				      <th scope="col">
+				      	<a href="/user/create" class="btn btn-primary">New</a>
+				      </th>
+				    </tr>
+		  		</thead>
+			  	<tbody>
+			  		<% list.forEach( function(user) { %>
+					    <tr>		      
+					      <td><%= user.name %></td>
+					      <td>					      	
+					      	<a class="btn btn-secondary" href="/user/update/<%=user._id%>" class="card-link">Edit</a>
+					      </td>		      
+					    </tr>
+			   		<% }); %>	     
+			    </tbody>
+		  </table>	     
+	    
+		</div>
+		
+	</div>
+  -->
+</main>
+
+<footer>
+  <%- include('../partials/footer'); %>
+</footer>
+
+</body>
+</html>
