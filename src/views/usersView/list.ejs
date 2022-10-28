@@ -13,36 +13,26 @@
 	<div class="card mt-2">
 		
 		<div class="card-header">
-	     <h5 class="card-title">User List</h5>
+	     <h5 class="card-title">Technical Book List</h5>
 	  </div>
-      <table>
-      <% list.forEach( function(list_users) { %>
-        <tr>		      
-          <td><%= list_users.name %></td>
-          <td><%= list_users.description%></td>
-          <!-- <td>					      	
-              <a class="btn btn-secondary" href="/user/update/<%=user._id%>" class="card-link">Edit</a>
-          </td>		       -->
-        </tr>
-       <% }); %>	
-    </table>
-    <!-- <div class="card-body">
+
+    <div class="card-body">
 	    
 			<table class="table table-striped">
 		  		<thead>
 				    <tr>		      
 				      <th scope="col">Name</th>
 				      <th scope="col">
-				      	<a href="/user/create" class="btn btn-primary">New</a>
+				      	<!-- <a href="/technicalBook/create" class="btn btn-primary">New</a> -->
 				      </th>
 				    </tr>
 		  		</thead>
 			  	<tbody>
-			  		<% list.forEach( function(user) { %>
+			  		<% list.forEach( function(listaUsuarios) { %>
 					    <tr>		      
-					      <td><%= user.name %></td>
+					      <td><%= listaUsuarios.name %></td>
 					      <td>					      	
-					      	<a class="btn btn-secondary" href="/user/update/<%=user._id%>" class="card-link">Edit</a>
+					      	<!-- <a class="btn btn-secondary" href="/technicalBook/update/<%=book._id%>" class="card-link">Edit</a> -->
 					      </td>		      
 					    </tr>
 			   		<% }); %>	     
@@ -52,7 +42,7 @@
 		</div>
 		
 	</div>
-  -->
+ 
 </main>
 
 <footer>

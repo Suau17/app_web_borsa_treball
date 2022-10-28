@@ -55,9 +55,9 @@ export const getUsersControllers = (req, res) => {
             // 'await' espera a que trobi les dades de Genere. Amb 'await' es obligat posar 'async' a la
             // definició del mètode. El 'await' sempre ha d'estar entre un 'try-catch'
             
-      res.render('usersViews/list',{listaUsuarios: list_users})   
+        res.render('usersView/list',{listaUsuarios: list_users})   
           
-        
+        //res.send('fhfhhf')
     })
 
     
