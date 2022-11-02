@@ -7,6 +7,7 @@ const ofertaLaboralSchema = new mongoose.Schema({
     requirements : { type: 'string', required: true},
     skills : { type: 'string', required: true},
     ciclo : { typse: 'string', required: true, maxLength: 150},
+    tipo : { type: 'string', enum: ["presencial","telemático","híbrido"],required: true},
     dateOfPublication : { type: 'date', required: true},
     expirationDate : { type: 'date'},
     createBy : [{
