@@ -9,10 +9,12 @@ const gestorSchema = new Schema({
     gestor : {type: 'boolean'},
     perfilHabilitado : {type: 'boolean'},
 
-  /*  ofertaLaboralPublicada : [{
+
+    /*ofertaLaboralPublicada : [{
         type: Schema.type.ObjectId,
         ref: 'ofertaLaboral'
-    }]*/
+    }],*/
+
 
     
     refUser: [{
