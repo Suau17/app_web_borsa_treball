@@ -1,4 +1,5 @@
 import userRouter from '#routes/user.routes.js'
+import empresaRouter from '#routes/gestor.routes.js'
 import express from 'express'
 
 
@@ -25,6 +26,7 @@ expressApp.set('view engine', 'ejs');
 
 // routes
 expressApp.use(userRouter)
+expressApp.use(empresaRouter)
 
 
 
