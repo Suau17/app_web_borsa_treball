@@ -16,7 +16,10 @@ const expressApp = express();
 // middlewares
 expressApp.use(express.json())
 expressApp.set('view engine', 'ejs')
-expressApp.set('views', path.join(__dirname, 'views'));
+
+expressApp.set('views', path.join('src', 'views'));
+console.log(path.join(__dirname, 'views'));
+
 expressApp.set('view engine', 'ejs');
 
 

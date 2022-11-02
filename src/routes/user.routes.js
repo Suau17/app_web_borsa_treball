@@ -2,6 +2,7 @@ import * as userC from '#controllers/user.controller.js'
 import {Router} from 'express'
 
 
+
 const userRouter = Router()
 
 userRouter.get('/', (req, res)=>{
