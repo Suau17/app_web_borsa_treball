@@ -16,13 +16,8 @@ return res.send('oferta creada con exito')
 export const getOfertasController = (req, res) => {
 
     OfertaLaboral.find().exec(function async (err, list_ofertas) {
-        
-        for (let i = 0; i < list_ofertas.length; i++) {
-            const element = array[i];
-            
-            const exsistingUserByEmail =  GestorModel.findOne({ email }).exec()
-        }
-        
+
+        const exsistingUserByEmail =  GestorModel.findOne({ email }).exec()
         if (err) {
             return next(err)
         }
