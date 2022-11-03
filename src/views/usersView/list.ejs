@@ -13,7 +13,7 @@
 	<div class="card mt-2">
 		
 		<div class="card-header">
-	     <h5 class="card-title">Technical Book List</h5>
+	     <h5 class="card-title">USUARIOS</h5>
 	  </div>
 
     <div class="card-body">
@@ -22,17 +22,18 @@
 		  		<thead>
 				    <tr>		      
 				      <th scope="col">Name</th>
-				      <th scope="col">
-				      	<!-- <a href="/technicalBook/create" class="btn btn-primary">New</a> -->
+					  <th scope="col">Email</th>
+				     
 				      </th>
 				    </tr>
 		  		</thead>
 			  	<tbody>
-			  		<% list.forEach( function(listaUsuarios) { %>
+			  		<% listaUsuarios.forEach( function(usuari) { %>
 					    <tr>		      
-					      <td><%= listaUsuarios.name %></td>
-					      <td>					      	
-					      	<!-- <a class="btn btn-secondary" href="/technicalBook/update/<%=book._id%>" class="card-link">Edit</a> -->
+					      <td><%= usuari.name %></td>
+						  <td><%= usuari.email %></td>
+						  <td><%= usuari._id %></td>
+					      
 					      </td>		      
 					    </tr>
 			   		<% }); %>	     

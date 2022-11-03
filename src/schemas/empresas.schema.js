@@ -6,10 +6,10 @@ const empresaSchema = new Schema({
     direccion : { type: 'string', required: true, minLenght: 4,  maxLength: 60},
     empresaHabilitada : {type: 'boolean'},
   
-    /* ofertaLaboralPublicada : [{
+    /*  ofertaLaboralPublicada : [{
         type: Schema.type.ObjectId,
         ref: 'ofertaLaboral'
-    }]*/
+    }] */
     
     refOfertaLaboral: [{
         type: Schema.type.ObjectId,

@@ -36,9 +36,7 @@ export const userLoginController = async (req, res) => {
     const exsistingUserByEmail = await UserModel.findOne({ email }).exec()
     if (!exsistingUserByEmail) return res.status(401).send('incorrect credentials')
 
-
     const checkPassword = await compare(password, exsistingUserByEmail.passwordHash)
-
 
     if (!checkPassword) return res.status(401).send('incorrect credentials')
 }
@@ -46,24 +44,23 @@ export const userLoginController = async (req, res) => {
 
 export const getUsersControllers = (req, res) => {
 
-
     UserModel.find().exec(function async (err, list_users) {
         if (err) {
             return next(err)
         }
         // en la view saldara una var con json list_users
-        res.send({ listaUsuarios: list_users })
+       // res.send({ listaUsuarios: list_users })
       
        
             // 'await' espera a que trobi les dades de Genere. Amb 'await' es obligat posar 'async' a la
             // definició del mètode. El 'await' sempre ha d'estar entre un 'try-catch'
             
-
-        res.render('usersView/list',{listaUsuarios: list_users})   
+            // error path join
+         res.render('usersView/list',{listaUsuarios: list_users})   
           
-        //res.send('fhfhhf')
-
+        
     })
+
 
     
 }
