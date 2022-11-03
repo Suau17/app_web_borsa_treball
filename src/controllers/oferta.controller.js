@@ -17,7 +17,7 @@ export const getOfertasController = (req, res) => {
 
     OfertaLaboral.find().exec(function async (err, list_ofertas) {
 
-        const exsistingUserByEmail =  GestorModel.findOne({ email }).exec()
+        
         if (err) {
             return next(err)
         }
