@@ -8,8 +8,9 @@ const userSchema = new Schema({
     description : { type: 'string', required: true, minLenght: 4,  maxLength:100 },
     email : {type: 'string', required: true, unique: true},
     passwordHash: { type: 'string', required: true, minLenght: 4},
-    rolUser : {type : 'string' ,
-    enum: ["gestor","responsable","alumno"], required: true 
+    rolUser: {
+        type: 'string',
+        enum: ["gestor", "responsable", "alumno"], required: true
     }
     
 })
