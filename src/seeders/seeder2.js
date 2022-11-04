@@ -12,7 +12,7 @@ const __dirname = path.dirname(__filename);
  dotenv.config({ path: ".env" });
 
 // Carregar models
-import alumnos from "#schemas/Gestor.js"
+import alumnos from "#schemas/User.js"
 
 // Llegir els arxius JSON
 const alumnes = JSON.parse(
@@ -28,7 +28,7 @@ const alumnes = JSON.parse(
 // Conectar-se a la database
 mongoose.connect(process.env.MONGODB_URL, {
     useNewUrlParser:true,
-
+    useUndefiedTopology: true
 });
 
 // Importar les dades
