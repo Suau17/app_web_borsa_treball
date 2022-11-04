@@ -4,16 +4,13 @@ import {Router} from 'express'
 const userRouter = Router()
 
 
-userRouter.get('/', (req, res)=>{
- 
-})
-userRouter.post('/registerOferta', oferta.ofertaRegisterController) 
-userRouter.get('/getOfertas', oferta.getOfertasController) 
-userRouter.post('/profile')
-userRouter.patch('/update-data')  
-userRouter.patch('/update-email')
-userRouter.patch('/update-password')
-userRouter.delete('/unregister')
+userRouter.get('/', oferta.getOfertasController) 
+userRouter.post('/borsa/registrar', function (req, res) {
+    res.render('ofertas/registrar.ejs')  
+}) 
+userRouter.post('/borsa/registerOferta', oferta.ofertaRegisterController) 
+userRouter.get('/borsa/getOfertas', oferta.getOfertasController) 
+userRouter.patch('/borsa/update-data')  
 
 
 

@@ -10,7 +10,8 @@
         "prettier": "prettier --write .",
         "prepare": "husky install",
         "postinstall": "npm run prepare",
-        "test": "node src/test/test.js"
+        "test": "node src/test/test.js",
+        "seed": "node src/seeders/*"
     },
     "author": {
         "name": "Marc Gruber, Helder Rivas, Gerard Suau",
