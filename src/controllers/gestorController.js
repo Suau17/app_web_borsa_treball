@@ -1,17 +1,37 @@
-var Gestor = require("../models/gestor");
+import GestorModel from "#schemas/Gestor.js"
+import { body, validationResult} from 'express-validator'
 
-class GestorCotroller {
+// crear empresa + validar dades
 
-    /*login para gestor*/
-    static create_post(req, res) {
-        // console.log(req.body)
-        Gestor.create(req.body, function (error, newGestor)  {
-            if(error){
-                //console.log(error)
-                res.render('gestor/new',{error:error.message})
-            }else{             
-                res.redirect('/gestor')
-            }
-        })    
-      } 
+export const rules =  [
+    body("nomEmpresa")
+        .trim()
+        .isLength({ min: 3, max: 50})
+        .withMessage(`Name ha de estar entre 3 y 50`)
+        .escape(),
+
+    body("nomGestor", "name not correct")
+        .trim()
+        .isLength({ min: 2, max:50})
+    ]
+
+export const registerEmpresaControllers = async (req, res) => {
+    const errors = validationResult(req)
+    const { nomEmpresa ,nomGestor, carrec , telefon , gestor , perfilHabilitado, refUser } = req.body
+
+
+    
+
+   const gestorempresa = new GestorModel({
+    nomEmpresa ,nomGestor, carrec , telefon , gestor , perfilHabilitado, refUser
+    })
+    await gestorempresa.save()
+
+   
+return res.send('Empresa Registrada con exito')
+
 }
+
+
+ 
+  
