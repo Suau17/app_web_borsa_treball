@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <%- include('../partials/head'); %>
+</head>
+<body class="container">
+
+<header>
+  <%- include('../partials/header'); %>
+</header>
+
+<main>
+	<div class="card mt-2">
+		
+		<div class="card-header">
+	     <h5 class="card-title">USUARIOS</h5>
+	  </div>
+
+    <div class="card-body">
+	    
+			<table class="table table-striped">
+		  		<thead>
+				    <tr>		      
+				      <th scope="col">Name</th>
+					  <th scope="col">Email</th>
+				     
+				      </th>
+				    </tr>
+		  		</thead>
+			  	<tbody>
+			  		<% listaUsuarios.forEach( function(usuari) { %>
+					    <tr>		      
+					      <td><%= usuari.name %></td>
+						  <td><%= usuari.email %></td>
+						  <td><%= usuari._id %></td>
+					      
+					      </td>		      
+					    </tr>
+			   		<% }); %>	     
+			    </tbody>
+		  </table>	     
+	    
+		</div>
+		
+	</div>
+ 
+</main>
+
+<footer>
+  <%- include('../partials/footer'); %>
+</footer>
+
+</body>
+</html>
