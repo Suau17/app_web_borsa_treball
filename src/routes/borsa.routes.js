@@ -5,8 +5,9 @@ const userRouter = Router()
 
 
 userRouter.get('/', oferta.getOfertasController) 
-userRouter.get('borsa/registrar', function (req, res) {
-    res.render('borsa/registrar')  
+userRouter.post('/crear', function (req, res) {
+    res.render('ofertas/registrar') 
+
 }) 
 userRouter.post('/borsa/registerOferta', oferta.ofertaRegisterController) 
 userRouter.patch('/borsa/update-data')  

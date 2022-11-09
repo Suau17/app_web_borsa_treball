@@ -21,8 +21,10 @@
 			<table class="table table-striped">
 		  		<thead>
 				    <tr>		      
-				      <th scope="col">Name</th>
-					  <th scope="col">Email</th>
+				      <th scope="col">Titol</th>
+					  <th scope="col">Descripcio</th>
+					  <th scope="col">Skills</th>
+					  <th scope="col">Empresa</th>
 				     
 				      </th>
 				    </tr>
@@ -34,7 +36,10 @@
 						  <td><%= oferta.description %></td>
 						  <td><%= oferta.skills %></td>
 						  <td><%= oferta.createBy %></td>
-					      
+						  <td>
+							<button type="button" class="btn btn-primary">Update</button>
+							<button type="button" class="btn btn-danger">Delete</button>
+					      </td>
 					      </td>		      
 					    </tr>
 			   		<% }); %>	     
