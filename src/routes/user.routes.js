@@ -6,7 +6,7 @@ import {Router} from 'express'
 const userRouter = Router()
 
 userRouter.get('/', (req, res)=>{
-    res.render('new')
+  
 })
 userRouter.get('/getUsers',  userC.getUsersControllers ) // funciona (json no view)
 userRouter.post('/register', userC.userRegistrerController) // funciona

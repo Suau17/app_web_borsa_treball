@@ -1,17 +1,16 @@
-import * as gestor from '#controllers/oferta.controller.js'
+import * as oferta from '#controllers/oferta.controller.js'
 import {Router} from 'express'
+
 const userRouter = Router()
 
 
-userRouter.get('/', (req, res)=>{
- 
-})
-userRouter.post('/registerOferta', gestor.ofertaRegisterController) 
-userRouter.post('/profile')
-userRouter.patch('/update-data')  
-userRouter.patch('/update-email')
-userRouter.patch('/update-password')
-userRouter.delete('/unregister')
+userRouter.get('/', oferta.getOfertasController) 
+userRouter.post('/borsa/registrar', function (req, res) {
+    res.render('ofertas/registrar.ejs')  
+}) 
+userRouter.post('/borsa/registerOferta', oferta.ofertaRegisterController) 
+userRouter.get('/borsa/getOfertas', oferta.getOfertasController) 
+userRouter.patch('/borsa/update-data')  
 
 
 
