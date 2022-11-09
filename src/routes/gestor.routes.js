@@ -5,7 +5,7 @@ import * as empresa from '#controllers/gestorController.js'
 const empresaRouter = Router()
 
   // empresaRouter.get('/registerEmpresa', userC.registerEmpresaControllers)
-  empresaRouter.post('/registerEmpresa', empresa.registerEmpresaControllers)
+  empresaRouter.post('/registerEmpresa', empresa.rules ,empresa.registerEmpresaControllers )
   /*
 userRouter.post('/login')
 userRouter.post('/profile')

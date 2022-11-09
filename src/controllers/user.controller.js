@@ -4,16 +4,15 @@ import { hash, compare } from 'bcrypt'
 
 
 export const userRegistrerController = async (req, res) => {
-    const { _id, name, description, email, passwordHash, rolUser } = req.body
+    const { name, description, email, passwordHash, rolUser } = req.body
 
-    const exsistingUserByEmail = await UserModel.findById(email).exec()
+    const exsistingUserByEmail = await UserModel.findOne({email : email})
 
     if (exsistingUserByEmail) return res.status(499).send('ya exsiste un usuario con ese email registrado')
     // cogemos la variable que viene del req.body y la encriptamos
     const hashedPassword = await hash(passwordHash, 12)
 
     const user = new UserModel({
-        _id,
         name,
         description,
         email,
