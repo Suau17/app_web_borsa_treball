@@ -28,7 +28,7 @@ const alumnes = JSON.parse(
 // Conectar-se a la database
 mongoose.connect(process.env.MONGODB_URL, {
     useNewUrlParser:true,
-    useUndefiedTopology: true
+    //useUndefiedTopology: true
 });
 
 // Importar les dades
