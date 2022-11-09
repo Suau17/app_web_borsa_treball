@@ -1,57 +1,24 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <%- include('../partials/head'); %>
+  <%- include('./partials/head'); %>
 </head>
 <body class="container">
 
 <header>
-  <%- include('../partials/header'); %>
+  <%- include('./partials/header'); %>
 </header>
 
 <main>
-
-	<div class="card mt-4">
-	  <div class="card-header">
-	     <h5 class="card-title">New Gestor</h5>
-	  </div>
-	  <div class="card-body">
-
-	   	<form method="POST" action="/gestor/login">
-				<div class="form-group">
-					 <label for="name">Nombre</label>
-					 <input type="text" name="name" class="form-control"> <br>
-
-                     <label for="name">Apellido</label>
-					 <input type="text" name="apellidos" class="form-control"> <br>
-                     
-                     <label for="name">DNI</label>
-					 <input type="text" name="dni" class="form-control"> <br>
-
-                     <label for="name">Dirección</label>
-					 <input type="text" name="dire" class="form-control"> <br>
-
-                     <label for="name">CodigoPostal</label>
-					 <input type="text" name="cp" class="form-control">
-
-				</div>
-				<button type="submit" class="btn btn-primary">Save
-				</button>
-			</form>
-
-			<% if (typeof error !== "undefined") { %>
-				<div class="alert alert-primary mt-2" role="alert">   <p><%= error %></p>
-				</div>
-			<% } %>
-
-	  </div>
-	</div>
-	
+<div style="text-align: center; margin-top: 20em; margin-bottom: 20em;">
+<h1>BENVINGUTS A LA BORSA DE TREBALL</h1>
+<h2>INSTITUT VIDAL I BARRAQUER</h2>
+</div>
 
 </main>
 
 <footer>
-  <%- include('../partials/footer'); %>
+  <%- include('./partials/footer'); %>
 </footer>
 
 </body>

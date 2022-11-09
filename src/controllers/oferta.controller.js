@@ -8,7 +8,7 @@ export const ofertaRegisterController = async (req, res) => {
     title, description, requirements, skills, ciclo, dateOfPublication, expirationDate, createBy
     })
     await ofertaLaboral.save()
-
+   
 return res.send('oferta creada con exito')
 
 }
