@@ -21,11 +21,10 @@
 			<table class="table table-striped">
 		  		<thead>
 				    <tr>		      
-						<th scope="col">Nombre</th>
-						<th scope="col">Descrpció</th>
-					   	<th scope="col">Habilitats</th>
-					   	<th scope="col">Empresa</th>
-					  
+				      <th scope="col">Titol</th>
+					  <th scope="col">Descripcio</th>
+					  <th scope="col">Skills</th>
+					  <th scope="col">Empresa</th>
 				     
 				      </th>
 				    </tr>
@@ -37,7 +36,10 @@
 						  <td><%= oferta.description %></td>
 						  <td><%= oferta.skills %></td>
 						  <td><%= oferta.createBy %></td>
-					      
+						  <td>
+							<a href="#"><button type="button" class="btn btn-primary">Update</button></a>
+							<a href="#"><button type="button" class="btn btn-danger">Delete</button></a>
+					      </td>
 					      </td>		      
 					    </tr>
 			   		<% }); %>	     
