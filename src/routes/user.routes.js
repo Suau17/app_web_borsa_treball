@@ -5,10 +5,11 @@ import {Router} from 'express'
 
 const userRouter = Router()
 
-userRouter.get('/', (req, res)=>{
-  
-})
+
 userRouter.get('/getUsers',  userC.getUsersControllers ) // funciona (json no view)
+userRouter.get('/register', function (req, res){
+    res.render('usersView/register'); 
+}); 
 userRouter.post('/register', userC.userRegistrerController) // funciona
 userRouter.post('/login', userC.userLoginController ) 
 userRouter.post('/profile')

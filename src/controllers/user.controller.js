@@ -21,7 +21,7 @@ export const userRegistrerController = async (req, res) => {
         rolUser
     })
     await user.save()
-
+    
     return res.send('usuario registrado con exito')         
       
     
