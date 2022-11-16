@@ -28,7 +28,12 @@ expressApp.use(express.urlencoded({extended:false}))
 expressApp.use(express(JSON))
 
 // routes
-expressApp.use(borsaRouter)
+
+
+
+
+expressApp.use("/borsa/",borsaRouter)
+
 expressApp.use("/user",userRouter)
 expressApp.use("/empresa",empresaRouter)
 
