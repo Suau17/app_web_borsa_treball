@@ -5,7 +5,7 @@ const userRouter = Router()
 
 
 userRouter.get('/', oferta.getOfertasController) 
-userRouter.post('/crear', function (req, res) {
+userRouter.get('/crear', function (req, res) {
     res.render('ofertas/registrar') 
 
 }) 
