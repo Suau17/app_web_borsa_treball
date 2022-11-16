@@ -60,7 +60,34 @@ export const getUsersControllers = (req, res) => {
         
     })
 
+    
+
 
     
 }
+
+export const deleteUserController = async (req, res) => {
+    /*  
+   try {
+       const oferta = await OfertaLaboral.findById(req.params.id)
+       res.send({ data:oferta })
+   } catch (error) {
+       res.status(404).send({message: `error al borrar el producto ${err}`})
+   }
+   
+   */
+       
+       let userId = req.params.userId
+       UserModel.findById(userId, (err, UserModel) => {
+   
+           if(err) res.status(500).send({message: `error al borrar el usuario ${err}`})
+   
+           UserModel.delete(err => {
+           if(err) res.status(500).send({message: `error al borrar el usuario ${err}`})
+           res.status(200).send({message:`el usuario ha sido eliminado`})
+       }) 
+       })
+   
+   
+   }
 

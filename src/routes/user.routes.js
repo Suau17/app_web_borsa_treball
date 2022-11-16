@@ -12,6 +12,7 @@ userRouter.get('/register', function (req, res){
 }); 
 userRouter.post('/registerUser', userC.userRegistrerController) // funciona
 userRouter.post('/login', userC.userLoginController ) 
+userRouter.get('/delete/:userId', userC.deleteUserController)
 userRouter.post('/profile')
 userRouter.patch('/update-data')  
 userRouter.patch('/update-email')
