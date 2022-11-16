@@ -24,6 +24,8 @@ console.log(path.join(__dirname, 'views'));
 
 expressApp.set('view engine', 'ejs');
 
+expressApp.use(express.urlencoded({extended:false}))
+expressApp.use(express(JSON))
 
 // routes
 expressApp.use(borsaRouter)
