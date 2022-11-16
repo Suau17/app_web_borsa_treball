@@ -11,7 +11,7 @@
         "prepare": "husky install",
         "postinstall": "npm run prepare",
         "test": "node src/test/test.js",
-        "seed": "node src/seeders/*"
+        "seed": "node src/seeders/seeder2.js"
     },
     "author": {
         "name": "Marc Gruber, Helder Rivas, Gerard Suau",
@@ -27,7 +27,7 @@
         "eslint-plugin-promise": "6.0.0",
         "husky": "8.0.1",
         "lint-staged": "13.0.3",
-        "nodemon": "^2.0.19",
+        "nodemon": "^2.0.20",
         "prettier": "2.7.1"
     },
     "imports": {
