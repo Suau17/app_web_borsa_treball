@@ -25,7 +25,7 @@ export const getOfertasController = (req, res) => {
         
        // res.send({ listaOfertas : list_ofertas })
       
-          res.render('ofertas/list',{listaOfertas: list_ofertas})   
+        res.render('ofertas/list',{listaOfertas: list_ofertas})   
           
         
     }
