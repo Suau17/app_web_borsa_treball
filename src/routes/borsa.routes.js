@@ -1,7 +1,8 @@
-import * as oferta from '#controllers/oferta.controller.js'
-import {Router} from 'express'
+import * as oferta from '#controllers/oferta.controller.js';
+import {Router} from 'express';
 
-const userRouter = Router()
+const userRouter = Router();
+
 
 
 userRouter.get('/', oferta.getOfertasController) 
@@ -14,4 +15,5 @@ userRouter.get('/remove/:ofertaId', oferta.removeOfertaController)
 
 
 
-export default userRouter
+
+export default userRouter;
