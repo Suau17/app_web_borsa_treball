@@ -22,8 +22,10 @@
 		  		<thead>
 				    <tr>		      
 				      <th scope="col">Name</th>
+					  <th scope="col">Descripció</th>
 					  <th scope="col">Email</th>
 					  <th scope="col">ID</th>
+					  <th scope="col">Rol</th>
 				      </th>
 				    </tr>
 		  		</thead>
@@ -31,14 +33,17 @@
 			  		<% listaUsuarios.forEach( function(usuari) { %>
 					    <tr>		      
 					      <td><%= usuari.name %></td>
+						  <td><%= usuari.description %></td>
 						  <td><%= usuari.email %></td>
 						  <td><%= usuari._id %></td>
 
 						  <td><%= usuari.rolUser %></td>
 
 						  <td><%= usuari._enum %></td>
-
-					      
+						<td>
+						  <a href="update/<%= usuari._id %>"><button type="button" class="btn btn-primary">Update</button></a>
+						  <a href="remove/<%= usuari._id %>" ><button type="button" class="btn btn-danger">Delete</button></a>						  
+					      </td>
 					      </td>		      
 					    </tr>
 			   		<% }); %>	     

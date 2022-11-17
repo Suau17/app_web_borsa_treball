@@ -22,7 +22,7 @@ export const userRegistrerController = async (req, res) => {
     })
     await user.save()
     
-    return res.send('usuario registrado con exito')         
+    return res.redirect('/user/getUsers')         
       
     
 }
@@ -64,7 +64,7 @@ export const getUsersControllers = (req, res) => {
     
 }
 
-export const getdeleteControllers = (req, res, next) => {
+export const userDeleteControllers = (req, res, next) => {
     let userId = req.params.id;
     User.findByIdAndRemove(userId)
         .then(() => {
