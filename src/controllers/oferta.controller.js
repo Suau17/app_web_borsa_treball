@@ -9,7 +9,7 @@ export const ofertaRegisterController = async (req, res) => {
     title, description, requirements, skills, ciclo, dateOfPublication, expirationDate, createBy
     })
     await ofertaLaboral.save()
-   
+
 return res.send('oferta creada con exito')
 
 }
@@ -34,24 +34,28 @@ export const getOfertasController = (req, res) => {
     )
 }
 
-export const updateController = (req, res) => {
+export const updateController = async (req, res) => {
+    let id = req.params.id
 
-    OfertaLaboral.find().exec(function async (err, list_ofertas) {
+    const oferta = await OfertaLaboral.findById(id)
+   // res.send({oferta:oferta})
+    res.render('ofertas/update',{oferta: oferta})  
 
-        
-        if (err) {
-            return next(err)
-        }
-        
-       // res.send({ listaOfertas : list_ofertas })
-      
-          res.render('ofertas/list',{listaOfertas: list_ofertas})   
-          
-        
+  
+    
+}
+
+export const updateOfertaController = async (req, res) => {
+    try {
+        let id = req.params.id
+
+        const oferta = await OfertaLaboral.findById(id)
+        Object.assign(oferta, req.body)
+        oferta.save()
+        res.status(200).send({error: "UPDATE"})
+    } catch (error) {
+        res.status(404).send({error: "ERROR UPDATE"})
     }
-    
-    
-    )
 }
 
 export const removeOfertaController = async (req, res) => {
