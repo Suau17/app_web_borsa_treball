@@ -24,10 +24,12 @@ console.log(path.join(__dirname, 'views'));
 
 expressApp.set('view engine', 'ejs');
 
+expressApp.use(express.urlencoded({extended:false}))
+expressApp.use(express(JSON))
 
 // routes
 
-expressApp.use("/borsa",borsaRouter)
+expressApp.use("/borsa/",borsaRouter)
 expressApp.use("/user",userRouter)
 expressApp.use("/empresa",empresaRouter)
 expressApp.use("/",function (req, res) {
