@@ -90,4 +90,23 @@ export const deleteUserController = async (req, res) => {
    
    
    }
+   export const updateController = (req, res) => {
+
+    UserModel.find().exec(function async (err, list_ofertas) {
+
+        
+        if (err) {
+            return next(err)
+        }
+        
+       // res.send({ listaOfertas : list_ofertas })
+      
+       res.render('usersView/list',{listaUsuarios: list_users})   
+          
+        
+    }
+    
+    
+    )
+}
 
