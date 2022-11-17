@@ -22,7 +22,7 @@ export const userRegistrerController = async (req, res) => {
     })
     await user.save()
     
-    return res.send('usuario registrado con exito')         
+    return res.redirect('/user/getUsers')         
       
     
 }
@@ -80,33 +80,41 @@ export const deleteUserController = async (req, res) => {
        let userId = req.params.userId
        UserModel.findById(userId, (err, UserModel) => {
    
-           if(err) res.status(500).send({message: `error al borrar el usuario ${err}`})
-   
+           if(err) return res.status(500).send({message: `error al borrar el usuario ${err}`})
+            
            UserModel.delete(err => {
            if(err) res.status(500).send({message: `error al borrar el usuario ${err}`})
-           res.status(200).send({message:`el usuario ha sido eliminado`})
+           //res.status(200).send({message:`el usuario ha sido eliminado`})
+           return res.redirect('/user/getUsers')
+           
        }) 
+      
        })
    
    
    }
-   export const updateController = (req, res) => {
+   export const updateController = async (req, res) => {
+    let id = req.params.id
 
-    UserModel.find().exec(function async (err, list_ofertas) {
+    const user = await UserModel.findById(id)
+   // res.send({oferta:oferta})
+    res.render('usersView/update',{user: user})  
 
-        
-        if (err) {
-            return next(err)
-        }
-        
-       // res.send({ listaOfertas : list_ofertas })
-      
-       res.render('usersView/list',{listaUsuarios: list_users})   
-          
-        
+  
+    
+}
+   export const updateUserController = async (req, res) => {
+    try {
+        let id = req.params.id
+
+        const user = await UserModel.findById(id)
+        Object.assign(user, req.body)
+        user.save()
+        //res.status(200).send({error: "UPDATE"})
+        return res.redirect('/user/getUsers')
+    } catch (error) {
+        res.status(404).send({error: "ERROR UPDATE"})
     }
     
-    
-    )
 }
 

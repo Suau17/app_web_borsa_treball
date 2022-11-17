@@ -22,6 +22,7 @@
 		  		<thead>
 				    <tr>		      
 				      <th scope="col">Name</th>
+					  <th scope="col">Description</th>
 					  <th scope="col">Email</th>
 					  <th scope="col">ID</th>
 				      </th>
@@ -31,6 +32,7 @@
 			  		<% listaUsuarios.forEach( function(usuari) { %>
 					    <tr>		      
 					      <td><%= usuari.name %></td>
+						  <td><%= usuari.description %></td>
 						  <td><%= usuari.email %></td>
 						  <td><%= usuari._id %></td>
 
@@ -41,7 +43,7 @@
 					      
 					      </td>		
 						  <td>
-							<a href="#"><button type="button" class="btn btn-primary">Update</button></a>
+							<a href="update/<%= usuari._id %>"><button type="button" class="btn btn-primary">Update</button></a>
 							<a href="delete/<%= usuari._id %>" ><button type="button" class="btn btn-danger">Delete</button></a>
 					      </td>      
 					    </tr>
