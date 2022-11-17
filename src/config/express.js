@@ -7,6 +7,7 @@ import express from 'express'
 // motor de plantillas 
 import * as path from 'path';
 import { fileURLToPath } from 'url';
+import { render } from 'ejs';
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
@@ -36,10 +37,16 @@ expressApp.use("/borsa/",borsaRouter)
 
 expressApp.use("/user",userRouter)
 expressApp.use("/empresa",empresaRouter)
+<<<<<<< HEAD
 expressApp.use("/",function(req,res){
     res.render('new');
 })
 
+=======
+expressApp.use("/", function (req, res) {
+    res.render('new')
+})
+>>>>>>> a4546739ec5e8244934eff91849ffa70d4ebad27
 
 
 

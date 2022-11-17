@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <%- include('../partials/head'); %>
+</head>
+<body class="container">
+
+<header>
+  <%- include('../partials/header'); %>
+</header>
+
+<main>
+	<div class="card mt-2">
+		
+		<div class="card-header">
+	     <h5 class="card-title">BORSA TREBALL</h5>
+	  </div>
+
+
+    <form action="/borsa/update/<%= oferta.id %>" method="post" style="margin: 2em;">
+      <div class="form-group">
+        <label for="exampleInputEmail1">title</label>
+        <input type="text" class="form-control" name="title" id="title" aria-describedby="emailHelp" value="<%= oferta.title %>">
+      </div>
+      <div class="form-group">
+        <label for="exampleInputPassword1">description</label>
+        <input type="text" class="form-control" name="description" id="description" value="<%= oferta.description %>">
+      </div>
+      <div class="form-group">
+        <label for="exampleInputEmail1">requirements</label>
+        <input type="text" class="form-control" name="requirements" id="requirements" value="<%= oferta.requirements %>">
+      </div>
+      <div class="form-group">
+        <label for="exampleInputPassword1">skills</label>
+        <input type="text" class="form-control" name="skills" id="skills" value="<%= oferta.skills %>">
+      </div>
+      <div class="form-group">
+        <label for="exampleInputPassword1">ciclo</label>
+        <input type="text" class="form-control" name="ciclo" id="ciclo" value="<%= oferta.ciclo %>">
+      </div>
+
+      <!-- <select name="ciclo" id="ciclo">
+        <option value="DAW">DAW</option>
+        <option value="DAM">DAM</option>
+        <option value="ASIX">ASIX</option>
+        
+    </select> -->
+<br>
+      <button type="submit" class="btn btn-primary">Submit</button>
+    </form>
+
+	
+	</div>
+ 
+</main>
+
+<footer>
+  <%- include('../partials/footer'); %>
+</footer>
+
+</body>
+</html>
