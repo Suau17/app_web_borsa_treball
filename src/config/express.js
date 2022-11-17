@@ -36,6 +36,9 @@ expressApp.use("/borsa/",borsaRouter)
 
 expressApp.use("/user",userRouter)
 expressApp.use("/empresa",empresaRouter)
+expressApp.use("/",function(req,res){
+    res.render('new');
+})
 
 
 
