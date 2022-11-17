@@ -21,27 +21,22 @@
 			<table class="table table-striped">
 		  		<thead>
 				    <tr>		      
-				      <th scope="col">Titol</th>
-					  <th scope="col">Descripcio</th>
-					  <th scope="col">Skills</th>
-					  <th scope="col">Empresa</th>
+				      <th scope="col" style="background-color: lightgrey;">Nom Empresa</th>
+					  <th scope="col" style="background-color: lightgrey;">Nom Gestor</th>
+					  <th scope="col" style="background-color: lightgrey;">telefon</th>
+					  <th scope="col" style="background-color: lightgrey;">perfil Habilitado</th>
 				     
 				      </th>
 				    </tr>
 		  		</thead>
 			  	<tbody>
-			  		<% listaOfertas.forEach( function(oferta) { %>
+			  		<% listaEmpresa.forEach( function(empresa) { %>
 					    <tr>
 							      
-					      <td><%= oferta.title %></td>
-						  <td><%= oferta.description %></td>
-						  <td><%= oferta.skills %></td>
-						  <td><%= oferta.createBy.nomEmpresa %></td>
-						  <td>
-							<a href="update/<%= oferta._id %>"><button type="button" class="btn btn-primary">Update</button></a>
-							<a href="remove/<%= oferta._id %>" ><button type="button" class="btn btn-danger">Delete</button></a>
-					      </td>
-					      </td>		      
+					      <td><b><%= empresa.nomEmpresa %></b></td>
+                          <td><%= empresa.nomGestor %></td>
+                          <td><%= empresa.telefon %></td>
+                          <td><%= empresa.perfilHabilitado %></td>
 					    </tr>
 			   		<% }); %>	     
 			    </tbody>

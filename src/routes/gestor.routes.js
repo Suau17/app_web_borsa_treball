@@ -1,10 +1,9 @@
 import {Router} from 'express'
-import * as userC from '#controllers/user.controller.js'
 import * as empresa from '#controllers/gestorController.js'
 
 const empresaRouter = Router()
 
-  // empresaRouter.get('/registerEmpresa', userC.registerEmpresaControllers)
+  empresaRouter.get('/', empresa.getEmpresasController)
   empresaRouter.post('/registerEmpresa', empresa.rules ,empresa.registerEmpresaControllers )
   /*
 userRouter.post('/login')

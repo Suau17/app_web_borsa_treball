@@ -14,10 +14,10 @@ return res.send('oferta creada con exito')
 
 }
 
-export const getOfertasController = (req, res) => {
+export const getOfertasController = (req, res, next) => {
 
-    OfertaLaboral.find().exec(function async (err, list_ofertas) {
-
+    OfertaLaboral.find().populate('createBy').exec(function async (err, list_ofertas) {
+    
         
         if (err) {
             return next(err)
