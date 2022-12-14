@@ -23,8 +23,10 @@
 				    <tr>		      
 				      <th scope="col">Name</th>
 					  <th scope="col">Description</th>
+
 					  <th scope="col">Email</th>
 					  <th scope="col">ID</th>
+					  <th scope="col">Rol</th>
 				      </th>
 				    </tr>
 		  		</thead>
@@ -40,12 +42,14 @@
 
 						  <td><%= usuari._enum %></td>
 
+
 					      
 					      </td>		
 						  <td>
 							<a href="update/<%= usuari._id %>"><button type="button" class="btn btn-primary">Update</button></a>
 							<a href="delete/<%= usuari._id %>" ><button type="button" class="btn btn-danger">Delete</button></a>
 					      </td>      
+
 					    </tr>
 			   		<% }); %>	     
 			    </tbody>
