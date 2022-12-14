@@ -10,8 +10,8 @@ const gestorSchema = new Schema({
     perfilHabilitado : {type: 'boolean'},
 
 
-    refUser: {type: mongoose.Schema.Types.ObjectID,ref:'User'}
-    
+    refUser: {type: mongoose.Schema.Types.ObjectID,ref:'User'},
+
     
 })
 

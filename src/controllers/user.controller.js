@@ -38,6 +38,9 @@ export const userLoginController = async (req, res) => {
     const checkPassword = await compare(password, exsistingUserByEmail.passwordHash)
 
     if (!checkPassword) return res.status(401).send('incorrect credentials')
+    //implementar parte visual
+    // res.render('usersView/list',{listaUsuarios: list_users}) 
+    return res.redirect('/user/login')
 }
 
 

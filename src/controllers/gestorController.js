@@ -15,6 +15,25 @@ export const rules =  [
         .isLength({ min: 2, max:50})
     ]
 
+export const getEmpresasController = async (req, res) => {
+    GestorModel.find().exec(function async (err, list_empresa) {
+
+        
+        if (err) {
+            return next(err)
+        }
+        
+       // res.send({ listaOfertas : list_ofertas })
+      
+        res.render('empresa/list',{listaEmpresa: list_empresa})   
+          
+        
+    }
+    
+    
+    )
+}
+
 export const registerEmpresaControllers = async (req, res) => {
     const errors = validationResult(req)
     const { nomEmpresa ,nomGestor, carrec , telefon , gestor , perfilHabilitado, refUser } = req.body
