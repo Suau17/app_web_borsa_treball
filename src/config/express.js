@@ -2,6 +2,7 @@ import userRouter from '#routes/user.routes.js'
 import empresaRouter from '#routes/gestor.routes.js'
 import borsaRouter from '#routes/borsa.routes.js'
 import express from 'express'
+import jwt from 'jsonwebtoken';
 
 
 // motor de plantillas 

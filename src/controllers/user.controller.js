@@ -1,6 +1,8 @@
 import UserModel from "#schemas/User.js"
 // importamos el hash para encriptar
 import { hash, compare } from 'bcrypt'
+import jwt from 'jsonwebtoken';
+import * as dotenv from 'dotenv'
 
 
 export const userRegistrerController = async (req, res) => {
@@ -31,16 +33,26 @@ export const userRegistrerController = async (req, res) => {
 export const userLoginController = async (req, res) => {
     const { email, password } = req.body
 
+    if (!email || !password) return res.sendStatus(400)
+
     // comprobamos que el email exsiste en la DB
     const exsistingUserByEmail = await UserModel.findOne({ email }).exec()
     if (!exsistingUserByEmail) return res.status(401).send('incorrect credentials')
 
     const checkPassword = await compare(password, exsistingUserByEmail.passwordHash)
-
     if (!checkPassword) return res.status(401).send('incorrect credentials')
+
+    const userForToken = {
+        id: exsistingUserByEmail._id,
+        username : exsistingUserByEmail.name
+    }
+
+    const token = jwt.sign(userForToken, process.env.SecretWord )
+
     //implementar parte visual
     // res.render('usersView/list',{listaUsuarios: list_users}) 
-    return res.redirect('/user/login')
+    //return res.redirect('/user/login')
+    return res.status(200).send(token)
 }
 
 
