@@ -38,6 +38,9 @@ export const userLoginController = async (req, res) => {
     const checkPassword = await compare(password, exsistingUserByEmail.passwordHash)
 
     if (!checkPassword) return res.status(401).send('incorrect credentials')
+    //implementar parte visual
+    // res.render('usersView/list',{listaUsuarios: list_users}) 
+    return res.redirect('/user/login')
 }
 
 
@@ -60,7 +63,61 @@ export const getUsersControllers = (req, res) => {
         
     })
 
+    
 
+
+    
+}
+
+export const deleteUserController = async (req, res) => {
+    /*  
+   try {
+       const oferta = await OfertaLaboral.findById(req.params.id)
+       res.send({ data:oferta })
+   } catch (error) {
+       res.status(404).send({message: `error al borrar el producto ${err}`})
+   }
+   
+   */
+       
+       let userId = req.params.userId
+       UserModel.findById(userId, (err, UserModel) => {
+   
+           if(err) return res.status(500).send({message: `error al borrar el usuario ${err}`})
+            
+           UserModel.delete(err => {
+           if(err) res.status(500).send({message: `error al borrar el usuario ${err}`})
+           //res.status(200).send({message:`el usuario ha sido eliminado`})
+           return res.redirect('/user/getUsers')
+           
+       }) 
+      
+       })
+   
+   
+   }
+   export const updateController = async (req, res) => {
+    let id = req.params.id
+
+    const user = await UserModel.findById(id)
+   // res.send({oferta:oferta})
+    res.render('usersView/update',{user: user})  
+
+  
+    
+}
+   export const updateUserController = async (req, res) => {
+    try {
+        let id = req.params.id
+
+        const user = await UserModel.findById(id)
+        Object.assign(user, req.body)
+        user.save()
+        //res.status(200).send({error: "UPDATE"})
+        return res.redirect('/user/getUsers')
+    } catch (error) {
+        res.status(404).send({error: "ERROR UPDATE"})
+    }
     
 }
 

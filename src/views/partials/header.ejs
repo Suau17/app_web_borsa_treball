@@ -12,6 +12,15 @@
 
   <div class="collapse navbar-collapse" id="navbarNavDropdown">
     <ul class="navbar-nav">
+    
+    <li class="nav-item dropdown">
+      <a class="nav-link dropdown-toggle" href="/user/" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+        Iniciar Sesion
+      </a>
+      <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+        <a class="dropdown-item" href="/user/login">Login</a>  
+      </div>
+    </li>
       <!--- SUbmenu bolsa -->
       <li class="nav-item dropdown">
         <a class="nav-link dropdown-toggle" href="/borsa/" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
@@ -22,6 +31,18 @@
           <a class="dropdown-item" href="/borsa/crear">Registrar Oferta</a>
         </div>
       </li>
+
+      <!--- SUbmenu empresa/gestor -->
+      <li class="nav-item dropdown">
+        <a class="nav-link dropdown-toggle" href="/empresa/" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+          Empresas
+        </a>
+        <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+          <a class="dropdown-item" href="/empresa/">Ver Empresas</a>
+          <a class="dropdown-item" href="/empresa/crear">Registrar Empresa</a>
+        </div>
+      </li>
+
       <!--- SUbmenu Usuarios -->
       <li class="nav-item dropdown">
         <a class="nav-link dropdown-toggle" href="/user" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
@@ -29,10 +50,11 @@
         </a>
         <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
           <a class="dropdown-item" href="/user/register">Registrarse</a>
-          <a class="dropdown-item" href="/user/getUsers">Ver usuarios</a>
-          <a class="dropdown-item" href="#">Something else here</a>
+
+          <a class="dropdown-item" href="/user/getUsers">Usuarios</a>
+
         </div>
-      </li>
+     
     </ul>
   </div>
   

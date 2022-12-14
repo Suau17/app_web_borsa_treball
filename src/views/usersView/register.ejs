@@ -9,7 +9,7 @@
   <%- include('../partials/header'); %>
 </header>
 
-<!-- <main>
+<main>
 	<div class="card mt-2">
 		
 		<div class="card-header">
@@ -17,61 +17,27 @@
 	  </div>
 
 
-	    
-        <form action="/user/register" method="post">
-                
-             name<input type="text" name="title" id="name"><br>
-             description<input type="text" name="description" id="description"><br>
-             email <input type="text" name="requirements" id="email"><br>
-             password<input type="text" name="passwordHash" id="passwordHash"><br>
-             rolUser<select name="rolUser" id="rolUser">
-              <option value="value">-----</option>
-              <option value="alumne">alumne</option>
-              <option value="gestor">gestor</option>
-              <option value="responsable">responsable</option>
-            </select>
-
-           
-
-
-        </form>
-        
-
-		
-	</div>
- 
-
-</main> -->
-<form action="registerUser/" method="POST">
-  <fieldset>
-    <div class="form-group">
-      <label for="disabledTextInput">Nom</label>
-      <input type="text" name="name" id="name">
-    </div>
-    <div class="form-group">
-      <label for="description">Description</label>
-      <input type="text" name="description" id="description">
-    </div>
-    <div class="form-group">
-      <label for="disabledTextInput">Email</label>
-      <input type="text" name="email" id="email" class="form-control">
-    </div>
-    <div class="form-group">
-      <label for="disabledTextInput">Password</label>
+    <form action="registerUser/" method="post" style="margin: 2em;">
+      <div class="form-group">
+        <label for="disabledTextInput">Nom</label>
+        <input type="text" class="form-control" name="name" id="name">
+      </div>
+      <div class="form-group">
+        <label for="exampleInputPassword1">description</label>
+        <input type="text" class="form-control" name="description" id="description" placeholder="Entra la descripcion">
+      </div>
+      <div class="form-group">
+        <label for="disabledTextInput">Email</label>
+        <input type="text" name="email" id="email" class="form-control">
+      </div>
+      <div class="form-group">
+        <label for="disabledTextInput">Password</label>
       <input type="text"  name="passwordHash" id="passwordHash" class="form-control">
-    </div>
-    <input type="text" name="rolUser" id="">
-<!--     
-    <div class="form-group">
-      <label for="disabledSelect">rolUser</label>
-      <select name="rolUser" id="rolUser">
-        <option value="value">-----</option>
-        <option value="alumne">alumne</option>
-        <option value="gestor">gestor</option>
-        <option value="responsable">responsable</option>
-      </select>
-    </div> -->
-    
+      </div>
+      <div class="form-group">
+        <label for="disabledSelect">rolUser</label>
+        <input type="text" class="form-control" name="rolUser" id="">
+      </div>
     <button type="submit" class="btn btn-primary">Submit</button>
   </fieldset>
 </form>

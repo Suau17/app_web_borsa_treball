@@ -22,7 +22,8 @@
 		  		<thead>
 				    <tr>		      
 				      <th scope="col">Name</th>
-					  <th scope="col">Descripció</th>
+					  <th scope="col">Description</th>
+
 					  <th scope="col">Email</th>
 					  <th scope="col">ID</th>
 					  <th scope="col">Rol</th>
@@ -40,11 +41,15 @@
 						  <td><%= usuari.rolUser %></td>
 
 						  <td><%= usuari._enum %></td>
-						<td>
-						  <a href="update/<%= usuari._id %>"><button type="button" class="btn btn-primary">Update</button></a>
-						  <a href="remove/<%= usuari._id %>" ><button type="button" class="btn btn-danger">Delete</button></a>						  
-					      </td>
-					      </td>		      
+
+
+					      
+					      </td>		
+						  <td>
+							<a href="update/<%= usuari._id %>"><button type="button" class="btn btn-primary">Update</button></a>
+							<a href="delete/<%= usuari._id %>" ><button type="button" class="btn btn-danger">Delete</button></a>
+					      </td>      
+
 					    </tr>
 			   		<% }); %>	     
 			    </tbody>

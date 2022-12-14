@@ -4,6 +4,7 @@ import * as dotenv from 'dotenv'
 
 import mongoose from 'mongoose';
 import * as path from 'path';
+import alumnos from "#schemas/User.js"
 import { fileURLToPath } from 'url';
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -12,7 +13,7 @@ const __dirname = path.dirname(__filename);
  dotenv.config({ path: "../.env" });
 
 // Carregar models
-import alumnos from "#schemas/User.js"
+
 
 // Llegir els arxius JSON
 const alumnes = JSON.parse(
