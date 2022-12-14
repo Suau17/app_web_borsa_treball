@@ -10,7 +10,7 @@ const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
 // Trobar l'arxiu .env
- dotenv.config({ path: ".env" });
+ dotenv.config({ path: "../.env" });
 
 // Carregar models
 
