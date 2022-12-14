@@ -37,6 +37,7 @@
 						  <td><%= oferta.description %></td>
 						  <td><%= oferta.skills %></td>
 						  <td><%= oferta.createBy.nomEmpresa %></td>
+						  <!-- EL nom empresa falla porque aun no pilla el token id de la empresa que esta logueada -->
 						  <td>
 							<a href="update/<%= oferta._id %>"><button type="button" class="btn btn-primary">Update</button></a>
 							<a href="remove/<%= oferta._id %>" ><button type="button" class="btn btn-danger">Delete</button></a>
