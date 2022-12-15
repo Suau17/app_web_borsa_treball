@@ -47,7 +47,7 @@ export const registerEmpresaControllers = async (req, res) => {
     await gestorempresa.save()
 
    
-return res.send('Empresa Registrada con exito')
+return res.render('/empresa/getEmpresa')
 
 }
 

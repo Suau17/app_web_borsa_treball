@@ -53,9 +53,11 @@ export const userLoginController = async (req, res) => {
     return res.status(201).send('cookie creada')
 
     //implementar parte visual
+
     // res.render('usersView/list',{listaUsuarios: list_users}) 
     //return res.redirect('/user/login')
    // return res.status(200).send(token)
+
 }
 
 

@@ -1,11 +1,16 @@
-import {Router} from 'express'
+import { Router } from 'express'
 import * as empresa from '#controllers/gestorController.js'
 
 const empresaRouter = Router()
 
-  empresaRouter.get('/', empresa.getEmpresasController)
-  empresaRouter.post('/registerEmpresa', empresa.rules ,empresa.registerEmpresaControllers )
-  /*
+empresaRouter.get('/getEmpresa', empresa.getEmpresasController)
+empresaRouter.get('/registrar',function(req, res){
+  res.render('empresa/registrar')
+})
+empresaRouter.post('/registerEmpresa', empresa.rules, empresa.registerEmpresaControllers)
+
+
+/*
 userRouter.post('/login')
 userRouter.post('/profile')
 userRouter.patch('/gest-oferta')  
