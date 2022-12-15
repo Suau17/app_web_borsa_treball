@@ -39,8 +39,9 @@ export const userLoginController = async (req, res) => {
 
     if (!checkPassword) return res.status(401).send('incorrect credentials')
     //implementar parte visual
-    // res.render('usersView/list',{listaUsuarios: list_users}) 
-    return res.redirect('/user/login')
+    //  res.render('usersView/list',{listaUsuarios: list_users}) ;
+    // return res.redirect('/user/login')
+     return res.status(200).send('corecto');
 }
 
 
