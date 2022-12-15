@@ -3,13 +3,13 @@ import * as empresa from '#controllers/gestorController.js'
 
 const empresaRouter = Router()
 
-empresaRouter.get('/', empresa.getEmpresasController)
+empresaRouter.get('/getEmpresa', empresa.getEmpresasController)
+empresaRouter.get('/registrar',function(req, res){
+  res.render('empresa/registrar')
+})
 empresaRouter.post('/registerEmpresa', empresa.rules, empresa.registerEmpresaControllers)
 
-empresaRouter.get('/getEmpresa', empresa.getempresaControllers) // funciona (json no view)
-empresaRouter.get('/register', function (req, res) {
-  res.render('usersView/register');
-});
+
 /*
 userRouter.post('/login')
 userRouter.post('/profile')
