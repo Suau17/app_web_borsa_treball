@@ -3,14 +3,13 @@ import jwt from 'jsonwebtoken'
 export const checkAuth = async (req,res, next) => {
     try {
         const token = req.cookies.tokenAcces
-        console.log('jp')
+        console.log(req.cookies.tokenAcces)
         const tokenData = jwt.verify(token, process.env.secretWord)
         console.log(tokenData)
-        if (tokenData.role == 'alumne') {
+        if (tokenData.role) {
             next()
         } 
         else {
-            res.status(409)
             res.send({error: 'no tiene permiso (rol)'})
         }
     } catch (e) {
@@ -18,3 +17,20 @@ export const checkAuth = async (req,res, next) => {
     }
 
 }
+
+export const getUserToken = async (req) => {
+        const token = req.cookies.tokenAcces
+        const tokenData = jwt.verify(token, process.env.secretWord)
+        if (tokenData) {
+            return tokenData.id
+        } 
+        else {
+            return 'error'
+        }
+    
+
+}
+
+
+
+
