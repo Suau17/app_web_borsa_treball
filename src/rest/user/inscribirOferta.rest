@@ -1,0 +1,2 @@
+GET http://localhost:3002/borsa/inscribir Content-Type: application/json
+

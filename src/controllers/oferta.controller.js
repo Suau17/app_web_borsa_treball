@@ -1,6 +1,8 @@
 import OfertaLaboral from "#schemas/ofertaLaboral.js"
 import GestorModel from "#schemas/Gestor.js"
 import mongoose from 'mongoose';
+import jwt from 'jsonwebtoken';
+import { getUserToken } from "#Lib/auth.js";
 
 export const ofertaRegisterController = async (req, res) => {
     const { title ,description ,requirements , skills , ciclo , dateOfPublication, expirationDate, createBy} = req.body
@@ -80,6 +82,15 @@ try {
     }) 
     })
 
+
+}
+
+
+export const inscribirUsuario = async (req, res) => {
+    const userId = getUserToken()
+    console.log(userId)
+
+   
 
 }
 
