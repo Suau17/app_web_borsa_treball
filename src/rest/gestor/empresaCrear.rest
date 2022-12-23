@@ -1,0 +1,9 @@
+POST http://localhost:3002/gestor/register Content-Type: application/json
+
+{
+    "nom": "Microsoft",    
+    "direccion" : "calle 3",
+    "refUser": "63a43bb4f2971edd776ebb68",
+    "refOfertaLaboral":  []
+
+}

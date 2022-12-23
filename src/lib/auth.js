@@ -1,4 +1,5 @@
 import jwt from 'jsonwebtoken'
+import mongoose from 'mongoose'
 
 export const checkAuth = async (req,res, next) => {
     try {
@@ -22,7 +23,12 @@ export const getUserToken = async (req) => {
         const token = req.cookies.tokenAcces
         const tokenData = jwt.verify(token, process.env.secretWord)
         if (tokenData) {
-            return tokenData.id
+            if (tokenData.id) {
+                const userID = mongoose.Types.ObjectId('569ed8269353e9f4c51617aa')
+                return userID;
+              } else {
+                return null;
+              }
         } 
         else {
             return 'error'

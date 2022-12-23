@@ -1,7 +1,8 @@
 import OfertaLaboral from "#schemas/ofertaLaboral.js"
-import GestorModel from "#schemas/Gestor.js"
-import mongoose from 'mongoose';
-import jwt from 'jsonwebtoken';
+// import GestorModel from "#schemas/Gestor.js"
+import EmpresaModel from '#schemas/empresaSchema.js'
+// import mongoose from 'mongoose';
+// import jwt from 'jsonwebtoken';
 import { getUserToken } from "#Lib/auth.js";
 
 export const ofertaRegisterController = async (req, res) => {
@@ -18,16 +19,16 @@ return res.send('oferta creada con exito')
 
 export const getOfertasController = (req, res, next) => {
 
-    OfertaLaboral.find().populate('createBy').exec(function async (err, list_ofertas) {
+    OfertaLaboral.find().populate('createBy').exec(function async (err, listOfertas) {
     
         
         if (err) {
             return next(err)
         }
         
-       // res.send({ listaOfertas : list_ofertas })
+        res.send({ listaOfertas : listOfertas })
       
-        res.render('ofertas/list',{listaOfertas: list_ofertas})   
+      //  res.render('ofertas/list',{listaOfertas: list_ofertas})   
           
         
     }
@@ -37,11 +38,18 @@ export const getOfertasController = (req, res, next) => {
 }
 
 export const updateController = async (req, res) => {
-    let id = req.params.id
+    const id = req.params.id
 
     const oferta = await OfertaLaboral.findById(id)
-   // res.send({oferta:oferta})
-    res.render('ofertas/update',{oferta: oferta})  
+
+    const empresa = await EmpresaModel.findByIdAndUpdate(
+        id,
+        { $push: { ofertas: oferta } },
+        { new: true }
+      )
+
+    res.send({oferta:oferta})
+  //  res.render('ofertas/update',{oferta: oferta})  
 
   
     
@@ -49,7 +57,7 @@ export const updateController = async (req, res) => {
 
 export const updateOfertaController = async (req, res) => {
     try {
-        let id = req.params.id
+        const id = req.params.id
 
         const oferta = await OfertaLaboral.findById(id)
         Object.assign(oferta, req.body)
@@ -71,7 +79,7 @@ try {
 
 */
     
-    let ofertaId = req.params.ofertaId
+    const ofertaId = req.params.ofertaId
     OfertaLaboral.findById(ofertaId, (err, ofertaLaboral) => {
 
         if(err) res.status(500).send({message: `error al borrar el producto ${err}`})

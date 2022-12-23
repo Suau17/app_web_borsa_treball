@@ -9,7 +9,7 @@ const ofertaLaboralSchema = new Schema({
     ciclo : { type: 'string', required: true, maxLength: 150},
     dateOfPublication : { type: 'date'},
     expirationDate : { type: 'date'},
-    createBy : {type: mongoose.Schema.Types.ObjectID, ref:'Gestor'},
+    createBy : {type: mongoose.Schema.Types.ObjectID, ref:'Empresa', required:true},
     refUsersInscritos: [{
         type: mongoose.Schema.Types.ObjectID,
         ref: 'User'

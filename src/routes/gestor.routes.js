@@ -1,13 +1,16 @@
 import { Router } from 'express'
-import * as empresa from '#controllers/gestorController.js'
+import * as gestor from '#controllers/gestorController.js'
 
-const empresaRouter = Router()
+const gestorRouter = Router()
 
-empresaRouter.get('/', empresa.getEmpresasController)
-empresaRouter.get('/registrar',function(req, res){
-  res.render('empresa/registrar')
-})
-empresaRouter.post('/registerEmpresa', empresa.rules, empresa.registerEmpresaControllers)
+gestorRouter.post('/register', gestor.gestorRegistrerController)
+gestorRouter.post('/register/responsable', gestor.createResponsableController)
+gestorRouter.put('/update/:id', gestor.updateGestorController)
+ // empresaRouter.get('/', empresa.getEmpresasController)
+// empresaRouter.get('/registrar',function(req, res){
+//   res.render('empresa/registrar')
+// })
+// empresaRouter.post('/registerEmpresa', empresa.rules, empresa.registerEmpresaControllers)
 
 
 /*
@@ -18,4 +21,4 @@ userRouter.patch('/crear-oferta')
 userRouter.del('/del-oferta') */
 
 
-export default empresaRouter
+export default gestorRouter

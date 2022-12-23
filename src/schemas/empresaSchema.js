@@ -4,15 +4,14 @@ const {model ,Schema} = mongoose
 const empresaSchema = new Schema({
     nom: { type: 'string', required: true, minLenght: 4,  maxLength: 20},    
     direccion : { type: 'string', required: true, minLenght: 4,  maxLength: 60},
-    empresaHabilitada : {type: 'boolean'},
   
     /*  ofertaLaboralPublicada : [{
         type: Schema.type.ObjectId,
         ref: 'ofertaLaboral'
     }] */
-    
+    refUser: {type: mongoose.Schema.Types.ObjectID,ref:'User', required:true},
     refOfertaLaboral: [{
-        type: Schema.type.ObjectId,
+        type: mongoose.Schema.Types.ObjectID,
         ref: 'ofertaLaboral'
     }]
     

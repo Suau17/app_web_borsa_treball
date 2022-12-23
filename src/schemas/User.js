@@ -4,7 +4,6 @@ const {model ,Schema} = mongoose
 const userSchema = new Schema({
     // _id -> evitar que mongo cree su propio id
     name : { type: 'string', required: true, minLenght: 4,  maxLength: 20},    
-    description : { type: 'string', required: true, minLenght: 4,  maxLength:100 },
     email : {type: 'string', required: true, unique: true},
     passwordHash: { type: 'string', required: true, minLenght: 4},
     rolUser: {

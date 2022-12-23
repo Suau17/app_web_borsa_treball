@@ -1,6 +1,7 @@
 import userRouter from '#routes/user.routes.js'
-import empresaRouter from '#routes/gestor.routes.js'
+import gestorRouter from '#routes/gestor.routes.js'
 import borsaRouter from '#routes/borsa.routes.js'
+import empresaRouter from '#routes/empresa.routes.js'
 import express from 'express'
 import cookieParser from 'cookie-parser'
 import jwt from 'jsonwebtoken';
@@ -37,7 +38,9 @@ expressApp.use(cookieParser())
 expressApp.use("/borsa/" ,borsaRouter)
 
 expressApp.use("/user",userRouter)
-expressApp.use("/empresa",checkAuth ,empresaRouter)
+expressApp.use("/gestor",gestorRouter)
+expressApp.use("/empresa" ,empresaRouter)
+// expressApp.use("/empresa",checkAuth ,empresaRouter)
 
 expressApp.use("/",function(req,res){
     res.render('new');

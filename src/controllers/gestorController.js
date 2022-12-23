@@ -1,56 +1,135 @@
 import GestorModel from "#schemas/Gestor.js"
-import { body, validationResult} from 'express-validator'
+import UserModel from "#schemas/User.js"
+import { hash, compare } from 'bcrypt'
+import jwt from 'jsonwebtoken'
+
+// import { body, validationResult} from 'express-validator'
 
 // crear empresa + validar dades
 
-export const rules =  [
-    body("nomEmpresa")
-        .trim()
-        .isLength({ min: 3, max: 50})
-        .withMessage(`Name ha de estar entre 3 y 50`)
-        .escape(),
+// export const rules =  [
+//     body("nomEmpresa")
+//         .trim()
+//         .isLength({ min: 3, max: 50})
+//         .withMessage(`Name ha de estar entre 3 y 50`)
+//         .escape(),
 
-    body("nomGestor", "name not correct")
-        .trim()
-        .isLength({ min: 2, max:50})
-    ]
+//     body("nomGestor", "name not correct")
+//         .trim()
+//         .isLength({ min: 2, max:50})
+//     ]
 
-export const getEmpresasController = async (req, res) => {
-    GestorModel.find().exec(function async (err, list_empresa) {
+export const gestorRegistrerController = async (req, res) => {
+    try {
+    const { name, email, passwordHash, rolUser, carrec, telefon, nameEmpresa} = req.body
 
-        
-        if (err) {
-            return next(err)
-        }
-        
-       // res.send({ listaOfertas : list_ofertas })
-      
-        res.render('empresa/list',{listaEmpresa: list_empresa})   
-          
-        
-    }
     
-    
-    )
+    const exsistingUserByEmail = await UserModel.findOne({email : email})
+    if (exsistingUserByEmail) return res.status(400).send('ya exsiste un usuario con ese email registrado')
+
+    // cogemos la variable que viene del req.body y la encriptamos
+    const hashedPassword = await hash(passwordHash, 12)
+
+    const user = new UserModel({
+        name,
+        email,
+        passwordHash: hashedPassword,
+        rolUser
+    })
+    await user.save()
+
+    const gestor = new GestorModel({
+        carrec,
+        telefon,
+        nameEmpresa,
+        refUser: user._id,
+    })
+    await gestor.save()
+
+    return res.send('gestor creado con exito')  
+
+} catch (error) {
+    return res.status(500).send('Ocurrió un error inesperado. Por favor, intente nuevamente más tarde.');        
+}      
 }
 
-export const registerEmpresaControllers = async (req, res) => {
-    const errors = validationResult(req)
-    const { nomEmpresa ,nomGestor, carrec , telefon , gestor , perfilHabilitado, refUser } = req.body
-
+export const createResponsableController = async (req, res) => {
+    try {
+    const { name, email, passwordHash, rolUser, carrec, telefon, nameEmpresa} = req.body
 
     
+    const exsistingUserByEmail = await UserModel.findOne({email : email})
+    if (exsistingUserByEmail) return res.status(400).send('ya exsiste un usuario con ese email registrado')
+
+    // cogemos la variable que viene del req.body y la encriptamos
+    const hashedPassword = await hash(passwordHash, 12)
+
+    const user = new UserModel({
+        name,
+        email,
+        passwordHash: hashedPassword,
+        rolUser
+    })
+    await user.save()
+
+    const gestor = new GestorModel({
+        carrec,
+        telefon,
+        nameEmpresa,
+        refUser: user._id,
+    })
+    await gestor.save()
+
+    return res.send('gestor creado con exito')  
+         
+} catch (error) {
+    return res.status(500).send('Ocurrió un error inesperado. Por favor, intente nuevamente más tarde.');        
+}      
+}
+
+
+export const registerEmpresaControllers = async (req, res) => {
+  //  let errors = validationResult(req)
+    let { nomEmpresa ,nomGestor, carrec , telefon , gestor ,  refUser } = req.body
+    const token = req.cookies.tokenAcces
+    const tokenData = jwt.verify(token, process.env.secretWord)
+    refUser = tokenData.id;
+    // UserModel.findById(refUser).then((user) => {
+    //     res.send(user);
+    //   }); 
 
    const gestorempresa = new GestorModel({
-    nomEmpresa ,nomGestor, carrec , telefon , gestor , perfilHabilitado, refUser
+    nomEmpresa ,nomGestor, carrec , telefon , gestor , refUser
     })
+    console.log(gestorempresa)
     await gestorempresa.save()
 
    
-return res.render('/empresa/getEmpresa')
+// return res.render('/empresa/getEmpresa')
 
 }
 
+export const updateGestorController = async (req, res) => {
+    try {
+        // Obtenemos el id del gestor y los datos a actualizar proporcionados
+        const id = req.params.id
+        const data = req.body
+        // Encriptamos la contraseña del gestor si se proporciona en los datos a actualizar
+        if (data.password) {
+            data.password = await hash(data.password, 12)
+        }
+        
 
- 
-  
+
+        // Actualizamos el registro del gestor en la base de datos
+        await GestorModel.findByIdAndUpdate(id, req.body, { new: true })
+        
+        // Enviamos un mensaje de éxito
+        return res.send('Datos del gestor actualizados con éxito')
+      } catch (error) {
+        // En caso de error, enviamos un mensaje de error
+        return res.status(500).send('Ocurrió un error inesperado. Por favor, intente nuevamente más tarde.')
+      }
+    }
+
+
