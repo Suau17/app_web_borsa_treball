@@ -6,6 +6,8 @@ const gestorRouter = Router()
 gestorRouter.post('/register', gestor.gestorRegistrerController)
 gestorRouter.post('/register/responsable', gestor.createResponsableController)
 gestorRouter.put('/update/:id', gestor.updateGestorController)
+
+gestorRouter.post('/ofertas/:idOferta/eliminar', gestor.createResponsableController)
  // empresaRouter.get('/', empresa.getEmpresasController)
 // empresaRouter.get('/registrar',function(req, res){
 //   res.render('empresa/registrar')

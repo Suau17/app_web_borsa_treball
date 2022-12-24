@@ -5,7 +5,7 @@ const gestorSchema = new Schema({
     carrec : { type: 'string', required: true, minLenght: 4,  maxLength: 150},
     telefon : { type: 'number', required: true, minLenght: 4,  maxLength: 20},
     nameEmpresa : { type: 'string', required: true, minLenght: 4,  maxLength: 150},
-    perfilHabilitado : {type: 'boolean'},
+    perfilHabilitado : {type: 'boolean', default:false},
 
 
     refUser: {type: mongoose.Schema.Types.ObjectID,ref:'User'},

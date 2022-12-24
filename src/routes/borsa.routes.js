@@ -13,8 +13,8 @@ userRouter.get('/inscribir', oferta.inscribirUsuario)
 
 userRouter.get('/update/:id', oferta.updateController)
 userRouter.post('/update/:id', oferta.updateOfertaController)
-userRouter.patch('/updateOferta/:id', oferta.updateOfertaController)  
-userRouter.get('/remove/:ofertaId', oferta.removeOfertaController)  
+userRouter.put('/updateOferta/:id', oferta.updateOfertaController)  
+userRouter.delete('/remove/:ofertaId', oferta.removeOfertaController)  
 
 
 

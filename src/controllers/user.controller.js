@@ -1,5 +1,8 @@
 import UserModel from "#schemas/User.js"
 import EstudianteModel from "#schemas/estudiante.js"
+import EmpresaModel from '#schemas/empresaSchema.js'
+import GestorModel from "#schemas/Gestor.js"
+
 // importamos el hash para encriptar
 import { hash, compare } from 'bcrypt'
 import jwt from 'jsonwebtoken';
@@ -113,32 +116,39 @@ export const getUsersControllers = (req, res) => {
 }
 
 export const deleteUserController = async (req, res) => {
-    /*  
-   try {
-       const oferta = await OfertaLaboral.findById(req.params.id)
-       res.send({ data:oferta })
-   } catch (error) {
-       res.status(404).send({message: `error al borrar el producto ${err}`})
-   }
-   
-   */
-       
-       const userId = req.params.userId
-       UserModel.findById(userId, (err, UserModel) => {
-   
-           if(err) return res.status(500).send({message: `error al borrar el usuario ${err}`})
-            
-           UserModel.delete(err => {
-           if(err) res.status(500).send({message: `error al borrar el usuario ${err}`})
-           // res.status(200).send({message:`el usuario ha sido eliminado`})
-           return res.redirect('/user/getUsers')
-           
-       }) 
-      
-       })
-   
-   
-   }
+    try {
+      // Obtenemos el id del usuario proporcionado
+      const { userId: id } = req.params
+  
+        // pendiente de implementar el remove para borrar todo en cascada
+
+      // Buscamos el documento del usuario en la base de datos
+      const user = await UserModel.findById(id)
+  
+      // Si el rol del usuario es "alumno", eliminamos el documento del modelo de estudiante
+      if (user.rolUser === 'alumno') {
+        await EstudianteModel.deleteOne({ refUser: id })
+      }
+      if (user.rolUser === 'gestor') {
+        await EmpresaModel.deleteOne({ refUser: id })
+        await GestorModel.deleteOne({ refUser: id })
+      }
+      if (user.rolUser === 'responsable') {
+        await GestorModel.deleteOne({ refUser: id })
+      }
+  
+      // Eliminamos el usuario del modelo de usuario
+      await UserModel.deleteOne({ _id: id })
+  
+      // Enviamos un código de estado HTTP 200 (OK)
+      res.sendStatus(200)
+    } catch (error) {
+      // En caso de error, enviamos un código de estado HTTP 500 (Internal Server Error)
+      res.sendStatus(500)
+    }
+  }
+
+  
    export const updateController = async (req, res) => {
     const id = req.params.id
 

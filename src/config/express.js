@@ -35,7 +35,7 @@ expressApp.use(cookieParser())
 
 
 
-expressApp.use("/borsa/" ,borsaRouter)
+expressApp.use("/borsa" ,borsaRouter)
 
 expressApp.use("/user",userRouter)
 expressApp.use("/gestor",gestorRouter)

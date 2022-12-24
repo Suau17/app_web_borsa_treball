@@ -1,15 +1,41 @@
 import OfertaLaboral from "#schemas/ofertaLaboral.js"
 // import GestorModel from "#schemas/Gestor.js"
 import EmpresaModel from '#schemas/empresaSchema.js'
+import jwt from 'jsonwebtoken'
 // import mongoose from 'mongoose';
 // import jwt from 'jsonwebtoken';
 import { getUserToken } from "#Lib/auth.js";
 
+
+
 export const ofertaRegisterController = async (req, res) => {
-    const { title ,description ,requirements , skills , ciclo , dateOfPublication, expirationDate, createBy} = req.body
+
+//   // Primero, leemos el token de la solicitud HTTP
+//   const token = req.headers['x-access-token'];
+
+//   // Verificamos la firma del token utilizando la clave secreta
+//   jwt.verify(token, process.env.secretWord, (error, decoded) => {
+//     if (error) {
+//       // Si hay un error, significa que el token es inválido o ha sido alterado
+//       return res.status(401).send({ message: 'Token inválido' });
+//     }
+
+//     // Si no hay error, significa que el token es válido
+//     // Podemos obtener el contenido del token decodificándolo
+//     const content = jwt.decode(token);
+
+//     // Ahora podemos extraer el id del usuario del contenido del token
+//     const idUser = content.id;
+
+//     // Continúa tu código aquí, utilizando el id del usuario para realizar las acciones necesarias
+//   });
+
+
+
+    const { title ,description ,requirements , skills , ciclo , dateOfPublication, expirationDate, idEmpresa,createBy} = req.body
 
    const ofertaLaboral = new OfertaLaboral({
-    title, description, requirements, skills, ciclo, dateOfPublication, expirationDate, createBy
+    title, description, requirements, skills, ciclo, dateOfPublication, expirationDate, idEmpresa ,createBy
     })
     await ofertaLaboral.save()
 
@@ -59,12 +85,11 @@ export const updateOfertaController = async (req, res) => {
     try {
         const id = req.params.id
 
-        const oferta = await OfertaLaboral.findById(id)
-        Object.assign(oferta, req.body)
-        oferta.save()
-        res.status(200).send({error: "UPDATE"})
+  
+        await OfertaLaboral.findByIdAndUpdate(id, req.body, { new: true })
+        res.status(200).send("UPDATE")
     } catch (error) {
-        res.status(404).send({error: "ERROR UPDATE"})
+        res.status(404).send(error)
     }
 }
 
@@ -77,18 +102,24 @@ try {
     res.status(404).send({message: `error al borrar el producto ${err}`})
 }
 
-*/
-    
+*/try {
     const ofertaId = req.params.ofertaId
-    OfertaLaboral.findById(ofertaId, (err, ofertaLaboral) => {
+    await OfertaLaboral.findByIdAndDelete(ofertaId) 
+    res.status(200).send('Oferta eliminada con exito')
+} catch (error) {
+    res.send(error)
+}
 
-        if(err) res.status(500).send({message: `error al borrar el producto ${err}`})
 
-    ofertaLaboral.remove(err => {
-        if(err) res.status(500).send({message: `error al borrar el producto ${err}`})
-        res.status(200).send({message:`el producto ha sido eliminado`})
-    }) 
-    })
+    
+    // OfertaLaboral.findById(ofertaId, (err, ofertaLaboral) => {
+    //     if(err) res.status(500).send({message: `error al borrar el producto ${err}`})
+
+    // ofertaLaboral.remove(err => {
+    //     if(err) res.status(500).send({message: `error al borrar el producto ${err}`})
+    //     res.status(200).send({message:`el producto ha sido eliminado`})
+    // }) 
+    // })
 
 
 }
