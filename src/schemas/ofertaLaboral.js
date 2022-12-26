@@ -10,7 +10,7 @@ const ofertaLaboralSchema = new Schema({
     dateOfPublication : { type: 'date',  default: Date.now },
     expirationDate : { type: 'date'},
     idEmpresa : {type: mongoose.Schema.Types.ObjectID, ref:'Empresa', required:true},
-    createBy : {type: mongoose.Schema.Types.ObjectID,ref:'User', required:true},
+    createBy : {type: mongoose.Schema.Types.ObjectID,ref:'User', required:true, cascade:true},
     refUsersInscritos: [{
         type: mongoose.Schema.Types.ObjectID,
         ref: 'User'

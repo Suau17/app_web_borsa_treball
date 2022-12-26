@@ -19,10 +19,7 @@ userRouter.get('/login', function (req, res){
 userRouter.post('/login', userC.userLoginController)
 
 // userRouter.post('/login', userC.userLoginController ) 
-userRouter.delete('/delete/:userId', userC.deleteUserController)
 
-userRouter.get('/update/:id', userC.updateController)
-userRouter.post('/update/:id', userC.updateUserController)
 
 userRouter.post('/profile')
 userRouter.patch('/update-data')  

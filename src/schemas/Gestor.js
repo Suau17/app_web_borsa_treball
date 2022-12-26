@@ -9,7 +9,7 @@ const gestorSchema = new Schema({
 
 
     refUser: {type: mongoose.Schema.Types.ObjectID,ref:'User'},
-    refEmpresa: {type: mongoose.Schema.Types.ObjectID,ref:'Empresa'},
+    refEmpresa: {type: mongoose.Schema.Types.ObjectID,ref:'Empresa',cascade: true},
 
     
 })

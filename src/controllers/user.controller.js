@@ -2,6 +2,7 @@ import UserModel from "#schemas/User.js"
 import EstudianteModel from "#schemas/estudiante.js"
 import EmpresaModel from '#schemas/empresaSchema.js'
 import GestorModel from "#schemas/Gestor.js"
+import OfertaLaboral from "#schemas/ofertaLaboral.js"
 
 // importamos el hash para encriptar
 import { hash, compare } from 'bcrypt'
@@ -130,6 +131,12 @@ export const deleteUserController = async (req, res) => {
         await EstudianteModel.deleteOne({ refUser: id })
       }
       if (user.rolUser === 'gestor') {
+        const gestor = await GestorModel.findOne({ refUser: id })
+        const empresaId = gestor.refEmpresa
+      console.log(empresaId)
+        // Borramos todas las ofertas de la empresa
+        await OfertaLaboral.deleteMany({ idEmpresa: empresaId })
+      
         await EmpresaModel.deleteOne({ refUser: id })
         await GestorModel.deleteOne({ refUser: id })
       }
@@ -144,7 +151,7 @@ export const deleteUserController = async (req, res) => {
       res.sendStatus(200)
     } catch (error) {
       // En caso de error, enviamos un código de estado HTTP 500 (Internal Server Error)
-      res.sendStatus(500)
+      res.sendStatus(500).send(error)
     }
   }
 
@@ -159,31 +166,23 @@ export const deleteUserController = async (req, res) => {
   
     
 }
-   export const updateUserController = async (req, res) => {
-    try {
-        const id = req.params.id
 
-        const user = await UserModel.findById(id)
-        Object.assign(user, req.body)
-        user.save()
-        // res.status(200).send({error: "UPDATE"})
-        return res.redirect('/user/getUsers')
-    } catch (error) {
-        res.status(404).send({error: "ERROR UPDATE"})
-    }
-    
-}
+// // remove cascade preguntar al ramon
+// export const deleteGestorProfileController = async (req, res) => {
+//   try {
+//     const gestor = await GestorModel.findOne({
+//       refUser: req.params.id
+//     });
 
-export const userDeleteControllers = (req, res, next) => {
-    const userId = req.params.id;
-    UserModel.findByIdAndRemove(userId)
-        .then(() => {
-          res.locals.redirect = "/users";
-          next();
-        })
-        .catch(error => {
-          console.log(`Error deleting user by ID: ${error.message}`);
-          next();
-        });
-  }
+//     if (!gestor) return res.status(401).send("Usuario no autorizado");
+
+//     // Eliminamos el gestor y todos los documentos relacionados en cascada
+//     await gestor.remove();
+
+//     return res.send("Perfil eliminado con éxito");
+//   } catch (error) {
+//     res.send(error)
+//   }
+// };
+
 

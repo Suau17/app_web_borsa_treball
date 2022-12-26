@@ -1,4 +1,5 @@
 import EmpresaModel from '#schemas/empresaSchema.js'
+import GestorModel from "#schemas/Gestor.js"
 import jwt from 'jsonwebtoken'
 
 
@@ -25,12 +26,17 @@ export const empresaRegistrerController = async (req, res) => {
     // UserModel.findById(refUser).then((user) => {
     //     res.send(user);
     //   }); 
-
+ 
    const gestorempresa = new EmpresaModel({
     nom , direccion, refUser, refOfertaLaboral
     })
     console.log(gestorempresa)
-    await gestorempresa.save()    
+    await gestorempresa.save()  
+    const gestor = await GestorModel.findOneAndUpdate(
+      { refUser: refUser },
+      { refEmpresa: gestorempresa._id }
+    );
+
      res.send('empresa creada con extito')
          
 }

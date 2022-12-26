@@ -9,10 +9,11 @@ const empresaSchema = new Schema({
         type: Schema.type.ObjectId,
         ref: 'ofertaLaboral'
     }] */
-    refUser: {type: mongoose.Schema.Types.ObjectID,ref:'User', required:true},
+    refUser: {type: mongoose.Schema.Types.ObjectID,ref:'User', required:true, cascade:true},
     refOfertaLaboral: [{
         type: mongoose.Schema.Types.ObjectID,
-        ref: 'ofertaLaboral'
+        ref: 'ofertaLaboral',
+        cascade: true
     }]
     
 })
