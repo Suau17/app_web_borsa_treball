@@ -79,8 +79,8 @@ export const userLoginController = async (req, res) => {
     }
 
     const token = jwt.sign(userForToken, process.env.SecretWord, {expiresIn: '1h'} )
-    res.cookie("tokenAcces", token);
-    return res.status(201).send('cookie creada')
+    res.cookie("tokenAcces", token, { httpOnly: true });
+    res.send("Token enviado como cookie");
 
     // implementar parte visual
 
