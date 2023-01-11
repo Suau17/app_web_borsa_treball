@@ -3,6 +3,7 @@ import gestorRouter from '#routes/gestor.routes.js'
 import borsaRouter from '#routes/borsa.routes.js'
 import empresaRouter from '#routes/empresa.routes.js'
 import express from 'express'
+import cors from 'cors'
 import cookieParser from 'cookie-parser'
 import jwt from 'jsonwebtoken';
 
@@ -29,7 +30,7 @@ expressApp.set('view engine', 'ejs');
 
 expressApp.use(express.urlencoded({extended:false}))
 expressApp.use(express(JSON))
-
+expressApp.use(cors())
 expressApp.use(cookieParser())
 // routes
 

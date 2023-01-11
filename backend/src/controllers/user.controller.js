@@ -156,6 +156,16 @@ export const deleteUserController = async (req, res) => {
   }
 
   
+  export const infoUser = async (req, res) => {
+    const id = req.params.id
+
+    const user = await UserModel.findById(id)
+    res.send({user:user})
+
+  
+    
+}
+
    export const updateController = async (req, res) => {
     const id = req.params.id
 

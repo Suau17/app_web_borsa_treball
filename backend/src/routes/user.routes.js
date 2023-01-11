@@ -7,6 +7,7 @@ const userRouter = Router()
 
 
 userRouter.get('/getUsers',  userC.getUsersControllers ) // funciona (json no view)
+userRouter.get('/userInfo/:id',  userC.infoUser ) // funciona (json no view)
 userRouter.get('/register', function (req, res){
     res.render('usersView/register'); 
 }); 
