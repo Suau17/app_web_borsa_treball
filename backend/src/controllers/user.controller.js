@@ -98,14 +98,14 @@ export const getUsersControllers = (req, res) => {
             return next(err)
         }
         // en la view saldara una var con json list_users
-       // res.send({ listaUsuarios: list_users })
+        res.send({ listaUsuarios: list_users })
       
        
             // 'await' espera a que trobi les dades de Genere. Amb 'await' es obligat posar 'async' a la
             // definició del mètode. El 'await' sempre ha d'estar entre un 'try-catch'
             
             // error path join
-         res.render('usersView/list',{listaUsuarios: list_users})   
+        // res.render('usersView/list',{listaUsuarios: list_users})   
           
         
     })
