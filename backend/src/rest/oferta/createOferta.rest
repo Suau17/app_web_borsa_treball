@@ -8,6 +8,6 @@ POST http://localhost:3002/borsa/registerOferta Content-Type: application/json
   , "ciclo" : "DAW"
   , "dateOfPublication" : 30032022
   , "expirationDate" : 30062022,
-  "createBy" : "6363ba0963e0d22564251403",
-   "refUsersInscritos": ["6363809909d5a3cca8990952","63808be33a6c3807bbf9c7b5","639c1ef68ffb9da450232d29"] 
+  "createBy" : "63bfd38f63433a6ca8d5b630",
+   "refUsersInscritos": ["63a5942ba2a9472d5093ab8d","63a59421a2a9472d5093ab88","63a5901da2a9472d5093ab83"] 
 }
