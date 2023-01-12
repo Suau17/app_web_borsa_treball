@@ -3,7 +3,7 @@
 
         "name": "Marc",
         "description": "Gruber",
-        "email": "asdasasas@hola.com",
+        "email": "a@hola.com",
         "passwordHash" : "Gurororo",
         "rolUser" : "gestor"
     },
@@ -11,14 +11,15 @@
     {
         "name": "Gerard",
         "description": "Suau",
-        "email": "asdasdafdfacffs@hola.com",
+        "email": "b@hola.com",
         "passwordHash" : "Gurororo",
-        "rolUser" : "gestor"    },
+        "rolUser" : "gestor"    
+    },
 
     {
         "name": "Helder",
         "description": "Rivas",
-        "email": "aas@hola.com",
+        "email": "c@hola.com",
         "passwordHash" : "Gurororo",
         "rolUser" : "gestor"
     }
