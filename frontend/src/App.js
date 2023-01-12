@@ -41,7 +41,6 @@ export function  App2() {
 obtenerUsers()
   }, []);
   
-console.log(data)
 
 
 
@@ -61,7 +60,16 @@ if(data && data.length > 0 ) {
 
 function handleClick(user) {
   // actions to perform when a row is clicked
-  console.log('has dado clic '+user.name); 
+  const obtenerUsers = async ()=>{
+
+    const url = 'http://localhost:3002/user/userInfo/'+user
+    console.log(url)
+    const result = await axios.get(url)
+   
+     console.log(result.data.user)
+    setListadoUsers(result)
+   }
+   obtenerUsers()
   // here you can access all the user's information
   // e.g. display user's information in a modal or redirect to a new page
 }
@@ -81,7 +89,7 @@ return (
       <tbody>
         {data && data.length > 0 && data.map((user, index) => {
           return (
-            <tr key={index} onClick={() => handleClick(user)} style={{cursor: 'pointer'}}>
+            <tr key={index} onClick={() => handleClick(user._id)} style={{cursor: 'pointer'}}>
               <td>{user.name}</td>
               <td>{user.email}</td>
               <td>{user.rolUser}</td>
