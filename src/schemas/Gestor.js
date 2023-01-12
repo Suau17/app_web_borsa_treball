@@ -15,6 +15,6 @@ const gestorSchema = new Schema({
     
 })
 
-const GestorModel = model('Gestor', gestorSchema)
+const Gestor = model('Gestor', gestorSchema)
 
-export default GestorModel
+export default Gestor
