@@ -118,7 +118,7 @@ export const getUsersControllers = (req, res) => {
 
 export const deleteUserController = async (req, res) => {
     try {
-      // Obtenemos el id del usuario proporcionado
+      // Obtenemos el id del ñlusuario proporcionado
       const { userId: id } = req.params
   
         // pendiente de implementar el remove para borrar todo en cascada
