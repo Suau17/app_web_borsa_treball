@@ -132,12 +132,14 @@ export const deleteUserController = async (req, res) => {
       }
       if (user.rolUser === 'gestor') {
         const gestor = await GestorModel.findOne({ refUser: id })
-        const empresaId = gestor.refEmpresa
-      console.log(empresaId)
-        // Borramos todas las ofertas de la empresa
-        await OfertaLaboral.deleteMany({ idEmpresa: empresaId })
-      
-        await EmpresaModel.deleteOne({ refUser: id })
+        console.log(gestor)
+        if (gestor.refEmpresa) {
+          const empresaId = gestor.refEmpresa;
+          // Borramos todas las ofertas de la empresa
+          await OfertaLaboral.deleteMany({ idEmpresa: empresaId });
+          await EmpresaModel.deleteOne({ refUser: id });  
+        }
+        
         await GestorModel.deleteOne({ refUser: id })
       }
       if (user.rolUser === 'responsable') {
@@ -148,10 +150,10 @@ export const deleteUserController = async (req, res) => {
       await UserModel.deleteOne({ _id: id })
   
       // Enviamos un código de estado HTTP 200 (OK)
-      res.sendStatus(200)
+      res.status(200).send('Usuario eliminado correctamente')
     } catch (error) {
       // En caso de error, enviamos un código de estado HTTP 500 (Internal Server Error)
-      res.sendStatus(500).send(error)
+      res.status(500).send('error')
     }
   }
 

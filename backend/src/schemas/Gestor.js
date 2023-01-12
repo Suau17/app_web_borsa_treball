@@ -14,6 +14,11 @@ const gestorSchema = new Schema({
     
 })
 
+gestorSchema.pre('deleteOne', function(next) {
+    console.log('esborrant')
+    next();
+})
+
 const GestorModel = model('Gestor', gestorSchema)
 
 export default GestorModel
