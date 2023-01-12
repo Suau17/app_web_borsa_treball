@@ -1,21 +1,36 @@
 import jwt from 'jsonwebtoken'
 
 export const checkAuth = async (req,res, next) => {
-    console.log(req.cookie.tokenAcces)
     try {
-        console.log(req.headers.authorization.split(' ').pop())
-        const token = req.headers.authorization.split(' ').pop()
-        const tokenData = await verifyToken(token)
-        console.log(token)
-        if (tokenData._id) {
+        const token = req.cookies.tokenAcces
+        console.log(req.cookies.tokenAcces)
+        const tokenData = jwt.verify(token, process.env.secretWord)
+        console.log(tokenData)
+        if (tokenData.role) {
             next()
         } 
         else {
-            res.status(409)
-            res.send({error: 'no tienes el token'})
+            res.send({error: 'no tiene permiso (rol)'})
         }
     } catch (e) {
-        res.status(501).send({error: 'no exsiste'})
+        res.status(501).send({error: 'token no exsiste'})
     }
 
 }
+
+export const getUserToken = async (req) => {
+        const token = req.cookies.tokenAcces
+        const tokenData = jwt.verify(token, process.env.secretWord)
+        if (tokenData) {
+            return tokenData.id
+        } 
+        else {
+            return 'error'
+        }
+    
+
+}
+
+
+
+

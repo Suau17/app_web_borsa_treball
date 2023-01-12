@@ -44,7 +44,6 @@ export const userLoginController = async (req, res) => {
 
     const userForToken = {
         id: exsistingUserByEmail._id,
-        username : exsistingUserByEmail.name,
         role : exsistingUserByEmail.rolUser
     }
 
