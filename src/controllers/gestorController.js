@@ -1,6 +1,7 @@
-import GestorModel from "#schemas/Gestor.js"
+import Gestor from "#schemas/Gestor.js"
 import { body, validationResult} from 'express-validator'
 import empresaModel from "src/schemas/empresas.schema.js"
+import OfertaLaboral from "#schemas/ofertaLaboral.js"
 
 // crear empresa + validar dades
 
@@ -17,7 +18,7 @@ export const rules =  [
     ]
 
 export const getEmpresaController = async (req, res) => {
-    GestorModel.find().exec(function async (err, list_empresa) {
+    Gestor.find().exec(function async (err, list_empresa) {
 
         
         if (err) {
@@ -43,7 +44,7 @@ export const registerEmpresaControllers = async (req, res) => {
 
     
 
-   const gestorempresa = new GestorModel({
+   const gestorempresa = new Gestor({
     nomEmpresa ,nomGestor, carrec , telefon , gestor , perfilHabilitado, refUser
     })
     await gestorempresa.save()
@@ -79,11 +80,11 @@ export const deleteEmpresaController = async (req, res) => {
    */
        
        let empresaId = req.params.userId
-       GestorModel.findById(empresaId, (err, GestorModel) => {
+       Gestor.findById(empresaId, (err, Gestor) => {
    
            if(err) return res.status(500).send({message: `error al borrar el usuario ${err}`})
             
-           GestorModel.delete(err => {
+           Gestor.delete(err => {
            if(err) res.status(500).send({message: `error al borrar el usuario ${err}`})
            //res.status(200).send({message:`el usuario ha sido eliminado`})
            return res.redirect('/')
