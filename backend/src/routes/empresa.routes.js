@@ -8,7 +8,7 @@ empresaRouter.get('/registrar',function(req, res){
   res.render('empresa/registrar')
 })
 empresaRouter.post('/registrar', empresa.empresaRegistrerController)
-empresaRouter.put('/update/:id', empresa.updateGestorController)
+empresaRouter.put('/update/:id', empresa.updateEmpresaController)
 empresaRouter.delete('/delete/:id', empresa.deleteEmpresaController)
 
 

@@ -41,7 +41,7 @@ export const empresaRegistrerController = async (req, res) => {
          
 }
 
-  export const updateGestorController = async (req, res) => {
+  export const updateEmpresaController = async (req, res) => {
     try {
         const id = req.params.id
         // Actualizamos el registro del gestor en la base de datos

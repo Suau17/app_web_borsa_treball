@@ -6,10 +6,11 @@ const userRouter = Router();
 
 
 userRouter.get('/', oferta.getOfertasController) 
+userRouter.get('/getOfertas/:id', oferta.getOfertaEmpresaController) 
 
 userRouter.get('/crear', function (req, res) {  res.render('ofertas/registrar') }) 
 userRouter.post('/registerOferta', oferta.ofertaRegisterController) 
-userRouter.get('/inscribir', oferta.inscribirUsuario) 
+userRouter.post('/inscribir', oferta.inscribirUsuario) 
 
 userRouter.get('/update/:id', oferta.updateController)
 userRouter.post('/update/:id', oferta.updateOfertaController)

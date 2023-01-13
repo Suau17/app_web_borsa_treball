@@ -63,6 +63,17 @@ export const getOfertasController = (req, res, next) => {
     )
 }
 
+export const getOfertaEmpresaController = (req, res, next) => {
+    const idEmpresa = req.params.id;
+    
+    OfertaLaboral.find({ idEmpresa: idEmpresa }).populate('createBy').exec((err, listOfertas) => {
+        if (err) {
+            return next({error: err, msg : "error"})
+        }
+        res.send({ listaOfertas : listOfertas });
+    });
+}
+
 export const updateController = async (req, res) => {
     const id = req.params.id
 
@@ -102,7 +113,10 @@ try {
     res.status(404).send({message: `error al borrar el producto ${err}`})
 }
 
-*/try {
+*/
+
+// IMPORTANTE ! HACER UN IF QUE COMPRUEBE EL IDEMPRESA (OFERTA) CON EL IDEMPRESA (TOKEN)
+try {
     const ofertaId = req.params.ofertaId
     await OfertaLaboral.findByIdAndDelete(ofertaId) 
     res.status(200).send('Oferta eliminada con exito')

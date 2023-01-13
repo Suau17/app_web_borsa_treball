@@ -42,8 +42,6 @@ obtenerUsers()
   }, []);
   
 
-
-
 let listUsers;
 if(data && data.length > 0 ) {
     listUsers = data.map((user, index)=>{

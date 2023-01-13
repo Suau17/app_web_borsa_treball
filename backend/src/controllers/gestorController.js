@@ -87,28 +87,6 @@ export const createResponsableController = async (req, res) => {
 }      
 }
 
-
-export const registerEmpresaControllers = async (req, res) => {
-  //  let errors = validationResult(req)
-    let { nomEmpresa ,nomGestor, carrec , telefon , gestor ,  refUser } = req.body
-    const token = req.cookies.tokenAcces
-    const tokenData = jwt.verify(token, process.env.secretWord)
-    refUser = tokenData.id;
-    // UserModel.findById(refUser).then((user) => {
-    //     res.send(user);
-    //   }); 
-
-   const gestorempresa = new GestorModel({
-    nomEmpresa ,nomGestor, carrec , telefon , gestor , refUser
-    })
-    console.log(gestorempresa)
-    await gestorempresa.save()
-
-   
-// return res.render('/empresa/getEmpresa')
-
-}
-
 export const updateGestorController = async (req, res) => {
     try {
         // Obtenemos el id del gestor y los datos a actualizar proporcionados
