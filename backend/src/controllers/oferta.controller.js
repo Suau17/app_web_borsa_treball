@@ -139,11 +139,3 @@ try {
 }
 
 
-export const inscribirUsuario = async (req, res) => {
-    const userId = getUserToken()
-    console.log(userId)
-
-   
-
-}
-

@@ -1,4 +1,5 @@
 import * as oferta from '#controllers/oferta.controller.js';
+import * as estudiante from '#controllers/estudiantes.controller.js';
 import {Router} from 'express';
 
 const userRouter = Router();
@@ -10,7 +11,7 @@ userRouter.get('/getOfertas/:id', oferta.getOfertaEmpresaController)
 
 userRouter.get('/crear', function (req, res) {  res.render('ofertas/registrar') }) 
 userRouter.post('/registerOferta', oferta.ofertaRegisterController) 
-userRouter.post('/inscribir', oferta.inscribirUsuario) 
+userRouter.post('/inscribir', estudiante.inscribirseOferta) 
 
 userRouter.get('/update/:id', oferta.updateController)
 userRouter.post('/update/:id', oferta.updateOfertaController)
