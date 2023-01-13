@@ -1,4 +1,4 @@
-import Gestor from "#schemas/Gestor.js"
+import GestorModel from "#schemas/Gestor.js"
 import { body, validationResult} from 'express-validator'
 import empresaModel from "src/schemas/empresas.schema.js"
 import OfertaLaboral from "#schemas/ofertaLaboral.js"
@@ -18,7 +18,7 @@ export const rules =  [
     ]
 
 export const getEmpresaController = async (req, res) => {
-    Gestor.find().exec(function async (err, list_empresa) {
+    GestorModel.find().exec(function async (err, list_empresa) {
 
         
         if (err) {
@@ -44,7 +44,7 @@ export const registerEmpresaControllers = async (req, res) => {
 
     
 
-   const gestorempresa = new Gestor({
+   const gestorempresa = new GestorModel({
     nomEmpresa ,nomGestor, carrec , telefon , gestor , perfilHabilitado, refUser
     })
     await gestorempresa.save()
@@ -80,11 +80,11 @@ export const deleteEmpresaController = async (req, res) => {
    */
        
        let empresaId = req.params.userId
-       Gestor.findById(empresaId, (err, Gestor) => {
+       GestorModel.findById(empresaId, (err, Gestor) => {
    
            if(err) return res.status(500).send({message: `error al borrar el usuario ${err}`})
             
-           Gestor.delete(err => {
+           GestorModel.delete(err => {
            if(err) res.status(500).send({message: `error al borrar el usuario ${err}`})
            //res.status(200).send({message:`el usuario ha sido eliminado`})
            return res.redirect('/')
@@ -97,7 +97,7 @@ export const deleteEmpresaController = async (req, res) => {
    }
    export const EmpresarDeleteControllers = (req, res, next) => {
     let empresaId = req.params.id;
-    Gestor.findByIdAndRemove(empresaId)
+    GestorModel.findByIdAndRemove(empresaId)
         .then(() => {
           res.locals.redirect = "/empresa";
           next();
