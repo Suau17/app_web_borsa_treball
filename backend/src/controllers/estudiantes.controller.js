@@ -1,5 +1,5 @@
 import OfertaLaboral from "#schemas/ofertaLaboral.js";
-import InscripcionModel from "#schemas/inscripcionSchema.js";
+import InscripcionModel from "#schemas/inscripcion.js";
 import jwt from 'jsonwebtoken';
 
 
