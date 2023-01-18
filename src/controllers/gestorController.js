@@ -1,6 +1,6 @@
 import Gestor from "#schemas/Gestor.js"
 import { body, validationResult} from 'express-validator'
-import empresaModel from "src/schemas/empresas.schema.js"
+import empresaModel from "#schemas/empresas.schema.js"
 import OfertaLaboral from "#schemas/ofertaLaboral.js"
 
 // crear empresa + validar dades
