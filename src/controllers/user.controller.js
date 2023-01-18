@@ -150,3 +150,7 @@ export const userDeleteControllers = (req, res, next) => {
         });
   }
 
+  export const userUpdateEmail = (req, res, next) =>{
+    let email = req.params.email;
+    
+  }
