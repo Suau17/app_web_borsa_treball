@@ -1,3 +1,4 @@
+// import GestorModel from "src/schemas/Gestor.js"
 import GestorModel from "#schemas/Gestor.js"
 import { body, validationResult} from 'express-validator'
 import empresaModel from "src/schemas/empresas.schema.js"
