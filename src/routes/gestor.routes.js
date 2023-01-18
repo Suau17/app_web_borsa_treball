@@ -3,7 +3,7 @@ import * as empresa from '#controllers/gestorController.js'
 
 const empresaRouter = Router()
 
-empresaRouter.get('/', empresa.getEmpresasController)
+empresaRouter.get('/', empresa.getEmpresaController)
 empresaRouter.get('/registrar',function(req, res){
   res.render('empresa/registrar')
 })

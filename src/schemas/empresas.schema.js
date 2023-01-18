@@ -14,7 +14,7 @@ const empresaSchema = new Schema({
     }] */
     
     refOfertaLaboral: [{
-        type: Schema.type.ObjectId,
+        type: mongoose.Schema.Types.ObjectID,
         ref: 'ofertaLaboral'
     }]
     
