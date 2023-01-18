@@ -15,7 +15,4 @@ userRouter.post('/update/:id', oferta.updateOfertaController)
 userRouter.patch('/updateOferta/:id', oferta.updateOfertaController)  
 userRouter.get('/remove/:ofertaId', oferta.removeOfertaController)  
 
-
-
-
 export default userRouter;
