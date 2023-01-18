@@ -1,0 +1,1 @@
+GET http://localhost:3002/user/userInfo/63bfc6ea1294c8eb1764dc7e Content-Type: application/json

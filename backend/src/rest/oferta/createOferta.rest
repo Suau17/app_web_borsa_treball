@@ -1,0 +1,13 @@
+POST http://localhost:3002/borsa/registerOferta Content-Type: application/json
+
+{
+  "title" : "administrador "
+  ,"description" : "dadsdasdasdas"
+  ,"requirements" : "dasdadasdsddsa"
+  , "skills" : "dasdasdad"
+  , "ciclo" : "DAW"
+  , "dateOfPublication" : 30032022
+  , "expirationDate" : 30062022,
+  "createBy" : "63bfd38f63433a6ca8d5b630",
+   "refUsersInscritos": ["63a5942ba2a9472d5093ab8d","63a59421a2a9472d5093ab88","63a5901da2a9472d5093ab83"] 
+}

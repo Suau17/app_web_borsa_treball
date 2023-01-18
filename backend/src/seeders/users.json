@@ -1,0 +1,26 @@
+[
+    {
+
+        "name": "Marc",
+        "description": "Gruber",
+        "email": "d@hola.com",
+        "passwordHash" : "Gurororo",
+        "rolUser" : "alumno"
+    },
+
+    {
+        "name": "Gerard",
+        "description": "Suau",
+        "email": "e@hola.com",
+        "passwordHash" : "Gurororo",
+        "rolUser" : "alumno"    
+    },
+
+    {
+        "name": "Helder",
+        "description": "Rivas",
+        "email": "f@hola.com",
+        "passwordHash" : "Gurororo",
+        "rolUser" : "alumno"
+    }
+]
