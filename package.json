@@ -52,15 +52,22 @@
         "bcrypt": "^5.1.0",
         "body-parser": "^1.11.0",
         "cjs": "^0.0.11",
+        "cookie-parser": "^1.4.6",
         "cors": "^2.8.5",
         "dotenv": "^16.0.3",
         "ejs": "^3.1.8",
         "express": "^4.18.2",
         "express-validator": "^6.14.2",
         "faker": "^5.5.3",
+
         "fs": "^0.0.1-security",
         "jsonwebtoken": "^9.0.0",
         "mongoose": "^6.8.3",
+
+        "jose": "4.11.1",
+        "jsonwebtoken": "^8.5.1",
+        "mongoose": "^6.6.5",
+
         "require": "^0.4.4",
         "uuid": "^9.0.0"
     }
