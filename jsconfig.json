@@ -9,7 +9,9 @@
             "#routes/*": ["./src/routes/*"],
             "#schema/*": ["./src/schema/*"],
             "#Lib/*": ["./src/lib/*"],
-            "#controllers/*": ["./src/controllers/*"]
+            "#controllers/*": ["./src/controllers/*"],
+            "#seeders/*" : ["./src/seeders/*"],
+
         }
     }
 }
