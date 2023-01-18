@@ -152,5 +152,13 @@ export const userDeleteControllers = (req, res, next) => {
 
   export const userUpdateEmail = (req, res, next) =>{
     let email = req.params.email;
-    
+    User.findByIdAndRemove(userId)
+        .then(() => {
+          res.locals.redirect = "/users";
+          next();
+        })
+        .catch(error => {
+          console.log(`Error deleting user by ID: ${error.message}`);
+          next();
+        });
   }
