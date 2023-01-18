@@ -1,0 +1,14 @@
+POST http://localhost:3002/gestor/register Content-Type: application/json
+
+// registrar gestor en la aplicacion
+
+{
+    "name":"Marc",
+    "email":"marc@empresa1.com",
+    "passwordHash":"marc1234",
+    "rolUser":"gestor",
+    "carrec":"gestor de recursos humanos",
+    "telefon":"8932423",
+    "nameEmpresa":"Empresa 1"
+}
+
