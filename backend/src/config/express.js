@@ -9,7 +9,7 @@ import jwt from 'jsonwebtoken';
 
 
 // motor de plantillas 
-import * as path from 'path';
+import * as path from 'node:path';
 import { fileURLToPath } from 'url';
 import { render } from 'ejs';
 const __filename = fileURLToPath(import.meta.url);
