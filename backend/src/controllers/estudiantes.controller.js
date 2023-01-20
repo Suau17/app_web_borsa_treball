@@ -23,8 +23,8 @@ export const listarOfertas = async (req, res) => {
   
   export const inscribirseOferta = async (req, res) => {
     try {
-    const idUsuario = req.params.idUsuario;
-    const idOferta = req.params.idOferta;  
+    const {idUsuario, idOferta} = req.body
+    console.log(idUsuario, idOferta)
     const inscripcion = new InscripcionModel({
         refUser: idUsuario,
         refOfertaLaboral: idOferta,

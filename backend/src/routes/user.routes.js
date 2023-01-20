@@ -2,7 +2,7 @@ import * as userC from '#controllers/user.controller.js'
 import {Router} from 'express'
 import { checkAuth, getUserToken } from '#Lib/auth.js'
 
-
+// RUTAS GENERALES PARA GESTION CRUD USUARIOS
 
 const userRouter = Router()
 
