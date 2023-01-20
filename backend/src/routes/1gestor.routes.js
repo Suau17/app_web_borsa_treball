@@ -7,23 +7,22 @@ import * as oferta from '#controllers/oferta.controller.js';
 const gestorRouter = Router()
 
 
-/////// GESTOR
-gestorRouter.post('/register', gestor.gestorRegistrerController)
+// ///// GESTOR
 gestorRouter.put('/update/:id', gestor.updateGestorController)
 gestorRouter.delete('/eliminar/:userId', userC.deleteUserController)
 
-////// RESPONSABLE
+// //// RESPONSABLE
 gestorRouter.post('/register/responsable', gestor.createResponsableController)
 // eliminar responsable
 
-////// EMPRESA
+// //// EMPRESA
 gestorRouter.post('/empresa/registrar', empresa.empresaRegistrerController)
 gestorRouter.put('/empresa/update/:id', empresa.updateEmpresaController)
 gestorRouter.delete('/empresa/delete/:id', empresa.deleteEmpresaController)
 gestorRouter.post('/empresa/ofertas/:idOferta/eliminar', gestor.createResponsableController)
 
 
-////// OFERTAS
+// //// OFERTAS
 gestorRouter.get('/getOfertas/:id', oferta.getOfertaEmpresaController) 
 
 gestorRouter.get('/oferta/crear', function (req, res) {  res.render('ofertas/registrar') }) 
