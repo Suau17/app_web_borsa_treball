@@ -4,12 +4,15 @@ import mongoose from 'mongoose'
 export const checkAuth = async (req,res, next) => {
     try {
         const tokenFromCookies = req.cookies.tokenAcces
+        console.log('cookies '+tokenFromCookies)
         const tokenFromClient = req.headers.token 
+        console.log('client ' +tokenFromClient)
         if(tokenFromCookies !== tokenFromClient) {
             return res.send({error: 'token no es el mismo'})
         }
         const tokenData = jwt.verify(tokenFromCookies, process.env.secretWord)
-        console.log(tokenData.role)
+        console.log(tokenData.name)
+        next()
     } catch (e) {
         res.status(501).send({error: 'token no exsiste'})
     }
