@@ -2,6 +2,7 @@ import userRouter from '#routes/user.routes.js'
 import gestorRouter from '#routes/gestor.routes.js'
 import borsaRouter from '#routes/borsa.routes.js'
 import empresaRouter from '#routes/empresa.routes.js'
+import adminRouter from '#routes/admin.routes.js'
 import express from 'express'
 import cors from 'cors'
 import cookieParser from 'cookie-parser'
@@ -16,7 +17,7 @@ const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 const expressApp = express();
 
-import {checkAuth} from "#Lib/auth.js"
+import {checkAuth, checkAuth_Gestor} from "#Lib/auth.js"
 
 
 // middlewares
@@ -37,9 +38,9 @@ expressApp.use(cookieParser())
 
 
 expressApp.use("/borsa" ,borsaRouter)
-
+expressApp.use('/admin',adminRouter)
 expressApp.use("/user",userRouter)
-expressApp.use("/gestor",gestorRouter)
+expressApp.use("/gestor", checkAuth_Gestor ,gestorRouter)
 expressApp.use("/empresa" ,empresaRouter)
 // expressApp.use("/empresa",checkAuth ,empresaRouter)
 

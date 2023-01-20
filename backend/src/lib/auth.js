@@ -19,6 +19,28 @@ export const checkAuth = async (req,res, next) => {
 
 }
 
+export const checkAuth_Gestor = async (req,res, next) => {
+    try {
+        const tokenFromCookies = req.cookies.tokenAcces
+        const tokenFromClient = req.headers.token 
+        if(tokenFromCookies !== tokenFromClient) {
+            return res.send({error: 'token no es el mismo'})
+        }
+        const tokenData = jwt.verify(tokenFromCookies, process.env.secretWord)
+        const id = tokenData.id
+        console.log(tokenData)
+        const gestor = await GestorModel.findOne({ refUser: id })
+        if (gestor.perfilHabilitado == false) {
+            return 'tu perfil aun no esta habilitado'
+        }
+        console.log('perfil habilitado')
+        next()
+    } catch (e) {
+        res.status(501).send({error: 'token no exsiste', msg: e})
+    }
+
+}
+
 export const getUserToken = async (req) => {
         const token = req.cookies.tokenAcces
         const tokenData = jwt.verify(token, process.env.secretWord)
