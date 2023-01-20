@@ -3,6 +3,8 @@ import EstudianteModel from "#schemas/estudiante.js"
 import EmpresaModel from '#schemas/empresaSchema.js'
 import GestorModel from "#schemas/Gestor.js"
 import OfertaLaboral from "#schemas/ofertaLaboral.js"
+import Joi from 'joi';
+import { body, validationResult} from 'express-validator';
 
 // importamos el hash para encriptar
 import { hash, compare } from 'bcrypt'
@@ -12,13 +14,13 @@ import jwt from 'jsonwebtoken';
 
 export const userRegistrerController = async (req, res) => {
   const { name, email, passwordHash, rolUser } = req.body
-
+  
   const exsistingUserByEmail = await UserModel.findOne({ email: email })
 
   if (exsistingUserByEmail) return res.status(499).send('ya exsiste un usuario con ese email registrado')
   // cogemos la variable que viene del req.body y la encriptamos
   const hashedPassword = await hash(passwordHash, 12)
-
+  // const result = Joi.validate(req.body, UserModel)
   const user = new UserModel({
     name,
     email,
@@ -32,6 +34,7 @@ export const userRegistrerController = async (req, res) => {
 
 
 }
+
 
 export const estudianteRegistrerController = async (req, res) => {
   const { name, email, passwordHash, rolUser, refUser, cartaPresentacion, curriculum } = req.body

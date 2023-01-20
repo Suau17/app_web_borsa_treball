@@ -1,5 +1,6 @@
 import * as userC from '#controllers/user.controller.js'
 import {Router} from 'express'
+import { body, validationResult} from 'express-validator';
 
 
 
@@ -12,7 +13,8 @@ userRouter.get('/register', function (req, res){
     res.render('usersView/register'); 
 }); 
 userRouter.post('/registerUser', userC.userRegistrerController) // funciona
-userRouter.post('/estudiante/registrar', userC.estudianteRegistrerController)
+
+userRouter.post('/estudiante/registrar',userC.estudianteRegistrerController)
 
 userRouter.get('/login', function (req, res){
     res.render('usersView/login'); 
@@ -29,3 +31,5 @@ userRouter.patch('/update-password')
 userRouter.delete('/unregister')
 
 export default userRouter
+
+//funcion exists comprueba si se ha introducido algo al campo
