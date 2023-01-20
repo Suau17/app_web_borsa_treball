@@ -1,8 +1,6 @@
 import userRouter from '#routes/user.routes.js'
-import gestorRouter from '#routes/gestor.routes.js'
-import borsaRouter from '#routes/borsa.routes.js'
-import empresaRouter from '#routes/empresa.routes.js'
-import adminRouter from '#routes/admin.routes.js'
+import gestorRouter from '#routes/1gestor.routes.js'
+import adminRouter from '#routes/1admin.routes.js'
 import express from 'express'
 import cors from 'cors'
 import cookieParser from 'cookie-parser'
@@ -37,16 +35,9 @@ expressApp.use(cookieParser())
 
 
 
-expressApp.use("/borsa" ,borsaRouter)
 expressApp.use('/admin',adminRouter)
 expressApp.use("/user",userRouter)
 expressApp.use("/gestor", checkAuth_Gestor ,gestorRouter)
-expressApp.use("/empresa" ,empresaRouter)
-// expressApp.use("/empresa",checkAuth ,empresaRouter)
-
-expressApp.use("/",function(req,res){
-    res.render('new');
-})
 
 
 
