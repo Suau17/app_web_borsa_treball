@@ -63,7 +63,7 @@ export const estudianteRegistrerController = async (req, res) => {
 
 export const userLoginController = async (req, res) => {
   const { email, password } = req.body
-
+  console.log(email, password)
   if (!email || !password) return res.sendStatus(400)
 
   // comprobamos que el email exsiste en la DB
@@ -78,9 +78,13 @@ export const userLoginController = async (req, res) => {
     role: exsistingUserByEmail.rolUser
   }
 
-  const token = jwt.sign(userForToken, process.env.SecretWord, { expiresIn: '1h' })
+  const token = jwt.sign(userForToken, process.env.SecretWord, { expiresIn: '23h' })
   res.cookie("tokenAcces", token, { httpOnly: true });
-  res.send("Token enviado como cookie");
+  const msg = {
+    token : token,
+    resposta : 'Token enviado como cookie'
+  }
+  res.send(msg);
 
   // implementar parte visual
 

@@ -9,7 +9,7 @@ const userSchema = new Schema({
     passwordHash: { type: 'string', required: true, minLenght: 4},
     rolUser: {
         type: 'string',
-        enum: ["gestor", "responsable", "alumno"], required: true
+        enum: ["gestor", "responsable", "alumno", "admin"], required: true
     }
     
 })
