@@ -32,6 +32,9 @@ gestorRouter.get('/oferta/update/:id', oferta.updateController)
 gestorRouter.put('/oferta/updateOferta/:id', oferta.updateOfertaController)  
 gestorRouter.delete('/oferta/remove/:ofertaId', oferta.removeOfertaController)  
 
+// ver postulantes a la oferta
+// cambiar estado de la inscripcion
+
 
 
 export default gestorRouter

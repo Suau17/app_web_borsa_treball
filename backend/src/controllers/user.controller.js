@@ -7,9 +7,10 @@ import OfertaLaboral from "#schemas/ofertaLaboral.js"
 // importamos el hash para encriptar
 import { hash, compare } from 'bcrypt'
 import jwt from 'jsonwebtoken';
-// import * as dotenv from 'dotenv'
 
 
+
+// esta funcion se usa de plantilla para registrar a todos los tipos de usuario (gestor, responsable, admin, estudiante, etc.)
 export const userRegistrerController = async (req, res) => {
   const { name, email, passwordHash, rolUser } = req.body
 
@@ -28,38 +29,10 @@ export const userRegistrerController = async (req, res) => {
   })
   await user.save()
 
-  return res.redirect('/user/getUsers')
-
-
-}
-
-export const estudianteRegistrerController = async (req, res) => {
-  const { name, email, passwordHash, rolUser, refUser, cartaPresentacion, curriculum } = req.body
-
-  const exsistingUserByEmail = await UserModel.findOne({ email: email })
-
-  if (exsistingUserByEmail) return res.status(499).send('ya exsiste un usuario con ese email registrado')
-  // cogemos la variable que viene del req.body y la encriptamos
-  const hashedPassword = await hash(passwordHash, 12)
-
-  const user = new UserModel({
-    name,
-    email,
-    passwordHash: hashedPassword,
-    rolUser
-  })
-  await user.save()
-  const estudiante = new EstudianteModel({
-    refUser: user._id,
-    cartaPresentacion,
-    curriculum
-  })
-  await estudiante.save()
-
-  return res.send('estudiante registrado')
-
+  return user._id
 
 }
+
 
 export const userLoginController = async (req, res) => {
   const { email, password } = req.body

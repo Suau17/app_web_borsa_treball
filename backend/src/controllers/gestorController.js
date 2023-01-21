@@ -1,7 +1,7 @@
 import GestorModel from "#schemas/Gestor.js"
 import UserModel from "#schemas/User.js"
+import * as userController from '#controllers/user.controller.js'
 import { hash, compare } from 'bcrypt'
-import jwt from 'jsonwebtoken'
 
 // import { body, validationResult} from 'express-validator'
 
@@ -21,28 +21,15 @@ import jwt from 'jsonwebtoken'
 
 export const gestorRegistrerController = async (req, res) => {
     try {
-    const { name, email, passwordHash, rolUser, carrec, telefon, nameEmpresa} = req.body
+    const {carrec, telefon, nameEmpresa} = req.body
 
-    
-    const exsistingUserByEmail = await UserModel.findOne({email : email})
-    if (exsistingUserByEmail) return res.status(400).send('ya exsiste un usuario con ese email registrado')
-
-    // cogemos la variable que viene del req.body y la encriptamos
-    const hashedPassword = await hash(passwordHash, 12)
-
-    const user = new UserModel({
-        name,
-        email,
-        passwordHash: hashedPassword,
-        rolUser
-    })
-    await user.save()
+    const id = await userController.userRegistrerController(req,res)
 
     const gestor = new GestorModel({
         carrec,
         telefon,
         nameEmpresa,
-        refUser: user._id,
+        refUser: id,
     })
     await gestor.save()
 

@@ -1,6 +1,26 @@
 import OfertaLaboral from "#schemas/ofertaLaboral.js";
 import InscripcionModel from "#schemas/inscripcion.js";
-import jwt from 'jsonwebtoken';
+import EstudianteModel from "#schemas/estudiante.js"
+import * as userController from '#controllers/user.controller.js'
+
+
+
+
+export const estudianteRegistrerController = async (req, res) => {
+  const {cartaPresentacion, curriculum } = req.body
+
+  const id = await userController.userRegistrerController(req,res)
+  const estudiante = new EstudianteModel({
+    refUser: id,
+    cartaPresentacion,
+    curriculum
+  })
+  await estudiante.save()
+
+  return res.send('estudiante registrado')
+
+
+}
 
 
 export const listarOfertas = async (req, res) => {

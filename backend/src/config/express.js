@@ -1,6 +1,7 @@
+import adminRouter from '#routes/admin.routes.js'
+import gestorRouter from '#routes/gestor.routes.js'
+import estudianteRouter from '#routes/estudiante.routes.js'
 import userRouter from '#routes/user.routes.js'
-import gestorRouter from '#routes/1gestor.routes.js'
-import adminRouter from '#routes/1admin.routes.js'
 import express from 'express'
 import cors from 'cors'
 import cookieParser from 'cookie-parser'
@@ -16,6 +17,7 @@ const __dirname = path.dirname(__filename);
 const expressApp = express();
 
 import {checkAuth, checkAuth_Gestor} from "#Lib/auth.js"
+import es from 'faker/lib/locales/es/index.js'
 
 
 // middlewares
@@ -36,8 +38,9 @@ expressApp.use(cookieParser())
 
 
 expressApp.use('/admin',adminRouter)
-expressApp.use("/user",userRouter)
 expressApp.use("/gestor", checkAuth_Gestor ,gestorRouter)
+expressApp.use('/estudiante', estudianteRouter)
+expressApp.use("/user",userRouter)
 
 
 

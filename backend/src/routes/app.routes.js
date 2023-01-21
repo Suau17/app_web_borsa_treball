@@ -10,7 +10,7 @@ const appRouter = Router();
 
 // RUTAS GENERALES PARA GESTION CRUD USUARIOS
 
-
+// agragar rutas rol estudiante, rol admin, rol gestor, rol responsable y rol app
 appRouter.get('/getUsers',   userC.getUsersControllers)
 appRouter.get('/getOfertas', oferta.getOfertasController) 
 appRouter.get('/getOfertas/:id', oferta.getOfertaEmpresaController) 

@@ -13,7 +13,7 @@ userRouter.get('/register', function (req, res){
     res.render('usersView/register'); 
 }); 
 userRouter.post('/registerUser', userC.userRegistrerController) // funciona
-userRouter.post('/estudiante/registrar', userC.estudianteRegistrerController)
+
 
 // userRouter.get('/login', function (req, res){
 //     res.render('usersView/login'); 
@@ -28,5 +28,7 @@ userRouter.patch('/update-data')
 userRouter.patch('/update-email')
 userRouter.patch('/update-password')
 userRouter.delete('/unregister')
+
+// ruta para recuperar contraseña
 
 export default userRouter
