@@ -1,7 +1,7 @@
 import GestorModel from "#schemas/Gestor.js"
 import UserModel from "#schemas/User.js"
 import * as userController from '#controllers/user.controller.js'
-import { hash, compare } from 'bcrypt'
+import { hash } from 'bcrypt'
 
 // import { body, validationResult} from 'express-validator'
 
@@ -42,28 +42,15 @@ export const gestorRegistrerController = async (req, res) => {
 
 export const createResponsableController = async (req, res) => {
     try {
-    const { name, email, passwordHash, rolUser, carrec, telefon, nameEmpresa} = req.body
-
-    
-    const exsistingUserByEmail = await UserModel.findOne({email : email})
-    if (exsistingUserByEmail) return res.status(400).send('ya exsiste un usuario con ese email registrado')
-
-    // cogemos la variable que viene del req.body y la encriptamos
-    const hashedPassword = await hash(passwordHash, 12)
-
-    const user = new UserModel({
-        name,
-        email,
-        passwordHash: hashedPassword,
-        rolUser
-    })
-    await user.save()
+    const {carrec, telefon, nameEmpresa} = req.body
+   
+    const id = await userController.userRegistrerController(req,res)
 
     const gestor = new GestorModel({
         carrec,
         telefon,
         nameEmpresa,
-        refUser: user._id,
+        refUser: id,
     })
     await gestor.save()
 
@@ -84,8 +71,6 @@ export const updateGestorController = async (req, res) => {
             data.password = await hash(data.password, 12)
         }
         
-
-
         // Actualizamos el registro del gestor en la base de datos
         await GestorModel.findByIdAndUpdate(id, req.body, { new: true })
         
@@ -96,5 +81,6 @@ export const updateGestorController = async (req, res) => {
         return res.status(500).send('Ocurrió un error inesperado. Por favor, intente nuevamente más tarde.')
       }
     }
+
 
 

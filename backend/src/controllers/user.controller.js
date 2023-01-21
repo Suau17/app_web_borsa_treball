@@ -3,27 +3,25 @@ import EstudianteModel from "#schemas/estudiante.js"
 import EmpresaModel from '#schemas/empresaSchema.js'
 import GestorModel from "#schemas/Gestor.js"
 import OfertaLaboral from "#schemas/ofertaLaboral.js"
+import InscripcionModel from '#schemas/inscripcion.js'
 
-// importamos el hash para encriptar
+
 import { hash, compare } from 'bcrypt'
 import jwt from 'jsonwebtoken';
 
 
 
-// esta funcion se usa de plantilla para registrar a todos los tipos de usuario (gestor, responsable, admin, estudiante, etc.)
 export const userRegistrerController = async (req, res) => {
   const { name, email, passwordHash, rolUser } = req.body
 
-  const exsistingUserByEmail = await UserModel.findOne({ email: email })
+  const exsistingUserByEmail = await UserModel.findOne({ email })
 
   if (exsistingUserByEmail) return res.status(499).send('ya exsiste un usuario con ese email registrado')
-  // cogemos la variable que viene del req.body y la encriptamos
   const hashedPassword = await hash(passwordHash, 12)
 
   const user = new UserModel({
     name,
     email,
-    // asignamos la contraseña encriptada
     passwordHash: hashedPassword,
     rolUser
   })
@@ -39,7 +37,7 @@ export const userLoginController = async (req, res) => {
   console.log(email, password)
   if (!email || !password) return res.sendStatus(400)
 
-  // comprobamos que el email exsiste en la DB
+  // le pasamos incorrect credentials para que si intentan robar una cuenta no sepa si ha acertado con mail o password
   const exsistingUserByEmail = await UserModel.findOne({ email }).exec()
   if (!exsistingUserByEmail) return res.status(401).send('incorrect credentials')
 
@@ -58,49 +56,23 @@ export const userLoginController = async (req, res) => {
     resposta : 'Token enviado como cookie'
   }
   res.send(msg);
-
-  // implementar parte visual
-
-  // res.render('usersView/list',{listaUsuarios: list_users}) 
-  // return res.redirect('/user/login')
-  // return res.status(200).send(token)
-
 }
 
 
 export const getUsersControllers = (req, res) => {
-
-  UserModel.find().exec(function async(err, list_users, next) {
+  UserModel.find().exec(function async(err, listUsers, next) {
     if (err) {
       return next(err)
     }
-    // en la view saldara una var con json list_users
-    res.send({ listaUsuarios: list_users })
-
-
-    // 'await' espera a que trobi les dades de Genere. Amb 'await' es obligat posar 'async' a la
-    // definició del mètode. El 'await' sempre ha d'estar entre un 'try-catch'
-
-    // error path join
-    // res.render('usersView/list',{listaUsuarios: list_users})   
-
-
+    res.send({ listaUsuarios: listUsers })
   })
-
-
-
-
-
 }
+
 
 export const deleteUserController = async (req, res) => {
   try {
-    // Obtenemos el id del ñlusuario proporcionado
     const { userId: id } = req.params
 
-    // pendiente de implementar el remove para borrar todo en cascada
-
-    // Buscamos el documento del usuario en la base de datos
     const user = await UserModel.findById(id)
 
     // Si el rol del usuario es "alumno", eliminamos el documento del modelo de estudiante
@@ -113,6 +85,7 @@ export const deleteUserController = async (req, res) => {
       if (gestor.refEmpresa) {
         const empresaId = gestor.refEmpresa;
         // Borramos todas las ofertas de la empresa
+        await InscripcionModel.deleteMany({ idEmpresa: id })
         await OfertaLaboral.deleteMany({ idEmpresa: empresaId });
         await EmpresaModel.deleteOne({ refUser: id });
       }
@@ -139,10 +112,10 @@ export const infoUser = async (req, res) => {
   try {
     // Obtenemos el id del usuario proporcionado
     const id = req.params.id
-console.log(id)
+    console.log(id)
     // Buscamos el documento del usuario en la base de datos
     const user = await UserModel.findById(id)
-console.log(user)
+    console.log(user)
     // Inicializamos un objeto vacío para guardar la información que queremos enviar
     const data = {}
 
@@ -155,24 +128,24 @@ console.log(user)
       data.gestor = gestor
       if (gestor.refEmpresa) {
         const empresaId = gestor.refEmpresa;
-        // Obtenemos todas las ofertas de la empresa
+
         const ofertas = await OfertaLaboral.find({ idEmpresa: empresaId });
         data.ofertas = ofertas
-        // Obtenemos la empresa
+
         const empresa = await EmpresaModel.findOne({ refUser: id });
         data.empresa = empresa
       }
     }
     if (user.rolUser === 'responsable') {
-    //  const responsable = await ResponsableModel.findOne({ refUser: id })
-     // data.responsable = responsable
+      //  const responsable = await ResponsableModel.findOne({ refUser: id })
+      // data.responsable = responsable
     }
 
     data.user = user;
 
     res.status(200).send(data)
   } catch (error) {
-    res.status(500).send('error'+error)
+    res.status(500).send('error' + error)
   }
 }
 
@@ -181,28 +154,7 @@ export const updateController = async (req, res) => {
 
   const user = await UserModel.findById(id)
   // res.send({oferta:oferta})
-  res.render('usersView/update', { user: user })
-
-
+  res.render('usersView/update', { user })
 
 }
-
-// // remove cascade preguntar al ramon
-// export const deleteGestorProfileController = async (req, res) => {
-//   try {
-//     const gestor = await GestorModel.findOne({
-//       refUser: req.params.id
-//     });
-
-//     if (!gestor) return res.status(401).send("Usuario no autorizado");
-
-//     // Eliminamos el gestor y todos los documentos relacionados en cascada
-//     await gestor.remove();
-
-//     return res.send("Perfil eliminado con éxito");
-//   } catch (error) {
-//     res.send(error)
-//   }
-// };
-
 

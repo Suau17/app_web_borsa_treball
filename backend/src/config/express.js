@@ -1,3 +1,4 @@
+import es from 'faker/lib/locales/es/index.js'
 import adminRouter from '#routes/admin.routes.js'
 import gestorRouter from '#routes/gestor.routes.js'
 import estudianteRouter from '#routes/estudiante.routes.js'
@@ -5,7 +6,6 @@ import userRouter from '#routes/user.routes.js'
 import express from 'express'
 import cors from 'cors'
 import cookieParser from 'cookie-parser'
-import jwt from 'jsonwebtoken';
 
 
 // motor de plantillas 
@@ -17,7 +17,6 @@ const __dirname = path.dirname(__filename);
 const expressApp = express();
 
 import {checkAuth, checkAuth_Gestor} from "#Lib/auth.js"
-import es from 'faker/lib/locales/es/index.js'
 
 
 // middlewares
