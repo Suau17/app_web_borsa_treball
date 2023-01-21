@@ -66,13 +66,28 @@ export const updateGestorController = async (req, res) => {
         // Obtenemos el id del gestor y los datos a actualizar proporcionados
         const id = req.params.id
         const data = req.body
-        // Encriptamos la contraseña del gestor si se proporciona en los datos a actualizar
-        if (data.password) {
-            data.password = await hash(data.password, 12)
+
+        if ('rolUser' in data) {
+            return res.status(401).send('no puedes modificar tu rol')
         }
-        
+
         // Actualizamos el registro del gestor en la base de datos
-        await GestorModel.findByIdAndUpdate(id, req.body, { new: true })
+        const gestor = await GestorModel.findByIdAndUpdate(id, req.body, { new: true })
+        
+        const idUser = gestor.refUser
+
+        if(data.password || data.name || data.email || data.description){
+            if (data.password) {
+                data.password = await hash(data.password, 12)
+            }
+            await UserModel.findByIdAndUpdate(idUser, req.body, { new: true })
+            if (data.rolUser) {
+                await UserModel.findByIdAndUpdate(idUser, data, { new: true });
+            }
+        }
+        // Encriptamos la contraseña del gestor si se proporciona en los datos a actualizar
+
+        
         
         // Enviamos un mensaje de éxito
         return res.send('Datos del gestor actualizados con éxito')

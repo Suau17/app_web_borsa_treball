@@ -3,7 +3,9 @@ import GestorModel from "#schemas/Gestor.js"
 import OfertaLaboral from '#schemas/ofertaLaboral.js'
 import InscripcionModel from '#schemas/inscripcion.js'
 
+import * as userController from '#controllers/user.controller.js'
 import {sendMail} from '#Lib/email.js'
+import UserModel from '#schemas/User.js'
 
 
 
@@ -71,14 +73,31 @@ export const deleteEmpresaController = async (req, res) => {
 }
 
 export const estadoInscripcion = async (req, res) => {
+  try {
+    
+
   const id = req.params.id
   const data = req.body
-  
   const inscripcion = await InscripcionModel.findById(id)
+  const idOferta = inscripcion.refOfertaLaboral
+  const oferta = await OfertaLaboral.findById(idOferta)
+ 
+
+  const gestorID = oferta.createBy
+
+  const gestor = await GestorModel.findById(gestorID)
+
+
+  const userID = inscripcion.refUser 
+  const estudiante = await UserModel.findById(userID)
+  const mailTO = estudiante.email
   
   if(data.estado === 'aceptar'){
     // enviar email
     await GestorModel.findByIdAndUpdate(id, {estado: 'aceptado'}, { new: true })
+    
+    // sendMail(from, to , subject, html)
+ 
     return 'candidatura aceptada'
   }
   if(data.estado === 'rechazar'){
@@ -86,7 +105,9 @@ export const estadoInscripcion = async (req, res) => {
     await GestorModel.findByIdAndUpdate(id, {estado: 'rechazado'}, { new: true })
     return 'candidatura rechazada'
   }
-  
+} catch (error) {
+    return res.send({msg:'error al modificar la postulacion', error})
+}
 
 
 }

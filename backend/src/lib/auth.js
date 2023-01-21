@@ -30,9 +30,12 @@ export const checkAuth_Gestor = async (req,res, next) => {
         const tokenData = jwt.verify(tokenFromCookies, process.env.secretWord)
         const id = tokenData.id
         console.log(tokenData)
+        
         const gestor = await GestorModel.findOne({ refUser: id })
-        if (gestor.perfilHabilitado == false) {
-            return 'tu perfil aun no esta habilitado'
+
+        if (gestor.perfilHabilitado === false) {
+            console.log('tu perfil aun no esta habilitado')
+            return res.status(401).send('tu perfil no esta habilitado. Espere a que nuestro administrador le active la cuenta. Si despues de varios dias su cuenta no esta de alta llame al 99429214')
         }
         console.log('perfil habilitado')
         next()

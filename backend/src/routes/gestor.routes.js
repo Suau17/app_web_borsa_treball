@@ -25,16 +25,15 @@ gestorRouter.post('/empresa/ofertas/:idOferta/eliminar', gestor.createResponsabl
 // //// OFERTAS
 gestorRouter.get('/getOfertas/:id', oferta.getOfertaEmpresaController) 
 
-gestorRouter.get('/oferta/crear', function (req, res) {  res.render('ofertas/registrar') }) 
-gestorRouter.post('/oferta/registerOferta', oferta.ofertaRegisterController) 
+gestorRouter.post('/oferta/registrar', oferta.ofertaRegisterController) 
 
-gestorRouter.get('/oferta/update/:id', oferta.updateController)
-gestorRouter.put('/oferta/updateOferta/:id', oferta.updateOfertaController)  
+
+gestorRouter.put('/oferta/update/:id', oferta.updateOfertaController)  
 gestorRouter.delete('/oferta/remove/:ofertaId', oferta.removeOfertaController)  
 
 // ver postulantes a la oferta
 // cambiar estado de la inscripcion
 
-
+gestorRouter.put('/oferta/estado/:id', empresa.estadoInscripcion)  
 
 export default gestorRouter

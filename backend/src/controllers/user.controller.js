@@ -16,7 +16,7 @@ export const userRegistrerController = async (req, res) => {
 
   const exsistingUserByEmail = await UserModel.findOne({ email })
 
-  if (exsistingUserByEmail) return res.status(499).send('ya exsiste un usuario con ese email registrado')
+  if (exsistingUserByEmail) return 'error'
   const hashedPassword = await hash(passwordHash, 12)
 
   const user = new UserModel({

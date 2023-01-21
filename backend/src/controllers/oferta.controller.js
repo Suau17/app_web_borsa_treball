@@ -10,28 +10,6 @@ import { getUserToken } from "#Lib/auth.js";
 
 export const ofertaRegisterController = async (req, res) => {
 
-//   // Primero, leemos el token de la solicitud HTTP
-//   const token = req.headers['x-access-token'];
-
-//   // Verificamos la firma del token utilizando la clave secreta
-//   jwt.verify(token, process.env.secretWord, (error, decoded) => {
-//     if (error) {
-//       // Si hay un error, significa que el token es inválido o ha sido alterado
-//       return res.status(401).send({ message: 'Token inválido' });
-//     }
-
-//     // Si no hay error, significa que el token es válido
-//     // Podemos obtener el contenido del token decodificándolo
-//     const content = jwt.decode(token);
-
-//     // Ahora podemos extraer el id del usuario del contenido del token
-//     const idUser = content.id;
-
-//     // Continúa tu código aquí, utilizando el id del usuario para realizar las acciones necesarias
-//   });
-
-
-
     const { title ,description ,requirements , skills , ciclo , dateOfPublication, expirationDate, idEmpresa,createBy} = req.body
 
    const ofertaLaboral = new OfertaLaboral({
