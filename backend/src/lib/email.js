@@ -1,35 +1,36 @@
 import nodemailer from "nodemailer";
 
-let sendMail;
+let transporter;
 async function main() {
   let testAccount = await nodemailer.createTestAccount();
-  
-  let transporter = nodemailer.createTransport({
-      host: "smtp.gmail.com", // use correct hostname
-      port: 465,
-      secure: true, 
-      auth: {
-        user: process.env.mail, // use process.env.mail and process.env.mailPassword
-        pass: process.env.mailPassword,
-      },
-  });
 
-sendMail = async function deleteEmpresaController(from, to, subject, html) {
+  transporter = nodemailer.createTransport({
+    host: "smtp.gmail.com",
+    port: 465,
+    secure: true,
+    auth: {
+      user: process.env.mail,
+      pass: process.env.mailPassword,
+    },
+  });
+}
+await main().catch(console.error);
+
+async function sendMail(from, to, subject, html) {
   try {
-    const info = await transporter.sendMail( {
-        from: ` <${from}>`, // sender address
-        to:` <${to}>`, // list of receivers
-        subject, // Subject line
-        html, // html body
-      });
+    const info = await transporter.sendMail({
+      from: `<${from}>`,
+      to: `<${to}>`,
+      subject,
+      html,
+    });
     console.log("Message sent: %s", info.messageId);
     console.log("Preview URL: %s", nodemailer.getTestMessageUrl(info));
+    console.log('termino')
+
   } catch (error) {
-    return 'error '
+    return "error";
   }
 }
 
-
-main().catch(console.error);
-}
 export {sendMail} 

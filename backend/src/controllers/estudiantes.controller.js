@@ -10,6 +10,7 @@ export const estudianteRegistrerController = async (req, res) => {
   const {cartaPresentacion, curriculum } = req.body
 
   const id = await userController.userRegistrerController(req,res)
+  console.log('id'+id)
   const estudiante = new EstudianteModel({
     refUser: id,
     cartaPresentacion,
@@ -44,7 +45,6 @@ export const listarOfertas = async (req, res) => {
   export const inscribirseOferta = async (req, res) => {
     try {
     const {idUsuario, idOferta} = req.body
-    console.log(idUsuario, idOferta)
     const inscripcion = new InscripcionModel({
         refUser: idUsuario,
         refOfertaLaboral: idOferta,

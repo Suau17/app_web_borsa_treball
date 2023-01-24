@@ -9,7 +9,7 @@ const estudianteRouter = Router()
 
 
 // ///// GESTOR
-estudianteRouter.put('/update/:id', gestor.updateGestorController)
+estudianteRouter.post('/oferta/inscribirse', estudiante.inscribirseOferta)
 estudianteRouter.delete('/eliminar/:userId', userC.deleteUserController)
 
 // //// RESPONSABLE

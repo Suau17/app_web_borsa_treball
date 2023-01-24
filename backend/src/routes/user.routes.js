@@ -1,6 +1,7 @@
 import * as userC from '#controllers/user.controller.js'
 import {Router} from 'express'
 import * as gestor from '#controllers/gestorController.js'
+import * as estudiante from '#controllers/estudiantes.controller.js'
 
 // RUTAS GENERALES PARA GESTION CRUD USUARIOS
 
@@ -16,6 +17,7 @@ userRouter.get('/profile/:id',  userC.infoUser ) // funciona (json no view)
 userRouter.post('/login', userC.userLoginController)
 userRouter.delete('/delete/:userId', userC.deleteUserController)
 userRouter.post('/register/gestor', gestor.gestorRegistrerController)
+userRouter.post('/register/estudiante', estudiante.estudianteRegistrerController)
 // ruta para recuperar contraseña
 
 export default userRouter

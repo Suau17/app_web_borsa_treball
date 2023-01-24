@@ -79,35 +79,42 @@ export const estadoInscripcion = async (req, res) => {
   const id = req.params.id
   const data = req.body
   const inscripcion = await InscripcionModel.findById(id)
+  
   const idOferta = inscripcion.refOfertaLaboral
+  
   const oferta = await OfertaLaboral.findById(idOferta)
- 
-
+  
+console.log(oferta)
   const gestorID = oferta.createBy
 
-  const gestor = await GestorModel.findById(gestorID)
-
+  const gestor = await UserModel.findById(gestorID)
+  console.log(gestor)
 
   const userID = inscripcion.refUser 
   const estudiante = await UserModel.findById(userID)
+ 
+  const mailFrom = gestor.email
   const mailTO = estudiante.email
   
-  if(data.estado === 'aceptar'){
-    // enviar email
-    await GestorModel.findByIdAndUpdate(id, {estado: 'aceptado'}, { new: true })
-    
-    // sendMail(from, to , subject, html)
- 
-    return 'candidatura aceptada'
+    const bodyHTML = `
+      hola soy ${gestor.name} y hemos aceptado su solicitud a la oferta ${oferta.name} con el codigo de oferta ${oferta.id}
+    `
+
+    if(data.estado === 'aceptar'){
+      // enviar email
+      await InscripcionModel.findByIdAndUpdate(id, {estado: 'aceptado'}, { new: true })
+      await sendMail(mailFrom, mailTO , 'nueva oferta', bodyHTML)
+   
+      return res.send('Empresa eliminada con éxito')
+    }
+    if(data.estado === 'rechazar'){
+      // enviar email
+      await InscripcionModel.findByIdAndUpdate(id, {estado: 'rechazado'}, { new: true })
+      return 'candidatura rechazada'
+    }
+  } catch (error) {
+      return res.send({msg:'error al modificar la postulacion', error})
   }
-  if(data.estado === 'rechazar'){
-    // enviar email
-    await GestorModel.findByIdAndUpdate(id, {estado: 'rechazado'}, { new: true })
-    return 'candidatura rechazada'
-  }
-} catch (error) {
-    return res.send({msg:'error al modificar la postulacion', error})
-}
 
 
 }

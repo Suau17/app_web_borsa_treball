@@ -8,6 +8,7 @@ const gestorRouter = Router()
 
 
 // ///// GESTOR
+gestorRouter.post('/registrar', gestor.gestorRegistrerController)
 gestorRouter.put('/update/:id', gestor.updateGestorController)
 gestorRouter.delete('/eliminar/:userId', userC.deleteUserController)
 
