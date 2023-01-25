@@ -81,9 +81,6 @@ export const updateGestorController = async (req, res) => {
                 data.password = await hash(data.password, 12)
             }
             await UserModel.findByIdAndUpdate(idUser, req.body, { new: true })
-            if (data.rolUser) {
-                await UserModel.findByIdAndUpdate(idUser, data, { new: true });
-            }
         }
         // Encriptamos la contraseña del gestor si se proporciona en los datos a actualizar
 

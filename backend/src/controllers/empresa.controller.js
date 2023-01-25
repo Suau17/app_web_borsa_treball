@@ -33,7 +33,7 @@ export const empresaRegistrerController = async (req, res) => {
   console.log(gestorempresa)
   await gestorempresa.save()
   const gestor = await GestorModel.findOneAndUpdate(
-    { refUser: refUser },
+    {  refUser },
     { refEmpresa: gestorempresa._id }
   );
 

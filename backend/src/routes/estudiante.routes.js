@@ -10,10 +10,13 @@ const estudianteRouter = Router()
 
 // ///// GESTOR
 estudianteRouter.post('/oferta/inscribirse', estudiante.inscribirseOferta)
+estudianteRouter.delete('/oferta/eliminarInscripcion/:idInscripcion', estudiante.borrarInscripcion)
 estudianteRouter.delete('/eliminar/:userId', userC.deleteUserController)
 
 // //// RESPONSABLE
 estudianteRouter.post('/registrar', estudiante.estudianteRegistrerController)
+estudianteRouter.get('/verInscripciones/:id', estudiante.verOfertasInscrito)
+estudianteRouter.post('/user/actualizar/:id', estudiante.updateEstudianteController)
 
 
 

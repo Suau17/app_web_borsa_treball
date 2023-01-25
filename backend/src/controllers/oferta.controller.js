@@ -1,6 +1,7 @@
 import OfertaLaboral from "#schemas/ofertaLaboral.js"
 // import GestorModel from "#schemas/Gestor.js"
 import EmpresaModel from '#schemas/empresaSchema.js'
+import InscripcionModel from '#schemas/inscripcion.js'
 import jwt from 'jsonwebtoken'
 // import mongoose from 'mongoose';
 // import jwt from 'jsonwebtoken';
@@ -83,19 +84,11 @@ export const updateOfertaController = async (req, res) => {
 }
 
 export const removeOfertaController = async (req, res) => {
- /*  
-try {
-    const oferta = await OfertaLaboral.findById(req.params.id)
-    res.send({ data:oferta })
-} catch (error) {
-    res.status(404).send({message: `error al borrar el producto ${err}`})
-}
-
-*/
 
 // IMPORTANTE ! HACER UN IF QUE COMPRUEBE EL IDEMPRESA (OFERTA) CON EL IDEMPRESA (TOKEN)
 try {
     const ofertaId = req.params.ofertaId
+    await InscripcionModel.deleteMany({ refOfertaLaboral: ofertaId })
     await OfertaLaboral.findByIdAndDelete(ofertaId) 
     res.status(200).send('Oferta eliminada con exito')
 } catch (error) {
