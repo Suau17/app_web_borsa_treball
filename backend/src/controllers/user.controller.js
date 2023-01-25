@@ -77,10 +77,16 @@ export const getUsersControllers = (req, res) => {
 
 export const deleteUserController = async (req, res) => {
   try {
+    const idUsuario = req.idToken;
     const { userId: id } = req.params
 
     const user = await UserModel.findById(id)
 
+    if(idUsuario !== id) {
+      res.status(401).send('No tienes los permisos para borrar otro usuario')
+      return;
+    }
+    
     // Si el rol del usuario es "alumno", eliminamos el documento del modelo de estudiante
     if (user.rolUser === 'alumno') {
       await EstudianteModel.deleteOne({ refUser: id })

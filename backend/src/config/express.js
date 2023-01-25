@@ -16,7 +16,7 @@ const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 const expressApp = express();
 
-import {checkAuth, checkAuth_Gestor} from "#Lib/auth.js"
+import {checkAuthGestor, checkAuthEstudiante} from "#Lib/auth.js"
 
 
 // middlewares
@@ -37,9 +37,9 @@ expressApp.use(cookieParser())
 
 
 expressApp.use('/admin',adminRouter)
-expressApp.use("/gestor", checkAuth_Gestor ,gestorRouter)
-expressApp.use('/estudiante', estudianteRouter)
-expressApp.use("/user",userRouter)
+expressApp.use("/gestor", checkAuthGestor ,gestorRouter)
+expressApp.use('/estudiante', checkAuthEstudiante , estudianteRouter)
+expressApp.use("/user",  checkAuthEstudiante ,userRouter)
 
 
 
