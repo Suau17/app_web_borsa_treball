@@ -55,9 +55,22 @@ export const updateEmpresaController = async (req, res) => {
   }
 }
 
+
+/**
+ * 
+ * @param {id Empresa(string)} req 
+ * @param {*} res 
+ * @returns 
+ */
 export const deleteEmpresaController = async (req, res) => {
   try {
+    const idUsuario = req.idToken;
 
+    const empresa = await EmpresaModel.findById(req.params.id)
+    if(!idUsuario || idUsuario !== empresa.refUser) {
+      res.status(401).send('No tienes los permisos para borrar esta empresa')
+      return;
+    }
     const id = req.params.id
     // Borramos el registro de la empresa de la base de datos
     await InscripcionModel.deleteMany({ idEmpresa: id })
@@ -72,32 +85,52 @@ export const deleteEmpresaController = async (req, res) => {
   }
 }
 
+/**
+ * 
+ * @param {id Inscripcion(string), estado('aceptar' || 'rechazar')} req 
+ * @param {*} res 
+ * @returns 
+ */
 export const estadoInscripcion = async (req, res) => {
   try {
     
-
+  const idUsuario = req.idToken;
   const id = req.params.id
   const data = req.body
+
+  const usuario = await UserModel.findById(idUsuario)
+  let trabajadorEmpresa = null
+  if (usuario.role === 'gestor') {
+     trabajadorEmpresa = await GestorModel.findOne({ refUser: idUsuario })
+  }
+  if (usuario.role === 'responsable') {
+    // trabajadorEmpresa = await ResponsableModel.findOne({ refUser: idUsuario })
+  }
+
   const inscripcion = await InscripcionModel.findById(id)
   
   const idOferta = inscripcion.refOfertaLaboral
   
   const oferta = await OfertaLaboral.findById(idOferta)
-  
-console.log(oferta)
-  const gestorID = oferta.createBy
 
-  const gestor = await UserModel.findById(gestorID)
-  console.log(gestor)
+  const empresa = await EmpresaModel.findOne({ _id: oferta.idEmpresa });
 
+  if (empresa._id !== trabajadorEmpresa.refEmpresa) {
+  res.status(401).send('No tienes los permisos para cambiar el estado de esta inscripción');
+  return;
+  }
+
+  // obtener email del estudiante
   const userID = inscripcion.refUser 
   const estudiante = await UserModel.findById(userID)
  
-  const mailFrom = gestor.email
+  // definir variables email
+  const mailFrom = usuario.email
   const mailTO = estudiante.email
   
+  // definir cuerpo del mensaje
     const bodyHTML = `
-      hola soy ${gestor.name} y hemos aceptado su solicitud a la oferta ${oferta.name} con el codigo de oferta ${oferta.id}
+      hola soy ${usuario.name} y hemos aceptado su solicitud a la oferta ${oferta.name} con el codigo de oferta ${oferta.id}
     `
 
     if(data.estado === 'aceptar'){

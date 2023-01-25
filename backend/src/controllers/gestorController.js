@@ -64,15 +64,20 @@ export const createResponsableController = async (req, res) => {
 export const updateGestorController = async (req, res) => {
     try {
         // Obtenemos el id del gestor y los datos a actualizar proporcionados
-        const id = req.params.id
         const data = req.body
+        const idUsuario = req.idToken;
+
+        if(!idUsuario) {
+          res.status(401).send('No tienes los permisos para borrar otro usuario')
+          return;
+        }
 
         if ('rolUser' in data) {
             return res.status(401).send('no puedes modificar tu rol')
         }
 
         // Actualizamos el registro del gestor en la base de datos
-        const gestor = await GestorModel.findByIdAndUpdate(id, req.body, { new: true })
+        const gestor = await GestorModel.findByIdAndUpdate(idUsuario, req.body, { new: true })
         
         const idUser = gestor.refUser
 

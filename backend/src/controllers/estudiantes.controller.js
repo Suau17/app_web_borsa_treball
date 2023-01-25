@@ -3,7 +3,7 @@ import InscripcionModel from "#schemas/inscripcion.js";
 import EstudianteModel from "#schemas/estudiante.js"
 import UserModel from "#schemas/User.js"
 import * as userController from '#controllers/user.controller.js'
-
+import { hash} from 'bcrypt'
 
 
 /**
@@ -32,7 +32,6 @@ export const estudianteRegistrerController = async (req, res) => {
 /**
  * 
  * @param {*} req
- * @param {id Usuario : type(string)} 
  * @param {body -> all info for update estudiante}
  * @param {*} res 
  * @returns 
@@ -40,11 +39,10 @@ export const estudianteRegistrerController = async (req, res) => {
 export const updateEstudianteController = async (req, res) => {
 
   // Obtenemos el id del gestor y los datos a actualizar proporcionados
-  const id = req.params.id
   const data = req.body
   const idUsuario = req.idToken;
 
-  if (idUsuario !== id) {
+  if (!idUsuario) {
     res.status(401).send('No tienes los permisos para actualizar o cambiar informacion de otro usuario')
     return;
   }
@@ -54,7 +52,7 @@ export const updateEstudianteController = async (req, res) => {
   }
 
   // Actualizamos el registro del gestor en la base de datos
-  const estudiante = await EstudianteModel.findOneAndUpdate({ refUser: id }, req.body, { new: true });
+  const estudiante = await EstudianteModel.findOneAndUpdate({ refUser: idUsuario }, req.body, { new: true });
 
   const idUser = estudiante.refUser
 

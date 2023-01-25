@@ -1,6 +1,5 @@
 import jwt from 'jsonwebtoken'
 import GestorModel from '#schemas/Gestor.js'
-import mongoose from 'mongoose'
 
 
 export const checkAuthGestor = async (req,res, next) => {
