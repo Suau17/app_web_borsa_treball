@@ -86,7 +86,7 @@ export const deleteUserController = async (req, res) => {
       res.status(401).send('No tienes los permisos para borrar otro usuario')
       return;
     }
-    
+
     // Si el rol del usuario es "alumno", eliminamos el documento del modelo de estudiante
     if (user.rolUser === 'alumno') {
       await EstudianteModel.deleteOne({ refUser: id })
@@ -124,7 +124,12 @@ export const infoUser = async (req, res) => {
   try {
     // Obtenemos el id del usuario proporcionado
     const id = req.params.id
-    console.log(id)
+    const idUsuario = req.idToken;
+
+    if(idUsuario !== id) {
+      res.status(401).send('No tienes los permisos para obtener informacion de otro usuario')
+      return;
+    }
     // Buscamos el documento del usuario en la base de datos
     const user = await UserModel.findById(id)
     console.log(user)
@@ -161,12 +166,5 @@ export const infoUser = async (req, res) => {
   }
 }
 
-export const updateController = async (req, res) => {
-  const id = req.params.id
 
-  const user = await UserModel.findById(id)
-  // res.send({oferta:oferta})
-  res.render('usersView/update', { user })
-
-}
 
