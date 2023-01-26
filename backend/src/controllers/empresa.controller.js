@@ -41,6 +41,12 @@ export const empresaRegistrerController = async (req, res) => {
 
 }
 
+/**
+ * 
+ * @param {id empresa(string), body->(update empresa)} req 
+ * @param {*} res 
+ * @returns 
+ */
 export const updateEmpresaController = async (req, res) => {
   try {
     const id = req.params.id
