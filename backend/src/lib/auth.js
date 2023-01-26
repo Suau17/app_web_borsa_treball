@@ -70,7 +70,7 @@ export const getUserToken = async (req) => {
         
         
     }
-    
+ */   
     export const checkAuth = async (req,res, next) => {
         try {
             const tokenFromCookies = req.cookies.tokenAcces
@@ -82,13 +82,15 @@ export const getUserToken = async (req) => {
             }
             const tokenData = jwt.verify(tokenFromCookies, process.env.secretWord)
             console.log(tokenData.name)
+            
+            req.idToken = tokenData.id
             next()
         } catch (e) {
             res.status(501).send({error: 'token no exsiste'})
         }
     
     }
-*/
+
     
     
     

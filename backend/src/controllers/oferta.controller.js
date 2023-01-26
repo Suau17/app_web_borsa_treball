@@ -47,17 +47,19 @@ export const getOfertaEmpresaController = (req, res, next) => {
 export const ofertaRegisterController = async (req, res) => {
     try {
 
-        const { title, description, requirements, skills, ciclo, dateOfPublication, expirationDate, idEmpresa } = req.body
+        const { title, description, requirements, skills, ciclo, dateOfPublication, expirationDate} = req.body
         const idUsuario = req.idToken;
 
-        const gestor = await GestorModel.findOne({ refUser: idUsuario });
-
-        if (!idUsuario || gestor.refEmpresa !== idEmpresa) {
+        const empresa = await EmpresaModel.findOne({refUser: {$in: [idUsuario]}});
+        console.log(empresa)
+        console.log(idUsuario)
+        if (!idUsuario) {
             res.status(401).send('No tienes los permisos para registrar una oferta de trabajo en esta empresa')
             return;
         }
 
         const createBy = idUsuario
+        const idEmpresa = empresa._id
 
         const ofertaLaboral = new OfertaLaboral({
             title, description, requirements, skills, ciclo, dateOfPublication, expirationDate, idEmpresa, createBy
@@ -71,15 +73,21 @@ export const ofertaRegisterController = async (req, res) => {
 }
 
 
+/**
+ * 
+ * @param {id oferta(string)} req 
+ * @param {*} res 
+ * @returns 
+ */
 export const updateOfertaController = async (req, res) => {
     try {
         const id = req.params.id
 
         const idUsuario = req.idToken;
         const oferta = await OfertaLaboral.findById(id)
-        const gestor = await GestorModel.findOne({ refUser: idUsuario });
+        const empresa = await EmpresaModel.findOne({refUser: {$in: [idUsuario]}});
     
-        if (!idUsuario || oferta.refEmpresa !== gestor.refEmpresa) {
+        if (!idUsuario || !oferta.idEmpresa.equals(empresa._id)) {
             res.status(401).send('No tienes los permisos para actualizar una oferta de trabajo en esta empresa')
             return;
         }
@@ -91,6 +99,13 @@ export const updateOfertaController = async (req, res) => {
     }
 }
 
+
+/**
+ * 
+ * @param {id oferta(string)} req 
+ * @param {*} res 
+ * @returns 
+ */
 export const removeOfertaController = async (req, res) => {
 
     // IMPORTANTE ! HACER UN IF QUE COMPRUEBE EL IDEMPRESA (OFERTA) CON EL IDEMPRESA (TOKEN)
@@ -99,10 +114,10 @@ export const removeOfertaController = async (req, res) => {
 
         const idUsuario = req.idToken;
         const oferta = await OfertaLaboral.findById(ofertaId)
-        const gestor = await GestorModel.findOne({ refUser: idUsuario });
+        const empresa = await EmpresaModel.findOne({refUser: {$in: [idUsuario]}});
     
-        if (!idUsuario || oferta.refEmpresa !== gestor.refEmpresa) {
-            res.status(401).send('No tienes los permisos para eliminar una oferta de trabajo en esta empresa')
+        if (!idUsuario || !oferta.idEmpresa.equals(empresa._id)) {
+            res.status(401).send('No tienes los permisos para actualizar una oferta de trabajo en esta empresa')
             return;
         }
 

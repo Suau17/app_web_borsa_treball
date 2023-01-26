@@ -25,14 +25,20 @@ export const getEmpresaControllers = async (req, res) => {
 
 export const empresaRegistrerController = async (req, res) => {
 
-  const { nom, direccion, refUser, refOfertaLaboral } = req.body
+  const { nom, direccion } = req.body
 
+  const refUser = req.idToken;
+  const refOfertaLaboral = [];
   const gestorempresa = new EmpresaModel({
-    nom, direccion, refUser, refOfertaLaboral
+    nom, direccion, refUser, refOfertaLaboral, 
   })
   console.log(gestorempresa)
   await gestorempresa.save()
-  const gestor = await GestorModel.findOneAndUpdate(
+  await EmpresaModel.findOneAndUpdate(
+    { _id: gestorempresa._id },
+    { $push: { empleados: refUser } }
+);
+  await GestorModel.findOneAndUpdate(
     {  refUser },
     { refEmpresa: gestorempresa._id }
   );
@@ -49,9 +55,16 @@ export const empresaRegistrerController = async (req, res) => {
  */
 export const updateEmpresaController = async (req, res) => {
   try {
-    const id = req.params.id
+    const idUsuario = req.idToken;
+
+    const empresa = await EmpresaModel.findById(req.params.id)
+    const usuario = await UserModel.findById(idUsuario);
+    const empleados = empresa.empleados.map(empleado => empleado.toString());
+    if (!empleados.includes(idUsuario) || usuario.rolUser !== 'gestor') {
+        return res.status(401).send('No tienes los permisos para eliminar esta empresa.');
+    }
     // Actualizamos el registro del gestor en la base de datos
-    await EmpresaModel.findByIdAndUpdate(id, req.body, { new: true })
+    await EmpresaModel.findByIdAndUpdate(req.params.id, req.body, { new: true })
 
     // Enviamos un mensaje de éxito
     return res.send('Datos de la empresa actualizados con éxito')
@@ -73,9 +86,10 @@ export const deleteEmpresaController = async (req, res) => {
     const idUsuario = req.idToken;
 
     const empresa = await EmpresaModel.findById(req.params.id)
-    if(!idUsuario || idUsuario !== empresa.refUser) {
-      res.status(401).send('No tienes los permisos para borrar esta empresa')
-      return;
+    const usuario = await UserModel.findById(idUsuario);
+    const empleados = empresa.empleados.map(empleado => empleado.toString());
+    if (!empleados.includes(idUsuario) || usuario.rolUser !== 'gestor') {
+        return res.status(401).send('No tienes los permisos para eliminar esta empresa.');
     }
     const id = req.params.id
     // Borramos el registro de la empresa de la base de datos
@@ -92,7 +106,7 @@ export const deleteEmpresaController = async (req, res) => {
 }
 
 /**
- * 
+ * Este controlador actualiza el estado de inscripcion e informa al usuario enviando un email
  * @param {id Inscripcion(string), estado('aceptar' || 'rechazar')} req 
  * @param {*} res 
  * @returns 
