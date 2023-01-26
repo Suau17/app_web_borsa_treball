@@ -9,8 +9,8 @@ const gestorRouter = Router()
 
 // ///// GESTOR
 gestorRouter.post('/registrar', gestor.gestorRegistrerController)
-gestorRouter.put('/update/:id', gestor.updateGestorController)
-gestorRouter.delete('/eliminar/:userId', userC.deleteUserController)
+gestorRouter.put('/update/', gestor.updateGestorController)
+gestorRouter.delete('/eliminar/', userC.deleteUserController)
 
 // //// RESPONSABLE
 gestorRouter.post('/register/responsable', gestor.createResponsableController)
@@ -18,8 +18,8 @@ gestorRouter.post('/register/responsable', gestor.createResponsableController)
 
 // //// EMPRESA
 gestorRouter.post('/empresa/registrar', empresa.empresaRegistrerController)
-gestorRouter.put('/empresa/update/:id', empresa.updateEmpresaController)
-gestorRouter.delete('/empresa/delete/:id', empresa.deleteEmpresaController)
+gestorRouter.put('/empresa/update/', empresa.updateEmpresaController)
+gestorRouter.delete('/empresa/delete/', empresa.deleteEmpresaController)
 gestorRouter.post('/empresa/ofertas/:idOferta/eliminar', gestor.createResponsableController)
 
 

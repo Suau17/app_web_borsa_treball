@@ -57,7 +57,7 @@ export const updateEmpresaController = async (req, res) => {
   try {
     const idUsuario = req.idToken;
 
-    const empresa = await EmpresaModel.findById(req.params.id)
+    const empresa = await EmpresaModel.findOne({refUser : idUsuario})
     const usuario = await UserModel.findById(idUsuario);
     const empleados = empresa.empleados.map(empleado => empleado.toString());
     if (!empleados.includes(idUsuario) || usuario.rolUser !== 'gestor') {
@@ -85,17 +85,16 @@ export const deleteEmpresaController = async (req, res) => {
   try {
     const idUsuario = req.idToken;
 
-    const empresa = await EmpresaModel.findById(req.params.id)
+   const empresa = await EmpresaModel.findOne({refUser : idUsuario})
     const usuario = await UserModel.findById(idUsuario);
     const empleados = empresa.empleados.map(empleado => empleado.toString());
     if (!empleados.includes(idUsuario) || usuario.rolUser !== 'gestor') {
         return res.status(401).send('No tienes los permisos para eliminar esta empresa.');
     }
-    const id = req.params.id
     // Borramos el registro de la empresa de la base de datos
-    await InscripcionModel.deleteMany({ idEmpresa: id })
-    await OfertaLaboral.deleteMany({ idEmpresa: id });
-    await EmpresaModel.deleteOne({ _id: id });
+    await InscripcionModel.deleteMany({ idEmpresa: empresa._id })
+    await OfertaLaboral.deleteMany({ idEmpresa: empresa._id });
+    await EmpresaModel.deleteOne({ _id: empresa._id });
 
     // Enviamos un mensaje de éxito
     return res.send('Empresa eliminada con éxito')
@@ -119,13 +118,6 @@ export const estadoInscripcion = async (req, res) => {
   const data = req.body
 
   const usuario = await UserModel.findById(idUsuario)
-  let trabajadorEmpresa = null
-  if (usuario.role === 'gestor') {
-     trabajadorEmpresa = await GestorModel.findOne({ refUser: idUsuario })
-  }
-  if (usuario.role === 'responsable') {
-    // trabajadorEmpresa = await ResponsableModel.findOne({ refUser: idUsuario })
-  }
 
   const inscripcion = await InscripcionModel.findById(id)
   
@@ -135,11 +127,10 @@ export const estadoInscripcion = async (req, res) => {
 
   const empresa = await EmpresaModel.findOne({ _id: oferta.idEmpresa });
 
-  if (empresa._id !== trabajadorEmpresa.refEmpresa) {
-  res.status(401).send('No tienes los permisos para cambiar el estado de esta inscripción');
-  return;
+  if (!empresa.empleados.includes(usuario._id)) {
+    res.status(401).send('No tienes los permisos para cambiar el estado de esta inscripción');
+    return;
   }
-
   // obtener email del estudiante
   const userID = inscripcion.refUser 
   const estudiante = await UserModel.findById(userID)
@@ -158,7 +149,7 @@ export const estadoInscripcion = async (req, res) => {
       await InscripcionModel.findByIdAndUpdate(id, {estado: 'aceptado'}, { new: true })
       await sendMail(mailFrom, mailTO , 'nueva oferta', bodyHTML)
    
-      return res.send('Empresa eliminada con éxito')
+      return res.send('candidatura aceptada')
     }
     if(data.estado === 'rechazar'){
       // enviar email

@@ -85,8 +85,8 @@ export const updateOfertaController = async (req, res) => {
 
         const idUsuario = req.idToken;
         const oferta = await OfertaLaboral.findById(id)
-        const empresa = await EmpresaModel.findOne({refUser: {$in: [idUsuario]}});
-    
+        const empresa = await EmpresaModel.findOne({empleados: {$in: [idUsuario]}});
+    console.log(empresa)
         if (!idUsuario || !oferta.idEmpresa.equals(empresa._id)) {
             res.status(401).send('No tienes los permisos para actualizar una oferta de trabajo en esta empresa')
             return;

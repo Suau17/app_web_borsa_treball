@@ -4,6 +4,7 @@ import EstudianteModel from "#schemas/estudiante.js"
 import UserModel from "#schemas/User.js"
 import * as userController from '#controllers/user.controller.js'
 import { hash} from 'bcrypt'
+import EmpresaModel from "#schemas/empresaSchema.js";
 
 
 /**
@@ -118,9 +119,13 @@ export const inscribirseOferta = async (req, res) => {
       res.status(401).send('No tienes los permisos para inscribir a otro usuario')
       return;
     }
+
+    const oferta = await OfertaLaboral.findById(idOferta)
+
     const inscripcion = new InscripcionModel({
       refUser: idUsuarioToken,
       refOfertaLaboral: idOferta,
+      idEmpresa : oferta.idEmpresa,
       estado: "pendiente"
     });
     await inscripcion.save();
@@ -162,7 +167,8 @@ export const borrarInscripcion = async (req, res) => {
 
 export const verOfertasInscrito = async (req, res) => {
   try {
-    const ofertasInscritas = await InscripcionModel.find({ refUser: req.params.id }).populate("refOfertaLaboral")
+    const idUsuarioToken = req.idToken;
+    const ofertasInscritas = await InscripcionModel.find({ refUser: idUsuarioToken }).populate("refOfertaLaboral")
     res.send({ ofertasInscritas })
   } catch (error) {
     res.status(500).send('Ha habido un error al mostrar las ofertas en las que estas inscrito')

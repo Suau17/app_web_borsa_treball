@@ -96,9 +96,9 @@ console.log(req.idToken)
       if (gestor.refEmpresa) {
         const empresaId = gestor.refEmpresa;
         // Borramos todas las ofertas de la empresa
-        await InscripcionModel.deleteMany({ idEmpresa: idUsuario })
+        await InscripcionModel.deleteMany({ idEmpresa: empresaId })
         await OfertaLaboral.deleteMany({ idEmpresa: empresaId });
-        await EmpresaModel.deleteOne({ refUser: idUsuario });
+        await EmpresaModel.deleteOne({ refUser: user._id });
       }
 
       await GestorModel.deleteOne({ refUser: idUsuario })

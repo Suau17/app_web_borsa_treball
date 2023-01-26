@@ -75,9 +75,11 @@ export const updateGestorController = async (req, res) => {
         if ('rolUser' in data) {
             return res.status(401).send('no puedes modificar tu rol')
         }
-
+        if ('perfilHabilitado' in data) {
+            return res.status(401).send('no puedes habilitar tu rol, solo el administrador de la app')
+        }
         // Actualizamos el registro del gestor en la base de datos
-        const gestor = await GestorModel.findByIdAndUpdate(idUsuario, req.body, { new: true })
+        const gestor = await GestorModel.findOneAndUpdate({ refUser: idUsuario }, req.body, { new: true });
         
         const idUser = gestor.refUser
 
