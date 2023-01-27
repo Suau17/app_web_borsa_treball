@@ -1,7 +1,7 @@
 import GestorModel from "#schemas/Gestor.js"
 import UserModel from "#schemas/User.js"
-import { hash, compare } from 'bcrypt'
-import jwt from 'jsonwebtoken'
+import * as userController from '#controllers/user.controller.js'
+import { hash } from 'bcrypt'
 
 // import { body, validationResult} from 'express-validator'
 
@@ -21,28 +21,15 @@ import jwt from 'jsonwebtoken'
 
 export const gestorRegistrerController = async (req, res) => {
     try {
-    const { name, email, passwordHash, rolUser, carrec, telefon, nameEmpresa} = req.body
+    const {carrec, telefon, nameEmpresa} = req.body
 
-    
-    const exsistingUserByEmail = await UserModel.findOne({email : email})
-    if (exsistingUserByEmail) return res.status(400).send('ya exsiste un usuario con ese email registrado')
-
-    // cogemos la variable que viene del req.body y la encriptamos
-    const hashedPassword = await hash(passwordHash, 12)
-
-    const user = new UserModel({
-        name,
-        email,
-        passwordHash: hashedPassword,
-        rolUser
-    })
-    await user.save()
+    const id = await userController.userRegistrerController(req,res)
 
     const gestor = new GestorModel({
         carrec,
         telefon,
         nameEmpresa,
-        refUser: user._id,
+        refUser: id,
     })
     await gestor.save()
 
@@ -55,28 +42,15 @@ export const gestorRegistrerController = async (req, res) => {
 
 export const createResponsableController = async (req, res) => {
     try {
-    const { name, email, passwordHash, rolUser, carrec, telefon, nameEmpresa} = req.body
-
-    
-    const exsistingUserByEmail = await UserModel.findOne({email : email})
-    if (exsistingUserByEmail) return res.status(400).send('ya exsiste un usuario con ese email registrado')
-
-    // cogemos la variable que viene del req.body y la encriptamos
-    const hashedPassword = await hash(passwordHash, 12)
-
-    const user = new UserModel({
-        name,
-        email,
-        passwordHash: hashedPassword,
-        rolUser
-    })
-    await user.save()
+    const {carrec, telefon, nameEmpresa} = req.body
+   
+    const id = await userController.userRegistrerController(req,res)
 
     const gestor = new GestorModel({
         carrec,
         telefon,
         nameEmpresa,
-        refUser: user._id,
+        refUser: id,
     })
     await gestor.save()
 
@@ -90,17 +64,34 @@ export const createResponsableController = async (req, res) => {
 export const updateGestorController = async (req, res) => {
     try {
         // Obtenemos el id del gestor y los datos a actualizar proporcionados
-        const id = req.params.id
         const data = req.body
-        // Encriptamos la contraseña del gestor si se proporciona en los datos a actualizar
-        if (data.password) {
-            data.password = await hash(data.password, 12)
+        const idUsuario = req.idToken;
+
+        if(!idUsuario) {
+          res.status(401).send('No tienes los permisos para borrar otro usuario')
+          return;
         }
-        
 
-
+        if ('rolUser' in data) {
+            return res.status(401).send('no puedes modificar tu rol')
+        }
+        if ('perfilHabilitado' in data) {
+            return res.status(401).send('no puedes habilitar tu rol, solo el administrador de la app')
+        }
         // Actualizamos el registro del gestor en la base de datos
-        await GestorModel.findByIdAndUpdate(id, req.body, { new: true })
+        const gestor = await GestorModel.findOneAndUpdate({ refUser: idUsuario }, req.body, { new: true });
+        
+        const idUser = gestor.refUser
+
+        if(data.password || data.name || data.email || data.description){
+            if (data.password) {
+                data.password = await hash(data.password, 12)
+            }
+            await UserModel.findByIdAndUpdate(idUser, req.body, { new: true })
+        }
+        // Encriptamos la contraseña del gestor si se proporciona en los datos a actualizar
+
+        
         
         // Enviamos un mensaje de éxito
         return res.send('Datos del gestor actualizados con éxito')
@@ -109,5 +100,6 @@ export const updateGestorController = async (req, res) => {
         return res.status(500).send('Ocurrió un error inesperado. Por favor, intente nuevamente más tarde.')
       }
     }
+
 
 

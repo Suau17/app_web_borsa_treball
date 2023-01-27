@@ -12,6 +12,7 @@ const empresaSchema = new Schema({
         ref: 'ofertaLaboral'
     }] */
     refUser: {type: mongoose.Schema.Types.ObjectID,ref:'User', required:true, cascade:true},
+    empleados: [{type: mongoose.Schema.Types.ObjectID,ref:'User'}],
     refOfertaLaboral: [{
         type: mongoose.Schema.Types.ObjectID,
 
