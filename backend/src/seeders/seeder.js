@@ -34,6 +34,7 @@ db.once('open', async () => {
 
   try {
     // Insert data into the database
+    // booksJSON.books[0].genre = [genres[0].id,genres[1].id];
     const usuaris = await users.insertMany(data);
     console.log('Data seeded successfully');
     mongoose.connection.close();
