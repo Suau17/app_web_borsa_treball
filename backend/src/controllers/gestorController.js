@@ -21,15 +21,16 @@ import { hash } from 'bcrypt'
 
 export const gestorRegistrerController = async (req, res) => {
     try {
-    const {carrec, telefon, nameEmpresa} = req.body
+    const {carrec, telefon, nameEmpresa, description} = req.body
 
     const id = await userController.userRegistrerController(req,res)
-
+console.log('usuario creado'+id)
     const gestor = new GestorModel({
         carrec,
         telefon,
         nameEmpresa,
         refUser: id,
+        responsable: true
     })
     await gestor.save()
 
