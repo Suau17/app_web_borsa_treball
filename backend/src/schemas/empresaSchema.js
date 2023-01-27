@@ -1,3 +1,5 @@
+//Este archivo kk
+
 import mongoose from "mongoose";
 const {model ,Schema} = mongoose
 
@@ -13,8 +15,11 @@ const empresaSchema = new Schema({
     empleados: [{type: mongoose.Schema.Types.ObjectID,ref:'User'}],
     refOfertaLaboral: [{
         type: mongoose.Schema.Types.ObjectID,
+
+
         ref: 'ofertaLaboral',
         cascade: true
+
     }]
     
 })

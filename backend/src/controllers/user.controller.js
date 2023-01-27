@@ -3,8 +3,13 @@ import EstudianteModel from "#schemas/estudiante.js"
 import EmpresaModel from '#schemas/empresaSchema.js'
 import GestorModel from "#schemas/Gestor.js"
 import OfertaLaboral from "#schemas/ofertaLaboral.js"
+<<<<<<< HEAD
+import Joi from 'joi';
+import { body, validationResult} from 'express-validator';
+=======
 import InscripcionModel from '#schemas/inscripcion.js'
 
+>>>>>>> 7795b982210e56fbdd625acb719df46c24167d76
 
 import { hash, compare } from 'bcrypt'
 import jwt from 'jsonwebtoken';
@@ -16,10 +21,42 @@ export const userRegistrerController = async (req, res) => {
     
 
   const { name, email, passwordHash, rolUser } = req.body
+<<<<<<< HEAD
+  
+  const exsistingUserByEmail = await UserModel.findOne({ email: email })
+
+  if (exsistingUserByEmail) return res.status(499).send('ya exsiste un usuario con ese email registrado')
+  // cogemos la variable que viene del req.body y la encriptamos
+  const hashedPassword = await hash(passwordHash, 12)
+  // const result = Joi.validate(req.body, UserModel)
+  const user = new UserModel({
+    name,
+    email,
+    // asignamos la contraseña encriptada
+    passwordHash: hashedPassword,
+    rolUser
+  })
+  await user.save()
+
+  return res.redirect('/user/getUsers')
+
+
+}
+
+
+export const estudianteRegistrerController = async (req, res) => {
+  const { name, email, passwordHash, rolUser, refUser, cartaPresentacion, curriculum } = req.body
+
+  const exsistingUserByEmail = await UserModel.findOne({ email: email })
+
+  if (exsistingUserByEmail) return res.status(499).send('ya exsiste un usuario con ese email registrado')
+  // cogemos la variable que viene del req.body y la encriptamos
+=======
 console.log(email)
   const exsistingUserByEmail = await UserModel.findOne({ email })
 
   if (exsistingUserByEmail) return 'error'
+>>>>>>> 7795b982210e56fbdd625acb719df46c24167d76
   const hashedPassword = await hash(passwordHash, 12)
 
   const user = new UserModel({
