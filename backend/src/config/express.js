@@ -1,22 +1,22 @@
-import userRouter from '#routes/user.routes.js'
+import es from 'faker/lib/locales/es/index.js'
+import adminRouter from '#routes/admin.routes.js'
 import gestorRouter from '#routes/gestor.routes.js'
-import borsaRouter from '#routes/borsa.routes.js'
-import empresaRouter from '#routes/empresa.routes.js'
+import estudianteRouter from '#routes/estudiante.routes.js'
+import userRouter from '#routes/user.routes.js'
 import express from 'express'
 import cors from 'cors'
 import cookieParser from 'cookie-parser'
-import jwt from 'jsonwebtoken';
+import {checkAuthGestor, checkAuthEstudiante} from "#Lib/auth.js"
 
 
 // motor de plantillas 
-import * as path from 'path';
+import * as path from 'node:path';
 import { fileURLToPath } from 'url';
 import { render } from 'ejs';
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 const expressApp = express();
 
-import {checkAuth} from "#Lib/auth.js"
 
 
 // middlewares
@@ -36,16 +36,10 @@ expressApp.use(cookieParser())
 
 
 
-expressApp.use("/borsa" ,borsaRouter)
-
-expressApp.use("/user",userRouter)
-expressApp.use("/gestor",gestorRouter)
-expressApp.use("/empresa" ,empresaRouter)
-// expressApp.use("/empresa",checkAuth ,empresaRouter)
-
-expressApp.use("/",function(req,res){
-    res.render('new');
-})
+expressApp.use('/admin',adminRouter)
+expressApp.use("/gestor", checkAuthGestor ,gestorRouter)
+expressApp.use('/estudiante', checkAuthEstudiante , estudianteRouter)
+expressApp.use("/user",  userRouter)
 
 
 

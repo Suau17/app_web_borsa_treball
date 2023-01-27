@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 
 
 <div align="center">
@@ -28,3 +29,5 @@ Usaremos las siguientes herramientas para construir un backend y frontend escala
 -   MongoDB
 -   React
 
+=======
+>>>>>>> 99aaf28d4bfe7d7d15217fae391ae30e4ec767b6

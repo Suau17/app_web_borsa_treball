@@ -8,7 +8,8 @@ const estudianteSchema = new Schema({
       cascade: true
     },
     cartaPresentacion: { type: String},
-    curriculum: { type: Buffer }
+    curriculum: { type: Buffer },
+    link: { type: String }
   });
   
   const EstudianteModel =  model('Estudiante', estudianteSchema);

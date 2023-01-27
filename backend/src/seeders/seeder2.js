@@ -1,4 +1,4 @@
-import * as fs from 'fs'
+import fs from 'node:fs'
 import * as dotenv from 'dotenv'
 
 import mongoose from 'mongoose';
