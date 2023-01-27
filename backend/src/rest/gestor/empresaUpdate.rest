@@ -1,0 +1,8 @@
+PUT http://localhost:3002/empresa/update/63a4635599d6df18b83079b6 Content-Type: application/json
+
+{
+    "nom": "Microsoft",    
+    "direccion" : "calle 5",
+    "refUser": "63a43bb4f2971edd776ebb68",
+    "refOfertaLaboral":  []
+}
