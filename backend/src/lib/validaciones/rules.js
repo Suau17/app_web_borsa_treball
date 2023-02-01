@@ -17,7 +17,12 @@ export const rules = [
 ]
 
 export const rulesEmpresa = [
-    body('nom','Introduce un nombre').exists().isLength({min:3, max:15}),
+    body('nom','Introduce un nombre').exists().isLength({min:3, max:15}).custom(async(value,{req})=>{
+        const empresa = await empresaModel.findOne({ nom: value });
+        if(empresa){
+            throw new Error('Nombre already in use');
+        }
+    }),
     body('direccion','introduce una direccion valida').exists().not().isEmpty(),
     body('empleados').exists()
 ]

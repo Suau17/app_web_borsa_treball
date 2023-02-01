@@ -10,7 +10,8 @@ import * as userC from '#controllers/user.controller.js'
 
 import * as empresa from '#controllers/empresa.controller.js'
 import * as oferta from '#controllers/oferta.controller.js';
-import * as validacion from "#Lib/validaciones/gestor.js";
+import * as validacion from "#Lib/validaciones/validacion.js";
+import * as rules from '#Lib/validaciones/rules.js';
 import { body, validationResult} from 'express-validator';
 const gestorRouter = Router()
 
@@ -27,7 +28,7 @@ gestorRouter.post('/register/responsable', gestor.createResponsableController)
 // eliminar responsable
 
 // //// EMPRESA
-gestorRouter.post('/empresa/registrar', empresa.empresaRegistrerController)
+gestorRouter.post('/empresa/registrar',rules.rulesEmpresa,validacion.validarCampos, empresa.empresaRegistrerController)
 gestorRouter.put('/empresa/update/', empresa.updateEmpresaController)
 gestorRouter.delete('/empresa/delete/', empresa.deleteEmpresaController)
 gestorRouter.post('/empresa/ofertas/:idOferta/eliminar', gestor.createResponsableController)
