@@ -20,13 +20,15 @@ const expressApp = express();
 
 
 // middlewares
-expressApp.use(express.json())
+//'{ limit: '20kb' }' evita los ataques de DOS
+expressApp.use(express.json({ limit: '20kb' }))
 expressApp.set('view engine', 'ejs')
 
 expressApp.set('views', path.join('src', 'views'));
 console.log(path.join(__dirname, 'views'));
 
 expressApp.set('view engine', 'ejs');
+
 
 expressApp.use(express.urlencoded({extended:false}))
 expressApp.use(express(JSON))

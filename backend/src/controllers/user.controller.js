@@ -153,8 +153,7 @@ export const infoUser = async (req, res) => {
       }
     }
     if (user.rolUser === 'responsable') {
-      //  const responsable = await ResponsableModel.findOne({ refUser: id })
-      // data.responsable = responsable
+      const gestor = await GestorModel.findOne({ refUser: idUsuario })
     }
 
     data.user = user;
