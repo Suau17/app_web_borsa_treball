@@ -1,6 +1,6 @@
 import * as fs from 'fs'
 import * as dotenv from 'dotenv'
-
+import bcrypt from 'bcrypt'
 import mongoose from 'mongoose';
 import * as path from 'path';
 import users from "#schemas/User.js";
@@ -23,15 +23,24 @@ db.once('open', async () => {
 
   // Load data from a JSON file
   console.log(__dirname)
-  const data = JSON.parse(fs.readFileSync(__dirname+'/users.json'));
+  const user = JSON.parse(fs.readFileSync(__dirname+'/users.json'));
   console.log(data);
+
+    /*for(var i =0; i<  users.length; i ++) {
+    users.users[i].password =  await bcrypt.hash(users.users[i].password,12);
+  }
+
+  console.log('Data encrypted successfully');*/
 
   try {
     // Insert data into the database
-    await users.insertMany(data);
+    // booksJSON.books[0].genre = [genres[0].id,genres[1].id];
+    const usuaris = await users.insertMany(data);
     console.log('Data seeded successfully');
     mongoose.connection.close();
   } catch (error) {
     console.error(error);
   }
+
+
 });
