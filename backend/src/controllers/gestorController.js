@@ -30,7 +30,7 @@ console.log('usuario creado'+id)
         telefon,
         nameEmpresa,
         refUser: id,
-        responsable: true
+        responsable: false
     })
     await gestor.save()
 
@@ -79,6 +79,11 @@ export const updateGestorController = async (req, res) => {
         if ('perfilHabilitado' in data) {
             return res.status(401).send('no puedes habilitar tu rol, solo el administrador de la app')
         }
+
+        if ('responsable' in data) {
+            return res.status(401).send('no puedes cambiar tu tipo de usuario, solo el administrador de la app')
+        }
+
         // Actualizamos el registro del gestor en la base de datos
         const gestor = await GestorModel.findOneAndUpdate({ refUser: idUsuario }, req.body, { new: true });
         
