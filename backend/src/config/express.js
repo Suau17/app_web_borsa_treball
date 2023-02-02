@@ -20,7 +20,7 @@ const expressApp = express();
 
 
 // middlewares
-//'{ limit: '20kb' }' evita los ataques de DOS
+// '{ limit: '20kb' }' evita los ataques de DOS
 expressApp.use(express.json({ limit: '20kb' }))
 expressApp.set('view engine', 'ejs')
 

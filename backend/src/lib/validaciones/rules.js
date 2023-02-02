@@ -1,6 +1,6 @@
-import { body, validationResult } from 'express-validator';
+import { body } from 'express-validator';
 import UserModel from "#schemas/User.js"
-import empresaModel from 'src/schemas/empresaSchema.js';
+import empresaModel from '#schemas/empresaSchema.js';
 
 export const rules = [
     body('name','Ingrese un nombre').exists().isLength({min:3 ,max:20}),
