@@ -21,45 +21,45 @@ import { hash } from 'bcrypt'
 
 export const gestorRegistrerController = async (req, res) => {
     try {
-    const {carrec, telefon, nameEmpresa} = req.body
+        const { carrec, telefon, nameEmpresa } = req.body
 
-    const id = await userController.userRegistrerController(req,res)
-console.log('usuario creado'+id)
-    const gestor = new GestorModel({
-        carrec,
-        telefon,
-        nameEmpresa,
-        refUser: id,
-        responsable: false
-    })
-    await gestor.save()
+        const id = await userController.userRegistrerController(req, res)
+        console.log('usuario creado' + id)
+        const gestor = new GestorModel({
+            carrec,
+            telefon,
+            nameEmpresa,
+            refUser: id,
+            responsable: false
+        })
+        await gestor.save()
 
-    return res.send('gestor creado con exito')  
+        return res.send('gestor creado con exito')
 
-} catch (error) {
-    return res.status(500).send('Ocurrió un error inesperado. Por favor, intente nuevamente más tarde.');        
-}      
+    } catch (error) {
+        return res.status(500).send('Ocurrió un error inesperado. Por favor, intente nuevamente más tarde.');
+    }
 }
 
 export const createResponsableController = async (req, res) => {
     try {
-    const {carrec, telefon, nameEmpresa} = req.body
-   
-    const id = await userController.userRegistrerController(req,res)
+        const { carrec, telefon, nameEmpresa } = req.body
 
-    const gestor = new GestorModel({
-        carrec,
-        telefon,
-        nameEmpresa,
-        refUser: id,
-    })
-    await gestor.save()
+        const id = await userController.userRegistrerController(req, res)
 
-    return res.send('gestor creado con exito')  
-         
-} catch (error) {
-    return res.status(500).send('Ocurrió un error inesperado. Por favor, intente nuevamente más tarde.');        
-}      
+        const gestor = new GestorModel({
+            carrec,
+            telefon,
+            nameEmpresa,
+            refUser: id,
+        })
+        await gestor.save()
+
+        return res.send('gestor creado con exito')
+
+    } catch (error) {
+        return res.status(500).send('Ocurrió un error inesperado. Por favor, intente nuevamente más tarde.');
+    }
 }
 
 export const updateGestorController = async (req, res) => {
@@ -68,9 +68,9 @@ export const updateGestorController = async (req, res) => {
         const data = req.body
         const idUsuario = req.idToken;
 
-        if(!idUsuario) {
-          res.status(401).send('No tienes los permisos para borrar otro usuario')
-          return;
+        if (!idUsuario) {
+            res.status(401).send('No tienes los permisos para borrar otro usuario')
+            return;
         }
 
         if ('rolUser' in data) {
@@ -86,10 +86,10 @@ export const updateGestorController = async (req, res) => {
 
         // Actualizamos el registro del gestor en la base de datos
         const gestor = await GestorModel.findOneAndUpdate({ refUser: idUsuario }, req.body, { new: true });
-        
+
         const idUser = gestor.refUser
 
-        if(data.password || data.name || data.email || data.description){
+        if (data.password || data.name || data.email || data.description) {
             if (data.password) {
                 data.password = await hash(data.password, 12)
             }
@@ -97,15 +97,15 @@ export const updateGestorController = async (req, res) => {
         }
         // Encriptamos la contraseña del gestor si se proporciona en los datos a actualizar
 
-        
-        
+
+
         // Enviamos un mensaje de éxito
         return res.send('Datos del gestor actualizados con éxito')
-      } catch (error) {
+    } catch (error) {
         // En caso de error, enviamos un mensaje de error
         return res.status(500).send('Ocurrió un error inesperado. Por favor, intente nuevamente más tarde.')
-      }
     }
+}
 
 
 
