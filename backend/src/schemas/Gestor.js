@@ -9,6 +9,8 @@ const {model ,Schema} = mongoose
     nameEmpresa : { type: 'string', required: true, minLenght: 4,  maxLength: 150},
     perfilHabilitado : {type: 'boolean', default:false},
 
+    responsable: {type: 'boolean', default:true},
+
 
     refUser: {type: mongoose.Schema.Types.ObjectID,ref:'User'},
      refEmpresa: {type: mongoose.Schema.Types.ObjectID,ref:'Empresa',cascade: true},
@@ -16,12 +18,11 @@ const {model ,Schema} = mongoose
     
  })
 
-
-
 gestorSchema.pre('deleteOne', function(next) {
     console.log('esborrant')
     next();
 })
 
 const GestorModel = model('Gestor', gestorSchema)
+
 export default GestorModel
