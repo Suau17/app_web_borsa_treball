@@ -12,7 +12,7 @@ const gestorRouter = Router()
 // ///// GESTOR
 
 
-gestorRouter.put('/update/', rules.rulesGestor,validacion.validarCampos,gestor.updateGestorController)
+gestorRouter.put('/update/', gestor.updateGestorController)
 gestorRouter.delete('/eliminar/', userC.deleteUserController)
 
 // //// RESPONSABLE

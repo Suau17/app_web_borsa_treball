@@ -18,7 +18,7 @@ userRouter.get('/profile/:id',  userC.infoUser ) // funciona (json no view)
 // userRouter.get('/login', function (req, res){
 //     res.render('usersView/login'); 
 // }); 
-userRouter.post('/login',rules.rules,validacion.validarCampos, userC.userLoginController)
+userRouter.post('/login', userC.userLoginController)
 userRouter.delete('/delete/', auth.checkAuth ,userC.deleteUserController)
 userRouter.post('/register/gestor',rules.rules,validacion.validarCampos, gestor.gestorRegistrerController)
 userRouter.post('/register/estudiante',rules.rules,validacion.validarCampos, estudiante.estudianteRegistrerController)
