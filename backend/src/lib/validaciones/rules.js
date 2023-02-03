@@ -1,6 +1,6 @@
 import { body, validationResult } from 'express-validator';
 import UserModel from "#schemas/User.js"
-import empresaModel from 'src/schemas/empresaSchema.js';
+import empresaModel from '#schemas/empresaSchema.js';
 
 export const rules = [
     body('name','Ingrese un nombre').exists().isLength({min:3 ,max:20}),
@@ -17,7 +17,7 @@ export const rules = [
 ]
 
 export const rulesEmpresa = [
-    body('nom','Introduce un nombre').exists().isLength({min:3, max:15}).custom(async(value,{req})=>{
+    body('nameEmpresa','Introduce un nombre').exists().isLength({min:3, max:15}).custom(async(value,{req})=>{
         const empresa = await empresaModel.findOne({ nom: value });
         if(empresa){
             throw new Error('Nombre already in use');
