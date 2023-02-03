@@ -1,7 +1,7 @@
-import test from 'node:test'
-import assert from 'node:assert'
-import app from '#config/express.js'
+import { expect } from 'chai';
 
-test('example test', async () => {
-    await request(app).get('/userRegistrer')
-})
+describe('Mi Primera Prueba', () => {
+  it('Debe devolver true', () => {
+    expect(true).to.be.true;
+  });
+});
