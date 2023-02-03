@@ -15,16 +15,15 @@ export const userRegistrerController = async (req, res) => {
   try {
     
 
-  const { name, email, passwordHash, rolUser } = req.body
-console.log(email)
+  const { name, email, passwordHash, rolUser, description } = req.body
   const exsistingUserByEmail = await UserModel.findOne({ email })
 
   if (exsistingUserByEmail) return 'error'
   const hashedPassword = await hash(passwordHash, 12)
-
   const user = new UserModel({
     name,
     email,
+    description,
     passwordHash: hashedPassword,
     rolUser
   })
@@ -153,8 +152,7 @@ export const infoUser = async (req, res) => {
       }
     }
     if (user.rolUser === 'responsable') {
-      //  const responsable = await ResponsableModel.findOne({ refUser: id })
-      // data.responsable = responsable
+      const gestor = await GestorModel.findOne({ refUser: idUsuario })
     }
 
     data.user = user;

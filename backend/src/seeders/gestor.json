@@ -1,33 +1,14 @@
-{
-    "users": [
-      {
-        "name": "Saul",
-        "email": "email@email.com",
-        "passwordHash": "P@ssw0rd",
-        "rolUser": "gestor"
-      },
-      {
-        "name": "Pepe",
-        "email": "email2@email.com",
-        "passwordHash": "P@ssw0rd",
-        "rolUser": "gestor"
-      }
-    ],
-    "gestors": [
-      {
-        "refUser": 1,
-        "carrec": "Developer",
-        "telefon": "1234567890",
-        "nameEmpresa": "Acme Inc.",
-        "responsable": false
-      },
-      {
-        "refUser": 2,
-        "carrec": "Manager",
-        "telefon": "0987654321",
-        "nameEmpresa": "Acme Inc.",
-        "responsable": true
-      }
-    ]
-  }
-  
+[
+    {
+        "carrec": "hihihhihihihihihihihih",
+        "telefon": "8932423",
+        "nameEmpresa": "Empresa asasgdgfdg",
+        "refUser":""
+    },
+    {
+        "carrec": "youtube",
+        "telefon": "8932423",
+        "nameEmpresa": "Empresa 567567575",
+        "refUser":""
+    }
+]

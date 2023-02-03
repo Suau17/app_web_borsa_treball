@@ -14,6 +14,8 @@ import EmpresaModel from "#schemas/empresaSchema.js";
  * @returns 
  */
 export const estudianteRegistrerController = async (req, res) => {
+  try {
+  
   const { cartaPresentacion, curriculum } = req.body
 
   const id = await userController.userRegistrerController(req, res)
@@ -25,9 +27,10 @@ export const estudianteRegistrerController = async (req, res) => {
   })
   await estudiante.save()
 
-  return res.send('estudiante registrado')
-
-
+  return res.status(201).send('estudiante registrado')
+} catch (error) {
+  return res.status(404).send('error al registrar estudiante')
+}
 }
 
 /**
@@ -38,6 +41,7 @@ export const estudianteRegistrerController = async (req, res) => {
  * @returns 
  */
 export const updateEstudianteController = async (req, res) => {
+try {
 
   // Obtenemos el id del gestor y los datos a actualizar proporcionados
   const data = req.body
@@ -68,8 +72,11 @@ export const updateEstudianteController = async (req, res) => {
 
 
   // Enviamos un mensaje de éxito
-  return res.send('Datos del estudiante actualizados con éxito')
-
+  return res.status(201).send('Datos del estudiante actualizados con éxito')
+  
+} catch (error) {
+  return res.status(404).send('Datos del estudiante actualizados con éxito')
+}
 }
 
 
@@ -77,6 +84,7 @@ export const updateEstudianteController = async (req, res) => {
  * ESTE CONTROLLER ES UN GET NO HACE FALTA PASAR INFO A EXCEPCION DEL TOKEN (COMO TODOS)
  * @param {*} req 
  * @param {*} res 
+ * lista todas las ofertas(activadas) que hay en la base de datos
  */
 export const listarOfertas = async (req, res) => {
   try {
@@ -93,7 +101,7 @@ export const listarOfertas = async (req, res) => {
  * @param {idOferta(string) } req 
  * @param {*} res 
  */
-export const verOferta = async (req, res) => {
+export const getOfertaSeleccionada = async (req, res) => {
   try {
     const oferta = await OfertaLaboral.findById(req.params.id);
     res.send({ oferta });

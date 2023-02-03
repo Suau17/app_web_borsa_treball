@@ -11,8 +11,8 @@
         "prepare": "husky install",
         "postinstall": "npm run prepare",
         "test": "node src/test/test.js",
-        "seed": "node src/seeders/seeder.js",
-        "seed2": "node src/seeders/seeder2.js"
+        "seed": "node src/seeders/seeder3.js",
+        "seede": "node src/seeders/seeder4.js"
     },
     "author": {
         "name": "Marc Gruber, Helder Rivas, Gerard Suau",
