@@ -3,7 +3,7 @@
     {
         "name": "Gerard",
         "description": "Suau",
-        "email": "b@hola.com",
+        "email": "n@hola.com",
         "passwordHash" : "Gurororo",
         "rolUser" : "gestor"    
     },
@@ -11,7 +11,7 @@
     {
         "name": "Helder",
         "description": "Rivas",
-        "email": "c@hola.com",
+        "email": "m@hola.com",
         "passwordHash" : "Gurororo",
         "rolUser" : "gestor"
     }
