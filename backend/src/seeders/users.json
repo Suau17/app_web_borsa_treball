@@ -1,18 +1,18 @@
 [
+  {
 
-    {
-        "name": "Gerard",
-        "description": "Suau",
-        "email": "n@hola.com",
-        "passwordHash" : "Gurororo",
-        "rolUser" : "gestor"    
-    },
+      "name": "Marc",
+      "description": "Gruber",
+      "email": "a5@hola.com",
+      "passwordHash" : "Gurororo",
+      "rolUser" : "gestor"
+  },
 
-    {
-        "name": "Helder",
-        "description": "Rivas",
-        "email": "m@hola.com",
-        "passwordHash" : "Gurororo",
-        "rolUser" : "gestor"
-    }
+  {
+      "name": "Gerard",
+      "description": "Suau",
+      "email": "b5@hola.com",
+      "passwordHash" : "Gurororo",
+      "rolUser" : "gestor"    
+  }
 ]

@@ -3,7 +3,7 @@ import * as dotenv from 'dotenv';
 import mongoose from 'mongoose';
 import * as path from 'path';
 import User from "#schemas/User.js"
-import GestorModel from "#schemas/Gestor.js"
+import EstudianteModel from "#schemas/Estudiante.js"
 import { fileURLToPath } from 'url';
 import { hash } from 'bcrypt';
 
@@ -28,8 +28,8 @@ db.once('open', function() {
 const users = JSON.parse(
     fs.readFileSync(path.join(__dirname, 'users.json'), 'utf8')
 );
-const gestor = JSON.parse(
-    fs.readFileSync(path.join(__dirname, 'gestor.json'), 'utf8')
+const alumno = JSON.parse(
+    fs.readFileSync(path.join(__dirname, 'estudiante.json'), 'utf8')
 );
 
 const importData = async () => {
@@ -44,19 +44,19 @@ const importData = async () => {
         // Recorres todos los usuarios y comprobamos si es un gestor
         console.log(createdUsers)
         createdUsers.forEach(user => {
-            if (user.rolUser === "gestor") {
-                // Recorres todos los objetos de gestor 
-                gestor.forEach(g => {
+            if (user.rolUser === "alumno") {
+                // Recorres todos los objetos de alumno 
+                estudiante.forEach(e => {
                     // Si refUser esta vacio lo asignamos
-                    if(!g.refUser) {
-                        g.refUser = user._id;
+                    if(!e.refUser) {
+                        e.refUser = user._id;
                     }
                 });
             }
             
         });
         // aquí podrías guardar los cambios en gestor.json
-        const createdGestores = await GestorModel.create(gestor);
+        const createdAlumnoss = await EstudianteModel.create(alumno);
         console.log("Dades importades...");
         process.exit();
     } catch (err) {

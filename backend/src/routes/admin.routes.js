@@ -8,4 +8,6 @@ const adminRouter = Router();
 
 adminRouter.put('/habilitarGestor/:id', admin.habilitarGestorController)  
 
+adminRouter.get('/infouser')
+
 export default adminRouter
