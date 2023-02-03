@@ -18,10 +18,6 @@ const {model ,Schema} = mongoose
     
  })
 
-gestorSchema.pre('deleteOne', function(next) {
-    console.log('esborrant')
-    next();
-})
 
 const GestorModel = model('Gestor', gestorSchema)
 
