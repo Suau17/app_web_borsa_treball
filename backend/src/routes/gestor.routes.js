@@ -20,7 +20,7 @@ const gestorRouter = Router()
 
 
 gestorRouter.put('/update/', gestor.updateGestorController)
-gestorRouter.delete('/eliminar/', userC.deleteUserController)
+gestorRouter.delete('/delete', userC.deleteUserController)
 
 // //// RESPONSABLE
 
@@ -46,6 +46,6 @@ gestorRouter.delete('/oferta/remove/:ofertaId', oferta.removeOfertaController)
 // ver postulantes a la oferta
 // cambiar estado de la inscripcion
 
-gestorRouter.put('/oferta/estado/:id', empresa.cambiarEstadoInscripcion)  
+gestorRouter.put('/oferta/estado/:idInscripcion', empresa.cambiarEstadoInscripcion)  
 
 export default gestorRouter

@@ -41,23 +41,50 @@ before((done) => {
     done()
 
 })
+
+// si quieres ver resultados del testing comenta el after
 after((done) => {
-  UserModel.deleteMany(function (err) { if (err) return done(err);})
-  GestorModel.deleteMany(function (err) { if (err) return done(err);})
-  EmpresaModel.deleteMany(function (err) { if (err) return done(err);})
-  OfertaLaboral.deleteMany(function (err) { if (err) return done(err);})
-  InscripcionModel.deleteMany(function (err) { if (err) return done(err);})
-  EstudianteModel.deleteMany(function (err) {if (err) return done(err); })
+  UserModel.deleteMany(function (err) { })
+  GestorModel.deleteMany(function (err) { })
+  EmpresaModel.deleteMany(function (err) { })
+  OfertaLaboral.deleteMany(function (err) { })
+  InscripcionModel.deleteMany(function (err) { })
+  EstudianteModel.deleteMany(function (err) { })
     done()
 
 })
 
 
 
-let tokenGestor = '';
-let tokenEstudiante = '';
+let tokenGestor;
+let tokenEstudiante;
 let idOferta;
+let idInscripcion;
 
+
+/** ORDEN DEL TEST: 
+ * Registrar Gestor
+ * Loguear Gestor
+ * Crear Empresa
+ * Crear oferta
+ * Actualizar Oferta
+ * Actualizar Empresa
+ * Actualizar Gestor
+ * 
+ * 
+ * Registrar Estudiante
+ * Loguear Estudiante
+ * Inscribirse a una oferta de trabajo
+ * quitar mi inscripcion a una oferta
+ * Inscribirse a una oferta (vuevlo a crear otra para poder aceptar la inscripcion como gestor)
+ * Ver mis inscripciones
+ * Actualizar datos estudiante
+ * 
+ * 
+ * Aceptar/Rechazar Inscripcion de un estudiante
+ * Eliminar Empresa
+ * Eliminar Gestor&Empresa
+ */
 describe('Register && Login GESTOR', (done) => {
 
   let registrarGestor = {
@@ -89,6 +116,7 @@ describe('Register && Login GESTOR', (done) => {
     chai.request(server).post('/user/login')
       .send(loginGestor)
       .end((err, res) => {
+        if (err) return done(err);
         res.should.have.status(200);
         res.body.should.be.a('Object');
         tokenGestor = res.body.token
@@ -97,6 +125,7 @@ describe('Register && Login GESTOR', (done) => {
       })
   })
 });
+
 
 describe('Empresa', () => {
   it('Creando Empresa:', (done) => {
@@ -233,6 +262,14 @@ describe('Register && Login ESTUDIANTE', (done) => {
   })
 });
 
+/**
+ * Inscribirse a una oferta de trabajo
+ * quitar mi inscripcion a una oferta
+ * Inscribirse a una oferta (vuevlo a crear otra para poder aceptar la inscripcion como gestor)
+ * Ver mis inscripciones
+ * Actualizar datos estudiante
+ */
+
 describe('GESTION ESTUDIANTE', (done) => {
   
   it('Inscribirse a una oferta', (done) => {
@@ -247,6 +284,31 @@ describe('GESTION ESTUDIANTE', (done) => {
     })
   })
   
+  it('quitar mi inscripcion a una oferta', (done) => {
+    chai.request(server).delete('/estudiante/oferta/eliminarInscripcion/'+idOferta)
+    .auth(tokenEstudiante, { type: 'bearer' })
+    .set('Cookie', ['tokenAcces=' + tokenEstudiante])
+    .end((err, res)=>{
+      if (err) return done(err);
+      expect(res.statusCode).to.equal(200);
+      done();        
+    })
+  })
+
+  it('Inscribirse a una oferta 2', (done) => {
+    chai.request(server).post('/estudiante/oferta/inscribirse')
+    .auth(tokenEstudiante, { type: 'bearer' })
+    .set('Cookie', ['tokenAcces=' + tokenEstudiante])
+    .send({ "idOferta": idOferta })
+    .end((err, res)=>{
+      if (err) return done(err);
+      expect(res.statusCode).to.equal(200);
+      
+      idInscripcion =  res.body.id
+      done();        
+    })
+  })
+
   it('Ver Mis Inscripciones', (done) => {
     chai.request(server).get('/estudiante/verInscripciones/')
     .auth(tokenEstudiante, { type: 'bearer' })
@@ -258,7 +320,7 @@ describe('GESTION ESTUDIANTE', (done) => {
       done();        
     })
   })
-  it('Actualizar Datos Gestor', (done) => {
+  it('Actualizar Datos Estudiante', (done) => {
     let estudiante = {
       "description":"nueva descripcion",
       "cartaPresentacion":"carta presentacion v2"
@@ -277,4 +339,58 @@ describe('GESTION ESTUDIANTE', (done) => {
   });
 })
 
-describe
+/// EMPRESA 2 ////
+
+/**
+ * Aceptar/Rechazar Inscripcion de un estudiante
+ * Eliminar Empresa
+ * Eliminar Gestor&Empresa
+ */
+
+describe('EMPRESA 2',(done) => {
+
+  it('Aceptar/Rechazar Inscripcion de un estudiante', (done) => {
+    console.log('ESTO ES EL ID INSCRIPCION DE PRUEB'+idInscripcion)
+    let inscripcion = {
+      "id":idInscripcion,
+      "estado":"aceptar"
+    }
+    chai.request(server)
+      .put(`/gestor/oferta/estado/${idInscripcion}`)
+      .auth(tokenGestor, { type: 'bearer' })
+      .set('Cookie', ['tokenAcces=' + tokenGestor])
+      .send(inscripcion)
+      .end((err, res) => {
+        if (err) return done(err);
+        expect(res.statusCode).to.equal(200);
+        done();
+      });
+  });
+
+  // este ruta elimina empresa, oferta, inscripciones
+  it('Eliminar Empresa', (done) => {
+    chai.request(server).delete('/gestor/empresa/delete/')
+    .auth(tokenGestor, { type: 'bearer' })
+    .set('Cookie', ['tokenAcces=' + tokenGestor])
+    .end((err, res)=>{
+      if (err) return done(err);
+      expect(res.statusCode).to.equal(200);
+      done();        
+    })
+  })
+
+  // este ruta elimina gestor, empresa, oferta, inscripciones
+  it('Eliminar Gestor&Empresa', (done) => {
+    chai.request(server).delete('/gestor/delete/')
+    .auth(tokenGestor, { type: 'bearer' })
+    .set('Cookie', ['tokenAcces=' + tokenGestor])
+    .end((err, res)=>{
+      if (err) return done(err);
+      expect(res.statusCode).to.equal(200);
+      done();        
+    })
+  })
+
+})
+
+
