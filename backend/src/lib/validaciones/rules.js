@@ -24,5 +24,4 @@ export const rulesEmpresa = [
         }
     }),
     body('direccion','introduce una direccion valida').exists().not().isEmpty(),
-    body('empleados').exists()
 ]

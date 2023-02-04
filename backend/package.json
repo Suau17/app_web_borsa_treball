@@ -10,7 +10,7 @@
         "prettier": "prettier --write .",
         "prepare": "husky install",
         "postinstall": "npm run prepare",
-        "test": "mocha src/test/test.js",
+        "test": "mocha src/test/*.js",
         "seed": "node src/seeders/seeder3.js"
     },
     "author": {
@@ -20,6 +20,7 @@
     "license": "MIT",
     "devDependencies": {
         "chai": "^4.3.7",
+        "chai-http": "^4.3.0",
         "eslint": "^8.22.0",
         "eslint-config-prettier": "8.5.0",
         "eslint-config-standard": "^7.1.0",

@@ -68,9 +68,9 @@ export const updateEmpresaController = async (req, res) => {
         return res.status(401).send('No tienes los permisos para eliminar esta empresa.');
     }
     // Actualizamos el registro del gestor en la base de datos
-    await EmpresaModel.findByIdAndUpdate(req.params.id, req.body, { new: true })
-
+  let empresaUpdated =  await EmpresaModel.findByIdAndUpdate(empresa._id, req.body, { new: true })
     // Enviamos un mensaje de éxito
+    console.log(empresaUpdated)
     return res.send('Datos de la empresa actualizados con éxito')
   } catch (error) {
     // En caso de error, enviamos un mensaje de error
