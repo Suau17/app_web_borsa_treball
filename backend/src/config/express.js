@@ -8,8 +8,7 @@ import express from 'express'
 import cors from 'cors'
 import cookieParser from 'cookie-parser'
 import {checkAuthGestor, checkAuthEstudiante} from "#Lib/auth.js"
-
-
+import helmet from 'helmet'
 // motor de plantillas 
 import * as path from 'node:path';
 import { fileURLToPath } from 'url';
@@ -23,6 +22,7 @@ const expressApp = express();
 // middlewares
 // '{ limit: '20kb' }' evita los ataques de DOS
 expressApp.use(express.json({ limit: '20kb' }))
+expressApp.use(helmet());
 expressApp.set('view engine', 'ejs')
 
 expressApp.set('views', path.join('src', 'views'));

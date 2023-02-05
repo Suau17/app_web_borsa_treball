@@ -33,7 +33,6 @@ export const estudianteRegistrerController = async (req, res) => {
 
     estudis.forEach( async element => {
       let grau = await EstudiosModel.findOne({name : element})
-console.log('BBBBBBBBBBBBBBRRRRRRRRRRRRRR'+grau)
       await EstudianteModel.findOneAndUpdate(
         { _id: estudiante._id },
         { $push: { refEstudis: grau._id } }
