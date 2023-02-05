@@ -2,6 +2,7 @@ import OfertaLaboral from "#schemas/ofertaLaboral.js";
 import InscripcionModel from "#schemas/inscripcion.js";
 import EstudianteModel from "#schemas/estudiante.js"
 import UserModel from "#schemas/User.js"
+import EstudiosModel from "#schemas/estudios.schema.js"
 import * as userController from '#controllers/user.controller.js'
 import { hash } from 'bcrypt'
 import EmpresaModel from "#schemas/empresaSchema.js";
@@ -17,6 +18,8 @@ export const estudianteRegistrerController = async (req, res) => {
   try {
 
     req.body.rolUser = 'alumno';
+    let estudis = req.body.estudis;
+   
     const { cartaPresentacion, curriculum } = req.body
     const id = await userController.userRegistrerController(req, res)
     console.log('id' + id)
@@ -26,6 +29,16 @@ export const estudianteRegistrerController = async (req, res) => {
       curriculum
     })
     await estudiante.save()
+
+
+    estudis.forEach( async element => {
+      let grau = await EstudiosModel.findOne({name : element})
+console.log('BBBBBBBBBBBBBBRRRRRRRRRRRRRR'+grau)
+      await EstudianteModel.findOneAndUpdate(
+        { _id: estudiante._id },
+        { $push: { refEstudis: grau._id } }
+    );
+    });
 
     return res.status(201).send('estudiante registrado')
   } catch (error) {
@@ -46,14 +59,11 @@ export const updateEstudianteController = async (req, res) => {
     // Obtenemos el id del gestor y los datos a actualizar proporcionados
     const data = req.body
     const idUsuario = req.idToken;
-          console.log('000000000000000000000')
     if ('rolUser' in data) {
       return res.status(401).send('no puedes modificar tu rol')
     }
-          console.log('111111111111111111111')
     // Actualizamos el registro del gestor en la base de datos
     const estudiante = await EstudianteModel.findOneAndUpdate({ refUser: idUsuario }, req.body, { new: true });
-           console.log('222222222222222222222222222222' + estudiante)
     const idUser = estudiante.refUser
 
     if (data.password || data.name || data.email || data.description) {
@@ -62,7 +72,6 @@ export const updateEstudianteController = async (req, res) => {
       }
       await UserModel.findByIdAndUpdate(idUser, req.body, { new: true })
     }
-          console.log('444444444444444444')
     // Encriptamos la contraseña del gestor si se proporciona en los datos a actualizar
 
     await EstudianteModel.findByIdAndUpdate(idUser, req.body, { new: true })

@@ -30,26 +30,25 @@ const bootServer = async () => {
 
 bootServer()
 
-
 before((done) => {
-  UserModel.deleteMany(function (err) { })
-  GestorModel.deleteMany(function (err) { })
-  EmpresaModel.deleteMany(function (err) { })
-  OfertaLaboral.deleteMany(function (err) { })
-  InscripcionModel.deleteMany(function (err) { })
-  EstudianteModel.deleteMany(function (err) { })
+  UserModel.deleteMany(function (err) { if (err) return done(err)})
+  GestorModel.deleteMany(function (err) {if (err) return done(err) })
+  EmpresaModel.deleteMany(function (err) {if (err) return done(err) })
+  OfertaLaboral.deleteMany(function (err) {if (err) return done(err) })
+  InscripcionModel.deleteMany(function (err) {if (err) return done(err) })
+  EstudianteModel.deleteMany(function (err) {if (err) return done(err) })
     done()
 
 })
 
 // si quieres ver resultados del testing comenta el after
 after((done) => {
-  UserModel.deleteMany(function (err) { })
-  GestorModel.deleteMany(function (err) { })
-  EmpresaModel.deleteMany(function (err) { })
-  OfertaLaboral.deleteMany(function (err) { })
-  InscripcionModel.deleteMany(function (err) { })
-  EstudianteModel.deleteMany(function (err) { })
+  UserModel.deleteMany(function (err) {if (err) return done(err) })
+  GestorModel.deleteMany(function (err) {if (err) return done(err) })
+  EmpresaModel.deleteMany(function (err) {if (err) return done(err) })
+  OfertaLaboral.deleteMany(function (err) {if (err) return done(err) })
+  InscripcionModel.deleteMany(function (err) {if (err) return done(err) })
+  EstudianteModel.deleteMany(function (err) {if (err) return done(err) })
     done()
 
 })
@@ -230,7 +229,8 @@ describe('Register && Login ESTUDIANTE', (done) => {
     "name":"marc estudiante",
     "email":"marc2344@vidal.com",
     "passwordHash":"marc1234",
-    "cartaPresentacion":"esta es mi carta de presentacion para su empresa"
+    "cartaPresentacion":"esta es mi carta de presentacion para su empresa",
+    "estudis":["CFGS Desenvolupament d'aplicacions web (DUAL)","CFGS Desenvolupament d'aplicacions multiplataforma (DUAL)"]
 }
 
   it('Register ESTUDIANTE Test', (done) => {
