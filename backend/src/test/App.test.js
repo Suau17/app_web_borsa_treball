@@ -18,7 +18,6 @@ import httpServer from "#config/http.js";
 // si los import requieren del .env tienen que ir debajo del imoprt env para que ejecuten correctamente
 import '#config/env.js'
 import connectDB from "#config/database.js";
-import expressApp from '#config/express.js';
 
 const bootServer = async () => {
   await connectDB(process.env.MONGODB_URL_TEST)
@@ -222,7 +221,7 @@ describe('Empresa', () => {
 });
 
 
-//// ESTUDIANTE /////
+// // ESTUDIANTE /////
 
 describe('Register && Login ESTUDIANTE', (done) => {
 
