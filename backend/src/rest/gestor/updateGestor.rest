@@ -1,0 +1,11 @@
+POST http://localhost:3002/gestor/update/63a43bb4f2971edd776ebb68 Content-Type: application/json
+
+{
+    "name":"Marc Gruber",
+    "email":"marc@empresa1.com",
+    "passwordHash":"marc1234",
+    "rolUser":"gestor",
+    "carrec":"gestor de recursos humanos",
+    "telefon":"8932423",
+    "nameEmpresa":"Empresa 1"
+}

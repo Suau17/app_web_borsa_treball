@@ -1,0 +1,9 @@
+POST http://localhost:3002/user/estudiante/registrar Content-Type: application/json
+
+{
+    "name":"Marc",
+    "email":"marc@estudiant1.com",
+    "passwordHash":"marc1234",
+    "rolUser":"alumno",
+    "cartaPresentacion":"soc estudiant del vidal i barraquer i tinc varios projectes fets amb js, html, css y nodejs"
+}
