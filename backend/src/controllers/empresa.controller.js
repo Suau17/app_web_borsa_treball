@@ -27,12 +27,12 @@ export const empresaRegistrerController = async (req, res) => {
 try {
   
 
-  const { nom, direccion } = req.body
+  const { nom, direccion, sector } = req.body
 
   const refUser = req.idToken;
   const refOfertaLaboral = [];
   const empresa = new EmpresaModel({
-    nom, direccion, refUser, refOfertaLaboral, 
+    nom, direccion, sector,refUser, refOfertaLaboral, 
   })
   await empresa.save()
   await EmpresaModel.findOneAndUpdate(
