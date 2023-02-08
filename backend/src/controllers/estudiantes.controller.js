@@ -16,22 +16,10 @@ import EmpresaModel from "#schemas/empresaSchema.js";
 export const estudianteRegistrerController = async (req, res) => {
   const { cartaPresentacion, curriculum } = req.body
 
-<<<<<<< HEAD
-  const id = await userController.userRegistrerController(req, res)
-  console.log('id' + id)
-  const estudiante = new EstudianteModel({
-    refUser: id,
-    cartaPresentacion,
-    curriculum
-  })
-  await estudiante.save()
-
-  return res.send('estudiante registrado')
-=======
     req.body.rolUser = 'alumno';
     let estudis = req.body.estudis;
    
-    const { cartaPresentacion, curriculum } = req.body
+    
     const id = await userController.userRegistrerController(req, res)
     console.log('id' + id)
     const estudiante = new EstudianteModel({
@@ -41,7 +29,6 @@ export const estudianteRegistrerController = async (req, res) => {
       estudis
     })
     await estudiante.save()
->>>>>>> 85a53059f1947a57b9af917672051ca7ca25bcb5
 
 
 }
