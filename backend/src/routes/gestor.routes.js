@@ -39,6 +39,8 @@ gestorRouter.delete('/oferta/remove/:ofertaId', oferta.removeOfertaController)
 // ver postulantes a la oferta
 // cambiar estado de la inscripcion
 
-gestorRouter.put('/oferta/estado/:id',rules.rulesOferta,validacion.validarCampos, empresa.estadoInscripcion)  
+
+gestorRouter.put('/oferta/estado/:idInscripcion', empresa.cambiarEstadoInscripcion)  
+
 
 export default gestorRouter

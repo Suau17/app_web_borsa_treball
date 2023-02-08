@@ -3,38 +3,22 @@ import UserModel from "#schemas/User.js"
 import * as userController from '#controllers/user.controller.js'
 import { hash } from 'bcrypt'
 
-// import { body, validationResult} from 'express-validator'
-
-// crear empresa + validar dades
-
-// export const rules =  [
-//     body("nomEmpresa")
-//         .trim()
-//         .isLength({ min: 3, max: 50})
-//         .withMessage(`Name ha de estar entre 3 y 50`)
-//         .escape(),
-
-//     body("nomGestor", "name not correct")
-//         .trim()
-//         .isLength({ min: 2, max:50})
-//     ]
-
 export const gestorRegistrerController = async (req, res) => {
     try {
-    const {carrec, telefon, nameEmpresa} = req.body
-        console.log('asadada')
-    const id = await userController.userRegistrerController(req,res)
+        const { carrec, telefon, nameEmpresa } = req.body
+        req.body.rolUser = 'gestor';
+        const id = await userController.userRegistrerController(req, res)
+        console.log('usuario creado' + id)
+        const gestor = new GestorModel({
+            carrec,
+            telefon,
+            nameEmpresa,
+            refUser: id,
+            responsable: false
+        })
+        await gestor.save()
 
-    const gestor = new GestorModel({
-        carrec,
-        telefon,
-        nameEmpresa,
-        refUser: id,
-        responsable: true
-    })
-    await gestor.save()
-
-    return res.send('gestor creado con exito')  
+        return res.send('gestor creado con exito')
 
 } catch (error) {
     return res.status(500).send('Ocurrió un error inesperado. Por favor, intente nuevamente más tarde.');        

@@ -4,27 +4,30 @@ import GestorModel from "#schemas/Gestor.js"
 import EmpresaModel from '#schemas/empresaSchema.js'
 import InscripcionModel from '#schemas/inscripcion.js'
 
-
+/**
+ * Devuelve TODAS las ofertas
+ * @param {} req 
+ * @param {listOfertas (type array)} res 
+ * @param {*} next 
+ */
 export const getOfertasController = (req, res, next) => {
-
+    
     OfertaLaboral.find().populate('createBy').exec(function async(err, listOfertas) {
-
 
         if (err) {
             return next(err)
         }
 
         res.send({ listaOfertas: listOfertas })
-
-        //  res.render('ofertas/list',{listaOfertas: list_ofertas})   
-
-
-    }
-
-
-    )
+    })
 }
 
+/**
+ * Devuelve UNA oferta ......... PENDIENTE DE REVISIÓN
+ * @param {ObjectId(oferta)} req 
+ * @param {*} res 
+ * @param {*} next 
+ */
 export const getOfertaEmpresaController = (req, res, next) => {
     const idEmpresa = req.params.id;
 
@@ -32,7 +35,7 @@ export const getOfertaEmpresaController = (req, res, next) => {
         if (err) {
             return next({ error: err, msg: "error" })
         }
-        res.send({ listaOfertas: listOfertas });
+        res.send({ listaOferta: listOfertas });
     });
 }
 
@@ -86,7 +89,6 @@ export const updateOfertaController = async (req, res) => {
         const idUsuario = req.idToken;
         const oferta = await OfertaLaboral.findById(id)
         const empresa = await EmpresaModel.findOne({empleados: {$in: [idUsuario]}});
-    console.log(empresa)
         if (!idUsuario || !oferta.idEmpresa.equals(empresa._id)) {
             res.status(401).send('No tienes los permisos para actualizar una oferta de trabajo en esta empresa')
             return;

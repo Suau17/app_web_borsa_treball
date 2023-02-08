@@ -16,6 +16,7 @@ import EmpresaModel from "#schemas/empresaSchema.js";
 export const estudianteRegistrerController = async (req, res) => {
   const { cartaPresentacion, curriculum } = req.body
 
+<<<<<<< HEAD
   const id = await userController.userRegistrerController(req, res)
   console.log('id' + id)
   const estudiante = new EstudianteModel({
@@ -26,6 +27,21 @@ export const estudianteRegistrerController = async (req, res) => {
   await estudiante.save()
 
   return res.send('estudiante registrado')
+=======
+    req.body.rolUser = 'alumno';
+    let estudis = req.body.estudis;
+   
+    const { cartaPresentacion, curriculum } = req.body
+    const id = await userController.userRegistrerController(req, res)
+    console.log('id' + id)
+    const estudiante = new EstudianteModel({
+      refUser: id,
+      cartaPresentacion,
+      curriculum,
+      estudis
+    })
+    await estudiante.save()
+>>>>>>> 85a53059f1947a57b9af917672051ca7ca25bcb5
 
 
 }
@@ -119,9 +135,19 @@ export const inscribirseOferta = async (req, res) => {
       res.status(401).send('No tienes los permisos para inscribir a otro usuario')
       return;
     }
-
+    //Comprobar que el estudiante no tenga inscripción en la misma oferta
     const oferta = await OfertaLaboral.findById(idOferta)
 
+<<<<<<< HEAD
+=======
+    //PARA REVISAR
+    const inscripcionrepetida = await InscripcionModel.findOne({ refOfertaLaboral: id, refUser: idUsuarioToken });
+    if (!inscripcionrepetida) {
+      res.status(401).send('Ya estás inscrito en esta oferta.');
+      return;
+    }
+    
+>>>>>>> 85a53059f1947a57b9af917672051ca7ca25bcb5
     const inscripcion = new InscripcionModel({
       refUser: idUsuarioToken,
       refOfertaLaboral: idOferta,
@@ -150,7 +176,12 @@ export const borrarInscripcion = async (req, res) => {
     const id = req.params.idInscripcion
 
     const idUsuarioToken = req.idToken;
+<<<<<<< HEAD
     const inscripcion = await InscripcionModel.findOne({ _id: id, refUser: idUsuarioToken });
+=======
+    //PARA REVISAR
+    const inscripcion = await InscripcionModel.findOne({ refOfertaLaboral: id, refUser: idUsuarioToken });
+>>>>>>> 85a53059f1947a57b9af917672051ca7ca25bcb5
     if (!inscripcion) {
         res.status(401).send('No tienes los permisos para borrar esta inscripción');
         return;
