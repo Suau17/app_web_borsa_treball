@@ -125,8 +125,6 @@ export const inscribirseOferta = async (req, res) => {
     //Comprobar que el estudiante no tenga inscripción en la misma oferta
     const oferta = await OfertaLaboral.findById(idOferta)
 
-<<<<<<< HEAD
-=======
     //PARA REVISAR
     const inscripcionrepetida = await InscripcionModel.findOne({ refOfertaLaboral: id, refUser: idUsuarioToken });
     if (!inscripcionrepetida) {
@@ -134,7 +132,6 @@ export const inscribirseOferta = async (req, res) => {
       return;
     }
     
->>>>>>> 85a53059f1947a57b9af917672051ca7ca25bcb5
     const inscripcion = new InscripcionModel({
       refUser: idUsuarioToken,
       refOfertaLaboral: idOferta,
@@ -163,12 +160,8 @@ export const borrarInscripcion = async (req, res) => {
     const id = req.params.idInscripcion
 
     const idUsuarioToken = req.idToken;
-<<<<<<< HEAD
-    const inscripcion = await InscripcionModel.findOne({ _id: id, refUser: idUsuarioToken });
-=======
     //PARA REVISAR
     const inscripcion = await InscripcionModel.findOne({ refOfertaLaboral: id, refUser: idUsuarioToken });
->>>>>>> 85a53059f1947a57b9af917672051ca7ca25bcb5
     if (!inscripcion) {
         res.status(401).send('No tienes los permisos para borrar esta inscripción');
         return;

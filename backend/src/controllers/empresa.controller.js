@@ -110,7 +110,7 @@ export const deleteEmpresaController = async (req, res) => {
  * @param {*} res 
  * @returns 
  */
-export const estadoInscripcion = async (req, res) => {
+export const cambiarEstadoInscripcion = async (req, res) => {
   try {
     
   const idUsuario = req.idToken;
