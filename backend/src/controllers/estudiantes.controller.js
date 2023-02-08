@@ -26,7 +26,8 @@ export const estudianteRegistrerController = async (req, res) => {
     const estudiante = new EstudianteModel({
       refUser: id,
       cartaPresentacion,
-      curriculum
+      curriculum,
+      estudis
     })
     await estudiante.save()
 
@@ -132,8 +133,16 @@ export const inscribirseOferta = async (req, res) => {
       res.status(401).send('No tienes los permisos para inscribir a otro usuario')
       return;
     }
-
+    //Comprobar que el estudiante no tenga inscripción en la misma oferta
     const oferta = await OfertaLaboral.findById(idOferta)
+
+    //PARA REVISAR
+    const inscripcionrepetida = await InscripcionModel.findOne({ refOfertaLaboral: id, refUser: idUsuarioToken });
+    if (!inscripcionrepetida) {
+      res.status(401).send('Ya estás inscrito en esta oferta.');
+      return;
+    }
+    
     const inscripcion = new InscripcionModel({
       refUser: idUsuarioToken,
       refOfertaLaboral: idOferta,
@@ -162,6 +171,7 @@ export const borrarInscripcion = async (req, res) => {
     const id = req.params.idInscripcion
 
     const idUsuarioToken = req.idToken;
+    //PARA REVISAR
     const inscripcion = await InscripcionModel.findOne({ refOfertaLaboral: id, refUser: idUsuarioToken });
     if (!inscripcion) {
       res.status(401).send('No tienes los permisos para borrar esta inscripción');

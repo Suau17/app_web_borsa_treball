@@ -116,6 +116,7 @@ export const cambiarEstadoInscripcion = async (req, res) => {
   try {
   const idUsuario = req.idToken;
   const data = req.body
+  //ID inscripción
   const id = data.id
 
   const empleado = await UserModel.findById(idUsuario)
@@ -136,14 +137,13 @@ export const cambiarEstadoInscripcion = async (req, res) => {
   const mailTO = estudiante.email
   
   // definir cuerpo del mensaje
-    const bodyHTML = `
-      hola soy ${empleado.name} y hemos aceptado su solicitud a la oferta ${oferta.name} con el codigo de oferta ${oferta.id}
-    `
+    const bodyHTML = `hola soy ${empleado.name} y hemos aceptado su solicitud a la oferta ${oferta.name} con el codigo de oferta ${oferta.id}`
 
     if(data.estado === 'aceptar'){
       // enviar email
       await InscripcionModel.findByIdAndUpdate(id, {estado: 'aceptado'}, { new: true })
-      await sendMail(mailFrom, mailTO , 'nueva oferta', bodyHTML)
+      let subject = 'Inscripción aceptada.'
+      await sendMail(mailFrom, mailTO , subject, bodyHTML)
    
       return res.send('candidatura aceptada')
     }
