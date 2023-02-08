@@ -3,12 +3,12 @@ import adminRouter from '#routes/admin.routes.js'
 import gestorRouter from '#routes/gestor.routes.js'
 import estudianteRouter from '#routes/estudiante.routes.js'
 import userRouter from '#routes/user.routes.js'
+import appRouter from '#routes/app.routes.js'
 import express from 'express'
 import cors from 'cors'
 import cookieParser from 'cookie-parser'
 import {checkAuthGestor, checkAuthEstudiante} from "#Lib/auth.js"
-
-
+import helmet from 'helmet'
 // motor de plantillas 
 import * as path from 'node:path';
 import { fileURLToPath } from 'url';
@@ -22,6 +22,7 @@ const expressApp = express();
 // middlewares
 // '{ limit: '20kb' }' evita los ataques de DOS
 expressApp.use(express.json({ limit: '20kb' }))
+expressApp.use(helmet());
 expressApp.set('view engine', 'ejs')
 
 expressApp.set('views', path.join('src', 'views'));
@@ -36,12 +37,15 @@ expressApp.use(cors())
 expressApp.use(cookieParser())
 // routes
 
-
+expressApp.use('/api/welcome', (req, res)=>{
+    res.status(200).send({message: "Welcome in our app"})
+})
 
 expressApp.use('/admin',adminRouter)
 expressApp.use("/gestor", checkAuthGestor ,gestorRouter)
 expressApp.use('/estudiante', checkAuthEstudiante , estudianteRouter)
 expressApp.use("/user",  userRouter)
+expressApp.use("/app", appRouter)
 
 
 

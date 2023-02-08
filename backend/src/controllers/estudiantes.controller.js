@@ -2,8 +2,9 @@ import OfertaLaboral from "#schemas/ofertaLaboral.js";
 import InscripcionModel from "#schemas/inscripcion.js";
 import EstudianteModel from "#schemas/estudiante.js"
 import UserModel from "#schemas/User.js"
+import EstudiosModel from "#schemas/estudios.schema.js"
 import * as userController from '#controllers/user.controller.js'
-import { hash} from 'bcrypt'
+import { hash } from 'bcrypt'
 import EmpresaModel from "#schemas/empresaSchema.js";
 
 
@@ -15,22 +16,33 @@ import EmpresaModel from "#schemas/empresaSchema.js";
  */
 export const estudianteRegistrerController = async (req, res) => {
   try {
-  
-  const { cartaPresentacion, curriculum } = req.body
 
-  const id = await userController.userRegistrerController(req, res)
-  console.log('id' + id)
-  const estudiante = new EstudianteModel({
-    refUser: id,
-    cartaPresentacion,
-    curriculum
-  })
-  await estudiante.save()
+    req.body.rolUser = 'alumno';
+    let estudis = req.body.estudis;
+   
+    const { cartaPresentacion, curriculum } = req.body
+    const id = await userController.userRegistrerController(req, res)
+    console.log('id' + id)
+    const estudiante = new EstudianteModel({
+      refUser: id,
+      cartaPresentacion,
+      curriculum
+    })
+    await estudiante.save()
 
-  return res.status(201).send('estudiante registrado')
-} catch (error) {
-  return res.status(404).send('error al registrar estudiante')
-}
+
+    estudis.forEach( async element => {
+      let grau = await EstudiosModel.findOne({name : element})
+      await EstudianteModel.findOneAndUpdate(
+        { _id: estudiante._id },
+        { $push: { refEstudis: grau._id } }
+    );
+    });
+
+    return res.status(201).send('estudiante registrado')
+  } catch (error) {
+    return res.status(404).send('error al registrar estudiante')
+  }
 }
 
 /**
@@ -41,42 +53,35 @@ export const estudianteRegistrerController = async (req, res) => {
  * @returns 
  */
 export const updateEstudianteController = async (req, res) => {
-try {
+  try {
 
-  // Obtenemos el id del gestor y los datos a actualizar proporcionados
-  const data = req.body
-  const idUsuario = req.idToken;
-
-  if (!idUsuario) {
-    res.status(401).send('No tienes los permisos para actualizar o cambiar informacion de otro usuario')
-    return;
-  }
-
-  if ('rolUser' in data) {
-    return res.status(401).send('no puedes modificar tu rol')
-  }
-
-  // Actualizamos el registro del gestor en la base de datos
-  const estudiante = await EstudianteModel.findOneAndUpdate({ refUser: idUsuario }, req.body, { new: true });
-
-  const idUser = estudiante.refUser
-
-  if (data.password || data.name || data.email || data.description) {
-    if (data.password) {
-      data.password = await hash(data.password, 12)
+    // Obtenemos el id del gestor y los datos a actualizar proporcionados
+    const data = req.body
+    const idUsuario = req.idToken;
+    if ('rolUser' in data) {
+      return res.status(401).send('no puedes modificar tu rol')
     }
-    await UserModel.findByIdAndUpdate(idUser, req.body, { new: true })
+    // Actualizamos el registro del gestor en la base de datos
+    const estudiante = await EstudianteModel.findOneAndUpdate({ refUser: idUsuario }, req.body, { new: true });
+    const idUser = estudiante.refUser
+
+    if (data.password || data.name || data.email || data.description) {
+      if (data.password) {
+        data.password = await hash(data.password, 12)
+      }
+      await UserModel.findByIdAndUpdate(idUser, req.body, { new: true })
+    }
+    // Encriptamos la contraseña del gestor si se proporciona en los datos a actualizar
+
+    await EstudianteModel.findByIdAndUpdate(idUser, req.body, { new: true })
+
+    // Enviamos un mensaje de éxito
+    return res.status(200).send('Datos del estudiante actualizados con éxito')
+
+  } catch (error) {
+    console.log(error)
+    return res.status(404).send('Error al actualizar los datos')
   }
-  // Encriptamos la contraseña del gestor si se proporciona en los datos a actualizar
-
-
-
-  // Enviamos un mensaje de éxito
-  return res.status(201).send('Datos del estudiante actualizados con éxito')
-  
-} catch (error) {
-  return res.status(404).send('Datos del estudiante actualizados con éxito')
-}
 }
 
 
@@ -121,24 +126,23 @@ export const inscribirseOferta = async (req, res) => {
   try {
 
     const { idOferta } = req.body
-    const idUsuarioToken = req.idToken;
 
+    const idUsuarioToken = req.idToken;
     if (!idUsuarioToken) {
       res.status(401).send('No tienes los permisos para inscribir a otro usuario')
       return;
     }
 
     const oferta = await OfertaLaboral.findById(idOferta)
-
     const inscripcion = new InscripcionModel({
       refUser: idUsuarioToken,
       refOfertaLaboral: idOferta,
-      idEmpresa : oferta.idEmpresa,
+      idEmpresa: oferta.idEmpresa,
       estado: "pendiente"
     });
-    await inscripcion.save();
+    const idInscripcion =  await inscripcion.save();
     // Realiza alguna acción para inscribir al estudiante a la oferta
-    return res.status(200).send({ mensaje: "Estudiante inscrito a la oferta" });
+    return res.status(200).send({id: idInscripcion._id,  mensaje: "Estudiante inscrito a la oferta" });
   } catch (error) {
     res.status(500).send(error);
   }
@@ -158,16 +162,16 @@ export const borrarInscripcion = async (req, res) => {
     const id = req.params.idInscripcion
 
     const idUsuarioToken = req.idToken;
-    const inscripcion = await InscripcionModel.findOne({ _id: id, refUser: idUsuarioToken });
+    const inscripcion = await InscripcionModel.findOne({ refOfertaLaboral: id, refUser: idUsuarioToken });
     if (!inscripcion) {
-        res.status(401).send('No tienes los permisos para borrar esta inscripción');
-        return;
+      res.status(401).send('No tienes los permisos para borrar esta inscripción');
+      return;
     }
     // Buscamos y borramos la inscripción en la base de datos
-    await InscripcionModel.findByIdAndDelete(id)
+   await InscripcionModel.findByIdAndDelete(id)
 
     // Enviamos una respuesta exitosa al cliente
-    res.send({ mensaje: "Inscripción borrada exitosamente" });
+    res.status(200).send({mensaje: "Inscripción borrada exitosamente" });
   } catch (error) {
     res.status(500).send(error);
   }

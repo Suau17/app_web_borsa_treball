@@ -27,12 +27,12 @@ export const empresaRegistrerController = async (req, res) => {
 try {
   
 
-  const { nom, direccion } = req.body
+  const { nom, direccion, sector } = req.body
 
   const refUser = req.idToken;
   const refOfertaLaboral = [];
   const empresa = new EmpresaModel({
-    nom, direccion, refUser, refOfertaLaboral, 
+    nom, direccion, sector,refUser, refOfertaLaboral, 
   })
   await empresa.save()
   await EmpresaModel.findOneAndUpdate(
@@ -68,8 +68,7 @@ export const updateEmpresaController = async (req, res) => {
         return res.status(401).send('No tienes los permisos para eliminar esta empresa.');
     }
     // Actualizamos el registro del gestor en la base de datos
-    await EmpresaModel.findByIdAndUpdate(req.params.id, req.body, { new: true })
-
+  let empresaUpdated =  await EmpresaModel.findByIdAndUpdate(empresa._id, req.body, { new: true })
     // Enviamos un mensaje de éxito
     return res.send('Datos de la empresa actualizados con éxito')
   } catch (error) {
@@ -99,7 +98,6 @@ export const deleteEmpresaController = async (req, res) => {
     await InscripcionModel.deleteMany({ idEmpresa: empresa._id })
     await OfertaLaboral.deleteMany({ idEmpresa: empresa._id });
     await EmpresaModel.deleteOne({ _id: empresa._id });
-
     // Enviamos un mensaje de éxito
     return res.send('Empresa eliminada con éxito')
   } catch (error) {
@@ -116,21 +114,15 @@ export const deleteEmpresaController = async (req, res) => {
  */
 export const cambiarEstadoInscripcion = async (req, res) => {
   try {
-    
   const idUsuario = req.idToken;
-  const id = req.params.id
   const data = req.body
+  const id = data.id
 
   const empleado = await UserModel.findById(idUsuario)
-
-  const inscripcion = await InscripcionModel.findById(id)
-  
+  const inscripcion = await InscripcionModel.findOne({_id : id})
   const idOferta = inscripcion.refOfertaLaboral
-  
   const oferta = await OfertaLaboral.findById(idOferta)
-
   const empresa = await EmpresaModel.findOne({ _id: oferta.idEmpresa });
-
   if (!empresa.empleados.includes(empleado._id)) {
     res.status(401).send('No tienes los permisos para cambiar el estado de esta inscripción');
     return;
@@ -161,7 +153,7 @@ export const cambiarEstadoInscripcion = async (req, res) => {
       return 'candidatura rechazada'
     }
   } catch (error) {
-      return res.send({msg:'error al modificar la postulacion', error})
+      return res.status(402).send({msg:'error al modificar la postulacion', error})
   }
 
 

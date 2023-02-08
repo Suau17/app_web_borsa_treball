@@ -51,8 +51,6 @@ export const ofertaRegisterController = async (req, res) => {
         const idUsuario = req.idToken;
 
         const empresa = await EmpresaModel.findOne({refUser: {$in: [idUsuario]}});
-        console.log(empresa)
-        console.log(idUsuario)
         if (!idUsuario) {
             res.status(401).send('No tienes los permisos para registrar una oferta de trabajo en esta empresa')
             return;
@@ -64,9 +62,9 @@ export const ofertaRegisterController = async (req, res) => {
         const ofertaLaboral = new OfertaLaboral({
             title, description, requirements, skills, ciclo, dateOfPublication, expirationDate, idEmpresa, createBy
         })
-        await ofertaLaboral.save()
-
-        return res.status(200).send('oferta creada con exito')
+        let ofertaNew = await ofertaLaboral.save()
+    console.log(ofertaNew)
+        return res.status(200).send({msg:'oferta creada con exito', id: ofertaNew._id})
     } catch (error) {
         return res.status(404).send('ha habido un error al registrar la oferta')
     }
@@ -81,9 +79,12 @@ export const ofertaRegisterController = async (req, res) => {
  */
 export const updateOfertaController = async (req, res) => {
     try {
+        console.log('adasdfasfasfgadglk')
         const id = req.params.id
 
         const idUsuario = req.idToken;
+        console.log('esto es el id'+id)
+        console.log('esto es el token'+idUsuario)
         const oferta = await OfertaLaboral.findById(id)
         const empresa = await EmpresaModel.findOne({empleados: {$in: [idUsuario]}});
     console.log(empresa)
@@ -95,6 +96,7 @@ export const updateOfertaController = async (req, res) => {
         await OfertaLaboral.findByIdAndUpdate(id, req.body, { new: true })
         res.status(200).send("UPDATE")
     } catch (error) {
+        console.log(error)
         res.status(404).send(error)
     }
 }
