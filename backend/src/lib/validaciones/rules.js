@@ -17,11 +17,35 @@ export const rules = [
 ]
 
 export const rulesEmpresa = [
-    body('nom','Introduce un nombre').exists().isLength({min:3, max:15}).custom(async(value,{req})=>{
+    body('nameEmpresa','Introduce un nombre').exists().isLength({min:3, max:15}).custom(async(value,{req})=>{
         const empresa = await empresaModel.findOne({ nom: value });
         if(empresa){
             throw new Error('Nombre already in use');
         }
     }),
     body('direccion','introduce una direccion valida').exists().not().isEmpty(),
+
+    body('empleados').exists()
+]
+
+export const rulesGestor = [
+    body('carrec').exists().not().isEmpty().isLength({min:3,max:20}),
+    body('telefon').not().isEmpty().isLength({min:4,max:20}),
+    body('nameEmpresa', 'introduce el nombre de la empresa en la que trabajas').exists().not().isEmpty(),
+]
+
+export const rulesOferta = [
+    body('title').exists().not().isEmpty().isLength({min:3,max:250}),
+    body('description').exists().not().isEmpty().isLength({max:250}),
+    body('requeriments').exists().not().isEmpty().isLength({max:250}),
+    body('skills').exists().not().isEmpty().isLength({max:250}),
+    body('ciclo').exists().not().isEmpty().isLength({max:250}),
+    body('dateOfPublication').exists().not().isEmpty().isISO8601().withMessage('La fecha debe estar en formato  (YYYY-MM-DD)'),
+    body('expirationDate').exists().not().isEmpty().isISO8601().withMessage('La fecha debe estar en formato (YYYY-MM-DD)')
+]
+
+export const rulesEstudiante = [
+    body('cartaPresentacion').exists().not().isEmpty().isLength({min:3,max:450}),
+    body('curriculum').exists().not().isEmpty().isIMEI('archivo/pdf', 'image/png').withMessage('el curriculum ha de ser un archivo pdf o png'),
+
 ]
