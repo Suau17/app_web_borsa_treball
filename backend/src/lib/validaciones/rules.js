@@ -1,4 +1,4 @@
-import { body, validationResult } from 'express-validator';
+import { body } from 'express-validator';
 import UserModel from "#schemas/User.js"
 import empresaModel from '#schemas/empresaSchema.js';
 
@@ -24,6 +24,7 @@ export const rulesEmpresa = [
         }
     }),
     body('direccion','introduce una direccion valida').exists().not().isEmpty(),
+
     body('empleados').exists()
 ]
 
@@ -46,4 +47,5 @@ export const rulesOferta = [
 export const rulesEstudiante = [
     body('cartaPresentacion').exists().not().isEmpty().isLength({min:3,max:450}),
     body('curriculum').exists().not().isEmpty().isIMEI('archivo/pdf', 'image/png').withMessage('el curriculum ha de ser un archivo pdf o png'),
+
 ]

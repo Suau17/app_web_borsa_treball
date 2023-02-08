@@ -16,9 +16,11 @@ export const userRegistrerController = async (req, res) => {
     
   
   const { name, email, passwordHash, rolUser, description } = req.body
-  const exsistingUserByEmail = await UserModel.findOne({ email })
-    console.log('userRegistrerController')
-  if (exsistingUserByEmail) return 'error'
+
+  //const exsistingUserByEmail = await UserModel.findOne({ email })
+
+  //if (exsistingUserByEmail) return 'error'
+
   const hashedPassword = await hash(passwordHash, 12)
 
   const user = new UserModel({
@@ -104,9 +106,7 @@ console.log(req.idToken)
 
       await GestorModel.deleteOne({ refUser: idUsuario })
     }
-    if (user.rolUser === 'responsable') {
-      await GestorModel.deleteOne({ refUser: idUsuario })
-    }
+    
 
     // Eliminamos el usuario del modelo de usuario
     await UserModel.deleteOne({ _id: idUsuario })
@@ -153,11 +153,7 @@ export const infoUser = async (req, res) => {
         data.empresa = empresa
       }
     }
-    if (user.rolUser === 'responsable') {
-      //  const responsable = await ResponsableModel.findOne({ refUser: id })
-      // data.responsable = responsable
-    }
-
+    
     data.user = user;
 
     res.status(200).send(data)
