@@ -12,6 +12,7 @@
         "postinstall": "npm run prepare",
         "test": "mocha src/test/*.js",
         "seed": "node src/seeders/seeder3.js"
+
     },
     "author": {
         "name": "Marc Gruber, Helder Rivas, Gerard Suau",
