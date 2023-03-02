@@ -22,7 +22,6 @@ const expressApp = express();
 // middlewares
 // '{ limit: '20kb' }' evita los ataques de DOS
 expressApp.use(express.json({ limit: '20kb' }))
-expressApp.use(helmet());
 expressApp.set('view engine', 'ejs')
 
 expressApp.set('views', path.join('src', 'views'));
@@ -33,8 +32,8 @@ expressApp.set('view engine', 'ejs');
 
 expressApp.use(express.urlencoded({extended:false}))
 expressApp.use(express(JSON))
-expressApp.use(cors())
 expressApp.use(cookieParser())
+expressApp.use(cors())
 // routes
 
 expressApp.use('/api/welcome', (req, res)=>{

@@ -58,6 +58,7 @@ console.log('AAAAAAAAAAAAAAAAAA'+userForToken.role)
   res.cookie("tokenAcces", token, { httpOnly: true });
   const msg = {
     token : token,
+    role : exsistingUserByEmail.rolUser,
     resposta : 'Token enviado como cookie'
   }
   res.send(msg);
