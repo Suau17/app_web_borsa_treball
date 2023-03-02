@@ -5,6 +5,7 @@ import * as path from 'path';
 import User from "#schemas/User.js"
 import GestorModel from "#schemas/Gestor.js"
 import { fileURLToPath } from 'url';
+import { hash } from 'bcrypt';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -22,14 +23,21 @@ db.once('open', function() {
   console.log("Connected to MongoDB!");
 });
 // Llegir els arxius JSON
+
+
 const users = JSON.parse(
-    fs.readFileSync(path.join(__dirname, 'gestor.json'), 'utf8')
+    fs.readFileSync(path.join(__dirname, 'users.json'), 'utf8')
 );
 const gestor = JSON.parse(
-    fs.readFileSync(path.join(__dirname, 'gestor2.json'), 'utf8')
+    fs.readFileSync(path.join(__dirname, 'gestor.json'), 'utf8')
 );
 
 const importData = async () => {
+    console.log (users.length);
+
+    for(var i =0; i<  users.length; i ++) {
+        users[i].passwordHash =  await hash(users[i].passwordHash,12);
+      }
     try {
         // Crear usuarios
         const createdUsers = await User.create(users);
@@ -45,6 +53,7 @@ const importData = async () => {
                     }
                 });
             }
+            
         });
         // aquí podrías guardar los cambios en gestor.json
         const createdGestores = await GestorModel.create(gestor);

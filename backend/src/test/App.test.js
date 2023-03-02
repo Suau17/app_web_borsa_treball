@@ -130,7 +130,8 @@ describe('Empresa', () => {
   it('Creando Empresa:', (done) => {
     let empresa = {
       "nom": "bugisoft",
-      "direccion": "calle 3"
+      "direccion": "calle 3",
+      "sector":"Empresa software"
     }
     chai.request(server)
       .post('/gestor/empresa/registrar')
