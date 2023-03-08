@@ -21,10 +21,12 @@ import { hash } from 'bcrypt'
 
 export const gestorRegistrerController = async (req, res) => {
     try {
+        let msg;
         const { carrec, telefon, nameEmpresa } = req.body
         req.body.rolUser = 'gestor';
-        const id = await userController.userRegistrerController(req, res)
+        const {id, token} = await userController.userRegistrerController(req, res)
         console.log('usuario creado' + id)
+        if(id !== false){
         const gestor = new GestorModel({
             carrec,
             telefon,
@@ -33,8 +35,20 @@ export const gestorRegistrerController = async (req, res) => {
             responsable: false
         })
         await gestor.save()
-
-        return res.send('gestor creado con exito')
+        console.log(token)
+        msg = {
+            token : token,
+            role : 'gestor',
+            resposta : 'Token enviado como cookie'
+          }
+    } else {
+        msg = {
+            token : token,
+            role : 'gestor',
+            resposta : 'error al crear el token'
+          }
+    }
+        return res.send(msg)
 
     } catch (error) {
         return res.status(500).send('Ocurrió un error inesperado. Por favor, intente nuevamente más tarde.');
@@ -45,7 +59,7 @@ export const createResponsableController = async (req, res) => {
     try {
         const { carrec, telefon, nameEmpresa } = req.body
 
-        const id = await userController.userRegistrerController(req, res)
+        const {id, token} = await userController.userRegistrerController(req, res)
 
         const gestor = new GestorModel({
             carrec,
@@ -55,7 +69,11 @@ export const createResponsableController = async (req, res) => {
             responsable : true
         })
         await gestor.save()
-
+        const msg = {
+            token : token,
+            role : 'responsable',
+            resposta : 'Token enviado como cookie'
+          }
         return res.send('gestor creado con exito')
 
     } catch (error) {

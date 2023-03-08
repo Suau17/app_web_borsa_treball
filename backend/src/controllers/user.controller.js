@@ -17,8 +17,8 @@ export const userRegistrerController = async (req, res) => {
 
   const { name, email, passwordHash, rolUser, description } = req.body
   const exsistingUserByEmail = await UserModel.findOne({ email })
-
-  if (exsistingUserByEmail) return 'error'
+console.log(exsistingUserByEmail)
+  if (exsistingUserByEmail) return {id :false}
   const hashedPassword = await hash(passwordHash, 12)
   const user = new UserModel({
     name,
@@ -28,8 +28,13 @@ export const userRegistrerController = async (req, res) => {
     rolUser
   })
   await user.save()
-
-  return user._id
+  const userForToken = {
+    id: user._id,
+    role: rolUser
+  }
+  const token =  jwt.sign(userForToken, process.env.SecretWord, { expiresIn: '23h' })
+  console.log('token'+token)
+  return {id :user._id, token: token}
 } catch (error) {
     return error
 }
