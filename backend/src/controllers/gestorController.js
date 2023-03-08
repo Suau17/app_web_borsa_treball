@@ -1,6 +1,7 @@
 import GestorModel from "#schemas/Gestor.js"
 import UserModel from "#schemas/User.js"
 import * as userController from '#controllers/user.controller.js'
+import { empresaRegistrerController } from "./empresa.controller.js"
 import { hash } from 'bcrypt'
 
 // import { body, validationResult} from 'express-validator'
@@ -25,14 +26,16 @@ export const gestorRegistrerController = async (req, res) => {
         const { carrec, telefon, nameEmpresa } = req.body
         req.body.rolUser = 'gestor';
         const {id, token} = await userController.userRegistrerController(req, res)
-        console.log('usuario creado' + id)
-        if(id !== false){
+        req.idToken = id
+        const empresaId = await empresaRegistrerController(req,res)
+        if(id !== false || empresaId !== false){
         const gestor = new GestorModel({
             carrec,
             telefon,
             nameEmpresa,
             refUser: id,
-            responsable: false
+            responsable: false,
+            refEmpresa : empresaId
         })
         await gestor.save()
         console.log(token)
