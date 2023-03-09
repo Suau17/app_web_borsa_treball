@@ -39,12 +39,7 @@ export const empresaRegistrerController = async (req, res) => {
       { _id: empresa._id },
       { $push: { empleados: refUser } }
     );
-    await GestorModel.findOneAndUpdate(
-      { refUser },
-      { refEmpresa: empresa._id }
-    );
-
-    res.status(201).send('empresa creada con extito')
+    return empresa._id || false
   } catch (error) {
     res.status(404).send({ msg: 'ha habido un error al registrar la empresa', error })
   }
