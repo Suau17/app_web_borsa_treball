@@ -161,8 +161,11 @@ export const infoUser = async (req, res) => {
     }
 
     data.user = user;
-
-    res.status(200).send(data)
+   const msg = {
+      data : data,
+      resposta : 'Informacion de usuario recuperada'
+    }
+    res.status(200).send(msg)
   } catch (error) {
     res.status(500).send('error' + error)
   }

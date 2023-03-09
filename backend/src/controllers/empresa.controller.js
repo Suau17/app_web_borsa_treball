@@ -65,7 +65,11 @@ export const updateEmpresaController = async (req, res) => {
     // Actualizamos el registro del gestor en la base de datos
     let empresaUpdated = await EmpresaModel.findByIdAndUpdate(empresa._id, req.body, { new: true })
     // Enviamos un mensaje de éxito
-    return res.send('Datos de la empresa actualizados con éxito')
+   const msg = {
+      data : empresaUpdated ,
+      resposta : 'Empresa Actualizada con exito'
+    }
+    return res.send(msg)
   } catch (error) {
     // En caso de error, enviamos un mensaje de error
     return res.status(500).send('Ocurrió un error inesperado. Por favor, intente nuevamente más tarde.')

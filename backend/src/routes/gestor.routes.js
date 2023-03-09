@@ -21,7 +21,6 @@ const gestorRouter = Router()
 
 gestorRouter.put('/update/', gestor.updateGestorController)
 gestorRouter.delete('/delete', userC.deleteUserController)
-gestorRouter.get('/getUsers', userC.getUsersControllers)
 // //// RESPONSABLE
 
 gestorRouter.post('/register/responsable', gestor.createResponsableController)
