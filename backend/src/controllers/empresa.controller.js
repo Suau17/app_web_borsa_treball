@@ -10,7 +10,7 @@ import UserModel from '#schemas/User.js'
 
 
 // Recuperar todas las empresas
-export const getEmpresasControllers = async (req, res) => {
+export const getEmpresaControllers = async (req, res) => {
   try {
     // Obtener todas las empresas de la base de datos
     const empresas = await EmpresaModel.find();
@@ -24,6 +24,7 @@ export const getEmpresasControllers = async (req, res) => {
 
 
 export const empresaRegistrerController = async (req, res) => {
+
   try {
 
 
@@ -43,6 +44,7 @@ export const empresaRegistrerController = async (req, res) => {
   } catch (error) {
     res.status(404).send({ msg: 'ha habido un error al registrar la empresa', error })
   }
+
 }
 
 /**
@@ -63,7 +65,9 @@ export const updateEmpresaController = async (req, res) => {
       return res.status(401).send('No tienes los permisos para eliminar esta empresa.');
     }
     // Actualizamos el registro del gestor en la base de datos
+
     let empresaUpdated = await EmpresaModel.findByIdAndUpdate(empresa._id, req.body, { new: true })
+
     // Enviamos un mensaje de éxito
    const msg = {
       data : empresaUpdated ,
@@ -97,6 +101,7 @@ export const deleteEmpresaController = async (req, res) => {
     await InscripcionModel.deleteMany({ idEmpresa: empresa._id })
     await OfertaLaboral.deleteMany({ idEmpresa: empresa._id });
     await EmpresaModel.deleteOne({ _id: empresa._id });
+
     // Enviamos un mensaje de éxito
     return res.send('Empresa eliminada con éxito')
   } catch (error) {
@@ -113,6 +118,7 @@ export const deleteEmpresaController = async (req, res) => {
  */
 export const cambiarEstadoInscripcion = async (req, res) => {
   try {
+
     const idUsuario = req.idToken;
     const data = req.body
     const id = data.id
@@ -139,10 +145,13 @@ export const cambiarEstadoInscripcion = async (req, res) => {
       hola soy ${empleado.name} y hemos aceptado su solicitud a la oferta ${oferta.name} con el codigo de oferta ${oferta.id}
     `
 
+
     if (data.estado === 'aceptar') {
       // enviar email
+
       await InscripcionModel.findByIdAndUpdate(id, { estado: 'aceptado' }, { new: true })
       await sendMail(mailFrom, mailTO, 'nueva oferta', bodyHTML)
+
 
       return res.send('candidatura aceptada')
     }
@@ -152,7 +161,9 @@ export const cambiarEstadoInscripcion = async (req, res) => {
       return 'candidatura rechazada'
     }
   } catch (error) {
+
     return res.status(402).send({ msg: 'error al modificar la postulacion', error })
+
   }
 
 

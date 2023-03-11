@@ -4,12 +4,7 @@ import { hash, compare } from 'bcrypt'
 import jwt from 'jsonwebtoken'
 
 
-/**
- * Controlador para habilitar el gestor
- * @param {id(objectID gestor)} req 
- * @param {*} res 
- * @returns 
- */
+
 export const habilitarGestorController = async (req, res) => {
     try {
         // Obtenemos el id del gestor y los datos a actualizar proporcionados
@@ -25,7 +20,7 @@ export const habilitarGestorController = async (req, res) => {
         return res.status(500).send('Ocurrió un error inesperado. Por favor, intente nuevamente más tarde.')
       }
     }
-const ofertasRegistradasEsteAño = async  () => {
+const dataYear = async  () => {
     const ofertas = database.collection("ofertalaborals");
 
     // Estimate the total number of documents in the collection

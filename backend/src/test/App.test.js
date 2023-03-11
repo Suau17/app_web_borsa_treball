@@ -30,6 +30,7 @@ const bootServer = async () => {
 
 bootServer()
 
+//Eliminar elementos de la base de datos
 before((done) => {
   UserModel.deleteMany(function (err) { if (err) return done(err)})
   GestorModel.deleteMany(function (err) {if (err) return done(err) })
