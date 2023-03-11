@@ -16,11 +16,9 @@ export const userRegistrerController = async (req, res) => {
     
   
   const { name, email, passwordHash, rolUser, description } = req.body
-
-  //const exsistingUserByEmail = await UserModel.findOne({ email })
-
-  //if (exsistingUserByEmail) return 'error'
-
+  const exsistingUserByEmail = await UserModel.findOne({ email })
+console.log(exsistingUserByEmail)
+  if (exsistingUserByEmail) return {id :false}
   const hashedPassword = await hash(passwordHash, 12)
 
   const user = new UserModel({
@@ -31,9 +29,13 @@ export const userRegistrerController = async (req, res) => {
     rolUser: rolUser,
   })
   await user.save()
-  console.log('este es el ID'+user._id)
-
-  return user._id
+  const userForToken = {
+    id: user._id,
+    role: rolUser
+  }
+  const token =  jwt.sign(userForToken, process.env.SecretWord, { expiresIn: '23h' })
+  console.log('token'+token)
+  return {id :user._id, token: token}
 } catch (error) {
     return error
 }
@@ -57,11 +59,11 @@ export const userLoginController = async (req, res) => {
     id: exsistingUserByEmail._id,
     role: exsistingUserByEmail.rolUser
   }
-
-  const token = jwt.sign(userForToken, process.env.secretWord, { expiresIn: '23h' })
+  const token = jwt.sign(userForToken, process.env.SecretWord, { expiresIn: '23h' })
   res.cookie("tokenAcces", token, { httpOnly: true });
   const msg = {
     token : token,
+    role : exsistingUserByEmail.rolUser,
     resposta : 'Token enviado como cookie'
   }
   res.send(msg);
@@ -155,8 +157,11 @@ export const infoUser = async (req, res) => {
     }
     
     data.user = user;
-
-    res.status(200).send(data)
+   const msg = {
+      data : data,
+      resposta : 'Informacion de usuario recuperada'
+    }
+    res.status(200).send(msg)
   } catch (error) {
     res.status(500).send('error' + error)
   }

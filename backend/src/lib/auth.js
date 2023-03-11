@@ -5,15 +5,15 @@ import GestorModel from '#schemas/Gestor.js'
 export const checkAuthGestor = async (req,res, next) => {
     try {
         const tokenFromCookies = req.cookies.tokenAcces
-        const tokenFromClient = req.headers.token 
-
+        const tokenFromClient = req.headers.authorization
+        console.log(tokenFromClient)
         // De momento lo ocultamos para hacer los test.
         // if(tokenFromCookies !== tokenFromClient) {
         //     return res.status(498).send({error: 'token no es el mismo'})
         // }
-        const tokenData = jwt.verify(tokenFromCookies, process.env.secretWord)
+        const tokenData = jwt.verify(tokenFromClient, process.env.secretWord)
         const id = tokenData.id
-        
+      
         const gestor = await GestorModel.findOne({ refUser: id })
 
         // if (gestor.perfilHabilitado === false) {
@@ -33,7 +33,7 @@ export const checkAuthGestor = async (req,res, next) => {
 export const checkAuthEstudiante = async (req,res, next) => {
     try {
         const tokenFromCookies = req.cookies.tokenAcces
-        const tokenFromClient = req.headers.token 
+        const tokenFromClient = req.headers.authorization 
 
         // if(tokenFromCookies !== tokenFromClient) {
         //     return res.status(498).send({error: 'token no es el mismo'})
@@ -43,6 +43,24 @@ export const checkAuthEstudiante = async (req,res, next) => {
         if (tokenData.role !== 'alumno') {
             res.status(401).send('Tu cuenta no es de un alumno')
         }
+        req.idToken = id
+        next()
+    } catch (e) {
+        res.status(498).send({error: 'token no exsiste', msg: e})
+    }
+    
+}
+
+export const checkAuthUser = async (req,res, next) => {
+    try {
+        const tokenFromCookies = req.cookies.tokenAcces
+        const tokenFromClient = req.headers.authorization
+
+        // if(tokenFromCookies !== tokenFromClient) {
+        //     return res.status(498).send({error: 'token no es el mismo'})
+        // }
+        const tokenData = jwt.verify(tokenFromClient, process.env.secretWord)
+        const id = tokenData.id
         req.idToken = id
         next()
     } catch (e) {
