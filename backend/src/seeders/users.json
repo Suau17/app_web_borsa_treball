@@ -3,16 +3,16 @@
 
       "name": "Marc",
       "description": "Gruber",
-      "email": "a5@hola.com",
+      "email": "lñjlfv@hola.com",
       "passwordHash" : "Gurororo",
-      "rolUser" : "gestor"
+      "rolUser" : "alumno"
   },
 
   {
       "name": "Gerard",
       "description": "Suau",
-      "email": "b5@hola.com",
+      "email": "agsfd@hola.com",
       "passwordHash" : "Gurororo",
-      "rolUser" : "gestor"    
+      "rolUser" : "alumno"    
   }
 ]

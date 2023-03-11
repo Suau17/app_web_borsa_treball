@@ -58,7 +58,7 @@ export const userLoginController = async (req, res) => {
     role: exsistingUserByEmail.rolUser
   }
 
-  const token = jwt.sign(userForToken, process.env.SecretWord, { expiresIn: '23h' })
+  const token = jwt.sign(userForToken, process.env.secretWord, { expiresIn: '23h' })
   res.cookie("tokenAcces", token, { httpOnly: true });
   const msg = {
     token : token,

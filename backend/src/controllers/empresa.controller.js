@@ -59,7 +59,7 @@ try {
 export const updateEmpresaController = async (req, res) => {
   try {
     const idUsuario = req.idToken;
-
+console.log(idUsuario + "empresa");
     const empresa = await EmpresaModel.findOne({refUser : idUsuario})
     const usuario = await UserModel.findById(idUsuario);
     const empleados = empresa.empleados.map(empleado => empleado.toString());

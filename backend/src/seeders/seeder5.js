@@ -3,7 +3,7 @@ import * as dotenv from 'dotenv';
 import mongoose from 'mongoose';
 import * as path from 'path';
 import User from "#schemas/User.js"
-import EstudianteModel from "#schemas/estudiante.js"
+import EmpresaModel from "#schemas/empresaSchema.js"
 import { fileURLToPath } from 'url';
 import { hash } from 'bcrypt';
 
@@ -25,28 +25,24 @@ db.once('open', function() {
 // Llegir els arxius JSON
 
 
-const users = JSON.parse(
+/*const users = JSON.parse(
     fs.readFileSync(path.join(__dirname, 'users.json'), 'utf8')
-);
-const alumno = JSON.parse(
-    fs.readFileSync(path.join(__dirname, 'estudiante.json'), 'utf8')
+);*/
+const empresa = JSON.parse(
+    fs.readFileSync(path.join(__dirname, 'empresa.json'), 'utf8')
 );
 
 const importData = async () => {
-    console.log (users.length);
 
-    for(var i =0; i<  users.length; i ++) {
-        users[i].passwordHash =  await hash(users[i].passwordHash,12);
-      }
     try {
-        // Crear usuarios
-        const createdUsers = await User.create(users);
+        // Crear empreses
+        const createdEmpreses = await EmpresaModel.create(empreses);
         // Recorres todos los usuarios y comprobamos si es un gestor
-        console.log(createdUsers)
+        console.log(createdEmpreses)
         createdUsers.forEach(user => {
             if (user.rolUser === "alumno") {
                 // Recorres todos los objetos de alumno 
-                alumno.forEach(e => {
+                empresa.forEach(e => {
                     // Si refUser esta vacio lo asignamos
                     if(!e.refUser) {
                         e.refUser = user._id;
@@ -56,7 +52,7 @@ const importData = async () => {
             
         });
         // aquí podrías guardar los cambios en gestor.json
-        const createdAlumnos = await EstudianteModel.create(alumno);
+        const createdAlumnoss = await EstudianteModel.create(alumno);
         console.log("Dades importades...");
         process.exit();
     } catch (err) {
