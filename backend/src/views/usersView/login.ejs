@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <%- include('../partials/head'); %>
+</head>
+<body class="container">
+
+<header>
+  <%- include('../partials/header'); %>
+</header>
+
+<form  action="/user/login" method="POST">
+    <div class="form-group">
+        <label for="correo">Correo</label>
+        <input id="correo" name="email"
+            class="form-control" type="email"
+            placeholder="Correo electrónico">
+    </div>
+    <div class="form-group">
+        <label for="palabraSecreta">Contraseña</label>
+        <input id="palabraSecreta" name="password"
+            class="form-control" type="password"
+            placeholder="Contraseña">
+    </div>
+    <button type="submit" class="btn btn-primary mb-2">
+        Entrar
+    </button>
+    <br>
+    <!-- <a href="#">Contraseña olvidada</a> -->
+</form>
+</div>
+
+
+<footer>
+  <%- include('../partials/footer'); %>
+</footer>
+
+</body>
+</html>

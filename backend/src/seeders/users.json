@@ -1,18 +1,26 @@
 [
-  {
+    {
 
-      "name": "Marc",
-      "description": "Gruber",
-      "email": "lñjlfv@hola.com",
-      "passwordHash" : "Gurororo",
-      "rolUser" : "alumno"
-  },
+        "name": "Marc",
+        "description": "Gruber",
+        "email": "a@hola.com",
+        "passwordHash" : "Gurororo",
+        "rolUser" : "gestor"
+    },
 
-  {
-      "name": "Gerard",
-      "description": "Suau",
-      "email": "agsfd@hola.com",
-      "passwordHash" : "Gurororo",
-      "rolUser" : "alumno"    
-  }
+    {
+        "name": "Gerard",
+        "description": "Suau",
+        "email": "b@hola.com",
+        "passwordHash" : "Gurororo",
+        "rolUser" : "gestor"    
+    },
+
+    {
+        "name": "Helder",
+        "description": "Rivas",
+        "email": "c@hola.com",
+        "passwordHash" : "Gurororo",
+        "rolUser" : "gestor"
+    }
 ]
