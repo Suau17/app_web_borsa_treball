@@ -20,7 +20,7 @@ export const estudianteRegistrerController = async (req, res) => {
     let estudis = req.body.estudis;
    
     
-    const id = await userController.userRegistrerController(req, res)
+    const {id, token} = await userController.userRegistrerController(req, res)
     console.log('id' + id)
     const estudiante = new EstudianteModel({
       refUser: id,
