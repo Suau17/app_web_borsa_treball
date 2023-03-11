@@ -1,4 +1,12 @@
 [
+    {
+
+        "name": "Marc",
+        "description": "Gruber",
+        "email": "a@hola.com",
+        "passwordHash" : "Gurororo",
+        "rolUser" : "gestor"
+    },
 
     {
         "name": "Gerard",

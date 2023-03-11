@@ -20,7 +20,7 @@ export const habilitarGestorController = async (req, res) => {
         return res.status(500).send('Ocurrió un error inesperado. Por favor, intente nuevamente más tarde.')
       }
     }
-const ofertasRegistradasEsteAño = async  () => {
+const dataYear = async  () => {
     const ofertas = database.collection("ofertalaborals");
 
     // Estimate the total number of documents in the collection

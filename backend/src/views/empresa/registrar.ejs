@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <%- include('../partials/head'); %>
+</head>
+<body class="container">
+
+<header>
+  <%- include('../partials/header'); %>
+</header>
+
+<main>
+
+	<div class="card mt-2">
+		
+		<div class="card-header">
+	     <h5 class="card-title">BORSA TREBALL</h5>
+	  </div>
+
+
+    <form action="registrarEmpresa/" method="post" style="margin: 2em;">
+      <div class="form-group">
+        <label for="exampleInputEmail1">Nom Empresa</label>
+        <input type="text" class="form-control" name="nomEmpresa" id="nomEmpresa" aria-describedby="emailHelp" placeholder="Nom Empresa">
+      </div>
+      <div class="form-group">
+        <label for="exampleInputPassword1">Nom Gestor</label>
+        <input type="text" class="form-control" name="nomGestor" id="nomGestor" placeholder="Nom Gestor">
+      </div>
+      <div class="form-group">
+        <label for="exampleInputEmail1">carrec</label>
+        <input type="text" class="form-control" name="carrec" id="carrec"placeholder="carrec">
+      </div>
+      <div class="form-group">
+        <label for="exampleInputPassword1">telefon</label>
+        <input type="text" class="form-control" name="telefon" id="telefon" placeholder="skills">
+      </div>
+     
+<br>
+      <button type="submit" class="btn btn-primary">Submit</button>
+    </form>
+
+	
+	</div>
+ 
+</main>
+
+<footer>
+  <%- include('../partials/footer'); %>
+</footer>
+
+</body>
+</html>

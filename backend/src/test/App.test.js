@@ -30,6 +30,7 @@ const bootServer = async () => {
 
 bootServer()
 
+//Eliminar elementos de la base de datos
 before((done) => {
   UserModel.deleteMany(function (err) { if (err) return done(err)})
   GestorModel.deleteMany(function (err) {if (err) return done(err) })
@@ -130,7 +131,8 @@ describe('Empresa', () => {
   it('Creando Empresa:', (done) => {
     let empresa = {
       "nom": "bugisoft",
-      "direccion": "calle 3"
+      "direccion": "calle 3",
+      "sector":"Empresa software"
     }
     chai.request(server)
       .post('/gestor/empresa/registrar')

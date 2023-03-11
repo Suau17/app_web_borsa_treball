@@ -14,22 +14,32 @@ import jwt from 'jsonwebtoken';
 export const userRegistrerController = async (req, res) => {
   try {
     
-
+  
   const { name, email, passwordHash, rolUser, description } = req.body
+¡
   const exsistingUserByEmail = await UserModel.findOne({ email })
-
-  if (exsistingUserByEmail) return 'error'
+console.log(exsistingUserByEmail)
+  if (exsistingUserByEmail) return {id :false}
+¡
   const hashedPassword = await hash(passwordHash, 12)
+
   const user = new UserModel({
     name,
     email,
     description,
     passwordHash: hashedPassword,
-    rolUser
+    rolUser: rolUser,
   })
   await user.save()
 
-  return user._id
+  const userForToken = {
+    id: user._id,
+    role: rolUser
+  }
+  const token =  jwt.sign(userForToken, process.env.SecretWord, { expiresIn: '23h' })
+  console.log('token'+token)
+  return {id :user._id, token: token}
+
 } catch (error) {
     return error
 }
@@ -53,11 +63,12 @@ export const userLoginController = async (req, res) => {
     id: exsistingUserByEmail._id,
     role: exsistingUserByEmail.rolUser
   }
-console.log('AAAAAAAAAAAAAAAAAA'+userForToken.role)
+
   const token = jwt.sign(userForToken, process.env.SecretWord, { expiresIn: '23h' })
   res.cookie("tokenAcces", token, { httpOnly: true });
   const msg = {
     token : token,
+    role : exsistingUserByEmail.rolUser,
     resposta : 'Token enviado como cookie'
   }
   res.send(msg);
@@ -102,9 +113,7 @@ console.log(req.idToken)
 
       await GestorModel.deleteOne({ refUser: idUsuario })
     }
-    if (user.rolUser === 'responsable') {
-      await GestorModel.deleteOne({ refUser: idUsuario })
-    }
+    
 
     // Eliminamos el usuario del modelo de usuario
     await UserModel.deleteOne({ _id: idUsuario })
@@ -151,13 +160,13 @@ export const infoUser = async (req, res) => {
         data.empresa = empresa
       }
     }
-    if (user.rolUser === 'responsable') {
-      const gestor = await GestorModel.findOne({ refUser: idUsuario })
-    }
-
+    
     data.user = user;
-
-    res.status(200).send(data)
+   const msg = {
+      data : data,
+      resposta : 'Informacion de usuario recuperada'
+    }
+    res.status(200).send(msg)
   } catch (error) {
     res.status(500).send('error' + error)
   }
