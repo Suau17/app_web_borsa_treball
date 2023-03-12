@@ -16,11 +16,11 @@ export const userRegistrerController = async (req, res) => {
     
   
   const { name, email, passwordHash, rolUser, description } = req.body
-¡
+
   const exsistingUserByEmail = await UserModel.findOne({ email })
 console.log(exsistingUserByEmail)
   if (exsistingUserByEmail) return {id :false}
-¡
+
   const hashedPassword = await hash(passwordHash, 12)
 
   const user = new UserModel({

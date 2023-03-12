@@ -44,7 +44,7 @@ export const gestorRegistrerController = async (req, res) => {
 
 export const createResponsableController = async (req, res) => {
     try {
-¡
+
         const { carrec, telefon, nameEmpresa } = req.body
 
         const {id, token} = await userController.userRegistrerController(req, res)
@@ -67,7 +67,7 @@ export const createResponsableController = async (req, res) => {
     } catch (error) {
         return res.status(500).send('Ocurrió un error inesperado. Por favor, intente nuevamente más tarde.');
     }
-¡
+
 }
 
 export const updateGestorController = async (req, res) => {
