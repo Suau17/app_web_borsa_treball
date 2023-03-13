@@ -25,7 +25,7 @@ export const estudianteRegistrerController = async (req, res) => {
     const estudiante = new EstudianteModel({
       refUser: id,
       cartaPresentacion,
-      curriculum,
+      //curriculum,
       estudis
     })
     await estudiante.save()
