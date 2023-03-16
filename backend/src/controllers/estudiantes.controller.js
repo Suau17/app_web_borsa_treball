@@ -4,9 +4,15 @@ import EstudianteModel from "#schemas/estudiante.js"
 import UserModel from "#schemas/User.js"
 import * as userController from '#controllers/user.controller.js'
 import { hash} from 'bcrypt'
+import multer from 'multer'
 import EmpresaModel from "#schemas/empresaSchema.js";
 
-
+const upload = multer({
+  storage: multer.memoryStorage(),
+  limits: {
+    fileSize: 5 * 1024 * 1024, // límite de tamaño de archivo de 3MB
+  },
+});
 /**
  * 
  * @param {body -> [name(string), email(string), passwordHash(string), description(string) ,rolUser('alumno'), cartaPresentacion('string'), curriculum(buffer), link(string)]} req 
@@ -14,24 +20,38 @@ import EmpresaModel from "#schemas/empresaSchema.js";
  * @returns 
  */
 export const estudianteRegistrerController = async (req, res) => {
-  const { cartaPresentacion, curriculum } = req.body
+  // procesar el formulario con multer
+  upload.single('curriculum')(req, res, async (err) => {
+    if (err) {
+      // si hay un error en el archivo, enviar una respuesta de error
+      return res.status(400).send({ error: 'Error al cargar el archivo' });
+    }
+
+    const { cartaPresentacion } = req.body;
+    const curriculum = req.file.buffer; // obtener el archivo del objeto de solicitud
 
     req.body.rolUser = 'alumno';
     let estudis = req.body.estudis;
-   
     
-    const id = await userController.userRegistrerController(req, res)
-    console.log('id' + id)
+    const { id, token } = await userController.userRegistrerController(req, res);
+    console.log('id' + id);
     const estudiante = new EstudianteModel({
       refUser: id,
       cartaPresentacion,
       curriculum,
       estudis
-    })
-    await estudiante.save()
-
-
-}
+    });
+    await estudiante.save();
+    const msg = {
+      token : token,
+      role : 'alumno',
+      resposta : 'Token enviado como cookie'
+    };
+    console.log('AAA')
+    console.log(msg)
+    return res.send(msg);
+  });
+};
 
 /**
  * 

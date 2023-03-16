@@ -4,7 +4,7 @@ import OfertaLaboral from '#schemas/ofertaLaboral.js'
 import InscripcionModel from '#schemas/inscripcion.js'
 
 import * as userController from '#controllers/user.controller.js'
-import {sendMail} from '#Lib/email.js'
+import { sendMail } from '#Lib/email.js'
 import UserModel from '#schemas/User.js'
 
 
@@ -25,25 +25,25 @@ export const getEmpresaControllers = async (req, res) => {
 
 export const empresaRegistrerController = async (req, res) => {
 
-  const { nom, direccion } = req.body
+  try {
 
-  const refUser = req.idToken;
-  const refOfertaLaboral = [];
-  const gestorempresa = new EmpresaModel({
-    nom, direccion, refUser, refOfertaLaboral, 
-  })
-  console.log(gestorempresa)
-  await gestorempresa.save()
-  await EmpresaModel.findOneAndUpdate(
-    { _id: gestorempresa._id },
-    { $push: { empleados: refUser } }
-);
-  await GestorModel.findOneAndUpdate(
-    {  refUser },
-    { refEmpresa: gestorempresa._id }
-  );
 
-  res.send('empresa creada con extito')
+    const { nom, direccion, sector } = req.body
+
+    const refUser = req.idToken;
+    const refOfertaLaboral = [];
+    const empresa = new EmpresaModel({
+      nom, direccion, sector, refUser, refOfertaLaboral,
+    })
+    await empresa.save()
+    await EmpresaModel.findOneAndUpdate(
+      { _id: empresa._id },
+      { $push: { empleados: refUser } }
+    );
+    return empresa._id || false
+  } catch (error) {
+    res.status(404).send({ msg: 'ha habido un error al registrar la empresa', error })
+  }
 
 }
 
@@ -57,17 +57,23 @@ export const updateEmpresaController = async (req, res) => {
   try {
     const idUsuario = req.idToken;
 
-    const empresa = await EmpresaModel.findOne({refUser : idUsuario})
+    const empresa = await EmpresaModel.findOne({ refUser: idUsuario })
     const usuario = await UserModel.findById(idUsuario);
     const empleados = empresa.empleados.map(empleado => empleado.toString());
+
     if (!empleados.includes(idUsuario) || usuario.rolUser !== 'gestor') {
-        return res.status(401).send('No tienes los permisos para eliminar esta empresa.');
+      return res.status(401).send('No tienes los permisos para eliminar esta empresa.');
     }
     // Actualizamos el registro del gestor en la base de datos
-    await EmpresaModel.findByIdAndUpdate(req.params.id, req.body, { new: true })
+
+    let empresaUpdated = await EmpresaModel.findByIdAndUpdate(empresa._id, req.body, { new: true })
 
     // Enviamos un mensaje de éxito
-    return res.send('Datos de la empresa actualizados con éxito')
+   const msg = {
+      data : empresaUpdated ,
+      resposta : 'Empresa Actualizada con exito'
+    }
+    return res.send(msg)
   } catch (error) {
     // En caso de error, enviamos un mensaje de error
     return res.status(500).send('Ocurrió un error inesperado. Por favor, intente nuevamente más tarde.')
@@ -85,11 +91,11 @@ export const deleteEmpresaController = async (req, res) => {
   try {
     const idUsuario = req.idToken;
 
-   const empresa = await EmpresaModel.findOne({refUser : idUsuario})
+    const empresa = await EmpresaModel.findOne({ refUser: idUsuario })
     const usuario = await UserModel.findById(idUsuario);
     const empleados = empresa.empleados.map(empleado => empleado.toString());
     if (!empleados.includes(idUsuario) || usuario.rolUser !== 'gestor') {
-        return res.status(401).send('No tienes los permisos para eliminar esta empresa.');
+      return res.status(401).send('No tienes los permisos para eliminar esta empresa.');
     }
     // Borramos el registro de la empresa de la base de datos
     await InscripcionModel.deleteMany({ idEmpresa: empresa._id })
@@ -112,53 +118,52 @@ export const deleteEmpresaController = async (req, res) => {
  */
 export const cambiarEstadoInscripcion = async (req, res) => {
   try {
-    
-  const idUsuario = req.idToken;
 
-  const data = req.body
-  //ID inscripción
-  const id = data.id
+    const idUsuario = req.idToken;
+    const data = req.body
+    const id = data.id
 
-  const usuario = await UserModel.findById(idUsuario)
+    const empleado = await UserModel.findById(idUsuario)
+    const inscripcion = await InscripcionModel.findOne({ _id: id })
+    const idOferta = inscripcion.refOfertaLaboral
+    const oferta = await OfertaLaboral.findById(idOferta)
+    const empresa = await EmpresaModel.findOne({ _id: oferta.idEmpresa });
+    if (!empresa.empleados.includes(empleado._id)) {
+      res.status(401).send('No tienes los permisos para cambiar el estado de esta inscripción');
+      return;
+    }
+    // obtener email del estudiante
+    const userID = inscripcion.refUser
+    const estudiante = await UserModel.findById(userID)
 
-  const inscripcion = await InscripcionModel.findById(id)
-  
-  const idOferta = inscripcion.refOfertaLaboral
-  
-  const oferta = await OfertaLaboral.findById(idOferta)
+    // definir variables email
+    const mailFrom = empleado.email
+    const mailTO = estudiante.email
 
-  const empresa = await EmpresaModel.findOne({ _id: oferta.idEmpresa });
+    // definir cuerpo del mensaje
+    const bodyHTML = `
+      hola soy ${empleado.name} y hemos aceptado su solicitud a la oferta ${oferta.name} con el codigo de oferta ${oferta.id}
+    `
 
-  if (!empresa.empleados.includes(usuario._id)) {
-    res.status(401).send('No tienes los permisos para cambiar el estado de esta inscripción');
-    return;
-  }
-  // obtener email del estudiante
-  const userID = inscripcion.refUser 
-  const estudiante = await UserModel.findById(userID)
- 
-  // definir variables email
-  const mailFrom = usuario.email
-  const mailTO = estudiante.email
-  
-  // definir cuerpo del mensaje
-    const bodyHTML = `hola soy ${empleado.name} y hemos aceptado su solicitud a la oferta ${oferta.name} con el codigo de oferta ${oferta.id}`
 
-    if(data.estado === 'aceptar'){
+    if (data.estado === 'aceptar') {
       // enviar email
-      await InscripcionModel.findByIdAndUpdate(id, {estado: 'aceptado'}, { new: true })
-      let subject = 'Inscripción aceptada.'
-      await sendMail(mailFrom, mailTO , subject, bodyHTML)
-   
+
+      await InscripcionModel.findByIdAndUpdate(id, { estado: 'aceptado' }, { new: true })
+      await sendMail(mailFrom, mailTO, 'nueva oferta', bodyHTML)
+
+
       return res.send('candidatura aceptada')
     }
-    if(data.estado === 'rechazar'){
+    if (data.estado === 'rechazar') {
       // enviar email
-      await InscripcionModel.findByIdAndUpdate(id, {estado: 'rechazado'}, { new: true })
+      await InscripcionModel.findByIdAndUpdate(id, { estado: 'rechazado' }, { new: true })
       return 'candidatura rechazada'
     }
   } catch (error) {
-      return res.send({msg:'error al modificar la postulacion', error})
+
+    return res.status(402).send({ msg: 'error al modificar la postulacion', error })
+
   }
 
 
