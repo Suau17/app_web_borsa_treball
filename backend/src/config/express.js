@@ -4,6 +4,7 @@ import gestorRouter from '#routes/gestor.routes.js'
 import estudianteRouter from '#routes/estudiante.routes.js'
 import appRouter from '#routes/app.routes.js'
 import userRouter from '#routes/user.routes.js'
+import appRouter from '#routes/app.routes.js'
 import express from 'express'
 import cors from 'cors'
 import cookieParser from 'cookie-parser'
@@ -46,7 +47,7 @@ expressApp.use('/admin',adminRouter)
 expressApp.use("/gestor", checkAuthGestor ,gestorRouter)
 expressApp.use('/estudiante', checkAuthEstudiante , estudianteRouter)
 expressApp.use("/user",  userRouter)
-expressApp.use('/app', appRouter)
+expressApp.use("/app",  appRouter)
 
 
 
