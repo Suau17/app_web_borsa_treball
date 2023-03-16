@@ -4,7 +4,7 @@ import gestorRouter from '#routes/gestor.routes.js'
 import estudianteRouter from '#routes/estudiante.routes.js'
 import appRouter from '#routes/app.routes.js'
 import userRouter from '#routes/user.routes.js'
-import appRouter from '#routes/app.routes.js'
+
 import express from 'express'
 import cors from 'cors'
 import cookieParser from 'cookie-parser'
