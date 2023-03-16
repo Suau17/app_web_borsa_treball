@@ -3,7 +3,6 @@ import * as oferta from '#controllers/oferta.controller.js';
 import * as userC from '#controllers/user.controller.js'
 import * as gestor from '#controllers/gestorController.js'
 import {Router} from 'express';
-import { checkAuth, checkAuth_Gestor } from '#Lib/auth.js'
 
 const appRouter = Router();
 
@@ -17,3 +16,5 @@ appRouter.get('/getOfertas/:id', oferta.getOfertaEmpresaController)
 
 
 appRouter.post('/register', gestor.gestorRegistrerController)
+
+export default appRouter

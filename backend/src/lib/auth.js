@@ -9,7 +9,7 @@ export const checkAuthGestor = async (req,res, next) => {
         // if(tokenFromCookies !== tokenFromClient) {
         //     return res.status(498).send({error: 'token no es el mismo'})
         // }
-        const tokenData = jwt.verify(tokenFromCookies, process.env.secretWord)
+        const tokenData = jwt.verify(tokenFromCookies, process.env.SecretWord)
         const id = tokenData.id
         console.log(tokenData)
         
@@ -36,7 +36,7 @@ export const checkAuthEstudiante = async (req,res, next) => {
         // if(tokenFromCookies !== tokenFromClient) {
         //     return res.status(498).send({error: 'token no es el mismo'})
         // }
-        const tokenData = jwt.verify(tokenFromCookies, process.env.secretWord)
+        const tokenData = jwt.verify(tokenFromCookies, process.env.SecretWord)
         const id = tokenData.id
         console.log(tokenData)
         // if (tokenData.role !== 'alumno') {

@@ -20,8 +20,8 @@ userRouter.get('/profile/:id',  userC.infoUser ) // funciona (json no view)
 // }); 
 userRouter.post('/login', userC.userLoginController)
 userRouter.delete('/delete/', auth.checkAuth ,userC.deleteUserController)
-userRouter.post('/register/gestor',rules.rules,validacion.validarCampos, gestor.gestorRegistrerController)
-userRouter.post('/register/estudiante',rules.rules,validacion.validarCampos, estudiante.estudianteRegistrerController)
+userRouter.post('/register/gestor', gestor.gestorRegistrerController)
+userRouter.post('/register/estudiante', estudiante.estudianteRegistrerController)
 // ruta para recuperar contraseña
 
 export default userRouter
