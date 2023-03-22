@@ -2,6 +2,7 @@ import * as userC from '#controllers/user.controller.js'
 import {Router} from 'express'
 import * as gestor from '#controllers/gestorController.js'
 import * as estudiante from '#controllers/estudiantes.controller.js'
+import * as admin from '#controllers/admin.crontroller.js'
 import * as auth from '#Lib/auth.js'
 import { checkAuthUser } from '#Lib/auth.js'
 import * as validacion from "#Lib/validaciones/validacion.js";
@@ -23,6 +24,7 @@ userRouter.post('/login', userC.userLoginController)
 userRouter.delete('/delete/', auth.checkAuth ,userC.deleteUserController)
 
 userRouter.post('/register/gestor', gestor.gestorRegistrerController)
+userRouter.post('/register/admin', admin.adminRegistrerController)
 userRouter.post('/register/estudiante', estudiante.estudianteRegistrerController)
 
 // ruta para recuperar contraseña
