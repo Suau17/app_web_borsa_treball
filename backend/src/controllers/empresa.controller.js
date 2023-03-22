@@ -25,7 +25,7 @@ export const getEmpresaControllers = async (req, res) => {
 
 export const empresaRegistrerController = async (req, res) => {
 
-  try {
+
 
 
     const { nameEmpresa, direccion, sector } = req.body
@@ -41,9 +41,7 @@ export const empresaRegistrerController = async (req, res) => {
       { $push: { empleados: refUser } }
     );
     return empresa._id || false
-  } catch (error) {
-    res.status(404).send({ msg: 'ha habido un error al registrar la empresa', error })
-  }
+
 
 }
 
