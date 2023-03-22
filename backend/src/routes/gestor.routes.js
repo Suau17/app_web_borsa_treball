@@ -5,7 +5,7 @@ import * as empresa from '#controllers/empresa.controller.js'
 import * as oferta from '#controllers/oferta.controller.js';
 import * as validacion from "#Lib/validaciones/validacion.js";
 import * as rules from '#Lib/validaciones/rules.js';
-import * as auth from '#Lib/auth.js'
+
 import { body, validationResult} from 'express-validator';
 const gestorRouter = Router()
 

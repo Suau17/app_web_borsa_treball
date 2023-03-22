@@ -12,7 +12,7 @@ export const checkAuthGestor = async (req,res, next) => {
         // if(tokenFromCookies !== tokenFromClient) {
         //     return res.status(498).send({error: 'token no es el mismo'})
         // }
-        const tokenData = jwt.verify(tokenFromCookies, process.env.secretWord)
+        const tokenData = jwt.verify(tokenFromClient, process.env.secretWord)
         const id = tokenData.id
 
       
