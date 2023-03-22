@@ -5,7 +5,7 @@ import * as empresa from '#controllers/empresa.controller.js'
 import * as oferta from '#controllers/oferta.controller.js';
 import * as validacion from "#Lib/validaciones/validacion.js";
 import * as rules from '#Lib/validaciones/rules.js';
-import { body, validationResult} from 'express-validator';
+// import { body, validationResult} from 'express-validator';
 const gestorRouter = Router()
 
 
@@ -13,8 +13,6 @@ const gestorRouter = Router()
 
 
 gestorRouter.put('/update/', gestor.updateGestorController)
-
-gestorRouter.delete('/delete', userC.deleteUserController)
 
 // //// RESPONSABLE
 

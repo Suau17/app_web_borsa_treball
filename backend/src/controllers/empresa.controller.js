@@ -28,8 +28,8 @@ export const empresaRegistrerController = async (req, res) => {
   try {
 
 
-    const { nom, direccion, sector } = req.body
-
+    const { nameEmpresa, direccion, sector } = req.body
+    const nom = nameEmpresa
     const refUser = req.idToken;
     const refOfertaLaboral = [];
     const empresa = new EmpresaModel({
@@ -55,7 +55,8 @@ export const empresaRegistrerController = async (req, res) => {
  */
 export const updateEmpresaController = async (req, res) => {
   try {
-    const idUsuario = req.idToken;
+    const gestorToken = req.gestorV;
+    const idUsuario = gestorToken.refUser
 
     const empresa = await EmpresaModel.findOne({ refUser: idUsuario })
     const usuario = await UserModel.findById(idUsuario);
@@ -89,7 +90,8 @@ export const updateEmpresaController = async (req, res) => {
  */
 export const deleteEmpresaController = async (req, res) => {
   try {
-    const idUsuario = req.idToken;
+    const gestorToken = req.gestorV;
+    const idUsuario = gestorToken.refUser
 
     const empresa = await EmpresaModel.findOne({ refUser: idUsuario })
     const usuario = await UserModel.findById(idUsuario);
@@ -118,7 +120,9 @@ export const deleteEmpresaController = async (req, res) => {
  */
 export const cambiarEstadoInscripcion = async (req, res) => {
   try {
-    const idUsuario = req.idToken;
+
+    const gestorToken = req.gestorV;
+    const idUsuario = gestorToken.refUser;
     const data = req.body
     const id = data.id
 

@@ -15,7 +15,7 @@ const ofertaLaboralSchema = new Schema({
         type: mongoose.Schema.Types.ObjectID,
         ref: 'User'
     }]
-})
+}) 
 
 const OfertaLaboral = model('ofertaLaboral', ofertaLaboralSchema)
 

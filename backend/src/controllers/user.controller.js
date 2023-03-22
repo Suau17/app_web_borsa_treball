@@ -85,7 +85,6 @@ export const getUsersControllers = (req, res) => {
 export const deleteUserController = async (req, res) => {
   try {
     const idUsuario = req.idToken;
-console.log(req.idToken)
     if(!idUsuario) {
       res.status(401).send('No tienes los permisos para borrar otro usuario')
       return;
