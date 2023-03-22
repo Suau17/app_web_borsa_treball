@@ -29,15 +29,19 @@ export const getOfertasController = (req, res, next) => {
  * @param {*} res 
  * @param {*} next 
  */
-export const getOfertaEmpresaController = (req, res, next) => {
-    const idEmpresa = req.params.id;
-
-    OfertaLaboral.find({ idEmpresa: idEmpresa }).populate('createBy').exec((err, listOfertas) => {
-        if (err) {
-            return next({ error: err, msg: "error" })
+export const getOfertaEmpresaController = async (req, res, next) => {
+    try {
+        const gestorToken = req.gestorV;
+        const nameEmpresa = gestorToken.nameEmpresa;
+        const empresa = await EmpresaModel.findOne({ nom: nameEmpresa });
+        if (!empresa) {
+            return next({ error: "Empresa not found", msg: "error" });
         }
+        const listOfertas = await OfertaLaboral.find({ idEmpresa: empresa._id }).populate('createBy');
         res.send({ listaOferta: listOfertas });
-    });
+    } catch (err) {
+        return next({ error: err, msg: "error" });
+    }
 }
 
 
@@ -52,7 +56,8 @@ export const ofertaRegisterController = async (req, res) => {
     try {
 
         const { title, description, requirements, skills, ciclo, dateOfPublication, expirationDate} = req.body
-        const idUsuario = req.idToken;
+        const gestorToken = req.gestorV;
+        const idUsuario = gestorToken.refUser;
 
         const empresa = await EmpresaModel.findOne({refUser: {$in: [idUsuario]}});
         console.log(empresa)
@@ -69,8 +74,11 @@ export const ofertaRegisterController = async (req, res) => {
             title, description, requirements, skills, ciclo, dateOfPublication, expirationDate, idEmpresa, createBy
         })
         await ofertaLaboral.save()
-
-        return res.status(200).send('oferta creada con exito')
+        const msg = {
+            oferta: ofertaLaboral,
+            resposta:'oferta creada amb exit'
+        }
+        return res.status(200).send(msg)
     } catch (error) {
         return res.status(404).send('ha habido un error al registrar la oferta')
     }
@@ -86,8 +94,9 @@ export const ofertaRegisterController = async (req, res) => {
 export const updateOfertaController = async (req, res) => {
     try {
         const id = req.params.id
+        const gestorToken = req.gestorV;
+        const idUsuario = gestorToken.refUser;
 
-        const idUsuario = req.idToken;
         const oferta = await OfertaLaboral.findById(id)
         const empresa = await EmpresaModel.findOne({empleados: {$in: [idUsuario]}});
         if (!idUsuario || !oferta.idEmpresa.equals(empresa._id)) {
@@ -115,7 +124,8 @@ export const removeOfertaController = async (req, res) => {
     try {
         const ofertaId = req.params.ofertaId
 
-        const idUsuario = req.idToken;
+        const gestorToken = req.gestorV;
+        const idUsuario = gestorToken.refUser;
         const oferta = await OfertaLaboral.findById(ofertaId)
         const empresa = await EmpresaModel.findOne({refUser: {$in: [idUsuario]}});
     
