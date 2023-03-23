@@ -22,6 +22,13 @@ export const getOfertasController = (req, res, next) => {
     })
 }
 
+export const getOfertaController =async (req, res, next) => {
+    let id = req.params.idOferta;
+    const oferta = await OfertaLaboral.findById(id)
+    return res.send(oferta)
+}
+
+
 /**
  * Devuelve UNA oferta ......... PENDIENTE DE REVISIÓN
  * @param {ObjectId(oferta)} req 

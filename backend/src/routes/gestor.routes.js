@@ -23,7 +23,7 @@ gestorRouter.post('/register/responsable',gestor.createResponsableController)
 // gestorRouter.put('/empresa/update/', rules.rulesEmpresa,validacion.validarCampos,empresa.updateEmpresaController)
 gestorRouter.put('/empresa/update/',empresa.updateEmpresaController)
 gestorRouter.delete('/empresa/delete/', empresa.deleteEmpresaController)
-
+gestorRouter.get('/empresa/empleados', empresa.getEmployeesControllers) 
 
 // //// OFERTAS
 gestorRouter.get('/getOfertas/:id', oferta.getOfertaEmpresaController) 

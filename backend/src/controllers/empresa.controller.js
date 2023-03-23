@@ -110,6 +110,25 @@ export const deleteEmpresaController = async (req, res) => {
   }
 }
 
+
+export const getEmployeesControllers = async (req, res) => {
+  try {
+    const gestorToken = req.gestorV;
+    const idUsuario = gestorToken.refUser
+
+    const empresa = await EmpresaModel.findOne({ refUser: idUsuario })
+    const empleados = await Promise.all(empresa.empleados.map(empleado => UserModel.findById(empleado)));
+    // Enviar las empresas en la respuesta
+    const msg = {
+      empleados : empleados ,
+      resposta : 'Empleados encontrados'
+    }
+    res.send(msg);
+  } catch (error) {
+    res.status(500).send('Ocurrió un error al recuperar las empresas. Por favor, intente nuevamente más tarde.');
+  }
+}
+
 /**
  * Este controlador actualiza el estado de inscripcion e informa al usuario enviando un email
  * @param {id Inscripcion(string), estado('aceptar' || 'rechazar')} req 
