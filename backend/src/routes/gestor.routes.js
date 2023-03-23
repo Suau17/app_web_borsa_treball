@@ -25,7 +25,7 @@ gestorRouter.post('/empresa/registrar', empresa.empresaRegistrerController)
 gestorRouter.put('/empresa/update/',empresa.updateEmpresaController)
 gestorRouter.delete('/empresa/delete/', empresa.deleteEmpresaController)
 gestorRouter.post('/empresa/ofertas/:idOferta/eliminar', gestor.createResponsableController)
-
+gestorRouter.get('/empresa', empresa.getEmpresaControllers)
 
 // //// OFERTAS
 gestorRouter.get('/getOfertas/:id', oferta.getOfertaEmpresaController) 
