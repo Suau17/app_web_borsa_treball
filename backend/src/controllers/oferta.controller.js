@@ -24,6 +24,12 @@ export const getOfertasController = (req, res, next) => {
 
 export const getOfertaController =async (req, res, next) => {
     let id = req.params.idOferta;
+    console.log(req.params)
+    console.log(id)
+    // buscar oferta
+    // recorrer empleado
+    // enviar 
+    const empleados = await Promise.all(empresa.empleados.map(empleado => UserModel.findById(empleado)));
     const oferta = await OfertaLaboral.findById(id)
     return res.send(oferta)
 }
