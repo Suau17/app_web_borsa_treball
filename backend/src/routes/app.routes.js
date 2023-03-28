@@ -14,6 +14,7 @@ appRouter.get('/getUsers',   userC.getUsersControllers)
 appRouter.get('/getOfertas', oferta.getOfertasController) 
 appRouter.get('/oferta/:idOferta', oferta.getOfertaController) 
 appRouter.get('/getOfertas/:id', oferta.getOfertaEmpresaController) 
+appRouter.get('/user/:id', userC.searchUser)
 
 
 appRouter.post('/register', gestor.gestorRegistrerController)

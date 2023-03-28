@@ -3,6 +3,7 @@ import OfertaLaboral from "#schemas/ofertaLaboral.js"
 import GestorModel from "#schemas/Gestor.js"
 import EmpresaModel from '#schemas/empresaSchema.js'
 import InscripcionModel from '#schemas/inscripcion.js'
+import UserModel from "#schemas/User.js"
 
 /**
  * Devuelve TODAS las ofertas
@@ -29,9 +30,13 @@ export const getOfertaController =async (req, res, next) => {
     // buscar oferta
     // recorrer empleado
     // enviar 
-    const empleados = await Promise.all(empresa.empleados.map(empleado => UserModel.findById(empleado)));
     const oferta = await OfertaLaboral.findById(id)
-    return res.send(oferta)
+    const inscritos = await Promise.all(oferta.refUsersInscritos.map(estudiante => UserModel.findById(estudiante)));
+    const msg = {
+        oferta : oferta,
+        inscritos : inscritos
+    }
+    return res.send(msg)
 }
 
 
