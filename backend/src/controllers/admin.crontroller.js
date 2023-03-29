@@ -62,4 +62,43 @@ const dataYear = async () => {
   console.log(estimate)
 }
 
+export const eliminarUsuario = async (req,res)=> {
 
+try {
+  const idUsuario = req.body.id
+  if (!idUsuario) {
+    res.status(401).send('No tienes los permisos para borrar otro usuario')
+    return;
+  }
+  const user = await UserModel.findById(idUsuario)
+
+
+  // Si el rol del usuario es "alumno", eliminamos el documento del modelo de estudiante
+  if (user.rolUser === 'alumno') {
+    await EstudianteModel.deleteOne({ refUser: idUsuario })
+  }
+  if (user.rolUser === 'gestor') {
+    const gestor = await GestorModel.findOne({ refUser: idUsuario })
+    console.log(gestor)
+    if (gestor.refEmpresa) {
+      const empresaId = gestor.refEmpresa;
+      // Borramos todas las ofertas de la empresa
+      await InscripcionModel.deleteMany({ idEmpresa: empresaId })
+      await OfertaLaboral.deleteMany({ idEmpresa: empresaId });
+      await EmpresaModel.deleteOne({ refUser: user._id });
+    }
+
+    await GestorModel.deleteOne({ refUser: idUsuario })
+  }
+
+
+  // Eliminamos el usuario del modelo de usuario
+  await UserModel.deleteOne({ _id: idUsuario })
+
+  // Enviamos un código de estado HTTP 200 (OK)
+  res.status(200).send('Usuario eliminado correctamente')
+} catch (error) {
+  // En caso de error, enviamos un código de estado HTTP 500 (Internal Server Error)
+  res.status(500).send('error')
+}
+}
