@@ -38,7 +38,22 @@ export const getOfertaController =async (req, res, next) => {
     }
     return res.send(msg)
 }
+export const getInscritosController =async (req, res, next) => {
+    let id = req.params.idOferta;
+ 
+    const inscripciones = await InscripcionModel.find({refOfertaLaboral: id})
+    const inscritos = await Promise.all(inscripciones.map(async (inscripcion) => {
+        console.log(inscripcion)
+        const user = await UserModel.findById(inscripcion.refUser)
+        console.log(user)
+        inscripcion.refUser = user
+    }));
 
+    const msg = {
+        inscripciones : inscripciones,
+    }
+    return res.send(msg)
+}
 
 /**
  * Devuelve UNA oferta ......... PENDIENTE DE REVISIÓN
@@ -70,8 +85,7 @@ export const getOfertaEmpresaController = async (req, res, next) => {
  * @returns 
  */
 export const ofertaRegisterController = async (req, res) => {
-    try {
-
+ 
         const { title, description, requirements, skills, ciclo, dateOfPublication, expirationDate} = req.body
         const gestorToken = req.gestorV;
         const idUsuario = gestorToken.refUser;
@@ -96,9 +110,7 @@ export const ofertaRegisterController = async (req, res) => {
             resposta:'oferta creada amb exit'
         }
         return res.status(200).send(msg)
-    } catch (error) {
-        return res.status(404).send('ha habido un error al registrar la oferta')
-    }
+
 }
 
 

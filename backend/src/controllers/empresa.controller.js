@@ -141,10 +141,10 @@ export const cambiarEstadoInscripcion = async (req, res) => {
     const gestorToken = req.gestorV;
     const idUsuario = gestorToken.refUser;
     const data = req.body
-    const id = data.id
+    const id = req.params.idInscripcion
 
     const empleado = await UserModel.findById(idUsuario)
-    const inscripcion = await InscripcionModel.findOne({ _id: id })
+    const inscripcion = await InscripcionModel.findById(id)
     const idOferta = inscripcion.refOfertaLaboral
     const oferta = await OfertaLaboral.findById(idOferta)
     const empresa = await EmpresaModel.findOne({ _id: oferta.idEmpresa });
@@ -166,20 +166,23 @@ export const cambiarEstadoInscripcion = async (req, res) => {
     `
 
 
+    const msg = {}
     if (data.estado === 'aceptar') {
       // enviar email
 
-      await InscripcionModel.findByIdAndUpdate(id, { estado: 'aceptado' }, { new: true })
+        await InscripcionModel.findByIdAndUpdate(id, { estado: 'aceptado' }, { new: true })
       await sendMail(mailFrom, mailTO, 'nueva oferta', bodyHTML)
 
-
-      return res.send('candidatura aceptada')
+      msg.msg = 'Candidatura aceptada'
+      msg.code = 1
     }
     if (data.estado === 'rechazar') {
       // enviar email
       await InscripcionModel.findByIdAndUpdate(id, { estado: 'rechazado' }, { new: true })
-      return 'candidatura rechazada'
+      msg.msg = 'Candidatura Rechazada'
+      msg.code = 0
     }
+    return res.send(msg)
   } catch (error) {
 
     return res.status(402).send({ msg: 'error al modificar la postulacion', error })
