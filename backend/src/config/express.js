@@ -41,6 +41,7 @@ expressApp.use(cors())
 // routes
 
 
+expressApp.use('/public',express.static('./public'))
 
 expressApp.use('/admin',adminRouter)
 expressApp.use("/gestor", checkAuthGestor ,gestorRouter)
