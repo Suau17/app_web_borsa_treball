@@ -142,12 +142,13 @@ export const inscribirseOferta = async (req, res) => {
       res.status(401).send('No tienes los permisos para inscribir a otro usuario')
       return;
     }
-    //Comprobar que el estudiante no tenga inscripción en la misma oferta
+    // Comprobar que el estudiante no tenga inscripción en la misma oferta
     const oferta = await OfertaLaboral.findById(idOferta)
 
-    //PARA REVISAR
-    const inscripcionrepetida = await InscripcionModel.findOne({ refOfertaLaboral: id, refUser: idUsuarioToken });
-    if (!inscripcionrepetida) {
+    // PARA REVISAR
+    const inscripcionrepetida = await InscripcionModel.findOne({ refOfertaLaboral: idOferta, refUser: idUsuarioToken });
+    console.log(inscripcionrepetida)
+    if (inscripcionrepetida) {
       res.status(401).send('Ya estás inscrito en esta oferta.');
       return;
     }
@@ -158,6 +159,10 @@ export const inscribirseOferta = async (req, res) => {
       idEmpresa : oferta.idEmpresa,
       estado: "pendiente"
     });
+    await OfertaLaboral.findOneAndUpdate(
+      {_id : idOferta},
+      {$push : {refUsersInscritos:idUsuarioToken}}
+    )
     await inscripcion.save();
     // Realiza alguna acción para inscribir al estudiante a la oferta
     return res.status(200).send({ mensaje: "Estudiante inscrito a la oferta" });

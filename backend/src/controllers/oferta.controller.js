@@ -3,6 +3,7 @@ import OfertaLaboral from "#schemas/ofertaLaboral.js"
 import GestorModel from "#schemas/Gestor.js"
 import EmpresaModel from '#schemas/empresaSchema.js'
 import InscripcionModel from '#schemas/inscripcion.js'
+import UserModel from "#schemas/User.js"
 
 /**
  * Devuelve TODAS las ofertas
@@ -21,6 +22,38 @@ export const getOfertasController = (req, res, next) => {
         console.log(listOfertas)
         res.send({ listaOfertas: listOfertas })
     })
+}
+
+export const getOfertaController =async (req, res, next) => {
+    let id = req.params.idOferta;
+    console.log(req.params)
+    console.log(id)
+    // buscar oferta
+    // recorrer empleado
+    // enviar 
+    const oferta = await OfertaLaboral.findById(id)
+    const inscritos = await Promise.all(oferta.refUsersInscritos.map(estudiante => UserModel.findById(estudiante)));
+    const msg = {
+        oferta : oferta,
+        inscritos : inscritos
+    }
+    return res.send(msg)
+}
+export const getInscritosController =async (req, res, next) => {
+    let id = req.params.idOferta;
+ 
+    const inscripciones = await InscripcionModel.find({refOfertaLaboral: id})
+    const inscritos = await Promise.all(inscripciones.map(async (inscripcion) => {
+        console.log(inscripcion)
+        const user = await UserModel.findById(inscripcion.refUser)
+        console.log(user)
+        inscripcion.refUser = user
+    }));
+
+    const msg = {
+        inscripciones : inscripciones,
+    }
+    return res.send(msg)
 }
 
 /**
@@ -53,8 +86,7 @@ export const getOfertaEmpresaController = async (req, res, next) => {
  * @returns 
  */
 export const ofertaRegisterController = async (req, res) => {
-    try {
-
+ 
         const { title, description, requirements, skills, ciclo, dateOfPublication, expirationDate} = req.body
         const gestorToken = req.gestorV;
         const idUsuario = gestorToken.refUser;
@@ -79,9 +111,7 @@ export const ofertaRegisterController = async (req, res) => {
             resposta:'oferta creada amb exit'
         }
         return res.status(200).send(msg)
-    } catch (error) {
-        return res.status(404).send('ha habido un error al registrar la oferta')
-    }
+
 }
 
 
