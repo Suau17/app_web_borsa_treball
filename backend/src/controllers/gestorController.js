@@ -1,5 +1,6 @@
 import GestorModel from "#schemas/Gestor.js"
 import UserModel from "#schemas/User.js"
+import EmpresaModel from '#schemas/empresaSchema.js'
 import * as userController from '#controllers/user.controller.js'
 import { empresaRegistrerController } from "./empresa.controller.js"
 import { hash } from 'bcrypt'
@@ -44,11 +45,15 @@ export const gestorRegistrerController = async (req, res) => {
 
 export const createResponsableController = async (req, res) => {
     try {
-¡
-        const { carrec, telefon, nameEmpresa } = req.body
-
+        req.body.rolUser = 'responsable'
         const {id, token} = await userController.userRegistrerController(req, res)
-
+        const gestorToken = req.gestorV;
+        const nameEmpresa = gestorToken.nameEmpresa
+        console.log('RESPONSABLE USER')
+        const { carrec, telefon } = req.body
+console.log(id)
+console.log(token)
+        if(id){
         const gestor = new GestorModel({
             carrec,
             telefon,
@@ -57,24 +62,31 @@ export const createResponsableController = async (req, res) => {
             responsable : true
         })
         await gestor.save()
+        console.log(gestor)
+        await EmpresaModel.findOneAndUpdate(
+            { nom: nameEmpresa },
+            { $push: { empleados: id } }
+          );
         const msg = {
             token : token,
             role : 'responsable',
             resposta : 'Token enviado como cookie'
           }
-        return res.send('gestor creado con exito')
-
+        return res.send(msg)
+}
+return res.send('error')
     } catch (error) {
-        return res.status(500).send('Ocurrió un error inesperado. Por favor, intente nuevamente más tarde.');
+        return res.status(500).send(error);
     }
-¡
+
 }
 
 export const updateGestorController = async (req, res) => {
     try {
         // Obtenemos el id del gestor y los datos a actualizar proporcionados
         const data = req.body
-        const idUsuario = req.idToken;
+        const gestorToken = req.gestorV;
+        const idUsuario = gestorToken.refUser
 
         if(!idUsuario) {
           res.status(401).send('No tienes los permisos para borrar otro usuario')

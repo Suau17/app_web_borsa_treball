@@ -3,7 +3,6 @@ import * as oferta from '#controllers/oferta.controller.js';
 import * as userC from '#controllers/user.controller.js'
 import * as gestor from '#controllers/gestorController.js'
 import {Router} from 'express';
-import { checkAuth, checkAuth_Gestor } from '#Lib/auth.js'
 
 const appRouter = Router();
 
@@ -13,7 +12,11 @@ const appRouter = Router();
 // agragar rutas rol estudiante, rol admin, rol gestor, rol responsable y rol app
 appRouter.get('/getUsers',   userC.getUsersControllers)
 appRouter.get('/getOfertas', oferta.getOfertasController) 
+appRouter.get('/oferta/:idOferta', oferta.getOfertaController) 
 appRouter.get('/getOfertas/:id', oferta.getOfertaEmpresaController) 
-
+appRouter.get('/user/:id', userC.searchUser)
+appRouter.get('/oferta/:idOferta/inscripciones', oferta.getInscritosController)
 
 appRouter.post('/register', gestor.gestorRegistrerController)
+
+export default appRouter

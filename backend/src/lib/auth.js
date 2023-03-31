@@ -7,7 +7,6 @@ export const checkAuthGestor = async (req,res, next) => {
         const tokenFromCookies = req.cookies.tokenAcces
 
         const tokenFromClient = req.headers.authorization
-        console.log(tokenFromClient)
         // De momento lo ocultamos para hacer los test.
 
         // if(tokenFromCookies !== tokenFromClient) {
@@ -17,16 +16,14 @@ export const checkAuthGestor = async (req,res, next) => {
         const id = tokenData.id
 
       
-
         const gestor = await GestorModel.findOne({ refUser: id })
-
-        // if (gestor.perfilHabilitado === false) {
+        // if (gestor.perfilHabilitado === false)  {
         //     console.log('tu perfil aun no esta habilitado')
         //     return res.status(401).send('tu perfil no esta habilitado. Espere a que nuestro administrador le active la cuenta. Si despues de varios dias su cuenta no esta de alta llame al 99429214')
         // }
         console.log('perfil habilitado')
         
-        req.idToken = id
+        req.gestorV = gestor
         next()
     } catch (e) {
         res.status(498).send({error: 'token no exsiste', msg: e})

@@ -25,11 +25,11 @@ export const getEmpresaControllers = async (req, res) => {
 
 export const empresaRegistrerController = async (req, res) => {
 
-  try {
 
 
-    const { nom, direccion, sector } = req.body
 
+    const { nameEmpresa, direccion, sector } = req.body
+    const nom = nameEmpresa
     const refUser = req.idToken;
     const refOfertaLaboral = [];
     const empresa = new EmpresaModel({
@@ -41,9 +41,7 @@ export const empresaRegistrerController = async (req, res) => {
       { $push: { empleados: refUser } }
     );
     return empresa._id || false
-  } catch (error) {
-    res.status(404).send({ msg: 'ha habido un error al registrar la empresa', error })
-  }
+
 
 }
 
@@ -55,7 +53,8 @@ export const empresaRegistrerController = async (req, res) => {
  */
 export const updateEmpresaController = async (req, res) => {
   try {
-    const idUsuario = req.idToken;
+    const gestorToken = req.gestorV;
+    const idUsuario = gestorToken.refUser
 
     const empresa = await EmpresaModel.findOne({ refUser: idUsuario })
     const usuario = await UserModel.findById(idUsuario);
@@ -89,7 +88,8 @@ export const updateEmpresaController = async (req, res) => {
  */
 export const deleteEmpresaController = async (req, res) => {
   try {
-    const idUsuario = req.idToken;
+    const gestorToken = req.gestorV;
+    const idUsuario = gestorToken.refUser
 
     const empresa = await EmpresaModel.findOne({ refUser: idUsuario })
     const usuario = await UserModel.findById(idUsuario);
@@ -110,6 +110,25 @@ export const deleteEmpresaController = async (req, res) => {
   }
 }
 
+
+export const getEmployeesControllers = async (req, res) => {
+  try {
+    const gestorToken = req.gestorV;
+    const idUsuario = gestorToken.refUser
+
+    const empresa = await EmpresaModel.findOne({ refUser: idUsuario })
+    const empleados = await Promise.all(empresa.empleados.map(empleado => UserModel.findById(empleado)));
+    // Enviar las empresas en la respuesta
+    const msg = {
+      empleados : empleados ,
+      resposta : 'Empleados encontrados'
+    }
+    res.send(msg);
+  } catch (error) {
+    res.status(500).send('Ocurrió un error al recuperar las empresas. Por favor, intente nuevamente más tarde.');
+  }
+}
+
 /**
  * Este controlador actualiza el estado de inscripcion e informa al usuario enviando un email
  * @param {id Inscripcion(string), estado('aceptar' || 'rechazar')} req 
@@ -119,12 +138,13 @@ export const deleteEmpresaController = async (req, res) => {
 export const cambiarEstadoInscripcion = async (req, res) => {
   try {
 
-    const idUsuario = req.idToken;
+    const gestorToken = req.gestorV;
+    const idUsuario = gestorToken.refUser;
     const data = req.body
-    const id = data.id
+    const id = req.params.idInscripcion
 
     const empleado = await UserModel.findById(idUsuario)
-    const inscripcion = await InscripcionModel.findOne({ _id: id })
+    const inscripcion = await InscripcionModel.findById(id)
     const idOferta = inscripcion.refOfertaLaboral
     const oferta = await OfertaLaboral.findById(idOferta)
     const empresa = await EmpresaModel.findOne({ _id: oferta.idEmpresa });
@@ -146,20 +166,23 @@ export const cambiarEstadoInscripcion = async (req, res) => {
     `
 
 
+    const msg = {}
     if (data.estado === 'aceptar') {
       // enviar email
 
-      await InscripcionModel.findByIdAndUpdate(id, { estado: 'aceptado' }, { new: true })
+        await InscripcionModel.findByIdAndUpdate(id, { estado: 'aceptado' }, { new: true })
       await sendMail(mailFrom, mailTO, 'nueva oferta', bodyHTML)
 
-
-      return res.send('candidatura aceptada')
+      msg.msg = 'Candidatura aceptada'
+      msg.code = 1
     }
     if (data.estado === 'rechazar') {
       // enviar email
       await InscripcionModel.findByIdAndUpdate(id, { estado: 'rechazado' }, { new: true })
-      return 'candidatura rechazada'
+      msg.msg = 'Candidatura Rechazada'
+      msg.code = 0
     }
+    return res.send(msg)
   } catch (error) {
 
     return res.status(402).send({ msg: 'error al modificar la postulacion', error })
