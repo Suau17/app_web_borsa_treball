@@ -7,38 +7,30 @@ import { hash} from 'bcrypt'
 import multer from 'multer'
 import EmpresaModel from "#schemas/empresaSchema.js";
 
-const upload = multer({
-  storage: multer.memoryStorage(),
-  limits: {
-    fileSize: 5 * 1024 * 1024, // límite de tamaño de archivo de 3MB
-  },
-});
+
 /**
  * 
  * @param {body -> [name(string), email(string), passwordHash(string), description(string) ,rolUser('alumno'), cartaPresentacion('string'), curriculum(buffer), link(string)]} req 
  * @param {*} res 
  * @returns 
  */
+const upload = multer();
+
 export const estudianteRegistrerController = async (req, res) => {
-  // procesar el formulario con multer
-  upload.single('curriculum')(req, res, async (err) => {
-    if (err) {
-      // si hay un error en el archivo, enviar una respuesta de error
-      return res.status(400).send({ error: 'Error al cargar el archivo' });
-    }
-
+  upload.single('curriculum', 5)(req, res, async () => {
     const { cartaPresentacion } = req.body;
-    const curriculum = req.file.buffer; // obtener el archivo del objeto de solicitud
-
+    const curriculum = req.file.buffer;
     req.body.rolUser = 'alumno';
     let estudis = req.body.estudis;
-    
     const { id, token } = await userController.userRegistrerController(req, res);
     console.log('id' + id);
     const estudiante = new EstudianteModel({
       refUser: id,
       cartaPresentacion,
-      curriculum,
+      curriculum: {
+        data: curriculum,
+        contentType: req.file.mimetype
+      },
       estudis
     });
     await estudiante.save();
@@ -47,10 +39,21 @@ export const estudianteRegistrerController = async (req, res) => {
       role : 'alumno',
       resposta : 'Token enviado como cookie'
     };
-    console.log('AAA')
-    console.log(msg)
     return res.send(msg);
-  });
+   });
+};
+export const downloadCurriculumController = async (req, res) => {
+  const { id } = req.params;
+  const estudiante = await EstudianteModel.findById(id);
+
+  if (!estudiante || !estudiante.curriculum) {
+    return res.status(404).send('El currículum no se encuentra');
+  }
+
+  res.set('Content-Type', estudiante.curriculum.contentType);
+  res.set('Content-Disposition', `attachment; filename=${estudiante.curriculumFile.filename}`);
+
+  return res.send(estudiante.curriculumFile.data);
 };
 
 /**
