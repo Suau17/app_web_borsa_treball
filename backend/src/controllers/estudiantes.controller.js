@@ -3,7 +3,7 @@ import InscripcionModel from "#schemas/inscripcion.js";
 import EstudianteModel from "#schemas/estudiante.js"
 import UserModel from "#schemas/User.js"
 import * as userController from '#controllers/user.controller.js'
-import { hash} from 'bcrypt'
+import { hash } from 'bcrypt'
 import multer from 'multer'
 import EmpresaModel from "#schemas/empresaSchema.js";
 
@@ -14,7 +14,16 @@ import EmpresaModel from "#schemas/empresaSchema.js";
  * @param {*} res 
  * @returns 
  */
-const upload = multer();
+const storage = multer.diskStorage({
+  destination: function (req, file, cb) {
+    cb(null, 'uploads')
+  },
+  filename: function (req, file, cb) {
+    cb(null, file.fieldname + '-' + Date.now())
+  }
+})
+const upload = multer({ storage: storage })
+
 
 export const estudianteRegistrerController = async (req, res) => {
   upload.single('curriculum', 5)(req, res, async () => {
@@ -27,21 +36,18 @@ export const estudianteRegistrerController = async (req, res) => {
     const estudiante = new EstudianteModel({
       refUser: id,
       cartaPresentacion,
-      curriculum: {
-        data: curriculum,
-        contentType: req.file.mimetype
-      },
       estudis
     });
     await estudiante.save();
     const msg = {
-      token : token,
-      role : 'alumno',
-      resposta : 'Token enviado como cookie'
+      token: token,
+      role: 'alumno',
+      resposta: 'Token enviado como cookie'
     };
     return res.send(msg);
-   });
+  });
 };
+
 export const downloadCurriculumController = async (req, res) => {
   const { id } = req.params;
   const estudiante = await EstudianteModel.findById(id);
@@ -51,7 +57,7 @@ export const downloadCurriculumController = async (req, res) => {
   }
 
   res.set('Content-Type', estudiante.curriculum.contentType);
-  res.set('Content-Disposition', `attachment; filename=${estudiante.curriculumFile.filename}`);
+  res.set('Content-Disposition', `attachment; filename=${estudiante.curriculum.filename}`);
 
   return res.send(estudiante.curriculumFile.data);
 };
@@ -155,16 +161,16 @@ export const inscribirseOferta = async (req, res) => {
       res.status(401).send('Ya estás inscrito en esta oferta.');
       return;
     }
-    
+
     const inscripcion = new InscripcionModel({
       refUser: idUsuarioToken,
       refOfertaLaboral: idOferta,
-      idEmpresa : oferta.idEmpresa,
+      idEmpresa: oferta.idEmpresa,
       estado: "pendiente"
     });
     await OfertaLaboral.findOneAndUpdate(
-      {_id : idOferta},
-      {$push : {refUsersInscritos:idUsuarioToken}}
+      { _id: idOferta },
+      { $push: { refUsersInscritos: idUsuarioToken } }
     )
     await inscripcion.save();
     // Realiza alguna acción para inscribir al estudiante a la oferta
@@ -191,8 +197,8 @@ export const borrarInscripcion = async (req, res) => {
     //PARA REVISAR
     const inscripcion = await InscripcionModel.findOne({ refOfertaLaboral: id, refUser: idUsuarioToken });
     if (!inscripcion) {
-        res.status(401).send('No tienes los permisos para borrar esta inscripción');
-        return;
+      res.status(401).send('No tienes los permisos para borrar esta inscripción');
+      return;
     }
     // Buscamos y borramos la inscripción en la base de datos
     await InscripcionModel.findByIdAndDelete(id)
