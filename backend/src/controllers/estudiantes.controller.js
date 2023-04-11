@@ -5,6 +5,7 @@ import UserModel from "#schemas/User.js"
 import * as userController from '#controllers/user.controller.js'
 import { hash } from 'bcrypt'
 import multer from 'multer'
+import * as path from 'path';
 import EmpresaModel from "#schemas/empresaSchema.js";
 
 
@@ -19,7 +20,7 @@ const storage = multer.diskStorage({
     cb(null, 'uploads')
   },
   filename: function (req, file, cb) {
-    cb(null, file.fieldname + '-' + Date.now())
+    cb(null, file.fieldname + '-' + Date.now() + '.pdf')
   }
 })
 const upload = multer({ storage: storage })
@@ -28,7 +29,6 @@ const upload = multer({ storage: storage })
 export const estudianteRegistrerController = async (req, res) => {
   upload.single('curriculum', 5)(req, res, async () => {
     const { cartaPresentacion } = req.body;
-    const curriculum = req.file.buffer;
     req.body.rolUser = 'alumno';
     let estudis = req.body.estudis;
     const { id, token } = await userController.userRegistrerController(req, res);
@@ -36,6 +36,7 @@ export const estudianteRegistrerController = async (req, res) => {
     const estudiante = new EstudianteModel({
       refUser: id,
       cartaPresentacion,
+      curriculum : req.file.filename,
       estudis
     });
     await estudiante.save();
@@ -56,10 +57,14 @@ export const downloadCurriculumController = async (req, res) => {
     return res.status(404).send('El currículum no se encuentra');
   }
 
-  res.set('Content-Type', estudiante.curriculum.contentType);
-  res.set('Content-Disposition', `attachment; filename=${estudiante.curriculum.filename}`);
-
-  return res.send(estudiante.curriculumFile.data);
+  const filePath = path.join('.', 'uploads', estudiante.curriculum);
+  console.log()
+  return res.download(filePath, err => {
+    if (err) {
+      console.log(err);
+      return res.status(500).send('Error al descargar el currículum');
+    }
+  });
 };
 
 /**
