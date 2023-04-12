@@ -3,6 +3,9 @@ import UserModel from "#schemas/User.js"
 import empresaModel from '#schemas/empresaSchema.js';
 
 export const rules = [
+    //en esta regla estamos indicando al usuario que cuando se registre ç
+    //tenga una serie de requisitos como por ejemplo que el mail no sea repetido
+    
     body('name','Ingrese un nombre').exists().isLength({min:3 ,max:20}),
     body('email','introduce un E-mail valido').exists().isEmail().custom(async (value, { req }) => {
         const user = await UserModel.findOne({ email: value });

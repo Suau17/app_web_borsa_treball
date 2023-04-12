@@ -1,6 +1,11 @@
 import AdminModel from "#schemas/admin.js"
 import * as userController from '#controllers/user.controller.js'
 import UserModel from "#schemas/User.js"
+import GestorModel from "#schemas/Gestor.js"
+import EmpresaModel from "#schemas/empresaSchema.js"
+import InscripcionModel from "#schemas/inscripcion.js"
+import EstudianteModel from "#schemas/estudiante.js"
+import OfertaLaboral from "#schemas/ofertaLaboral.js"
 import { hash, compare } from 'bcrypt'
 import jwt from 'jsonwebtoken'
 
@@ -74,6 +79,9 @@ try {
 
 
   // Si el rol del usuario es "alumno", eliminamos el documento del modelo de estudiante
+  // if(user.rolUser === 'admin'){
+  //   await UserModel.deleteOne({refUser: idUsuario})
+  // }
   if (user.rolUser === 'alumno') {
     await EstudianteModel.deleteOne({ refUser: idUsuario })
   }
@@ -94,11 +102,14 @@ try {
 
   // Eliminamos el usuario del modelo de usuario
   await UserModel.deleteOne({ _id: idUsuario })
-
   // Enviamos un código de estado HTTP 200 (OK)
-  res.status(200).send('Usuario eliminado correctamente')
-} catch (error) {
-  // En caso de error, enviamos un código de estado HTTP 500 (Internal Server Error)
-  res.status(500).send('error')
+  const msg = {
+    msg : 'usuario eliminado correctament'
 }
+res.status(200).send(msg)
+}
+catch(e){
+  res.status(500).send('Error')
+  }
+
 }
