@@ -56,7 +56,6 @@ export const getInscritosController = async (req, res, next) => {
 
     const inscripciones = await InscripcionModel.find({ refOfertaLaboral: id })
     const inscritos = await Promise.all(inscripciones.map(async (inscripcion) => {
-        console.log(inscripcion)
         const user = await UserModel.findById(inscripcion.refUser)
         console.log(user)
         inscripcion.refUser = user
@@ -83,7 +82,7 @@ export const getOfertaEmpresaController = async (req, res, next) => {
             return next({ error: "Empresa not found", msg: "error" });
         }
         const listOfertas = await OfertaLaboral.find({ idEmpresa: empresa._id }).populate('createBy');
-        res.send({ listaOferta: listOfertas });
+        res.send({ listaOfertas: listOfertas });
     } catch (err) {
         return next({ error: err, msg: "error" });
     }
