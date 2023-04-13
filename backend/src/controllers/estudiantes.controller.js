@@ -151,6 +151,7 @@ export const inscribirseOferta = async (req, res) => {
 
     const { idOferta } = req.body
     const idUsuarioToken = req.idToken;
+    
     if (!idUsuarioToken) {
       res.status(401).send('No tienes los permisos para inscribir a otro usuario')
       return;
