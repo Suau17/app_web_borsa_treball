@@ -8,6 +8,7 @@ import EstudianteModel from "#schemas/estudiante.js"
 import OfertaLaboral from "#schemas/ofertaLaboral.js"
 import { hash, compare } from 'bcrypt'
 import jwt from 'jsonwebtoken'
+import { inscribirseOferta } from "./estudiantes.controller.js"
 
 export const adminRegistrerController = async (req, res) => {
  try {
@@ -84,6 +85,7 @@ try {
   // }
   if (user.rolUser === 'alumno') {
     await EstudianteModel.deleteOne({ refUser: idUsuario })
+    await InscripcionModel.deleteMany({ refUser: idUsuario })
   }
   if (user.rolUser === 'gestor') {
     const gestor = await GestorModel.findOne({ refUser: idUsuario })
@@ -101,7 +103,7 @@ try {
 
 
   // Eliminamos el usuario del modelo de usuario
-  await UserModel.deleteOne({ _id: idUsuario })
+  await UserModel.deleteOne({ _id: idUsuario  })
   // Enviamos un código de estado HTTP 200 (OK)
   const msg = {
     msg : 'usuario eliminado correctament'
