@@ -14,7 +14,7 @@ import jwt from 'jsonwebtoken';
 export const userRegistrerController = async (req, res) => {
   try {
     const { name, email, passwordHash, rolUser, description } = req.body
-
+console.log({name, email, passwordHash, rolUser, description})
     const exsistingUserByEmail = await UserModel.findOne({ email })
     console.log(exsistingUserByEmail)
     if (exsistingUserByEmail) return { id: false }

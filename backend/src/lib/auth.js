@@ -41,9 +41,8 @@ export const checkAuthEstudiante = async (req,res, next) => {
         // if(tokenFromCookies !== tokenFromClient) {
         //     return res.status(498).send({error: 'token no es el mismo'})
         // }
-        const tokenData = jwt.verify(tokenFromClient, process.env.secretWord)
+        const tokenData = jwt.verify(tokenFromClient, process.env.SecretWord)
         const id = tokenData.id
-        console.log(tokenData)
         // if (tokenData.role !== 'alumno') {
         //     res.status(401).send('Tu cuenta no es de un alumno')
         // }

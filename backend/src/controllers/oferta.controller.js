@@ -19,6 +19,7 @@ export const getOfertasController = (req, res, next) => {
             return next(err)
         }
 
+        console.log(listOfertas)
         res.send({ listaOfertas: listOfertas })
     })
 }
