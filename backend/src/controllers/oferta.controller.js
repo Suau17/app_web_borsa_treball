@@ -4,6 +4,7 @@ import GestorModel from "#schemas/Gestor.js"
 import EmpresaModel from '#schemas/empresaSchema.js'
 import InscripcionModel from '#schemas/inscripcion.js'
 import UserModel from "#schemas/User.js"
+import { listarOfertas } from "./estudiantes.controller.js"
 
 /**
  * Devuelve TODAS las ofertas
@@ -12,7 +13,7 @@ import UserModel from "#schemas/User.js"
  * @param {*} next 
  */
 export const getOfertasController = (req, res, next) => {
-    
+
     OfertaLaboral.find().populate('createBy').exec(function async(err, listOfertas) {
 
         if (err) {
@@ -24,34 +25,44 @@ export const getOfertasController = (req, res, next) => {
     })
 }
 
-export const getOfertaController =async (req, res, next) => {
+export const getOfertasEmpresa = async (req, res, next) => {
+    try {
+        const id = req.params.id
+        const listOfertas = await OfertaLaboral.find({ idEmpresa: id }).populate('createBy');
+        const msg = {
+            listaOfertas: listOfertas,
+            resposta: 'ofertes de la empresa recuperades'
+        }
+        return res.status(200).send(msg)
+    } catch (error) {
+        return res.status(500).send(error)
+    }
+}
+
+export const getOfertaController = async (req, res, next) => {
     let id = req.params.idOferta;
     console.log(req.params)
     console.log(id)
-    // buscar oferta
-    // recorrer empleado
-    // enviar 
     const oferta = await OfertaLaboral.findById(id)
     const inscritos = await Promise.all(oferta.refUsersInscritos.map(estudiante => UserModel.findById(estudiante)));
     const msg = {
-        oferta : oferta,
-        inscritos : inscritos
+        oferta: oferta,
+        inscritos: inscritos
     }
     return res.send(msg)
 }
-export const getInscritosController =async (req, res, next) => {
+export const getInscritosController = async (req, res, next) => {
     let id = req.params.idOferta;
- 
-    const inscripciones = await InscripcionModel.find({refOfertaLaboral: id})
+
+    const inscripciones = await InscripcionModel.find({ refOfertaLaboral: id })
     const inscritos = await Promise.all(inscripciones.map(async (inscripcion) => {
-        console.log(inscripcion)
         const user = await UserModel.findById(inscripcion.refUser)
         console.log(user)
         inscripcion.refUser = user
     }));
 
     const msg = {
-        inscripciones : inscripciones,
+        inscripciones: inscripciones,
     }
     return res.send(msg)
 }
@@ -71,7 +82,7 @@ export const getOfertaEmpresaController = async (req, res, next) => {
             return next({ error: "Empresa not found", msg: "error" });
         }
         const listOfertas = await OfertaLaboral.find({ idEmpresa: empresa._id }).populate('createBy');
-        res.send({ listaOferta: listOfertas });
+        res.send({ listaOfertas: listOfertas });
     } catch (err) {
         return next({ error: err, msg: "error" });
     }
@@ -86,31 +97,31 @@ export const getOfertaEmpresaController = async (req, res, next) => {
  * @returns 
  */
 export const ofertaRegisterController = async (req, res) => {
- 
-        const { title, description, requirements, skills, ciclo, dateOfPublication, expirationDate} = req.body
-        const gestorToken = req.gestorV;
-        const idUsuario = gestorToken.refUser;
 
-        const empresa = await EmpresaModel.findOne({refUser: {$in: [idUsuario]}});
-        console.log(empresa)
-        console.log(idUsuario)
-        if (!idUsuario) {
-            res.status(401).send('No tienes los permisos para registrar una oferta de trabajo en esta empresa')
-            return;
-        }
+    const { title, description, requirements, skills, ciclo, dateOfPublication, expirationDate } = req.body
+    const gestorToken = req.gestorV;
+    const idUsuario = gestorToken.refUser;
 
-        const createBy = idUsuario
-        const idEmpresa = empresa._id
+    const empresa = await EmpresaModel.findOne({ refUser: { $in: [idUsuario] } });
+    console.log(empresa)
+    console.log(idUsuario)
+    if (!idUsuario) {
+        res.status(401).send('No tienes los permisos para registrar una oferta de trabajo en esta empresa')
+        return;
+    }
 
-        const ofertaLaboral = new OfertaLaboral({
-            title, description, requirements, skills, ciclo, dateOfPublication, expirationDate, idEmpresa, createBy
-        })
-        await ofertaLaboral.save()
-        const msg = {
-            oferta: ofertaLaboral,
-            resposta:'oferta creada amb exit'
-        }
-        return res.status(200).send(msg)
+    const createBy = idUsuario
+    const idEmpresa = empresa._id
+
+    const ofertaLaboral = new OfertaLaboral({
+        title, description, requirements, skills, ciclo, dateOfPublication, expirationDate, idEmpresa, createBy
+    })
+    await ofertaLaboral.save()
+    const msg = {
+        oferta: ofertaLaboral,
+        resposta: 'oferta creada amb exit'
+    }
+    return res.status(200).send(msg)
 
 }
 
@@ -128,7 +139,7 @@ export const updateOfertaController = async (req, res) => {
         const idUsuario = gestorToken.refUser;
 
         const oferta = await OfertaLaboral.findById(id)
-        const empresa = await EmpresaModel.findOne({empleados: {$in: [idUsuario]}});
+        const empresa = await EmpresaModel.findOne({ empleados: { $in: [idUsuario] } });
         if (!idUsuario || !oferta.idEmpresa.equals(empresa._id)) {
             res.status(401).send('No tienes los permisos para actualizar una oferta de trabajo en esta empresa')
             return;
@@ -157,8 +168,8 @@ export const removeOfertaController = async (req, res) => {
         const gestorToken = req.gestorV;
         const idUsuario = gestorToken.refUser;
         const oferta = await OfertaLaboral.findById(ofertaId)
-        const empresa = await EmpresaModel.findOne({refUser: {$in: [idUsuario]}});
-    
+        const empresa = await EmpresaModel.findOne({ refUser: { $in: [idUsuario] } });
+
         if (!idUsuario || !oferta.idEmpresa.equals(empresa._id)) {
             res.status(401).send('No tienes los permisos para actualizar una oferta de trabajo en esta empresa')
             return;

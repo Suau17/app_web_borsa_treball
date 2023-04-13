@@ -69,9 +69,10 @@ const dataYear = async () => {
 }
 
 export const eliminarUsuario = async (req,res)=> {
+  console.log('dsd')
 
-try {
   const idUsuario = req.body.id
+  console.log(idUsuario)
   if (!idUsuario) {
     res.status(401).send('No tienes los permisos para borrar otro usuario')
     return;
@@ -110,8 +111,6 @@ try {
 }
 res.status(200).send(msg)
 }
-catch(e){
-  res.status(500).send('Error')
-  }
 
-}
+
+

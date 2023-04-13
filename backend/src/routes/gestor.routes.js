@@ -29,7 +29,7 @@ gestorRouter.get('/empresa', empresa.getEmpresaControllers)
 gestorRouter.get('/empresa/empleados', empresa.getEmployeesControllers) 
 
 // //// OFERTAS
-gestorRouter.get('/getOfertas/:id', oferta.getOfertaEmpresaController) 
+gestorRouter.get('/getOfertas', oferta.getOfertaEmpresaController) 
 
 //gestorRouter.post('/oferta/registrar',rules.rulesOferta,validacion.validarCampos, oferta.ofertaRegisterController) 
 gestorRouter.post('/oferta/registrar', oferta.ofertaRegisterController) 

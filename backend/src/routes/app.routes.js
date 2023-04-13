@@ -17,8 +17,8 @@ const appRouter = Router();
 // agragar rutas rol estudiante, rol admin, rol gestor, rol responsable y rol app
 appRouter.get('/getUsers',   userC.getUsersControllers)
 appRouter.get('/getOfertas', oferta.getOfertasController) 
+appRouter.get('/getOfertas/:id', oferta.getOfertasEmpresa) 
 appRouter.get('/oferta/:idOferta', oferta.getOfertaController) 
-appRouter.get('/getOfertas/:id', oferta.getOfertaEmpresaController) 
 appRouter.get('/getEmpresa', empresa.getEmpresaControllers)
 
 appRouter.get('/user/:id', userC.searchUser)
