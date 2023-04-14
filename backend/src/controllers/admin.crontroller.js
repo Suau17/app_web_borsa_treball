@@ -44,7 +44,8 @@ export const adminRegistrerController = async (req, res) => {
 }
 
 export const habilitarGestorController = async (req, res) => {
-  try {
+ try {
+
     // Obtenemos el id del gestor y los datos a actualizar proporcionados
     const id = req.params.id
     console.log(id)
@@ -53,9 +54,9 @@ export const habilitarGestorController = async (req, res) => {
 
     // Enviamos un mensaje de éxito
     return res.send('Datos del gestor actualizados con éxito')
+  
   } catch (error) {
-    // En caso de error, enviamos un mensaje de error
-    return res.status(500).send('Ocurrió un error inesperado. Por favor, intente nuevamente más tarde.')
+    return res.send({resposta:'Ha habido un error al habilitar el gestor'})
   }
 }
 
