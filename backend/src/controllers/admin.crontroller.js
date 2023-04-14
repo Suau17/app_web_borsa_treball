@@ -6,6 +6,7 @@ import EmpresaModel from "#schemas/empresaSchema.js"
 import InscripcionModel from "#schemas/inscripcion.js"
 import EstudianteModel from "#schemas/estudiante.js"
 import OfertaLaboral from "#schemas/ofertaLaboral.js"
+import EstudiosModel from "#schemas/estudios.schema.js"
 import { hash, compare } from 'bcrypt'
 import jwt from 'jsonwebtoken'
 import { inscribirseOferta } from "./estudiantes.controller.js"
@@ -57,6 +58,7 @@ export const habilitarGestorController = async (req, res) => {
     return res.status(500).send('Ocurrió un error inesperado. Por favor, intente nuevamente más tarde.')
   }
 }
+
 const dataYear = async () => {
   const ofertas = database.collection("ofertalaborals");
 
@@ -114,3 +116,26 @@ res.status(200).send(msg)
 
 
 
+export const cicloRegistrerController = async (req, res) => {
+  try {
+    
+
+
+     const { name, familiaProfesional, durada, asignatures } = req.body
+ 
+       const ciclo = new EstudiosModel({
+        name,
+        familiaProfesional,
+        durada,
+        asignatures
+       })
+       await ciclo.save()
+      const msg = {
+         resposta: 'Ciclo registrado correctamente'
+       }
+ 
+     return res.status(200).send(msg)
+    } catch (error) {
+      return res.status(400).send({resposta:'Ha habido un problema al crear el ciclo', error})
+    }
+ }
