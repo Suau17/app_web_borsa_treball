@@ -98,10 +98,11 @@ export const getOfertaEmpresaController = async (req, res, next) => {
  */
 export const ofertaRegisterController = async (req, res) => {
 
-    const { title, description, requirements, skills, ciclo, dateOfPublication, expirationDate } = req.body
+    const { title, description, requirements, skills, ciclo, expirationDate } = req.body
     const gestorToken = req.gestorV;
     const idUsuario = gestorToken.refUser;
 
+    const dateOfPublication = Date.now();
     const empresa = await EmpresaModel.findOne({ refUser: { $in: [idUsuario] } });
     console.log(empresa)
     console.log(idUsuario)
