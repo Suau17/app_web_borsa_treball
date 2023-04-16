@@ -122,5 +122,18 @@ export const updateGestorController = async (req, res) => {
       }
     }
 
+    export const getOfertasEmpresa = async (req, res, next) => {
+        try {
+            const id = req.params.id
+            const listOfertas = await OfertaLaboral.find({ idEmpresa: id }).populate('createBy');
+            const msg = {
+                listaOfertas: listOfertas,
+                resposta: 'ofertes de la empresa recuperades'
+            }
+            return res.status(200).send(msg)
+        } catch (error) {
+            return res.status(500).send(error)
+        }
+    }
 
 

@@ -85,6 +85,7 @@ let idInscripcion;
  * Eliminar Empresa
  * Eliminar Gestor&Empresa
  */
+
 describe('Register && Login GESTOR', (done) => {
 
   let registrarGestor = {
