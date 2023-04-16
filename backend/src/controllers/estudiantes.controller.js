@@ -3,7 +3,10 @@ import InscripcionModel from "#schemas/inscripcion.js";
 import EstudianteModel from "#schemas/estudiante.js"
 import UserModel from "#schemas/User.js"
 import * as userController from '#controllers/user.controller.js'
-
+import { hash } from 'bcrypt'
+import multer from 'multer'
+import * as path from 'path';
+import EmpresaModel from "#schemas/empresaSchema.js";
 
 
 /**
@@ -12,27 +15,61 @@ import * as userController from '#controllers/user.controller.js'
  * @param {*} res 
  * @returns 
  */
+const storage = multer.diskStorage({
+  destination: function (req, file, cb) {
+    cb(null, 'uploads')
+  },
+  filename: function (req, file, cb) {
+    cb(null, file.fieldname + '-' + Date.now() + '.pdf')
+  }
+})
+const upload = multer({ storage: storage })
+
+
 export const estudianteRegistrerController = async (req, res) => {
-  const { cartaPresentacion, curriculum } = req.body
+  upload.single('curriculum', 5)(req, res, async () => {
+    const { cartaPresentacion } = req.body;
+    req.body.rolUser = 'alumno';
+    let estudis = req.body.estudis;
+    const { id, token } = await userController.userRegistrerController(req, res);
+    console.log('id' + id);
+    const estudiante = new EstudianteModel({
+      refUser: id,
+      cartaPresentacion,
+      curriculum : req.file.filename,
+      estudis
+    });
+    await estudiante.save();
+    const msg = {
+      token: token,
+      role: 'alumno',
+      resposta: 'Token enviado como cookie'
+    };
+    return res.send(msg);
+  });
+};
 
-  const id = await userController.userRegistrerController(req, res)
-  console.log('id' + id)
-  const estudiante = new EstudianteModel({
-    refUser: id,
-    cartaPresentacion,
-    curriculum
-  })
-  await estudiante.save()
+export const downloadCurriculumController = async (req, res) => {
+  const { id } = req.params;
+  const estudiante = await EstudianteModel.findById(id);
 
-  return res.send('estudiante registrado')
+  if (!estudiante || !estudiante.curriculum) {
+    return res.status(404).send('El currículum no se encuentra');
+  }
 
-
-}
+  const filePath = path.join('.', 'uploads', estudiante.curriculum);
+  console.log()
+  return res.download(filePath, err => {
+    if (err) {
+      console.log(err);
+      return res.status(500).send('Error al descargar el currículum');
+    }
+  });
+};
 
 /**
  * 
  * @param {*} req
- * @param {id Usuario : type(string)} 
  * @param {body -> all info for update estudiante}
  * @param {*} res 
  * @returns 
@@ -40,11 +77,10 @@ export const estudianteRegistrerController = async (req, res) => {
 export const updateEstudianteController = async (req, res) => {
 
   // Obtenemos el id del gestor y los datos a actualizar proporcionados
-  const id = req.params.id
   const data = req.body
   const idUsuario = req.idToken;
 
-  if (idUsuario !== id) {
+  if (!idUsuario) {
     res.status(401).send('No tienes los permisos para actualizar o cambiar informacion de otro usuario')
     return;
   }
@@ -54,7 +90,7 @@ export const updateEstudianteController = async (req, res) => {
   }
 
   // Actualizamos el registro del gestor en la base de datos
-  const estudiante = await EstudianteModel.findOneAndUpdate({ refUser: id }, req.body, { new: true });
+  const estudiante = await EstudianteModel.findOneAndUpdate({ refUser: idUsuario }, req.body, { new: true });
 
   const idUser = estudiante.refUser
 
@@ -115,16 +151,32 @@ export const inscribirseOferta = async (req, res) => {
 
     const { idOferta } = req.body
     const idUsuarioToken = req.idToken;
-
+    
     if (!idUsuarioToken) {
       res.status(401).send('No tienes los permisos para inscribir a otro usuario')
       return;
     }
+    // Comprobar que el estudiante no tenga inscripción en la misma oferta
+    const oferta = await OfertaLaboral.findById(idOferta)
+
+    // PARA REVISAR
+    const inscripcionrepetida = await InscripcionModel.findOne({ refOfertaLaboral: idOferta, refUser: idUsuarioToken });
+    if (inscripcionrepetida) {
+      res.status(401).send('Ya estás inscrito en esta oferta.');
+      return;
+    }
+
     const inscripcion = new InscripcionModel({
       refUser: idUsuarioToken,
       refOfertaLaboral: idOferta,
+      idEmpresa: oferta.idEmpresa,
       estado: "pendiente"
     });
+    console.log(inscripcion)
+    await OfertaLaboral.findOneAndUpdate(
+      { _id: idOferta },
+      { $push: { refUsersInscritos: idUsuarioToken } }
+    )
     await inscripcion.save();
     // Realiza alguna acción para inscribir al estudiante a la oferta
     return res.status(200).send({ mensaje: "Estudiante inscrito a la oferta" });
@@ -147,10 +199,11 @@ export const borrarInscripcion = async (req, res) => {
     const id = req.params.idInscripcion
 
     const idUsuarioToken = req.idToken;
-    const inscripcion = await InscripcionModel.findOne({ _id: id, refUser: idUsuarioToken });
+    //PARA REVISAR
+    const inscripcion = await InscripcionModel.findOne({ refOfertaLaboral: id, refUser: idUsuarioToken });
     if (!inscripcion) {
-        res.status(401).send('No tienes los permisos para borrar esta inscripción');
-        return;
+      res.status(401).send('No tienes los permisos para borrar esta inscripción');
+      return;
     }
     // Buscamos y borramos la inscripción en la base de datos
     await InscripcionModel.findByIdAndDelete(id)
@@ -164,7 +217,8 @@ export const borrarInscripcion = async (req, res) => {
 
 export const verOfertasInscrito = async (req, res) => {
   try {
-    const ofertasInscritas = await InscripcionModel.find({ refUser: req.params.id }).populate("refOfertaLaboral")
+    const idUsuarioToken = req.idToken;
+    const ofertasInscritas = await InscripcionModel.find({ refUser: idUsuarioToken }).populate("refOfertaLaboral")
     res.send({ ofertasInscritas })
   } catch (error) {
     res.status(500).send('Ha habido un error al mostrar las ofertas en las que estas inscrito')

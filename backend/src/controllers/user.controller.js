@@ -13,27 +13,34 @@ import jwt from 'jsonwebtoken';
 
 export const userRegistrerController = async (req, res) => {
   try {
-    
+    const { name, email, passwordHash, rolUser, description } = req.body
+console.log({name, email, passwordHash, rolUser, description})
+    const exsistingUserByEmail = await UserModel.findOne({ email })
+    console.log(exsistingUserByEmail)
+    if (exsistingUserByEmail) return { id: false }
 
-  const { name, email, passwordHash, rolUser } = req.body
-console.log(email)
-  const exsistingUserByEmail = await UserModel.findOne({ email })
+    const hashedPassword = await hash(passwordHash, 12)
 
-  if (exsistingUserByEmail) return 'error'
-  const hashedPassword = await hash(passwordHash, 12)
+    const user = new UserModel({
+      name,
+      email,
+      description,
+      passwordHash: hashedPassword,
+      rolUser: rolUser,
+    })
+    await user.save()
 
-  const user = new UserModel({
-    name,
-    email,
-    passwordHash: hashedPassword,
-    rolUser
-  })
-  await user.save()
+    const userForToken = {
+      id: user._id,
+      role: rolUser
+    }
+    const token = jwt.sign(userForToken, process.env.SecretWord, { expiresIn: '23h' })
+    console.log('token' + token)
+    return { id: user._id, token: token }
 
-  return user._id
-} catch (error) {
+  } catch (error) {
     return error
-}
+  }
 
 }
 
@@ -58,58 +65,78 @@ export const userLoginController = async (req, res) => {
   const token = jwt.sign(userForToken, process.env.SecretWord, { expiresIn: '23h' })
   res.cookie("tokenAcces", token, { httpOnly: true });
   const msg = {
-    token : token,
-    resposta : 'Token enviado como cookie'
+    token: token,
+    role: exsistingUserByEmail.rolUser,
+    resposta: 'Token enviado como cookie'
   }
   res.send(msg);
 }
 
 
 export const getUsersControllers = (req, res) => {
-  UserModel.find().exec(function async(err, listUsers, next) {
-    if (err) {
-      return next(err)
-    }
-    res.send({ listaUsuarios: listUsers })
-  })
+try {
+    const page = req.query.page ? parseInt(req.query.page) : 1;
+    const limit = req.query.limit ? parseInt(req.query.limit) : 10;
+  
+    UserModel.find()
+      .skip((page - 1) * limit)
+      .limit(limit)
+      .exec(function async(err, listUsers, next) {
+        if (err) {
+          return next(err)
+        }
+        res.status(200).send({ listaUsuarios: listUsers })
+      })  
+} catch (error) {
+  res.status(500).send({error}) 
+}
 }
 
+export const searchUser = async (req, res) => {
+  const id = req.params.id
+  const user = await UserModel.findById(id)
+  let msg = {
+    user: user
+  }
+  if(user.rolUser === 'alumno'){
+    let alumno = await EstudianteModel.find({refUser:id})
+    msg.alumno = alumno
+  }
+
+  res.status(201).send(msg)
+}
 
 export const deleteUserController = async (req, res) => {
   try {
     const idUsuario = req.idToken;
-    const { userId: id } = req.params
-
-    const user = await UserModel.findById(id)
-
-    if(idUsuario !== id) {
+    if (!idUsuario) {
       res.status(401).send('No tienes los permisos para borrar otro usuario')
       return;
     }
+    const user = await UserModel.findById(idUsuario)
+
 
     // Si el rol del usuario es "alumno", eliminamos el documento del modelo de estudiante
     if (user.rolUser === 'alumno') {
-      await EstudianteModel.deleteOne({ refUser: id })
+      await EstudianteModel.deleteOne({ refUser: idUsuario })
     }
     if (user.rolUser === 'gestor') {
-      const gestor = await GestorModel.findOne({ refUser: id })
+      const gestor = await GestorModel.findOne({ refUser: idUsuario })
       console.log(gestor)
       if (gestor.refEmpresa) {
         const empresaId = gestor.refEmpresa;
         // Borramos todas las ofertas de la empresa
-        await InscripcionModel.deleteMany({ idEmpresa: id })
+        await InscripcionModel.deleteMany({ idEmpresa: empresaId })
         await OfertaLaboral.deleteMany({ idEmpresa: empresaId });
-        await EmpresaModel.deleteOne({ refUser: id });
+        await EmpresaModel.deleteOne({ refUser: user._id });
       }
 
-      await GestorModel.deleteOne({ refUser: id })
-    }
-    if (user.rolUser === 'responsable') {
-      await GestorModel.deleteOne({ refUser: id })
+      await GestorModel.deleteOne({ refUser: idUsuario })
     }
 
+
     // Eliminamos el usuario del modelo de usuario
-    await UserModel.deleteOne({ _id: id })
+    await UserModel.deleteOne({ _id: idUsuario })
 
     // Enviamos un código de estado HTTP 200 (OK)
     res.status(200).send('Usuario eliminado correctamente')
@@ -123,25 +150,26 @@ export const deleteUserController = async (req, res) => {
 export const infoUser = async (req, res) => {
   try {
     // Obtenemos el id del usuario proporcionado
-    const id = req.params.id
+
     const idUsuario = req.idToken;
 
-    if(idUsuario !== id) {
+    if (!idUsuario) {
       res.status(401).send('No tienes los permisos para obtener informacion de otro usuario')
       return;
     }
     // Buscamos el documento del usuario en la base de datos
-    const user = await UserModel.findById(id)
+    const user = await UserModel.findById(idUsuario)
     console.log(user)
     // Inicializamos un objeto vacío para guardar la información que queremos enviar
     const data = {}
 
     if (user.rolUser === 'alumno') {
-      const estudiante = await EstudianteModel.findOne({ refUser: id })
+      const estudiante = await EstudianteModel.findOne({ refUser: idUsuario })
       data.estudiante = estudiante
     }
+    
     if (user.rolUser === 'gestor') {
-      const gestor = await GestorModel.findOne({ refUser: id })
+      const gestor = await GestorModel.findOne({ refUser: idUsuario })
       data.gestor = gestor
       if (gestor.refEmpresa) {
         const empresaId = gestor.refEmpresa;
@@ -149,18 +177,17 @@ export const infoUser = async (req, res) => {
         const ofertas = await OfertaLaboral.find({ idEmpresa: empresaId });
         data.ofertas = ofertas
 
-        const empresa = await EmpresaModel.findOne({ refUser: id });
+        const empresa = await EmpresaModel.findOne({ refUser: idUsuario });
         data.empresa = empresa
       }
     }
-    if (user.rolUser === 'responsable') {
-      //  const responsable = await ResponsableModel.findOne({ refUser: id })
-      // data.responsable = responsable
-    }
 
     data.user = user;
-
-    res.status(200).send(data)
+    const msg = {
+      data: data,
+      resposta: 'Informacion de usuario recuperada'
+    }
+    res.status(200).send(msg)
   } catch (error) {
     res.status(500).send('error' + error)
   }

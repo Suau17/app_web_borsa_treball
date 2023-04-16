@@ -14,8 +14,9 @@ const ofertaLaboralSchema = new Schema({
     refUsersInscritos: [{
         type: mongoose.Schema.Types.ObjectID,
         ref: 'User'
-    }]
-})
+    }],
+    refCiclo : {type: mongoose.Schema.Types.ObjectID, ref:'Estudios', required:false} 
+}) 
 
 const OfertaLaboral = model('ofertaLaboral', ofertaLaboralSchema)
 
