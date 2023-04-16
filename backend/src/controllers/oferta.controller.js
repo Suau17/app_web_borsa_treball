@@ -12,34 +12,65 @@ import { listarOfertas } from "./estudiantes.controller.js"
  * @param {listOfertas (type array)} res 
  * @param {*} next 
  */
-export const getOfertasController = (req, res, next) => {
-
-    OfertaLaboral.find().populate('createBy').exec(function async(err, listOfertas) {
-
-        if (err) {
-            return next(err)
-        }
-
-        console.log(listOfertas)
-        res.send({ listaOfertas: listOfertas })
-    })
+export const getOfertasController = async (req, res, next) => {
+    const page = req.query.page ? parseInt(req.query.page) : 1;
+    const limit = req.query.limit ? parseInt(req.query.limit) : 4;
+  
+    try {
+      const count = await OfertaLaboral.countDocuments();
+      const listOfertas = await OfertaLaboral.find()
+        .skip((page - 1) * limit)
+        .limit(limit)
+        .populate('createBy')
+        .exec();
+  
+      const msg = {
+        listaOfertas: listOfertas,
+        totalCount: count,
+        totalPages: Math.ceil(count / limit),
+        currentPage: page,
+        limit: limit,
+        resposta: 'ofertes recuperades amb èxit'
+      };
+      return res.status(200).send(msg);
+    } catch (error) {
+        return res.status(500).send({error});
+      }
 }
 
 export const getOfertasEmpresa = async (req, res, next) => {
+    const page = req.query.page ? parseInt(req.query.page) : 1;
+    const limit = req.query.limit ? parseInt(req.query.limit) : 4;
+  
     try {
-        const id = req.params.id
-        const listOfertas = await OfertaLaboral.find({ idEmpresa: id }).populate('createBy');
-        const msg = {
-            listaOfertas: listOfertas,
-            resposta: 'ofertes de la empresa recuperades'
-        }
-        return res.status(200).send(msg)
+      const id = req.params.id;
+      const count = await OfertaLaboral.countDocuments({ idEmpresa: id });
+      const listOfertas = await OfertaLaboral.find({ idEmpresa: id })
+        .skip((page - 1) * limit)
+        .limit(limit)
+        .populate('createBy')
+        .exec();
+      
+        console.log('dadsa')
+        console.log(listOfertas)
+      const msg = {
+        listaOfertas: listOfertas,
+        totalCount: count,
+        totalPages: Math.ceil(count / limit),
+        currentPage: page,
+        limit: limit,
+        resposta: 'ofertes de la empresa recuperades'
+      };
+      return res.status(200).send(msg);
     } catch (error) {
-        return res.status(500).send(error)
+      return res.status(500).send({error});
     }
-}
+  };
 
 export const getOfertaController = async (req, res, next) => {
+    try {
+        
+
     let id = req.params.idOferta;
     console.log(req.params)
     console.log(id)
@@ -49,9 +80,15 @@ export const getOfertaController = async (req, res, next) => {
         oferta: oferta,
         inscritos: inscritos
     }
-    return res.send(msg)
+    return res.status(200).send(msg)
+} catch (error) {
+     return   res.status.send({error})
+}
 }
 export const getInscritosController = async (req, res, next) => {
+    try {
+        
+
     let id = req.params.idOferta;
 
     const inscripciones = await InscripcionModel.find({ refOfertaLaboral: id })
@@ -64,7 +101,10 @@ export const getInscritosController = async (req, res, next) => {
     const msg = {
         inscripciones: inscripciones,
     }
-    return res.send(msg)
+    return res.status(200).send(msg)
+} catch (error) {
+       return res.status(500).send({error}) 
+}
 }
 
 /**
@@ -75,18 +115,40 @@ export const getInscritosController = async (req, res, next) => {
  */
 export const getOfertaEmpresaController = async (req, res, next) => {
     try {
-        const gestorToken = req.gestorV;
-        const nameEmpresa = gestorToken.nameEmpresa;
-        const empresa = await EmpresaModel.findOne({ nom: nameEmpresa });
-        if (!empresa) {
-            return next({ error: "Empresa not found", msg: "error" });
-        }
-        const listOfertas = await OfertaLaboral.find({ idEmpresa: empresa._id }).populate('createBy');
-        res.send({ listaOfertas: listOfertas });
+      const gestorToken = req.gestorV;
+      const nameEmpresa = gestorToken.nameEmpresa;
+      const empresa = await EmpresaModel.findOne({ nom: nameEmpresa });
+      if (!empresa) {
+        return next({ error: "Empresa not found", msg: "error" });
+      }
+      
+      const page = req.query.page ? parseInt(req.query.page) : 1;
+      const limit = req.query.limit ? parseInt(req.query.limit) : 4;
+      const skip = (page - 1) * limit;
+  
+      const listOfertas = await OfertaLaboral.find({ idEmpresa: empresa._id })
+        .skip(skip)
+        .limit(limit)
+        .populate('createBy');
+      
+      const count = await OfertaLaboral.countDocuments({ idEmpresa: empresa._id });
+      const totalPages = Math.ceil(count / limit);
+  
+      const msg = {
+        listaOfertas: listOfertas,
+        totalCount: count,
+        totalPages: totalPages,
+        currentPage: page,
+        limit: limit,
+        resposta: 'ofertes de la empresa recuperades'
+      };
+      
+      res.status(200).send(msg);
     } catch (err) {
-        return next({ error: err, msg: "error" });
+      return next({ error: err, msg: "error" });
     }
-}
+  }
+  
 
 
 /**
@@ -97,7 +159,8 @@ export const getOfertaEmpresaController = async (req, res, next) => {
  * @returns 
  */
 export const ofertaRegisterController = async (req, res) => {
-
+    try {
+        
     const { title, description, requirements, skills, ciclo, expirationDate } = req.body
     const gestorToken = req.gestorV;
     const idUsuario = gestorToken.refUser;
@@ -107,7 +170,7 @@ export const ofertaRegisterController = async (req, res) => {
     console.log(empresa)
     console.log(idUsuario)
     if (!idUsuario) {
-        res.status(401).send('No tienes los permisos para registrar una oferta de trabajo en esta empresa')
+        res.status(401).send({error:'No tienes los permisos para registrar una oferta de trabajo en esta empresa'})
         return;
     }
 
@@ -123,7 +186,9 @@ export const ofertaRegisterController = async (req, res) => {
         resposta: 'oferta creada amb exit'
     }
     return res.status(200).send(msg)
-
+} catch (error) {
+    return res.status(500).send({error})       
+}
 }
 
 
@@ -142,14 +207,14 @@ export const updateOfertaController = async (req, res) => {
         const oferta = await OfertaLaboral.findById(id)
         const empresa = await EmpresaModel.findOne({ empleados: { $in: [idUsuario] } });
         if (!idUsuario || !oferta.idEmpresa.equals(empresa._id)) {
-            res.status(401).send('No tienes los permisos para actualizar una oferta de trabajo en esta empresa')
+            res.status(401).send({error:'No tienes los permisos para actualizar una oferta de trabajo en esta empresa'})
             return;
         }
 
         await OfertaLaboral.findByIdAndUpdate(id, req.body, { new: true })
         res.status(200).send("UPDATE")
     } catch (error) {
-        res.status(404).send(error)
+        res.status(404).send({error})
     }
 }
 
@@ -172,15 +237,15 @@ export const removeOfertaController = async (req, res) => {
         const empresa = await EmpresaModel.findOne({ refUser: { $in: [idUsuario] } });
 
         if (!idUsuario || !oferta.idEmpresa.equals(empresa._id)) {
-            res.status(401).send('No tienes los permisos para actualizar una oferta de trabajo en esta empresa')
+            res.status(401).send({error:'No tienes los permisos para actualizar una oferta de trabajo en esta empresa'})
             return;
         }
 
         await InscripcionModel.deleteMany({ refOfertaLaboral: ofertaId })
         await OfertaLaboral.findByIdAndDelete(ofertaId)
-        res.status(200).send('Ofertsa eliminada con exito')
+        res.status(200).send({msg:'Ofertsa eliminada con exito'})
     } catch (error) {
-        res.send(error)
+      res.status(500).send({ error: 'Ocurrió un error al  eliminar la oferta. Por favor, intente nuevamente más tarde.' })
     }
 
 }

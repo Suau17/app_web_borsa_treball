@@ -19,7 +19,7 @@ appRouter.get('/getUsers',   userC.getUsersControllers)
 appRouter.get('/getOfertas', oferta.getOfertasController) 
 appRouter.get('/getOfertas/:id', oferta.getOfertasEmpresa) 
 appRouter.get('/oferta/:idOferta', oferta.getOfertaController) 
-appRouter.get('/getEmpresa', empresa.getEmpresaControllers)
+appRouter.get('/getEmpresa', empresa.getAllEmpresaControllers)
 
 appRouter.get('/user/:id', userC.searchUser)
 appRouter.get('/oferta/:idOferta/inscripciones', oferta.getInscritosController)
