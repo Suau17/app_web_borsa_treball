@@ -139,7 +139,7 @@ export const deleteUserController = async (req, res) => {
     await UserModel.deleteOne({ _id: idUsuario })
 
     // Enviamos un código de estado HTTP 200 (OK)
-    res.status(200).send('Usuario eliminado correctamente')
+    res.status(200).send({msg:'Usuario eliminado correctamente'})
   } catch (error) {
     // En caso de error, enviamos un código de estado HTTP 500 (Internal Server Error)
     res.status(500).send('error')

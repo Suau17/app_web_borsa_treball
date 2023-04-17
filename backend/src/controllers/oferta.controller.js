@@ -212,7 +212,7 @@ export const updateOfertaController = async (req, res) => {
         }
 
         await OfertaLaboral.findByIdAndUpdate(id, req.body, { new: true })
-        res.status(200).send("UPDATE")
+        res.status(200).send({msg:"UPDATE"})
     } catch (error) {
         res.status(404).send({error})
     }
