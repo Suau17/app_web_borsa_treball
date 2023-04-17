@@ -90,18 +90,17 @@ export  function Profile() {
 
                 <div className=" perfUser ">
         <div className={activeForm === 'edit' ? 'form-container sign-up-container' : 'form-container sign-up-container hidden'}>
-        <button onClick={handlePerfil} class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline mt-2">Perfil</button>
         <form onSubmit = { handleClickAlumne } id="editarAlumne" className="bg-white shadow-md rounded px-8 pt-10 pb-8 mb-4 text-lg ">
-        <h1 className="block text-gray-700 text-xl font-bold ">Edita la informació d'usuari</h1>
-            <span  className="block text-gray-700  font-bold mb-2">Nom</span>
-            <input type = "text" name = "name" defaultValue={profile.user.name} placeholder="Entra el teu nou nom d'usuari" className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"/>
-            <span className="block text-gray-700  font-bold mb-2">email</span>
-            <input type = "text" name = "email" defaultValue={profile.user.email}  placeholder = "Entra el teu nou mail" className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"/>
-            <span className="block text-gray-700  font-bold mb-2">password</span>
-            <input type = "password" name = "password"  placeholder = "Entra la nova contrassenya" className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"/>
-            <span className="block text-gray-700  font-bold mb-2">confirma la contraseña</span>
-            <input type = "password" name = "confirmpassword" placeholder = "Confirma la teva contrassenya" className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"/>
-            <button  className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline mt-2">Guardar</button>
+        <h1 class="block text-gray-700 text-xl font-bold ">Edita la informació d'usuari</h1>
+            <span class="block text-gray-700  font-bold mb-2">Nom</span>
+            <input type = "text" name = "name" placeholder="Entra el teu nou nom d'usuari" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"/>
+            <span class="block text-gray-700  font-bold mb-2">email</span>
+            <input type = "text" name = "email" placeholder = "Entra el teu nou mail" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"/>
+            <span class="block text-gray-700  font-bold mb-2">password</span>
+            <input type = "password" name = "password" placeholder = "Entra la nova contrassenya" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"/>
+            <span class="block text-gray-700  font-bold mb-2">confirma la contraseña</span>
+            <input type = "password" name = "confirmpassword" placeholder = "Confirma la teva contrassenya" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"/>
+            <button onClick={handlePerfil} class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline mt-2">Guardar</button>
         </form>
         </div>
         </div>
@@ -111,7 +110,7 @@ export  function Profile() {
     } else {
          html = (
             <>
-            <div className="lds-ring"><div></div><div></div><div></div><div></div></div>
+            <div class="lds-ring"><div></div><div></div><div></div><div></div></div>
             </>
         )
     }

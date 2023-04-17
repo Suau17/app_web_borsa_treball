@@ -1,7 +1,7 @@
 import React, { useTransition } from "react";
 import axios from "axios";
 import { useCookies } from 'react-cookie';
-import { toast } from "sonner";
+
 const URL = {
     urlGestor: `${import.meta.env.VITE_URL}/user/register/gestor`,
     urlEstudiante: `${import.meta.env.VITE_URL}/user/register/estudiante`,
@@ -35,16 +35,9 @@ export async function RegisterGestor(props) {
     const response = await fetch(URL.urlGestor, requestOptions)
     const data = await response.json();
     console.log(data)
-    if (response.status === 200) {
-      toast.success(`Gestor registrat amb éxit`);
-    } else if (response.status >= 500 && response.status < 600) {
-      toast.error('Ha ocorregut un error en el servidor');
-    } else {
-      toast.error(`Ha ocorregut un error al registrar el gestor`);
-    }
     localStorage.setItem('vToken', data.token)
     localStorage.setItem('vRole', data.role)
-    location.reload()
+    history.back()
 
 }
 
@@ -74,13 +67,6 @@ export async function RegisterResponsable(props) {
     const data = await response.json();
     console.log(data)
 
-    if (response.status === 200) {
-      toast.success(`Responsable registrat amb éxit`);
-    } else if (response.status >= 500 && response.status < 600) {
-      toast.error('Ha ocorregut un error en el servidor');
-    } else {
-      toast.error(`Ha ocorregut un error al registrar el responsable`);
-    }
 }
 
 export async function RegisterAlumno(props) {
@@ -106,14 +92,6 @@ export async function RegisterAlumno(props) {
     console.log(data.token)
     localStorage.setItem('vToken', data.token)
     localStorage.setItem('vRole', data.role)
-    if (response.status === 200) {
-      toast.success(`Alumne registrat amb éxit`);
-    } else if (response.status >= 500 && response.status < 600) {
-      toast.error('Ha ocorregut un error en el servidor');
-    } else {
-      toast.error(`Ha ocorregut un error al registrar el alumne`);
-    }
-    location.reload()
 
 }
 

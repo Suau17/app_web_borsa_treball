@@ -1,17 +1,17 @@
 import { useEffect, useState } from "react";
-import { useParams, Link, useNavigate } from 'react-router-dom'
+import { useParams, Link } from 'react-router-dom'
 import { GetOferta } from "../services/detailsOferta";
 import { deleteOferta } from "../services/gestor/deleteOferta";
 import { GetInscripciones } from "../services/inscripciones";
 import { cambiarEstado } from "../services/gestor/cambiarEstado";
 import { updateOferta } from "../services/gestor/ofertaUpdate";
+import { ButtonInscriureOferta } from "./inscriureOferta";
 import '../assets/empresa.css'
 import '../assets/register.css'
 export function OfertaDetails() {
     const { idOferta } = useParams();
     let [oferta, setOferta] = useState([])
     let [inscripciones, setInscripciones] = useState([])
-    const navigate = useNavigate();
     const [activeForm, setActiveForm] = useState("oferta");
 
     useEffect(() => {
@@ -27,7 +27,7 @@ export function OfertaDetails() {
             inscripcion: inscripcion,
             action: keyword
         }
-        cambiarEstado(body).then(navigate('/oferta/'+idOferta))
+        cambiarEstado(body)
     }
 
     const handleFormOferta = () => {
@@ -59,8 +59,7 @@ export function OfertaDetails() {
 
     const handleClickDelete = () => {
         console.log('dsad')
-        deleteOferta({ id: idOferta }).then(navigate('/getOfertas'))
-
+        deleteOferta({ id: idOferta })
     }
 
     let html;
@@ -68,8 +67,8 @@ export function OfertaDetails() {
     if (oferta.oferta && inscripciones) {
 
         const isoDate = oferta.oferta.expirationDate;
-const dateObj = new Date(isoDate);
-const formattedDate = `${dateObj.getDate()}/${dateObj.getMonth() + 1}/${dateObj.getFullYear()}`;
+        const dateObj = new Date(isoDate);
+        const formattedDate = `${dateObj.getDate()}/${dateObj.getMonth() + 1}/${dateObj.getFullYear()}`;
 
         html = (
             <>
@@ -79,10 +78,11 @@ const formattedDate = `${dateObj.getDate()}/${dateObj.getMonth() + 1}/${dateObj.
                         <h1 className="mb-4 text-4xl font-extrabold leading-none tracking-tight text-gray-900 md:text-5xl lg:text-4xl dark:text-black mt-5 ">{oferta.oferta.title}</h1>
 
                         <button onClick={handleFormEdit} className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
-                        <img src="/public/iconos/editar.png" alt="papelera" />
+
+                            Editar
                         </button>
                         <button onClick={() => { handleClickDelete() }} className="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded">
-                            <img src="/public/iconos/eliminar.png" alt="papelera" />
+                            <img src="./assets/img/3221845.png" alt="papelera" />
                         </button>
                         <h3 className="uppercase font-bold ">Id de la Empresa:</h3> {oferta.oferta.idEmpresa}
                         <h3 className="uppercase font-bold">Fecha de publicacion: </h3>{formattedDate}
@@ -133,6 +133,12 @@ const formattedDate = `${dateObj.getDate()}/${dateObj.getMonth() + 1}/${dateObj.
                             }
 
                         </ul>
+                        {
+                            localStorage.getItem('vRole') === 'alumno' && (
+                                <ButtonInscriureOferta idOferta={idOferta} />
+                            )
+                        }
+
                     </div>
                 </div>
                 <div className={activeForm === 'edit' ? 'form-container sign-up-container' : 'form-container sign-up-container hidden'}>

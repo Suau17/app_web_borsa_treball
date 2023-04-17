@@ -20,8 +20,9 @@ if (role == 'gestor') {
     };
 }
 
-export async function VerOfertas(page) {
-    const response = await fetch(`${Url}?page=${page}`, requestOptions);
+export async function VerOfertas() {
+
+    const response = await fetch(Url, requestOptions);
     const data = await response.json();
     console.log(data)
     return data;
