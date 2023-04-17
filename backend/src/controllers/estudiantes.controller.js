@@ -219,6 +219,7 @@ export const verOfertasInscrito = async (req, res) => {
   try {
     const idUsuarioToken = req.idToken;
     const ofertasInscritas = await InscripcionModel.find({ refUser: idUsuarioToken }).populate("refOfertaLaboral")
+    console.log(ofertasInscritas)
     res.send({ ofertasInscritas })
   } catch (error) {
     res.status(500).send('Ha habido un error al mostrar las ofertas en las que estas inscrito')
