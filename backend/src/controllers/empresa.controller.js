@@ -10,18 +10,52 @@ import UserModel from '#schemas/User.js'
 
 
 // Recuperar todas las empresas
-export const getEmpresaControllers = async (req, res) => {
+export const getAllEmpresaControllers = async (req, res) => {
   try {
+    console.log('access')
+    // Obtener los parámetros de paginación de la solicitud
+    const currentPage = parseInt(req.query.page) || 1;
+    const itemsPerPage = parseInt(req.query.limit) || 10;
+
+    // Calcular el índice del primer elemento y el índice del último elemento
+    const startIndex = (currentPage - 1) * itemsPerPage;
+    const endIndex = startIndex + itemsPerPage;
+
     // Obtener todas las empresas de la base de datos
-    const empresas = await EmpresaModel.find();
+    const empresas = await EmpresaModel.find().skip(startIndex).limit(itemsPerPage);
+
+    // Calcular el número total de empresas
+    const totalEmpresas = await EmpresaModel.countDocuments();
+
+    // Crear un objeto de respuesta con los datos de la página actual
+    const response = {
+      currentPage: currentPage,
+      itemsPerPage: itemsPerPage,
+      totalItems: totalEmpresas,
+      totalPages: Math.ceil(totalEmpresas / itemsPerPage),
+      empresas: empresas
+    };
 
     // Enviar las empresas en la respuesta
-    res.send(empresas);
+    res.send(response);
+  } catch (error) {
+    res.status(500).send('Ocurrió un error al recuperar las empresas. Por favor, intente nuevamente más tarde.');
+  }
+};
+
+
+export const getEmpresaControllers = async (req, res) => {
+  try {
+    const gestorToken = req.gestorV;
+    const idUsuario = gestorToken.refUser
+
+    const empresa = await EmpresaModel.findOne({ refUser: idUsuario })
+    // Enviar las empresas en la respuesta
+    res.status(200).send({empresa});
   } catch (error) {
     res.status(500).send('Ocurrió un error al recuperar las empresas. Por favor, intente nuevamente más tarde.');
   }
 }
-
 
 export const empresaRegistrerController = async (req, res) => {
 

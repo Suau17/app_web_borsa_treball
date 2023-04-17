@@ -1,0 +1,44 @@
+{
+    "listaOfertas": [
+        {
+            "_id": "63d272f4438755a973810775",
+            "title": "Desarrollador",
+            "description": "Haras pequeños funcionalidades e iras poco a poco escalando en responsabilidades y salario.",
+            "requirements": "JavaScript, Bootstrap, HTML, React",
+            "skills": "Ganas de aprender, 1 año de experiencia o varios proyectos tuyos",
+            "ciclo": "GAME",
+            "dateOfPublication": "2023-01-26T12:32:52.876Z",
+            "idEmpresa": "63d272eb438755a97381076f",
+            "createBy": {
+                "_id": "63d272c3438755a973810768",
+                "name": "Marc bibo",
+                "email": "prueba@microsoft.com",
+                "passwordHash": "$2b$12$DPHLIZzxrgrnHmk2BzVq2eS./nQYami397j5EiW0xtRwTM6sHm.Qi",
+                "rolUser": "gestor",
+                "__v": 0
+            },
+            "refUsersInscritos": [],
+            "__v": 0
+        },
+        {
+            "_id": "63ff1b26f466e8143421d326",
+            "title": "Desarrollador",
+            "description": "Haras pequeños funcionalidades e iras poco a poco escalando en responsabilidades y salario.",
+            "requirements": "JavaScript, Bootstrap, HTML, React",
+            "skills": "Ganas de aprender, 1 año de experiencia o varios proyectos tuyos",
+            "ciclo": "GAME",
+            "dateOfPublication": "2023-03-01T09:30:14.162Z",
+            "idEmpresa": "63d272eb438755a97381076f",
+            "createBy": {
+                "_id": "63d272c3438755a973810768",
+                "name": "Marc bibo",
+                "email": "prueba@microsoft.com",
+                "passwordHash": "$2b$12$DPHLIZzxrgrnHmk2BzVq2eS./nQYami397j5EiW0xtRwTM6sHm.Qi",
+                "rolUser": "gestor",
+                "__v": 0
+            },
+            "refUsersInscritos": [],
+            "__v": 0
+        }
+    ]
+}

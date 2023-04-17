@@ -1,0 +1,42 @@
+.div-principal {
+    margin-top: 5%;
+
+    margin-left: 35%;
+    margin-right: 10%;
+}
+
+.cardOferta {
+    border: solid 2px black;
+    width: 100%;
+    
+    margin-bottom: 2%;
+    
+    border-radius: 10px;
+    padding: 1.5%;
+    padding-left: 30px;
+    min-width: 210px;
+    font-family: Arial, Helvetica, sans-serif;
+    cursor: pointer;
+}
+.cardOferta:hover{
+    scale: 1.1;
+}
+
+.cardInscrito{
+    max-width: 400px;
+    padding: 10px;
+    border: 2px  solid black;
+    list-style: none;
+}
+
+.cardInscrito:hover{
+    cursor: pointer;
+    background-color: rgb(182, 181, 181);
+}
+
+.detailOferta{
+    width: 50%;
+    margin-left: 25%;
+    padding: 9px;
+    margin-top: 5%;
+}

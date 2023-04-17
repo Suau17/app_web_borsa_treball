@@ -35,7 +35,7 @@ gestorRouter.get('/getOfertas', oferta.getOfertaEmpresaController)
 gestorRouter.post('/oferta/registrar', oferta.ofertaRegisterController) 
 
 
-gestorRouter.put('/oferta/update/:id',rules.rulesOferta,validacion.validarCampos, oferta.updateOfertaController)  
+gestorRouter.put('/oferta/update/:id', oferta.updateOfertaController)  
 gestorRouter.delete('/oferta/remove/:ofertaId', oferta.removeOfertaController)  
 
 // ver postulantes a la oferta
