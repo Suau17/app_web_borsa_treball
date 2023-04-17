@@ -150,7 +150,7 @@ export const inscribirseOferta = async (req, res) => {
   console.log('inscribirseOf')
     const { idOferta } = req.body
     const idUsuarioToken = req.idToken;
-
+    
     if (!idUsuarioToken) {
       res.status(401).send('No tienes los permisos para inscribir a otro usuario')
       return;
@@ -161,8 +161,6 @@ export const inscribirseOferta = async (req, res) => {
 
     // PARA REVISAR
     const inscripcionrepetida = await InscripcionModel.findOne({ refOfertaLaboral: idOferta, refUser: idUsuarioToken });
-    console.log('dsa')
-    console.log(inscripcionrepetida)
     if (inscripcionrepetida) {
       res.status(401).send('Ya estás inscrito en esta oferta.');
       return;
@@ -174,6 +172,7 @@ export const inscribirseOferta = async (req, res) => {
       idEmpresa: oferta.idEmpresa,
       estado: "pendiente"
     });
+    console.log(inscripcion)
     await OfertaLaboral.findOneAndUpdate(
       { _id: idOferta },
       { $push: { refUsersInscritos: idUsuarioToken } }

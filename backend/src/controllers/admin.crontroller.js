@@ -6,8 +6,10 @@ import EmpresaModel from "#schemas/empresaSchema.js"
 import InscripcionModel from "#schemas/inscripcion.js"
 import EstudianteModel from "#schemas/estudiante.js"
 import OfertaLaboral from "#schemas/ofertaLaboral.js"
+import EstudiosModel from "#schemas/estudios.schema.js"
 import { hash, compare } from 'bcrypt'
 import jwt from 'jsonwebtoken'
+import { inscribirseOferta } from "./estudiantes.controller.js"
 
 export const adminRegistrerController = async (req, res) => {
  try {
@@ -42,7 +44,8 @@ export const adminRegistrerController = async (req, res) => {
 }
 
 export const habilitarGestorController = async (req, res) => {
-  try {
+ try {
+
     // Obtenemos el id del gestor y los datos a actualizar proporcionados
     const id = req.params.id
     console.log(id)
@@ -51,11 +54,12 @@ export const habilitarGestorController = async (req, res) => {
 
     // Enviamos un mensaje de éxito
     return res.send('Datos del gestor actualizados con éxito')
+  
   } catch (error) {
-    // En caso de error, enviamos un mensaje de error
-    return res.status(500).send('Ocurrió un error inesperado. Por favor, intente nuevamente más tarde.')
+    return res.send({resposta:'Ha habido un error al habilitar el gestor'})
   }
 }
+
 const dataYear = async () => {
   const ofertas = database.collection("ofertalaborals");
 
@@ -84,6 +88,7 @@ try {
   // }
   if (user.rolUser === 'alumno') {
     await EstudianteModel.deleteOne({ refUser: idUsuario })
+    await InscripcionModel.deleteMany({ refUser: idUsuario })
   }
   if (user.rolUser === 'gestor') {
     const gestor = await GestorModel.findOne({ refUser: idUsuario })
@@ -101,7 +106,7 @@ try {
 
 
   // Eliminamos el usuario del modelo de usuario
-  await UserModel.deleteOne({ _id: idUsuario })
+  await UserModel.deleteOne({ _id: idUsuario  })
   // Enviamos un código de estado HTTP 200 (OK)
   const msg = {
     msg : 'usuario eliminado correctament'
@@ -113,3 +118,27 @@ catch(e){
   }
 
 }
+
+export const cicloRegistrerController = async (req, res) => {
+  try {
+    
+
+
+     const { name, familiaProfesional, durada, asignatures } = req.body
+ 
+       const ciclo = new EstudiosModel({
+        name,
+        familiaProfesional,
+        durada,
+        asignatures
+       })
+       await ciclo.save()
+      const msg = {
+         resposta: 'Ciclo registrado correctamente'
+       }
+ 
+     return res.status(200).send(msg)
+    } catch (error) {
+      return res.status(400).send({resposta:'Ha habido un problema al crear el ciclo', error})
+    }
+ }

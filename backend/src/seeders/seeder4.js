@@ -3,7 +3,7 @@ import * as dotenv from 'dotenv';
 import mongoose from 'mongoose';
 import * as path from 'path';
 import User from "#schemas/User.js"
-import EstudianteModel from "#schemas/estudiante.js"
+import EstudianteModel from "#schemas/estudiantes.controller.js"
 import { fileURLToPath } from 'url';
 import { hash } from 'bcrypt';
 
