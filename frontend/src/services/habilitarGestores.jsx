@@ -3,14 +3,14 @@ export async function habilitarGestores(props) {
     const {id} = props
     const url = `${import.meta.env.VITE_URL}/admin/habilitarGestor/${id}`
     let token = localStorage.getItem('vToken')
-    //  const sendBody = {
-    //      "id":id,
-    //  }
+      const sendBody = {
+         id:id,
+      }
     const requestOptions = {
         method: 'PUT',
         headers: { 
-            'Content-Type': 'application/json'
-            
+            'Content-Type': 'application/json',
+            'Authorization': `${token}`
         },
         body: JSON.stringify({ id })
     };
@@ -18,6 +18,7 @@ export async function habilitarGestores(props) {
     const response = await fetch(url, requestOptions)
     console.log(response)
     const data = await response.json()
+    console.log(data)
     if (response.status === 200) {
         toast.success(`Gestor habilitat amb éxit`);
       } else if (response.status >= 500 && response.status < 600) {
