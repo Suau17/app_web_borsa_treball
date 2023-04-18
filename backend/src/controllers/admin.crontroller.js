@@ -43,6 +43,22 @@ export const adminRegistrerController = async (req, res) => {
   }
 }
 
+export const cicloGetController = async (req, res) => {
+  try {
+   
+    const estudios = await EstudiosModel.find()
+
+    const msg = {
+         estudios,
+         resposta: 'Estudios han sido recuperados'
+       }
+ 
+     return res.send(msg)
+   } catch (error) {
+   return res.send('error al registrar admin')
+   }
+ }
+
 export const habilitarGestorController = async (req, res) => {
  try {
 
