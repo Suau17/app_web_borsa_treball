@@ -1,7 +1,8 @@
 import React, {useEffect, useState} from "react";
 import { viewUsers } from '../services/users'
-import {deleteUser} from '../services/deleteUser'
-
+import { deleteUser } from '../services/deleteUser'
+import { habilitarGestores } from "../services/habilitarGestores";
+import '../assets/oferta.css'
 
 export function GetUsers(){
 
@@ -75,10 +76,15 @@ export function GetUsers(){
                     </table>
                    
                 </div>
-                <div className="flex justify-center items-center mt-4">
-                    <button className="bg-blue-500 text-white font-semibold py-2 px-4 border border-blue-500 rounded" onClick={() => { handlePageChange(currentPage - 1) }}>Anterior</button>
-                    <span className="mx-4">Página {currentPage}</span>
-                    <button className="bg-blue-500 text-white font-semibold py-2 px-4 border border-blue-500 rounded" onClick={() => { handlePageChange(currentPage + 1) }}>Siguiente</button>
+                <div className="pagination">
+                    <button className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
+                        onClick={() => setCurrentPage(currentPage - 1)}>
+                        Prev
+                    </button>
+                    <button className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
+                        onClick={() => setCurrentPage(currentPage + 1)}>
+                        Next
+                    </button>
                 </div>
             
             </>

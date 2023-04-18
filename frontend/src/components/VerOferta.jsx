@@ -5,6 +5,7 @@ import '../App.css'
 import '../assets/oferta.css'
 
 
+
 export function GetOfertas() {
 
     let [ofertas, setOfertas] = useState([]);
@@ -24,6 +25,16 @@ export function GetOfertas() {
                     {ofertas.listaOfertas.map(e =>
                         <CardOferta  key={e._id} data={e} />
                     )}
+                </div>
+                <div className="pagination">
+                    <button className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
+                        onClick={() => setCurrentPage(currentPage - 1)}>
+                        Prev
+                    </button>
+                    <button className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
+                        onClick={() => setCurrentPage(currentPage + 1)}>
+                        Next
+                    </button>
                 </div>
             </>
     }
