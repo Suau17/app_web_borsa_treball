@@ -20,7 +20,6 @@ export const checkAuthGestor = async (req,res, next) => {
         //     console.log('tu perfil aun no esta habilitado')
         //     return res.status(401).send('tu perfil no esta habilitado. Espere a que nuestro administrador le active la cuenta. Si despues de varios dias su cuenta no esta de alta llame al 99429214')
         // }
-        console.log('perfil habilitado')
         
         req.gestorV = gestor
         next()
@@ -42,7 +41,6 @@ export const checkAuthEstudiante = async (req,res, next) => {
         // }
         const tokenData = jwt.verify(tokenFromClient, process.env.SecretWord)
         const id = tokenData.id
-        console.log(tokenData)
         // if (tokenData.role !== 'alumno') {
         //     res.status(401).send('Tu cuenta no es de un alumno')
         // }
@@ -103,7 +101,6 @@ export const getUserToken = async (req) => {
                 return res.send({error: 'token no es el mismo'})
             }
             const tokenData = jwt.verify(tokenFromCookies, process.env.secretWord)
-            console.log(tokenData.name)
             
             req.idToken = tokenData.id
             next()

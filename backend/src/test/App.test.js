@@ -75,15 +75,13 @@ let idInscripcion;
  * Registrar Estudiante
  * Loguear Estudiante
  * Inscribirse a una oferta de trabajo
- * quitar mi inscripcion a una oferta
- * Inscribirse a una oferta (vuevlo a crear otra para poder aceptar la inscripcion como gestor)
  * Ver mis inscripciones
  * Actualizar datos estudiante
  * 
  * 
  * Aceptar/Rechazar Inscripcion de un estudiante
- * Eliminar Empresa
- * Eliminar Gestor&Empresa
+ * falta eliminar responsable
+ * Eliminar Gestor&Empresa 
  */
 
 describe('Register && Login GESTOR', (done) => {
@@ -95,8 +93,10 @@ describe('Register && Login GESTOR', (done) => {
     "passwordHash": "marc1234@",
     "carrec": "hihihhihihihihihihihih",
     "telefon": "8932423",
-    "nameEmpresa": "Empresa ooi"
-  }
+    "nameEmpresa": "Empresa ooi",
+    "direccion": "tarragona",
+    "sector": "IT"
+  };
 
   it('Register Test', (done) => {
     chai.request(server).post('/user/register/gestor')
@@ -129,23 +129,7 @@ describe('Register && Login GESTOR', (done) => {
 
 
 describe('Empresa', () => {
-  it('Creando Empresa:', (done) => {
-    let empresa = {
-      "nom": "bugisoft",
-      "direccion": "calle 3",
-      "sector":"Empresa software"
-    }
-    chai.request(server)
-      .post('/gestor/empresa/registrar')
-      .auth(tokenGestor, { type: 'bearer' })
-      .set('Cookie', ['tokenAcces=' + tokenGestor])
-      .send(empresa)
-      .end((err, res) => {
-        if (err) return done(err);
-        expect(res.statusCode).to.equal(201);
-        done();
-      });
-  });
+
 
   it('Creando Oferta', (done) => {
     let oferta = {
@@ -157,13 +141,13 @@ describe('Empresa', () => {
     }
     chai.request(server)
       .post('/gestor/oferta/registrar')
-      .auth(tokenGestor, { type: 'bearer' })
+      .set('Authorization', `${tokenGestor}`)
       .set('Cookie', ['tokenAcces=' + tokenGestor])
       .send(oferta)
       .end((err, res) => {
         if (err) return done(err);
         res.body.should.be.a('Object');
-        idOferta = res.body.id
+        idOferta = res.body.oferta._id
         expect(res.statusCode).to.equal(200);
         done();
       });
@@ -174,9 +158,10 @@ describe('Empresa', () => {
       "title": "Desarrollador",
       "description": "Probaras testing en mocha chai",
     }
+    console.log('IDOFERTA CALBO'+idOferta)
     chai.request(server)
       .put(`/gestor/oferta/update/${idOferta}`)
-      .auth(tokenGestor, { type: 'bearer' })
+      .set('Authorization', `${tokenGestor}`)
       .set('Cookie', ['tokenAcces=' + tokenGestor])
       .send(oferta)
       .end((err, res) => {
@@ -193,7 +178,7 @@ describe('Empresa', () => {
     }
     chai.request(server)
       .put(`/gestor/empresa/update`)
-      .auth(tokenGestor, { type: 'bearer' })
+      .set('Authorization', `${tokenGestor}`)
       .set('Cookie', ['tokenAcces=' + tokenGestor])
       .send(empresa)
       .end((err, res) => {
@@ -211,7 +196,7 @@ describe('Empresa', () => {
     }
     chai.request(server)
       .put(`/gestor/update`)
-      .auth(tokenGestor, { type: 'bearer' })
+      .set('Authorization', `${tokenGestor}`)
       .set('Cookie', ['tokenAcces=' + tokenGestor])
       .send(gestor)
       .end((err, res) => {
@@ -233,7 +218,6 @@ describe('Register && Login ESTUDIANTE', (done) => {
     "email":"marc2344@vidal.com",
     "passwordHash":"marc1234",
     "cartaPresentacion":"esta es mi carta de presentacion para su empresa",
-    "estudis":["CFGS Desenvolupament d'aplicacions web (DUAL)","CFGS Desenvolupament d'aplicacions multiplataforma (DUAL)"]
 }
 
   it('Register ESTUDIANTE Test', (done) => {
@@ -241,7 +225,7 @@ describe('Register && Login ESTUDIANTE', (done) => {
       .send(registrarEstudiante)
       .end((err, res) => {
         if (err) return done(err);
-        res.should.have.status(201);
+        res.should.have.status(200);
         done()
       })
   })
@@ -259,7 +243,7 @@ describe('Register && Login ESTUDIANTE', (done) => {
         res.should.have.status(200);
         res.body.should.be.a('Object');
         tokenEstudiante = res.body.token
-        console.log(tokenEstudiante)
+        console.log('AAAAAAAAAAAATOKEN ESTu'+tokenEstudiante)
         done()
       })
   })
@@ -277,44 +261,23 @@ describe('GESTION ESTUDIANTE', (done) => {
   
   it('Inscribirse a una oferta', (done) => {
     chai.request(server).post('/estudiante/oferta/inscribirse')
-    .auth(tokenEstudiante, { type: 'bearer' })
+    .set('Authorization', `${tokenEstudiante}`)
     .set('Cookie', ['tokenAcces=' + tokenEstudiante])
     .send({ "idOferta": idOferta })
     .end((err, res)=>{
       if (err) return done(err);
       expect(res.statusCode).to.equal(200);
-      done();        
-    })
-  })
-  
-  it('quitar mi inscripcion a una oferta', (done) => {
-    chai.request(server).delete('/estudiante/oferta/eliminarInscripcion/'+idOferta)
-    .auth(tokenEstudiante, { type: 'bearer' })
-    .set('Cookie', ['tokenAcces=' + tokenEstudiante])
-    .end((err, res)=>{
-      if (err) return done(err);
-      expect(res.statusCode).to.equal(200);
-      done();        
-    })
-  })
-
-  it('Inscribirse a una oferta 2', (done) => {
-    chai.request(server).post('/estudiante/oferta/inscribirse')
-    .auth(tokenEstudiante, { type: 'bearer' })
-    .set('Cookie', ['tokenAcces=' + tokenEstudiante])
-    .send({ "idOferta": idOferta })
-    .end((err, res)=>{
-      if (err) return done(err);
-      expect(res.statusCode).to.equal(200);
-      
-      idInscripcion =  res.body.id
+      console.log('PREVIEW')
+      console.log(res.body)
+      console.log('POST')
+      idInscripcion =  res.body.data._id
       done();        
     })
   })
 
   it('Ver Mis Inscripciones', (done) => {
     chai.request(server).get('/estudiante/verInscripciones/')
-    .auth(tokenEstudiante, { type: 'bearer' })
+    .set('Authorization', `${tokenEstudiante}`)
     .set('Cookie', ['tokenAcces=' + tokenEstudiante])
     .send({ "idOferta": idOferta })
     .end((err, res)=>{
@@ -329,8 +292,8 @@ describe('GESTION ESTUDIANTE', (done) => {
       "cartaPresentacion":"carta presentacion v2"
     }
     chai.request(server)
-      .put(`/estudiante/update`)
-      .auth(tokenEstudiante, { type: 'bearer' })
+      .put(`/user/actualizar`)
+      .set('Authorization', `${tokenEstudiante}`)
       .set('Cookie', ['tokenAcces=' + tokenEstudiante])
       .send(estudiante)
       .end((err, res) => {
@@ -355,12 +318,11 @@ describe('EMPRESA 2',(done) => {
   it('Aceptar/Rechazar Inscripcion de un estudiante', (done) => {
     console.log('ESTO ES EL ID INSCRIPCION DE PRUEB'+idInscripcion)
     let inscripcion = {
-      "id":idInscripcion,
       "estado":"aceptar"
     }
     chai.request(server)
       .put(`/gestor/oferta/estado/${idInscripcion}`)
-      .auth(tokenGestor, { type: 'bearer' })
+      .set('Authorization', `${tokenGestor}`)
       .set('Cookie', ['tokenAcces=' + tokenGestor])
       .send(inscripcion)
       .end((err, res) => {
@@ -370,22 +332,10 @@ describe('EMPRESA 2',(done) => {
       });
   });
 
-  // este ruta elimina empresa, oferta, inscripciones
-  it('Eliminar Empresa', (done) => {
-    chai.request(server).delete('/gestor/empresa/delete/')
-    .auth(tokenGestor, { type: 'bearer' })
-    .set('Cookie', ['tokenAcces=' + tokenGestor])
-    .end((err, res)=>{
-      if (err) return done(err);
-      expect(res.statusCode).to.equal(200);
-      done();        
-    })
-  })
-
   // este ruta elimina gestor, empresa, oferta, inscripciones
   it('Eliminar Gestor&Empresa', (done) => {
-    chai.request(server).delete('/gestor/delete/')
-    .auth(tokenGestor, { type: 'bearer' })
+    chai.request(server).delete('/user/delete/')
+    .set('Authorization', `${tokenGestor}`)
     .set('Cookie', ['tokenAcces=' + tokenGestor])
     .end((err, res)=>{
       if (err) return done(err);

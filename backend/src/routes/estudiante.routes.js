@@ -16,7 +16,7 @@ estudianteRouter.delete('/eliminar/:userId', userC.deleteUserController)
 // //// RESPONSABLE
 estudianteRouter.post('/registrar', estudiante.estudianteRegistrerController)
 estudianteRouter.get('/verInscripciones', estudiante.verOfertasInscrito)
-estudianteRouter.put('/user/actualizar/:id', estudiante.updateEstudianteController)
+estudianteRouter.put('/user/actualizar/', estudiante.updateEstudianteController)
 
 
 

@@ -33,12 +33,15 @@ export const estudianteRegistrerController = async (req, res) => {
     let estudis = req.body.estudis;
     const { id, token } = await userController.userRegistrerController(req, res);
     console.log('id' + id);
-    const estudiante = new EstudianteModel({
+    const estudianteData = {
       refUser: id,
       cartaPresentacion,
-      curriculum : req.file.filename,
       estudis
-    });
+    };
+    if (req.file) {
+      estudianteData.curriculum = req.file.filename;
+    }
+    const estudiante = new EstudianteModel(estudianteData);
     await estudiante.save();
     const msg = {
       token: token,
@@ -80,11 +83,6 @@ export const updateEstudianteController = async (req, res) => {
   const data = req.body
   const idUsuario = req.idToken;
 
-  if (!idUsuario) {
-    res.status(401).send('No tienes los permisos para actualizar o cambiar informacion de otro usuario')
-    return;
-  }
-
   if ('rolUser' in data) {
     return res.status(401).send('no puedes modificar tu rol')
   }
@@ -105,7 +103,7 @@ export const updateEstudianteController = async (req, res) => {
 
 
   // Enviamos un mensaje de éxito
-  return res.send('Datos del estudiante actualizados con éxito')
+  return res.status(200).send('Datos del estudiante actualizados con éxito')
 
 }
 
@@ -177,9 +175,10 @@ export const inscribirseOferta = async (req, res) => {
       { _id: idOferta },
       { $push: { refUsersInscritos: idUsuarioToken } }
     )
-    await inscripcion.save();
+    const data = await inscripcion.save();
     // Realiza alguna acción para inscribir al estudiante a la oferta
-    return res.status(200).send({ mensaje: "Estudiante inscrito a la oferta" });
+    const msg = { mensaje: "Estudiante inscrito a la oferta" , data} 
+    return res.status(200).send(msg);
   } catch (error) {
     res.status(500).send(error);
   }
