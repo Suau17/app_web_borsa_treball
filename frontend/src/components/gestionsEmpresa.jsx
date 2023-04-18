@@ -3,6 +3,7 @@ import { RegisterResponsable } from "../services/register";
 import { RegisterOferta } from '../services/gestor/ofertaRegister';
 import { useState, useEffect } from "react";
 import { getEmpresa } from "../services/gestor/empresaGet";
+import { getCiclos } from "../services/ciclos";
 import '../assets/empresa.css'
 import '../assets/register.css'
 
@@ -10,9 +11,12 @@ import '../assets/register.css'
 export function GestionOperaciones() {
   const [activeForm, setActiveForm] = useState("upEmpresa");
   const [empresa, setEmpresa] = useState([])
+  const [ciclos, setCiclos] = useState([])
   useEffect(() => {
     getEmpresa().then(empresa => setEmpresa(empresa));
+    getCiclos().then(ciclos => setCiclos(ciclos))
   }, [])
+
   const handleFormEmpresa = () => {
     setActiveForm("upEmpresa");
   };
