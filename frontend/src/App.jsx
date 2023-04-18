@@ -13,6 +13,7 @@ import { PageEditAlumne } from './pages/Alumne/editAlumne'
 import { PageEmpresa } from './pages/Gestor/empresa'
 import { TableEmpresa } from './pages/empresa'
 import { EspecificUser } from './pages/especificUser'
+import { RegisterC} from './pages/crearCiclos'
 import { AuthProvider } from './context/Autenticate'
 import RoleProtectedRoute from './components/RoleProtectedRoute'
 import { Toaster, toast } from 'sonner'
@@ -63,6 +64,7 @@ function App() {
           <Route path='/oferta/:idOferta' element={<ShowOfertas />} />
           <Route path='users' element={<PageUsers />} />
           <Route path="/editAlumne" element={<PageEditAlumne />} />
+          <Route path="/crearCiclos" element={<RegisterC />} />
 
         </Routes>
       </AuthProvider>
