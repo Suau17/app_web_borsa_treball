@@ -1,5 +1,5 @@
 .div-principal {
-    margin-top: 5%;
+    margin-top: 2%;
 
     margin-left: 35%;
     margin-right: 10%;
@@ -39,4 +39,14 @@
     margin-left: 25%;
     padding: 9px;
     margin-top: 5%;
+}
+
+.pagination{
+    margin-bottom: 3%;
+    margin-left: 42%;
+    
+}
+
+.pagination button{
+    margin-left: 5%;
 }
