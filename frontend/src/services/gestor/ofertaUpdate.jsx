@@ -1,4 +1,4 @@
-import { toast } from "sonner"
+
 export async function updateOferta(props) {
     const {id, titulo, ciclo, requirments, skills,descripcion, sector, fechaExpiracion} = props
     
@@ -24,11 +24,5 @@ export async function updateOferta(props) {
 
     const response = await fetch(url, requestOptions)
     const data = await response.json()
-    if (response.status === 200) {
-        toast.success('Oferta Actualizada con éxito');
-      } else if (response.status >= 500 && response.status < 600) {
-        toast.error('Ha ocurrido un error en el servidor');
-      } else {
-        toast.error('Ha ocurrido un error al actualizar la oferta');
-      }
+
 }

@@ -147,8 +147,7 @@ export const verOferta = async (req, res) => {
  * @param {*} res 
  */
 export const inscribirseOferta = async (req, res) => {
-  try {
-
+  console.log('inscribirseOf')
     const { idOferta } = req.body
     const idUsuarioToken = req.idToken;
     
@@ -158,6 +157,7 @@ export const inscribirseOferta = async (req, res) => {
     }
     // Comprobar que el estudiante no tenga inscripción en la misma oferta
     const oferta = await OfertaLaboral.findById(idOferta)
+    console.log(idOferta)
 
     // PARA REVISAR
     const inscripcionrepetida = await InscripcionModel.findOne({ refOfertaLaboral: idOferta, refUser: idUsuarioToken });
@@ -180,9 +180,7 @@ export const inscribirseOferta = async (req, res) => {
     await inscripcion.save();
     // Realiza alguna acción para inscribir al estudiante a la oferta
     return res.status(200).send({ mensaje: "Estudiante inscrito a la oferta" });
-  } catch (error) {
-    res.status(500).send(error);
-  }
+
 }
 
 

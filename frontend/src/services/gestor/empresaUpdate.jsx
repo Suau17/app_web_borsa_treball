@@ -1,4 +1,3 @@
-import { toast } from "sonner"
 const url = `${import.meta.env.VITE_URL}/gestor/empresa/update/`
 
 export async function updateEmpresa(props) {
@@ -20,12 +19,5 @@ console.log(token)
     };
 
     const response = await fetch(url, requestOptions)
-    if (response.status === 200) {
-        toast.success(`Empresa actualitzada amb éxit`);
-      } else if (response.status >= 500 && response.status < 600) {
-        toast.error('Ha ocorregut un error en el servidor');
-      } else {
-        toast.error(`Ha ocorregut un error al actualitzar l'oferta`);
-      }
     console.log(response)
 }

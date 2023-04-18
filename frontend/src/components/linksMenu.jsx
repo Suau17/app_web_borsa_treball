@@ -31,7 +31,7 @@ export function linksAlumne() {
     return (
     <>
         <li><Link to="/getOfertas">Ofertas</Link></li>
-        <li><a href="/inscripciones"  className='active'>inscripciones</a></li>
+        <li><a href="/verInscripciones"  className='active'>inscripciones</a></li>
         <li><Link to="/user">Profile</Link></li>
         {/* <li><a href = "/editAlumne" className='active'>Edit</a></li> */}
         <li><a href="/logout"  className='active'>Logout</a></li>
@@ -42,10 +42,9 @@ export function linksAlumne() {
 export function linksAdmin(){
     return(
     <>
-     <li><Link to="/users">Users</Link></li>
+     <li><Link to="/users">User</Link></li>
     <li><Link to="/TableEmpresa">Empresa</Link></li>
     <li><Link to="/tableOfertas">Ofertas</Link></li>
-    <li><Link to="/User">User Profile</Link></li>
     {/* <li><a href="/inscripciones"  className='active'>inscripciones</a></li> */}
     <li><Link to="/crearCiclos">Registar ciclo</Link></li>
     <li><a href="/logout">Logout</a></li>

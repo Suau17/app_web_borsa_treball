@@ -1,12 +1,9 @@
 import React, { useEffect, useState } from 'react';
-import { useNavigate } from 'react-router';
 import { RegisterGestor, RegisterAlumno } from '../services/register';
 import '../assets/register.css'
 
-
 function RegisterForm() {
   const [activeForm, setActiveForm] = useState("gestor");
-  const navigate = useNavigate()
   const handleFormAlumno = () => {
     setActiveForm("alumno");
   };
@@ -20,7 +17,7 @@ function RegisterForm() {
     const gestor = Object.fromEntries(
       new window.FormData(event.target)
     )
-    RegisterGestor(gestor).then(navigate('/'))
+    RegisterGestor(gestor)
   }
 
   function handleClickAlumno(event) {
