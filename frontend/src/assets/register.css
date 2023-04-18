@@ -1,0 +1,141 @@
+.container {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+  }
+  
+  .buttons {
+	display: flex;
+	margin-bottom: 20px;
+	margin-left: 32%;
+	margin-top: 2%;
+  }
+  .buttonsR {
+	display: flex;
+	margin-bottom: 20px;
+	margin-left: 36%;
+	margin-top: 2%;
+  }
+  .form-container.hidden {
+	display: none;
+	
+  }
+
+  .buttons button {
+	background-color: transparent;
+	font-weight: 600;
+	padding-top: 0.5rem/* 8px */;
+    padding-bottom: 0.5rem/* 8px */;
+	padding-left: 1rem/* 16px */;
+    padding-right: 1rem/* 16px */;
+	border-width: 1px;
+	margin-left: 3%;
+	background-color: #fff;
+	border-radius: 0.25rem/* 4px */;
+	--tw-border-opacity: 1;
+    border-color: rgb(59 130 246 / var(--tw-border-opacity));
+	cursor: pointer;
+  }
+  .buttonsR button {
+	background-color: transparent;
+	font-weight: 600;
+	padding-top: 0.5rem/* 8px */;
+    padding-bottom: 0.5rem/* 8px */;
+	padding-left: 1rem/* 16px */;
+    padding-right: 1rem/* 16px */;
+	border-width: 1px;
+	margin-left: 3%;
+	background-color: #fff;
+	border-radius: 0.25rem/* 4px */;
+	--tw-border-opacity: 1;
+    border-color: rgb(59 130 246 / var(--tw-border-opacity));
+	cursor: pointer;
+  }
+  .buttons button:hover{
+	--tw-bg-opacity: 1;
+    background-color: rgb(59 130 246 / var(--tw-bg-opacity));
+	color: white ;
+  }
+  .buttonsR button:hover{
+	--tw-bg-opacity: 1;
+    background-color: rgb(59 130 246 / var(--tw-bg-opacity));
+	color: white ;
+  }
+  
+  .form {
+	display: none;
+	width: 500px;
+	padding: 20px;
+	border-radius: 10px;
+	box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.2);
+  }
+  
+  .form input {
+	display: block;
+	width: 100%;
+	margin: 10px 0;
+	padding: 10px;
+	border-radius: 5px;
+	border: none;
+	box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.1);
+  }
+  
+  .form button {
+	width: 100%;
+	margin-top: 20px;
+	padding: 10px;
+	border: none;
+	--tw-bg-opacity: 1;
+    background-color: rgb(59 130 246 / var(--tw-bg-opacity));
+	color: #fff;
+	font-size: 16px;
+	font-weight: bold;
+	border-radius: 5px;
+	cursor: pointer;
+  }
+  
+  /* Estilos para el formulario de alumno */
+  #alumno-form {
+	display: block;
+	background-color: #fff;
+	color: black;
+	font-weight: bold;
+	margin-left: 35%;
+	margin-top: 3%;
+	
+  }
+  
+  #alumno-form input{
+	box-shadow: 5px black;
+  }
+  /* Estilos para el formulario de gestor */
+  #gestor-form {
+	display: none;
+  }
+  
+  /* Estilos para el botón de alumno seleccionado */
+  #alumno-btn.selected {
+	background-color: #4bd5ff;
+	color: #fff;
+  }
+  
+  /* Estilos para el botón de gestor seleccionado */
+  #gestor-btn.selected {
+	background-color: #4bd5ff;
+	color: #fff;
+  }
+  .btnSign{
+	
+  }
+  
+  /* Estilos para el contenedor principal cuando se selecciona el formulario de gestor */
+  .container.gestor-active {
+	background-color: #eee;
+  }
+  
+  .registerCiclo{
+	margin-left: 25%;
+	margin-top: 5%;
+	font-size: 1.3em;
+	width: 50%;
+  }

@@ -74,12 +74,22 @@ export const userLoginController = async (req, res) => {
 
 
 export const getUsersControllers = (req, res) => {
-  UserModel.find().exec(function async(err, listUsers, next) {
-    if (err) {
-      return next(err)
-    }
-    res.send({ listaUsuarios: listUsers })
-  })
+try {
+    const page = req.query.page ? parseInt(req.query.page) : 1;
+    const limit = req.query.limit ? parseInt(req.query.limit) : 10;
+  
+    UserModel.find()
+      .skip((page - 1) * limit)
+      .limit(limit)
+      .exec(function async(err, listUsers, next) {
+        if (err) {
+          return next(err)
+        }
+        res.status(200).send({ listaUsuarios: listUsers })
+      })  
+} catch (error) {
+  res.status(500).send({error}) 
+}
 }
 
 export const searchUser = async (req, res) => {
@@ -129,7 +139,7 @@ export const deleteUserController = async (req, res) => {
     await UserModel.deleteOne({ _id: idUsuario })
 
     // Enviamos un código de estado HTTP 200 (OK)
-    res.status(200).send('Usuario eliminado correctamente')
+    res.status(200).send({msg:'Usuario eliminado correctamente'})
   } catch (error) {
     // En caso de error, enviamos un código de estado HTTP 500 (Internal Server Error)
     res.status(500).send('error')
@@ -157,6 +167,7 @@ export const infoUser = async (req, res) => {
       const estudiante = await EstudianteModel.findOne({ refUser: idUsuario })
       data.estudiante = estudiante
     }
+    
     if (user.rolUser === 'gestor') {
       const gestor = await GestorModel.findOne({ refUser: idUsuario })
       data.gestor = gestor
