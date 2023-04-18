@@ -2,7 +2,7 @@ import EmpresaModel from '#schemas/empresaSchema.js'
 import GestorModel from "#schemas/Gestor.js"
 import OfertaLaboral from '#schemas/ofertaLaboral.js'
 import InscripcionModel from '#schemas/inscripcion.js'
-
+import { ObjectId } from 'mongoose'
 import * as userController from '#controllers/user.controller.js'
 import { sendMail } from '#Lib/email.js'
 import UserModel from '#schemas/User.js'
@@ -93,15 +93,15 @@ export const updateEmpresaController = async (req, res) => {
     const empresa = await EmpresaModel.findOne({ refUser: idUsuario })
     const usuario = await UserModel.findById(idUsuario);
     const empleados = empresa.empleados.map(empleado => empleado.toString());
-
-    if (!empleados.includes(idUsuario) || usuario.rolUser !== 'gestor') {
+    console.log(empleados)
+   
+    if (!empleados.includes(idUsuario.toString()) || usuario.rolUser !== 'gestor') {
       return res.status(401).send('No tienes los permisos para eliminar esta empresa.');
     }
     // Actualizamos el registro del gestor en la base de datos
-
     let empresaUpdated = await EmpresaModel.findByIdAndUpdate(empresa._id, req.body, { new: true })
-
-    // Enviamos un mensaje de éxito
+    await GestorModel.findOneAndUpdate({ refUser: idUsuario },{nameEmpresa:req.body.nom}, { new: true });
+    // Enviamos un mensaje de éxitol
    const msg = {
       data : empresaUpdated ,
       resposta : 'Empresa Actualizada con exito'

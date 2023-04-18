@@ -14,6 +14,7 @@ import { PageEmpresa } from './pages/Gestor/empresa'
 import { TableEmpresa } from './pages/empresa'
 import { Inscripciones } from './components/inscripcionesEstudiante'
 import { EspecificUser } from './pages/especificUser'
+import { RegisterC} from './pages/crearCiclos'
 import { AuthProvider } from './context/Autenticate'
 import RoleProtectedRoute from './components/RoleProtectedRoute'
 
@@ -45,6 +46,14 @@ function App() {
         <Route path="/empleados" element={<PageEmployees />} />
         <Route path="/search/user/:id" element={<EspecificUser />} />
         </Route>
+
+    
+        
+          
+     
+       
+          <Route path="/crearCiclos" element={<RegisterC />} />
+
 
         <Route path="/TableEmpresa" element={<TableEmpresa />} />
         <Route path="/getOfertas" element={<PageOfertas />} />

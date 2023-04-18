@@ -4,7 +4,7 @@
     "type": "module",
     "description": "Plantilla base para los proyectos desarrollados en el curso de Node.JS de la plataforma LearnThis Academy",
     "scripts": {
-        "dev": "nodemon src/index.js",
+        "dev": "nodemon backend/src/index.js && cd /frontend && npm run dev",
         "start": "node src/index.js",
         "lint": "eslint src/**/*.js --fix",
         "prettier": "prettier --write .",

@@ -50,16 +50,27 @@ export function GetUsers(){
                             <th scope="col" class="px-6 py-3">Operaciones</th>
                         </thead>
                         <tbody>
-                        {currentUsers.map(e =>
-                        <tr key={e._id} className="bg-white border-2 border-blue-500  hover:bg-gray-200">
-                            <td   className="px-6 py-4">{e.name}</td>
-                            <td  className="px-6 py-4">{e.email}</td>
-                            <td  className="px-6 py-4">{e.rolUser}</td>
-                                {console.log(users)}
-                            <td  className="px-6 py-4"> 
-                            <button className="bg-red-500 text-white font-semibold  py-2 px-4 border border-red-500 rounded" onClick={()=>{deleteUser({id: e._id})}}>Eliminar</button></td>
-                        </tr>
-                        )}
+
+                            {users.listaUsuarios.map(e =>
+
+                                <tr key={e._id} className="bg-white border-2 border-blue-500  hover:bg-gray-200">
+                                    <td className="px-6 py-4">{e.name}</td>
+                                    <td className="px-6 py-4">{e.email}</td>
+                                    <td className="px-6 py-4">{e.rolUser}</td>
+                                    {console.log(users)}
+                                    <td className="px-6 py-4">
+
+                                        {e.rolUser === "gestor" && // Only render the button if role is "gestor"
+
+                                            <button name="btn" className=" bg-blue-500 text-white font-semibold  py-2 px-4 border border-blue-500 rounded " onClick={() => {console.log(e), habilitarGestores({ id: e._id }) }} >Habilitar </button>
+
+                                        }
+
+                                        {console.log(e._id)}
+                                        <button className=" bg-red-500 text-white font-semibold  py-2 px-4 border border-red-500 rounded ml-3" onClick={() => { deleteUser({ id: e._id }) }}>Eliminar</button></td>
+                                </tr>
+                            )}
+
                         </tbody>
                     </table>
                    

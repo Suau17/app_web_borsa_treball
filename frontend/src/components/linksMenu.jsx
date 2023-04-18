@@ -14,7 +14,18 @@ export function linksGestor() {
     </>
     )
 }
+export function linksResponsable() {
 
+
+    return (<>
+        <li><Link to="/getOfertas">Ofertas</Link></li>
+        <li><Link to="/empresa">Empresa</Link></li>
+        <li><Link to="/User">User Profile</Link></li>
+        <li><a href="/logout">Logout</a></li>
+ 
+    </>
+    )
+}
 export function linksAlumne() {
     
     return (
@@ -35,6 +46,7 @@ export function linksAdmin(){
     <li><Link to="/TableEmpresa">Empresa</Link></li>
     <li><Link to="/tableOfertas">Ofertas</Link></li>
     {/* <li><a href="/inscripciones"  className='active'>inscripciones</a></li> */}
+    <li><Link to="/crearCiclos">Registar ciclo</Link></li>
     <li><a href="/logout">Logout</a></li>
     
     </>)

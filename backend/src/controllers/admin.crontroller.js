@@ -43,21 +43,34 @@ export const adminRegistrerController = async (req, res) => {
   }
 }
 
+export const cicloGetController = async (req, res) => {
+  try {
+   
+    const estudios = await EstudiosModel.find()
+
+    const msg = {
+         estudios,
+         resposta: 'Estudios han sido recuperados'
+       }
+ 
+     return res.send(msg)
+   } catch (error) {
+   return res.send('error al registrar admin')
+   }
+ }
+
 export const habilitarGestorController = async (req, res) => {
- try {
+ 
 
     // Obtenemos el id del gestor y los datos a actualizar proporcionados
     const id = req.params.id
     console.log(id)
     // Actualizamos el registro del gestor en la base de datos
-    await GestorModel.findByIdAndUpdate(id, { perfilHabilitado: true }, { new: true })
-
+  const gestor =  await GestorModel.findOneAndUpdate({refUser : id}, { perfilHabilitado: true }, { new: true })
+  console.log(gestor)
     // Enviamos un mensaje de éxito
-    return res.send('Datos del gestor actualizados con éxito')
+    return res.status(200).send({msg :'Datos del gestor actualizados con éxito'})
   
-  } catch (error) {
-    return res.send({resposta:'Ha habido un error al habilitar el gestor'})
-  }
 }
 
 const dataYear = async () => {
@@ -72,9 +85,10 @@ const dataYear = async () => {
 }
 
 export const eliminarUsuario = async (req,res)=> {
+  console.log('dsd')
 
-try {
   const idUsuario = req.body.id
+  console.log(idUsuario)
   if (!idUsuario) {
     res.status(401).send('No tienes los permisos para borrar otro usuario')
     return;
@@ -113,11 +127,8 @@ try {
 }
 res.status(200).send(msg)
 }
-catch(e){
-  res.status(500).send('Error')
-  }
 
-}
+
 
 export const cicloRegistrerController = async (req, res) => {
   try {

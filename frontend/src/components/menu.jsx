@@ -1,6 +1,6 @@
 import '../App.css'
 import '../assets/menu.css'
-import { linksGestor } from './linksMenu'
+import { linksGestor, linksResponsable } from './linksMenu'
 import { linksAlumne } from './linksMenu'
 import { linksAdmin } from './linksMenu'
 import { BrowserRouter as Router, Route, Routes, Link } from 'react-router-dom';
@@ -23,6 +23,9 @@ export function Menu() {
         if(role == 'admin'){
             return   linksAdmin()
            }
+        if(role == 'responsable'){
+            return linksResponsable()
+        }
     }
     let noLogged = <>
         <header>

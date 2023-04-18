@@ -8,7 +8,6 @@ export const checkAuthGestor = async (req,res, next) => {
 
         const tokenFromClient = req.headers.authorization
         // De momento lo ocultamos para hacer los test.
-
         // if(tokenFromCookies !== tokenFromClient) {
         //     return res.status(498).send({error: 'token no es el mismo'})
         // }
