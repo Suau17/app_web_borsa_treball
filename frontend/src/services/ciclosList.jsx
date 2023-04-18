@@ -9,6 +9,7 @@ export async function RegisterCiclo(props){
         "durada":durada,
         "asignatures":asignatures
     }
+    console.log(bodySend);
     const requestOptions = {
         method: 'POST',
         headers: {
@@ -18,6 +19,8 @@ export async function RegisterCiclo(props){
     };
 
     const response = await fetch(url, requestOptions)
+
     const data = await response.json()
+    console.log(data)
     return data;
 }
