@@ -56,9 +56,7 @@ export function GestionOperaciones() {
     RegisterOferta(oferta)
   }
 
-  if (empresa.nom) {
-    
-  }
+
   return (
     <>
       <div className="buttons">
@@ -116,7 +114,14 @@ export function GestionOperaciones() {
             <span className="block text-gray-700 text-sm font-bold mb-2">Skills</span>
             <input type="text" name="skills" id="skills" placeholder='skills' className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" /><br></br>
             <span className="block text-gray-700 text-sm font-bold mb-2">Ciclo</span>
-            <input type="text" name="ciclo" id="ciclo" placeholder='ciclo' className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" /><br></br>
+            <select name="ciclo" id="ciclo" placeholder='ciclo' className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
+              {
+                ciclos ?      ciclos.map( e => {
+                  console.log(e.name)
+                  return (<option>{e.name}</option>)
+                }) : ''
+              }
+            </select>
             <span className="block text-gray-700 text-sm font-bold mb-2">Fecha de publicacion</span>
             <input type="date" name="dateOfPublication" id="dateOfPublication" placeholder='dateOfPublication' className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" /><br></br>
             <button className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline mt-2" >Sign Up</button><br />
