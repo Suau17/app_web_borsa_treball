@@ -1,0 +1,14 @@
+[
+    {
+        "name":"CFGS Desenvolupament d'aplicacions web (DUAL)",
+        "familiaProfesional":"FAMÍLIA D'INFORMÀTICA I COMUNICACIONS",
+        "durada":2000,
+        "asignatures":"programacio, entorn servidor, entorn web, projecte final"
+    },
+    {
+        "name":"CFGS Desenvolupament d'aplicacions multiplataforma (DUAL)",
+        "familiaProfesional":"FAMÍLIA D'INFORMÀTICA I COMUNICACIONS",
+        "durada":2000,
+        "asignatures":"programacio, entorn servidor, entorn mobil, projecte final"
+    }
+]

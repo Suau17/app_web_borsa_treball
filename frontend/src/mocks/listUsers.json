@@ -1,0 +1,70 @@
+{
+    "listaUsuarios": [
+        {
+            "_id": "63d261c0e5900ed92818a086",
+            "name": "marc estudiante",
+            "email": "marc23@vidal.com",
+            "passwordHash": "$2b$12$pGaA0ku3qYlvtRVDVreJgOpL5KRvLElQtYMHWJ1lYyzD16g0GngXC",
+            "rolUser": "alumno",
+            "__v": 0,
+            "description": "nueva descripcion"
+        },
+        {
+            "_id": "63d272c3438755a973810768",
+            "name": "Marc bibo",
+            "email": "prueba@microsoft.com",
+            "passwordHash": "$2b$12$DPHLIZzxrgrnHmk2BzVq2eS./nQYami397j5EiW0xtRwTM6sHm.Qi",
+            "rolUser": "gestor",
+            "__v": 0
+        },
+        {
+            "_id": "63d38e8760614514eddba761",
+            "name": "marc gestor",
+            "email": "pruebamicrosoft.com",
+            "passwordHash": "$2b$12$CKTJuwq/jQzOKpeETxOoeuwgSD.JdGc.p9QBSa24bOuNP5XK7.Yyq",
+            "rolUser": "gestor",
+            "__v": 0
+        },
+        {
+            "_id": "63d39d1439981c7090c51331",
+            "name": "helderR gestor",
+            "email": "prueba4@microsoft.com",
+            "passwordHash": "$2b$12$P6wrWhrowGj/m7E.Z1Pcq.elsyANFS0orNQOKEy8xkrZcqsc4fmfS",
+            "rolUser": "gestor",
+            "__v": 0
+        },
+        {
+            "_id": "63d39d45d319fe3f2518d15f",
+            "name": "helderR gestor",
+            "email": "prueba7@microsoft.com",
+            "passwordHash": "$2b$12$o6gcHBpsjSpVgzq59yvfdeyyu3D5RMMKvuJgSEpmUWYQM2w2mvcp2",
+            "rolUser": "gestor",
+            "__v": 0
+        },
+        {
+            "_id": "63d39d6dfaa224f089bb0f15",
+            "name": "helderR gestor",
+            "email": "prueba9@microsoft.com",
+            "passwordHash": "$2b$12$YSqCElM1e3kGYAqnr6hFCuQDLIG2kBA8QcJIhn3EL9dfz0WY4rZXS",
+            "rolUser": "gestor",
+            "__v": 0
+        },
+        {
+            "_id": "63d39da7590fc6463297b697",
+            "name": "helderR gestor",
+            "email": "pruebas1@microsoft.com",
+            "passwordHash": "$2b$12$VAWU3jZQJVSx5xJOqhFOROQPwdLnNUJq26lgrYmVZwqLdBIO80gMu",
+            "rolUser": "gestor",
+            "__v": 0
+        },
+        {
+            "_id": "63d39dc6ffe9ced7404ff0a1",
+            "name": "helderR gestor",
+            "email": "pruebas2@microsoft.com",
+            "passwordHash": "$2b$12$lZPNAYnqinwBIWvC.qxhmOOCmuxR.KKRoleR94RT7kWmoYZbQB.Ui",
+            "rolUser": "gestor",
+            "__v": 0
+        }
+
+    ]
+}

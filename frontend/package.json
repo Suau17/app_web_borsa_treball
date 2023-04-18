@@ -1,0 +1,36 @@
+{
+  "name": "borsareact",
+  "private": true,
+  "version": "0.0.0",
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "preview": "vite preview"
+  },
+  "dependencies": {
+    "@headlessui/react": "^1.7.13",
+    "@heroicons/react": "^2.0.16",
+    "axios": "^1.3.4",
+    "base64-js": "^1.5.1",
+    "buffer": "^6.0.3",
+    "dotenv": "^16.0.3",
+    "react": "^18.2.0",
+    "react-cookie": "^4.1.1",
+    "react-dom": "^18.2.0",
+    "react-router": "^6.8.2",
+    "react-router-dom": "^6.9.0",
+    "sonner": "^0.3.0",
+    "wouter": "^2.10.0"
+  },
+  "devDependencies": {
+    "@types/react": "^18.0.27",
+    "@types/react-dom": "^18.0.10",
+    "@vitejs/plugin-react-swc": "^3.0.0",
+    "autoprefixer": "^10.4.14",
+    "postcss": "^8.4.21",
+    "postcss-cli": "^10.1.0",
+    "tailwindcss": "^3.3.0",
+    "vite": "^4.1.0"
+  }
+}

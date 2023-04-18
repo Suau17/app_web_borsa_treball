@@ -1,30 +1,22 @@
+# BORSA DE TREBALL
 
-<div align="center">
-  <h1>APP-WEB BORSA DE TREBALL</h1>
-  <p>
-    Aplicacion bolsa de trabajo para el instituo vidal i barraquer || <b>Proyecto final M12 DAW</b>.
-    <br />
-    <br />
-    <br />
-    <br />
-  </p>
+### Esta aplicación esta desarrollada para el Institut Vidal i Barraquer
+![img logo](https://github.com/Suau17/app_web_borsa_treball/backend/src/public/img/readme/titulo.jpg)
 
-</div>
+Esta herramienta es útil y fácil de usar para los alumnos y exalumnos del centro y les permitirá encontrar trabajo de manera más eficiente y rápida.
 
-<!-- BUILT WITH -->
+### Index
 
-## About The Project
+- Diseño y casos de uso
+  - UML
+  - caso de uso 1
+  - Modelo E-R
+- Equipo
+  - Organizacion
+  - Contacto
 
-El objetivo de este proyecto es crear una bolsa de trabajo completamente funcional para los alumnos y exalumnos del centro. 
 
-<!-- BUILT WITH -->
-
-## Built With
-
-Usaremos las siguientes herramientas para construir un backend y frontend escalables. 
-
--   NodeJS
--   MongoDB
--   React
+###  Diseño y casos de uso
+     
 
 

@@ -1,0 +1,17 @@
+:root {
+	--main-bg-color:#10223e;
+  }
+html,
+body {
+  height: 100%;
+  margin: 0;
+  padding: 0;
+}
+body {
+	background: rgb(224, 223, 223);		
+}
+
+h1{
+  text-align: center;
+ 
+}
