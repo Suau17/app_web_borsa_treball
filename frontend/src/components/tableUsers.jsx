@@ -51,7 +51,7 @@ export function GetUsers() {
 
                                         {e.rolUser === "gestor" && // Only render the button if role is "gestor"
 
-                                            <button name="btn" className=" bg-blue-500 text-white font-semibold  py-2 px-4 border border-blue-500 rounded " onClick={() => { habilitarGestores({ id: e.id }) }} >Habilitar </button>
+                                            <button name="btn" className=" bg-blue-500 text-white font-semibold  py-2 px-4 border border-blue-500 rounded " onClick={() => {console.log(e), habilitarGestores({ id: e._id }) }} >Habilitar </button>
 
                                         }
 
