@@ -14,7 +14,18 @@ export function linksGestor() {
     </>
     )
 }
+export function linksResponsable() {
 
+
+    return (<>
+        <li><Link to="/getOfertas">Ofertas</Link></li>
+        <li><Link to="/empresa">Empresa</Link></li>
+        <li><Link to="/User">User Profile</Link></li>
+        <li><a href="/logout">Logout</a></li>
+ 
+    </>
+    )
+}
 export function linksAlumne() {
     
     return (
