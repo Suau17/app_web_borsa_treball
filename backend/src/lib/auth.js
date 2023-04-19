@@ -1,5 +1,6 @@
 import jwt from 'jsonwebtoken'
 import GestorModel from '#schemas/Gestor.js'
+import AdminModel from '#schemas/admin.js'
 
 
 export const checkAuthGestor = async (req,res, next) => {
@@ -22,6 +23,25 @@ export const checkAuthGestor = async (req,res, next) => {
         // }
         
         req.gestorV = gestor
+        next()
+    } catch (e) {
+        res.status(498).send({error: 'token no exsiste', msg: e})
+    }
+    
+}
+
+export const checkAuthAdmin = async (req,res, next) => {
+    try {
+        const tokenFromCookies = req.cookies.tokenAcces
+
+        const tokenFromClient = req.headers.authorization
+        const tokenData = jwt.verify(tokenFromClient, process.env.secretWord)
+        const id = tokenData.id
+
+      
+        const admin = await AdminModel.findOne({ refUser: id })
+        
+        req.gestorV = admin
         next()
     } catch (e) {
         res.status(498).send({error: 'token no exsiste', msg: e})

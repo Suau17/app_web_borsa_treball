@@ -11,7 +11,7 @@ export async function editUser(props){
         name: name,
         email: email,
         password: password,
-        confirmpassword: confirmpassword
+        
     }
 
     console.log(user)
