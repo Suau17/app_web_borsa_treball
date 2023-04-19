@@ -134,6 +134,7 @@ export function GestionOperaciones() {
           </form>
 
         </div>
+        </div>
     </>
    )
 
