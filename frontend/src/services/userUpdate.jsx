@@ -8,19 +8,45 @@ export async function editUser(props){
     let url;
     let user;
     if(role === 'gestor' || role === 'responsable'){
+        const {name, email, password, confirmpassword, cargo, telefon} = props
         url = `${import.meta.env.VITE_URL}/user/actualizar/`;
+        user = {
+            name: name,
+            email: email,
+            password: password,
+            confirmpassword : confirmpassword,
+            cargo : cargo,
+            telefon : telefon
+        }
+        
     }
     if(role === 'alumno'){
+        const {name, email, password, confirmpassword, cargo, telefon, dni} = props
         url = `${import.meta.env.VITE_URL}/user/actualizar/`;
+        user = {
+            name: name,
+            email: email,
+            password: password,
+            confirmpassword : confirmpassword,
+            cargo : cargo,
+            telefon : telefon,
+            dni : dni
+        }
     }
     if(role === 'admin'){
-        const {name, email, password} = props
+        const {name, email, password, confirmpassword, cargo, telefon, dni} = props
+        console.log(props)
         url = `${import.meta.env.VITE_URL}/admin/update`;
         user = {
             name: name,
             email: email,
             password: password,
+            confirmpassword : confirmpassword,
+            cargo : cargo,
+            telefon : telefon,
+            dni : dni
         }
+        console.log(user)
     }
 
 
