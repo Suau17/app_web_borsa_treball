@@ -12,11 +12,11 @@ import { PageUsers } from './pages/users'
 import { PageEditAlumne } from './pages/Alumne/editAlumne'
 import { PageEmpresa } from './pages/Gestor/empresa'
 import { TableEmpresa } from './pages/empresa'
-import { Inscripciones } from './components/inscripcionesEstudiante'
+// import { Inscripciones } from './components/inscripcionesEstudiante'
 import { EspecificUser } from './pages/especificUser'
 import { RegisterC} from './pages/crearCiclos'
 import { AuthProvider } from './context/Autenticate'
-import { OfertasInscrito } from './components/inscripcionesEstudiante'
+ import { OfertasInscrito } from './components/inscripcionesEstudiante'
 import RoleProtectedRoute from './components/RoleProtectedRoute'
 
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
@@ -58,7 +58,7 @@ function App() {
         <Route path='/oferta/:idOferta' element={<ShowOfertas />} />
         <Route path='users' element={<PageUsers />} />
         <Route path="/editAlumne" element={<PageEditAlumne />} />
-        <Route path='/verInscripciones' element={< Inscripciones/>} />
+        {/* <Route path='/verInscripciones' element={< Inscripciones/>} /> */}
         <Route path='/logout' element={<Logout />} />
       </Routes>
       </AuthProvider>
