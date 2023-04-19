@@ -7,10 +7,7 @@ export async function viewUsers(){
 
     const requestOptions = {
     method: 'GET',
-    headers: { 'Content-Type': 'application/json,',
-    'Authorization': `${token}`
-
-},
+    headers: { 'Content-Type': 'application/json'},
     };
 
     const response = await fetch(Url, requestOptions);

@@ -8,7 +8,6 @@ export async function GetUser(id) {
         method: 'GET',
         headers: {
           'Content-Type': 'application/json',
-          'Authorization': `${token}`
         },
       };
 

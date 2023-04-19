@@ -14,7 +14,6 @@ export async function RegisterCiclo(props){
         method: 'POST',
         headers: {
             'Content-Type': 'application/json',
-            'Authorization': `${token}`
           },
           body: JSON.stringify(bodySend)
     };

@@ -6,9 +6,7 @@ export async function deleteUser(props){
     const {id} = props;
     const requestOptions = {
         method: 'DELETE',
-        headers: { 'Content-Type': 'application/json',
-        'Authorization': `${token}`
-       },
+        headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ id })
         
     };

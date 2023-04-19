@@ -7,7 +7,6 @@ export async function GetInscripciones(id) {
         method: 'GET',
         headers: {
           'Content-Type': 'application/json',
-          'Authorization': `${token}`
         },
       };
 
