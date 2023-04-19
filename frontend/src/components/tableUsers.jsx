@@ -5,7 +5,7 @@ import { deleteUser } from '../services/deleteUser'
 import { habilitarGestores } from "../services/habilitarGestores";
 import '../assets/oferta.css'
 
-import {deleteUser} from '../services/deleteUser'
+
 
 
 

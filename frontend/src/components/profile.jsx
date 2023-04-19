@@ -168,7 +168,8 @@ export function Profile() {
             <button onClick={handlePerfil} class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline mt-2">Guardar</button>
         </form>
         </div>
-        </div>
+        
+        
 
 
             </>
