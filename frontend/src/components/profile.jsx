@@ -101,6 +101,52 @@ export  function Profile() {
             <input type = "password" name = "password"  placeholder = "Entra la nova contrassenya" className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"/>
             <span className="block text-gray-700  font-bold mb-2">confirma la contraseña</span>
             <input type = "password" name = "confirmpassword" placeholder = "Confirma la teva contrassenya" className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"/>
+            {profile.user.rolUser === "gestor" ? (
+                                <div>
+                                    <span class="block text-gray-700  font-bold mb-2">Carrec</span>
+                                    <input type="text" name='cargo' placeholder='carrec a la empresa (ex : responsable IT)' className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" />
+                                    <span class="block text-gray-700  font-bold mb-2">telefon</span>
+                                    <input type="text" name='telefon' placeholder='telefon' className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" />
+                                </div>
+                            ) : (
+                                <div>
+
+                                </div>
+                            )}
+
+                            {profile.user.rolUser === "alumno" ? (
+                                <div>
+                                    <textarea name="cartaPresentacion" placeholder='hola me llamo xxxx y ....'
+                                        id="" cols="45" rows="6" className='textAreaCV shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline'  >
+                                    </textarea>
+                                    <i>curriculum (img o pdf):</i>
+                                    <input type="file" name='cvFile' accept="image/*,.pdf" className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" />
+                                </div>
+                            ) : (
+                                <div>
+
+                                </div>
+                            )
+
+                            }
+
+                            {profile.user.rolUser === "admin" ? (
+                                <div>
+                                   <span class="block text-gray-700  font-bold mb-2">Carrec</span>
+                                    <input type="text" name='cargo' placeholder='carrec a la empresa (ex : responsable IT)' className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" />
+                                    <span class="block text-gray-700  font-bold mb-2">telefon</span>
+                                    <input type="text" name='telefon' placeholder='telefon' className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" />
+                                    <span class="block text-gray-700  font-bold mb-2">Dni</span>
+                                    <input type="text" name='telefon' placeholder='DNI' className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" />
+
+                                </div>
+                            ) : (
+                                <div>
+
+                                </div>
+                            )
+
+                            }
             <button  className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline mt-2">Guardar</button>
         </form>
         </div>
