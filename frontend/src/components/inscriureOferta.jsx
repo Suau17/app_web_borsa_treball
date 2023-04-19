@@ -2,22 +2,25 @@ import React, { useEffect, useState } from 'react';
 import { inscriureOferta } from '../services/alumne/inscriureOferta'; 
 import '../assets/register.css'
 
-export function ButtonInscriureOferta(){
+
+export function ButtonInscriureOferta(props){
+    const [inscrito, setInscrito] = useState(false);
     
-    function handleClickOferta(event) {
-        event.preventDefault()
-        const oferta = Object.fromEntries(
-          new window.FormData(event.target)
-        )
-        inscriureOferta(oferta)
-      }
-    
+    const { idOferta } = props;
+
+    const handleClickOferta = () => {
+        console.log("Button Inscriure Oferta "+ idOferta)
+        inscriureOferta({idOferta: idOferta})
+        setInscrito(true);
+    }
 
     return(
         <>
-            <form onSubmit={handleClickOferta}  id="ofertaR">
-                <button>Inscriure's</button>
-            </form>
+            <div>
+                <button onClick={handleClickOferta}>
+                    {inscrito ? "Inscrito" : "Inscribirse"}
+                </button>
+            </div>
         </>
     )
 }

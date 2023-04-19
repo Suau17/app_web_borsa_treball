@@ -1,4 +1,4 @@
-import { toast } from 'sonner';
+
 
 export async function deleteOferta(props) {
     const { id } = props;
@@ -14,14 +14,7 @@ export async function deleteOferta(props) {
 
     const response = await fetch(Url, requestOptions);
     const data = await response.json();
-    if (response.status === 200) {
-        toast.success('Oferta eliminada con éxito');
-      } else if (response.status >= 500 && response.status < 600) {
-        toast.error('Ha ocurrido un error en el servidor');
-      } else {
-        toast.error('Ha ocurrido un error al eliminar la oferta');
-      }
-   
-   
+    console.log(data)
+    return data;
 
 }

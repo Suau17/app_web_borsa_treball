@@ -60,20 +60,17 @@ export const cicloGetController = async (req, res) => {
  }
 
 export const habilitarGestorController = async (req, res) => {
- try {
+ 
 
     // Obtenemos el id del gestor y los datos a actualizar proporcionados
     const id = req.params.id
     console.log(id)
     // Actualizamos el registro del gestor en la base de datos
-    await GestorModel.findByIdAndUpdate(id, { perfilHabilitado: true }, { new: true })
-
+  const gestor =  await GestorModel.findOneAndUpdate({refUser : id}, { perfilHabilitado: true }, { new: true })
+  console.log(gestor)
     // Enviamos un mensaje de éxito
-    return res.send('Datos del gestor actualizados con éxito')
+    return res.status(200).send({msg :'Datos del gestor actualizados con éxito'})
   
-  } catch (error) {
-    return res.send({resposta:'Ha habido un error al habilitar el gestor'})
-  }
 }
 
 const dataYear = async () => {

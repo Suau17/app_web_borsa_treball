@@ -1,8 +1,9 @@
-
+import React, { useTransition } from "react";
+import axios from "axios";
 
 const Url = `${import.meta.env.VITE_URL}/user/getUsers`;
 
-export async function viewUsers(page){
+export async function viewUsers(){
 
     const requestOptions = {
     method: 'GET',
@@ -12,7 +13,7 @@ export async function viewUsers(page){
 },
     };
 
-    const response = await fetch(`${Url}?page=${page}`, requestOptions);
+    const response = await fetch(Url, requestOptions);
     const data = await response.json();
     return data
  

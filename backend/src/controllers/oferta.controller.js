@@ -82,7 +82,7 @@ export const getOfertaController = async (req, res, next) => {
     }
     return res.status(200).send(msg)
 } catch (error) {
-     return   res.status.send({error})
+     return res.status(500).send({error})
 }
 }
 export const getInscritosController = async (req, res, next) => {
