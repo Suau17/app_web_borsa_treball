@@ -1,6 +1,5 @@
 import { useNavigate } from 'react-router-dom';
 import { useEffect } from 'react';
-import { setCookie, removeCookie } from '../context/cookies';
 const url = `${import.meta.env.VITE_URL}/user/login`;
 
 export async function LoginApi(props) {
@@ -12,6 +11,7 @@ export async function LoginApi(props) {
         "password": password
     }
     console.log(bodySend)
+    console.log('mi puta vida')
     const requestOptions = {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
@@ -24,9 +24,8 @@ export async function LoginApi(props) {
 
     localStorage.setItem('vToken', data.token)
     localStorage.setItem('vRole', data.role)
-    setCookie('vToken', data.token, 1)
-    setCookie('vRole', data.role, 1)
     location.reload()
+    
 }
 
 export function Logout() {

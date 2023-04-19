@@ -17,7 +17,7 @@ gestorRouter.put('/update/', gestor.updateGestorController)
 
 // //// RESPONSABLE
 
-gestorRouter.post('/register/responsable',gestor.createResponsableController)
+gestorRouter.post('/register/responsable', gestor.createResponsableController)
 // eliminar responsable
 
 // //// EMPRESA

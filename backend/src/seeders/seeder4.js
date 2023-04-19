@@ -46,7 +46,7 @@ const importData = async () => {
         createdUsers.forEach(user => {
             if (user.rolUser === "alumno") {
                 // Recorres todos los objetos de alumno 
-                estudiante.forEach(e => {
+                alumno.forEach(e => {
                     // Si refUser esta vacio lo asignamos
                     if(!e.refUser) {
                         e.refUser = user._id;
@@ -56,7 +56,7 @@ const importData = async () => {
             
         });
         // aquí podrías guardar los cambios en gestor.json
-        const createdAlumnoss = await EstudianteModel.create(alumno);
+        const createdAlumnos = await EstudianteModel.create(alumno);
         console.log("Dades importades...");
         process.exit();
     } catch (err) {

@@ -9,4 +9,4 @@ function PageEditAlumne(){
     )
 }
 
-export { PageEditAlumne } 
+export { PageEditAlumne }

@@ -4,6 +4,7 @@ import { deleteEmployee } from "../services/gestor/empleadosDelete";
 
 export function TableEmployees() {
     const [empleados, setEmpleados] = useState([])
+    console.log(empleados)
     useEffect(() => {
         getEmployees().then(empleado => setEmpleados(empleado));
     }, [])
@@ -11,7 +12,7 @@ export function TableEmployees() {
 
     console.log(empleados)
     let html = '';
-    if (empleados.length > 1) {
+    if (empleados.length >= 1) {
         html = (
             <>
             <div className="relative overflow-x-auto shadow-md sm:rounded-lg ml-80 my-4 w-2/3 ">
@@ -30,7 +31,7 @@ export function TableEmployees() {
                                 <td className="px-6 py-4">{element.name}</td>
                                 <td className="px-6 py-4">{element.email}</td>
                                 <td className="px-6 py-4">
-                                    <button onClick={()=>{deleteEmployee(element._id)}} className="bg-red-500 text-white font-semibold  py-2 px-4 border border-red-500 rounded" >
+                                    <button onClick={deleteEmployee(element._id)} className="bg-red-500 text-white font-semibold  py-2 px-4 border border-red-500 rounded" >
                                         Eliminar
                                     </button>
                                 </td>

@@ -3,6 +3,7 @@ import { toast } from 'sonner'
 
 
 
+
 export async function inscriureOferta(props){
 
     const { idOferta } = props;
@@ -27,6 +28,7 @@ export async function inscriureOferta(props){
     const response = await fetch(url, requestOptions)
     const data = await response.json();
 
+
     if (response.status === 200){
         toast.success("Registrado en la oferta con éxito.")
     } else if (response.status === 401){
@@ -34,5 +36,6 @@ export async function inscriureOferta(props){
     } else {
         toast.error("Error al registrarse en la oferta")
     }
+
     
 }

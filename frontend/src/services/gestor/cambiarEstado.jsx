@@ -1,14 +1,14 @@
 
 export async function cambiarEstado(props) {
-    const { inscripcion, action } = props
+    const {inscripcion, action} = props
     const url = `${import.meta.env.VITE_URL}/gestor/oferta/estado/${inscripcion}`
     let token = localStorage.getItem('vToken')
     const sendBody = {
-        "estado": action,
+        "estado":action,
     }
     const requestOptions = {
         method: 'PUT',
-        headers: {
+        headers: { 
             'Content-Type': 'application/json',
             'Authorization': `${token}`
         },
@@ -18,5 +18,5 @@ export async function cambiarEstado(props) {
     const response = await fetch(url, requestOptions)
     console.log(response)
     const data = await response.json()
-    location.reload()
+location.reload()
 }
