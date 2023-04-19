@@ -31,7 +31,7 @@ export function linksAlumne() {
     return (
     <>
         <li><Link to="/getOfertas">Ofertas</Link></li>
-        <li><a href="/inscripciones"  className='active'>inscripciones</a></li>
+        <li><a href="/verInscripciones"  className='active'>inscripciones</a></li>
         <li><Link to="/user">Profile</Link></li>
         {/* <li><a href = "/editAlumne" className='active'>Edit</a></li> */}
         <li><a href="/logout"  className='active'>Logout</a></li>

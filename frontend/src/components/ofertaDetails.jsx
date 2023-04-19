@@ -5,6 +5,7 @@ import { deleteOferta } from "../services/gestor/deleteOferta";
 import { GetInscripciones } from "../services/inscripciones";
 import { cambiarEstado } from "../services/gestor/cambiarEstado";
 import { updateOferta } from "../services/gestor/ofertaUpdate";
+import { ButtonInscriureOferta } from "../components/inscriureOferta";
 import '../assets/empresa.css'
 import '../assets/register.css'
 export function OfertaDetails() {
@@ -133,6 +134,12 @@ const formattedDate = `${dateObj.getDate()}/${dateObj.getMonth() + 1}/${dateObj.
                             }
 
                         </ul>
+                        {
+                            localStorage.getItem('vRole') === 'alumno' && (
+                                <ButtonInscriureOferta idOferta={idOferta} />
+                            )
+                        }
+                        
                     </div>
                 </div>
                 <div className={activeForm === 'edit' ? 'form-container sign-up-container' : 'form-container sign-up-container hidden'}>
@@ -174,7 +181,7 @@ const formattedDate = `${dateObj.getDate()}/${dateObj.getMonth() + 1}/${dateObj.
     } else {
         html = (
             <>
-                <div class="lds-ring"><div></div><div></div><div></div><div></div></div>
+                <div className="lds-ring"><div></div><div></div><div></div><div></div></div>
             </>
         )
     }

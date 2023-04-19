@@ -153,7 +153,7 @@ export const inscribirseOferta = async (req, res) => {
     const idUsuarioToken = req.idToken;
     
     if (!idUsuarioToken) {
-      res.status(401).send('No tienes los permisos para inscribir a otro usuario')
+      res.status(401).send({mensaje: "No tienes los permisos para inscribir a otro usuario"})
       return;
     }
     // Comprobar que el estudiante no tenga inscripción en la misma oferta
@@ -162,7 +162,7 @@ export const inscribirseOferta = async (req, res) => {
     // PARA REVISAR
     const inscripcionrepetida = await InscripcionModel.findOne({ refOfertaLaboral: idOferta, refUser: idUsuarioToken });
     if (inscripcionrepetida) {
-      res.status(401).send('Ya estás inscrito en esta oferta.');
+      res.status(401).send({mensaje: 'Ya estás inscrito en esta oferta.'});
       return;
     }
 
