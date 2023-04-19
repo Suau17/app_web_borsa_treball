@@ -1,0 +1,1 @@
+en esta carpeta se guardan funciones repetitivas

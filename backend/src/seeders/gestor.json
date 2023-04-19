@@ -1,14 +1,18 @@
 [
     {
-        "carrec": "hihihhihihihihihihihih",
-        "telefon": "8932423",
-        "nameEmpresa": "Empresa asasgdgfdg",
-        "refUser":""
+
+        "name": "Marc",
+        "description": "Gruber",
+        "email": "a2@hola.com",
+        "passwordHash" : "Gurororo",
+        "rolUser" : "gestor"
     },
+
     {
-        "carrec": "youtube",
-        "telefon": "8932423",
-        "nameEmpresa": "Empresa 567567575",
-        "refUser":""
+        "name": "Gerard",
+        "description": "Suau",
+        "email": "b2@hola.com",
+        "passwordHash" : "Gurororo",
+        "rolUser" : "gestor"    
     }
 ]

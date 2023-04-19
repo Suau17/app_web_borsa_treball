@@ -30,7 +30,7 @@ const bootServer = async () => {
 
 bootServer()
 
-//Eliminar elementos de la base de datos
+// Eliminar elementos de la base de datos
 before((done) => {
   UserModel.deleteMany(function (err) { if (err) return done(err)})
   GestorModel.deleteMany(function (err) {if (err) return done(err) })
@@ -85,6 +85,7 @@ let idInscripcion;
  * Eliminar Empresa
  * Eliminar Gestor&Empresa
  */
+
 describe('Register && Login GESTOR', (done) => {
 
   let registrarGestor = {

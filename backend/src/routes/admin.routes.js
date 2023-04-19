@@ -6,8 +6,8 @@ import {Router} from 'express';
 
 const adminRouter = Router();
 
+adminRouter.post('/ciclo/register', admin.cicloRegistrerController)
 adminRouter.put('/habilitarGestor/:id', admin.habilitarGestorController)  
-
-adminRouter.get('/infouser')
-
+adminRouter.get('/eliminarUsuario/:id', admin.eliminarUsuario)
+adminRouter.delete('/deleteUser' , admin.eliminarUsuario)
 export default adminRouter

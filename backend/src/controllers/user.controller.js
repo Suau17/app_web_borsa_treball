@@ -13,30 +13,34 @@ import jwt from 'jsonwebtoken';
 
 export const userRegistrerController = async (req, res) => {
   try {
-    
-  
-  const { name, email, passwordHash, rolUser, description } = req.body
+    const { name, email, passwordHash, rolUser, description } = req.body
+console.log({name, email, passwordHash, rolUser, description})
+    const exsistingUserByEmail = await UserModel.findOne({ email })
+    console.log(exsistingUserByEmail)
+    if (exsistingUserByEmail) return { id: false }
 
-  //const exsistingUserByEmail = await UserModel.findOne({ email })
+    const hashedPassword = await hash(passwordHash, 12)
 
-  //if (exsistingUserByEmail) return 'error'
+    const user = new UserModel({
+      name,
+      email,
+      description,
+      passwordHash: hashedPassword,
+      rolUser: rolUser,
+    })
+    await user.save()
 
-  const hashedPassword = await hash(passwordHash, 12)
+    const userForToken = {
+      id: user._id,
+      role: rolUser
+    }
+    const token = jwt.sign(userForToken, process.env.SecretWord, { expiresIn: '23h' })
+    console.log('token' + token)
+    return { id: user._id, token: token }
 
-  const user = new UserModel({
-    name,
-    email,
-    description,
-    passwordHash: hashedPassword,
-    rolUser: rolUser,
-  })
-  await user.save()
-  console.log('este es el ID'+user._id)
-
-  return user._id
-} catch (error) {
+  } catch (error) {
     return error
-}
+  }
 
 }
 
@@ -57,32 +61,54 @@ export const userLoginController = async (req, res) => {
     id: exsistingUserByEmail._id,
     role: exsistingUserByEmail.rolUser
   }
-
   const token = jwt.sign(userForToken, process.env.SecretWord, { expiresIn: '23h' })
   res.cookie("tokenAcces", token, { httpOnly: true });
   const msg = {
-    token : token,
-    resposta : 'Token enviado como cookie'
+    token: token,
+    role: exsistingUserByEmail.rolUser,
+    resposta: 'Token enviado como cookie'
   }
   res.send(msg);
 }
 
 
 export const getUsersControllers = (req, res) => {
-  UserModel.find().exec(function async(err, listUsers, next) {
-    if (err) {
-      return next(err)
-    }
-    res.send({ listaUsuarios: listUsers })
-  })
+try {
+    const page = req.query.page ? parseInt(req.query.page) : 1;
+    const limit = req.query.limit ? parseInt(req.query.limit) : 10;
+  
+    UserModel.find()
+      .skip((page - 1) * limit)
+      .limit(limit)
+      .exec(function async(err, listUsers, next) {
+        if (err) {
+          return next(err)
+        }
+        res.status(200).send({ listaUsuarios: listUsers })
+      })  
+} catch (error) {
+  res.status(500).send({error}) 
+}
 }
 
+export const searchUser = async (req, res) => {
+  const id = req.params.id
+  const user = await UserModel.findById(id)
+  let msg = {
+    user: user
+  }
+  if(user.rolUser === 'alumno'){
+    let alumno = await EstudianteModel.find({refUser:id})
+    msg.alumno = alumno
+  }
+
+  res.status(201).send(msg)
+}
 
 export const deleteUserController = async (req, res) => {
   try {
     const idUsuario = req.idToken;
-console.log(req.idToken)
-    if(!idUsuario) {
+    if (!idUsuario) {
       res.status(401).send('No tienes los permisos para borrar otro usuario')
       return;
     }
@@ -106,13 +132,13 @@ console.log(req.idToken)
 
       await GestorModel.deleteOne({ refUser: idUsuario })
     }
-    
+
 
     // Eliminamos el usuario del modelo de usuario
     await UserModel.deleteOne({ _id: idUsuario })
 
     // Enviamos un código de estado HTTP 200 (OK)
-    res.status(200).send('Usuario eliminado correctamente')
+    res.status(200).send({msg:'Usuario eliminado correctamente'})
   } catch (error) {
     // En caso de error, enviamos un código de estado HTTP 500 (Internal Server Error)
     res.status(500).send('error')
@@ -123,10 +149,10 @@ console.log(req.idToken)
 export const infoUser = async (req, res) => {
   try {
     // Obtenemos el id del usuario proporcionado
-    
+
     const idUsuario = req.idToken;
-    
-    if(!idUsuario) {
+
+    if (!idUsuario) {
       res.status(401).send('No tienes los permisos para obtener informacion de otro usuario')
       return;
     }
@@ -140,6 +166,7 @@ export const infoUser = async (req, res) => {
       const estudiante = await EstudianteModel.findOne({ refUser: idUsuario })
       data.estudiante = estudiante
     }
+    
     if (user.rolUser === 'gestor') {
       const gestor = await GestorModel.findOne({ refUser: idUsuario })
       data.gestor = gestor
@@ -153,14 +180,19 @@ export const infoUser = async (req, res) => {
         data.empresa = empresa
       }
     }
-    
-    data.user = user;
 
-    res.status(200).send(data)
+    data.user = user;
+    const msg = {
+      data: data,
+      resposta: 'Informacion de usuario recuperada'
+    }
+    res.status(200).send(msg)
   } catch (error) {
     res.status(500).send('error' + error)
   }
 }
+
+
 
 
 
