@@ -12,6 +12,7 @@ export function OfertaDetails() {
     let [oferta, setOferta] = useState([])
     let [inscripciones, setInscripciones] = useState([])
     const navigate = useNavigate();
+    // const [rolUser, setRol] = useState('user');
     const [activeForm, setActiveForm] = useState("oferta");
 
     useEffect(() => {
@@ -91,7 +92,7 @@ const formattedDate = `${dateObj.getDate()}/${dateObj.getMonth() + 1}/${dateObj.
                         <p className="pt-5"><b>Descripción:</b> {oferta.oferta.description}</p>
 
                         <h3>Inscritos:</h3>
-                        <ul>
+                        <div>
 
 
                             {
@@ -99,31 +100,36 @@ const formattedDate = `${dateObj.getDate()}/${dateObj.getMonth() + 1}/${dateObj.
                                     let html2 = ''
                                     if (inscripcion.estado == 'aceptado') {
                                         html2 = (
-                                            <li key={inscripcion._id} className='cardInscrito'>
+                                            <div key={inscripcion._id} className='bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded w-2/4 mb-4'>
                                                 {console.log(inscripcion)}
                                                 <Link to={`/search/user/${inscripcion.refUser._id}`}>{inscripcion.refUser.name.toUpperCase()}</Link>
-                                                <span>ACEPTADO</span>
-                                            </li>
+                                                <span className="ml-3">ACEPTADO</span>
+                                            </div>
                                         )
                                     }
                                     else if (inscripcion.estado == 'rechazado') {
                                         html2 = (
-                                            <li key={inscripcion._id} className='cardInscrito'>
+                                            <div key={inscripcion._id} className='cardInscrito'>
                                                 {console.log(inscripcion)}
                                                 <Link to={`/search/user/${inscripcion.refUser._id}`}>{inscripcion.refUser.name.toUpperCase()}</Link>
                                                 <span>RECHAZADO</span>
-                                            </li>
+                                            </div>
                                         )
                                     }
                                     else {
                                         html2 = (
-                                            <li key={inscripcion._id} className='cardInscrito'>
+                                            <div key={inscripcion._id} className=''>
                                                 {console.log(inscripcion)}
                                                 <Link to={`/search/user/${inscripcion.refUser._id}`}>{inscripcion.refUser.name.toUpperCase()}</Link>
-                                                <button onClick={() => changeEstate(inscripcion._id, 'aceptar')}>Aceptar</button>
-                                                <button onClick={() => changeEstate(inscripcion._id, 'rechazar')}>Rechazar</button>
-                                            </li>
+                                               
+                                               <button 
+                                               onClick={() => changeEstate(inscripcion._id, 'aceptar')} className="bg-blue-500 hover:bg-blue-400 text-white font-bold px-4 border-b-2 border-blue-700 hover:border-blue-500 rounded ml-3">Aceptar</button>
+                                                <button 
+                                                onClick={() => changeEstate(inscripcion._id, 'rechazar')} className="bg-red-500 hover:bg-red-400 text-white font-bold  px-4 border-b-2 border-red-700 hover:border-red-500 rounded ml-4">Rechazar</button>
+                                               {/* disabled={rolUser !== 'gestor'} */}
+                                            </div>
                                         )
+                                    
                                     }
                                     return html2
 
@@ -131,8 +137,14 @@ const formattedDate = `${dateObj.getDate()}/${dateObj.getMonth() + 1}/${dateObj.
 
                                 )
                             }
+                                 {/* {profile.user.rolUser === "alumno" (
+                                             <div>
+                                                 <button onClick={() => changeEstate(inscripcion._id, 'aceptar')} class="bg-blue-500 hover:bg-blue-400 text-white font-bold px-4 border-b-2 border-blue-700 hover:border-blue-500 rounded ml-3" disabled>Aceptar</button>
+                                                 <button  onClick={() => changeEstate(inscripcion._id, 'rechazar')} class="bg-red-500 hover:bg-red-400 text-white font-bold  px-4 border-b-2 border-red-700 hover:border-red-500 rounded ml-4" disabled>Rechazar</button>
+                                             </div>
+                                         )} */}
 
-                        </ul>
+                        </div>
                     </div>
                 </div>
                 <div className={activeForm === 'edit' ? 'form-container sign-up-container' : 'form-container sign-up-container hidden'}>

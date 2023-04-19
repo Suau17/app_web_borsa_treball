@@ -15,11 +15,11 @@ export function GetEmpresaT() {
         html =
             <>
                 <h1 className="mb-4 text-4xl font-extrabold leading-none tracking-tight text-gray-900 md:text-5xl lg:text-4xl dark:text-black mt-5">EMPRESAS</h1>
-                <div className="relative overflow-x-auto shadow-md sm:rounded-lg ml-80 my-4 w-2/3 ">
+                <div className="relative  sm:rounded-lg ml-80 my-4  ">
 
 
 
-                    <table className="w-full text-sm text-left   ">
+                    <table className="formEmpresa text-sm text-left   ">
                         <thead className="border-b border-neutral-800  text-neutral-50 dark:border-neutral-600  bg-blue-900">
                             <th scope="col" className="px-6 py-3">Nom</th>
                             <th scope="col" className="px-6 py-3">Direccion</th>
