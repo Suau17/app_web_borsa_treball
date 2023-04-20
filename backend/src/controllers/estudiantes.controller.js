@@ -33,12 +33,15 @@ export const estudianteRegistrerController = async (req, res) => {
     let estudis = req.body.estudis;
     const { id, token } = await userController.userRegistrerController(req, res);
     console.log('id' + id);
-    const estudiante = new EstudianteModel({
+    const estudianteData = {
       refUser: id,
       cartaPresentacion,
-      curriculum : req.file.filename,
       estudis
-    });
+    };
+    if (req.file) {
+      estudianteData.curriculum = req.file.filename;
+    }
+    const estudiante = new EstudianteModel(estudianteData);
     await estudiante.save();
     const msg = {
       token: token,
@@ -80,11 +83,6 @@ export const updateEstudianteController = async (req, res) => {
   const data = req.body
   const idUsuario = req.idToken;
 
-  if (!idUsuario) {
-    res.status(401).send('No tienes los permisos para actualizar o cambiar informacion de otro usuario')
-    return;
-  }
-
   if ('rolUser' in data) {
     return res.status(401).send('no puedes modificar tu rol')
   }
@@ -105,7 +103,7 @@ export const updateEstudianteController = async (req, res) => {
 
 
   // Enviamos un mensaje de éxito
-  return res.send('Datos del estudiante actualizados con éxito')
+  return res.status(200).send('Datos del estudiante actualizados con éxito')
 
 }
 
@@ -153,7 +151,7 @@ export const inscribirseOferta = async (req, res) => {
     const idUsuarioToken = req.idToken;
     
     if (!idUsuarioToken) {
-      res.status(401).send('No tienes los permisos para inscribir a otro usuario')
+      res.status(401).send({msg:'No tienes los permisos para inscribir a otro usuario'})
       return;
     }
     // Comprobar que el estudiante no tenga inscripción en la misma oferta
@@ -162,7 +160,7 @@ export const inscribirseOferta = async (req, res) => {
     // PARA REVISAR
     const inscripcionrepetida = await InscripcionModel.findOne({ refOfertaLaboral: idOferta, refUser: idUsuarioToken });
     if (inscripcionrepetida) {
-      res.status(401).send('Ya estás inscrito en esta oferta.');
+      res.status(401).send({msg: 'Ya estás inscrito en esta oferta.'});
       return;
     }
 
@@ -177,9 +175,10 @@ export const inscribirseOferta = async (req, res) => {
       { _id: idOferta },
       { $push: { refUsersInscritos: idUsuarioToken } }
     )
-    await inscripcion.save();
+    const data = await inscripcion.save();
     // Realiza alguna acción para inscribir al estudiante a la oferta
-    return res.status(200).send({ mensaje: "Estudiante inscrito a la oferta" });
+    const msg = { msg: "Estudiante inscrito a la oferta" , data} 
+    return res.status(200).send(msg);
   } catch (error) {
     res.status(500).send(error);
   }
@@ -219,6 +218,7 @@ export const verOfertasInscrito = async (req, res) => {
   try {
     const idUsuarioToken = req.idToken;
     const ofertasInscritas = await InscripcionModel.find({ refUser: idUsuarioToken }).populate("refOfertaLaboral")
+    console.log(ofertasInscritas)
     res.send({ ofertasInscritas })
   } catch (error) {
     res.status(500).send('Ha habido un error al mostrar las ofertas en las que estas inscrito')

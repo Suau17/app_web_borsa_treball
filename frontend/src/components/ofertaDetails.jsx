@@ -5,6 +5,7 @@ import { deleteOferta } from "../services/gestor/deleteOferta";
 import { GetInscripciones } from "../services/inscripciones";
 import { cambiarEstado } from "../services/gestor/cambiarEstado";
 import { updateOferta } from "../services/gestor/ofertaUpdate";
+import { inscriureOferta } from "../services/alumne/inscriureOferta"
 import '../assets/empresa.css'
 import '../assets/register.css'
 export function OfertaDetails() {
@@ -13,6 +14,7 @@ export function OfertaDetails() {
     let [inscripciones, setInscripciones] = useState([])
     const navigate = useNavigate();
     const [activeForm, setActiveForm] = useState("oferta");
+    const [inscrito, setInscrito] = useState(false);
 
     useEffect(() => {
         GetOferta(idOferta).then(oferta => setOferta(oferta))
@@ -61,6 +63,26 @@ export function OfertaDetails() {
         console.log('dsad')
         deleteOferta({ id: idOferta }).then(navigate('/getOfertas'))
 
+    }
+
+    const handleClickOferta = () => {
+        console.log("Button Inscriure Oferta "+ idOferta)
+        inscriureOferta({idOferta: idOferta})
+        setInscrito(true);
+    }
+    function ButtonInscriureOferta(props){
+        
+    
+    
+        return(
+            <>
+                <div>
+                    <button onClick={handleClickOferta}>
+                        {inscrito ? "Inscrito" : "Inscribirse"}
+                    </button>
+                </div>
+            </>
+        )
     }
 
     let html;
@@ -133,6 +155,11 @@ const formattedDate = `${dateObj.getDate()}/${dateObj.getMonth() + 1}/${dateObj.
                             }
 
                         </ul>
+                        {
+                            localStorage.getItem('vRole') === 'alumno' && (
+                              ButtonInscriureOferta()
+                            )
+                        }
                     </div>
                 </div>
                 <div className={activeForm === 'edit' ? 'form-container sign-up-container' : 'form-container sign-up-container hidden'}>

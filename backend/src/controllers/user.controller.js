@@ -76,7 +76,7 @@ export const userLoginController = async (req, res) => {
 export const getUsersControllers = (req, res) => {
 try {
     const page = req.query.page ? parseInt(req.query.page) : 1;
-    const limit = req.query.limit ? parseInt(req.query.limit) : 10;
+    const limit = req.query.limit ? parseInt(req.query.limit) : 8;
   
     UserModel.find()
       .skip((page - 1) * limit)
@@ -139,7 +139,7 @@ export const deleteUserController = async (req, res) => {
     await UserModel.deleteOne({ _id: idUsuario })
 
     // Enviamos un código de estado HTTP 200 (OK)
-    res.status(200).send('Usuario eliminado correctamente')
+    res.status(200).send({msg:'Usuario eliminado correctamente'})
   } catch (error) {
     // En caso de error, enviamos un código de estado HTTP 500 (Internal Server Error)
     res.status(500).send('error')

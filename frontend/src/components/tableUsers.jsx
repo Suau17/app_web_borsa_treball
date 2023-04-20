@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { viewUsers } from '../services/users'
 import { deleteUser } from '../services/deleteUser'
 import { habilitarGestores } from "../services/habilitarGestores";
-
+import '../assets/oferta.css'
 
 export function GetUsers() {
 
@@ -51,7 +51,7 @@ export function GetUsers() {
 
                                         {e.rolUser === "gestor" && // Only render the button if role is "gestor"
 
-                                            <button name="btn" className=" bg-blue-500 text-white font-semibold  py-2 px-4 border border-blue-500 rounded " onClick={() => { habilitarGestores({ id: e._id }) }} >Habilitar </button>
+                                            <button name="btn" className=" bg-blue-500 text-white font-semibold  py-2 px-4 border border-blue-500 rounded " onClick={() => {console.log(e), habilitarGestores({ id: e._id }) }} >Habilitar </button>
 
                                         }
 
@@ -63,7 +63,7 @@ export function GetUsers() {
                     </table>
 
                 </div>
-                <div>
+                <div className="pagination">
                     <button className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
                         onClick={() => setCurrentPage(currentPage - 1)}>
                         Prev

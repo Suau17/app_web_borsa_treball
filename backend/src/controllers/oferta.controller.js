@@ -82,7 +82,7 @@ export const getOfertaController = async (req, res, next) => {
     }
     return res.status(200).send(msg)
 } catch (error) {
-     return   res.status.send({error})
+     return res.status(500).send({error})
 }
 }
 export const getInscritosController = async (req, res, next) => {
@@ -114,7 +114,8 @@ export const getInscritosController = async (req, res, next) => {
  * @param {*} next 
  */
 export const getOfertaEmpresaController = async (req, res, next) => {
-    try {
+  
+      console.log('joa')
       const gestorToken = req.gestorV;
       const nameEmpresa = gestorToken.nameEmpresa;
       const empresa = await EmpresaModel.findOne({ nom: nameEmpresa });
@@ -125,7 +126,6 @@ export const getOfertaEmpresaController = async (req, res, next) => {
       const page = req.query.page ? parseInt(req.query.page) : 1;
       const limit = req.query.limit ? parseInt(req.query.limit) : 4;
       const skip = (page - 1) * limit;
-  
       const listOfertas = await OfertaLaboral.find({ idEmpresa: empresa._id })
         .skip(skip)
         .limit(limit)
@@ -133,7 +133,6 @@ export const getOfertaEmpresaController = async (req, res, next) => {
       
       const count = await OfertaLaboral.countDocuments({ idEmpresa: empresa._id });
       const totalPages = Math.ceil(count / limit);
-  
       const msg = {
         listaOfertas: listOfertas,
         totalCount: count,
@@ -142,11 +141,9 @@ export const getOfertaEmpresaController = async (req, res, next) => {
         limit: limit,
         resposta: 'ofertes de la empresa recuperades'
       };
-      
-      res.status(200).send(msg);
-    } catch (err) {
-      return next({ error: err, msg: "error" });
-    }
+      console.log(msg)    
+        res.status(200).send(msg);
+ 
   }
   
 
@@ -212,7 +209,7 @@ export const updateOfertaController = async (req, res) => {
         }
 
         await OfertaLaboral.findByIdAndUpdate(id, req.body, { new: true })
-        res.status(200).send("UPDATE")
+        res.status(200).send({msg:"UPDATE"})
     } catch (error) {
         res.status(404).send({error})
     }

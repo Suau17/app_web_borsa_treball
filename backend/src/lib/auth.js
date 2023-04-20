@@ -1,5 +1,6 @@
 import jwt from 'jsonwebtoken'
 import GestorModel from '#schemas/Gestor.js'
+import AdminModel from '#schemas/admin.js'
 
 
 export const checkAuthGestor = async (req,res, next) => {
@@ -8,7 +9,6 @@ export const checkAuthGestor = async (req,res, next) => {
 
         const tokenFromClient = req.headers.authorization
         // De momento lo ocultamos para hacer los test.
-
         // if(tokenFromCookies !== tokenFromClient) {
         //     return res.status(498).send({error: 'token no es el mismo'})
         // }
@@ -21,9 +21,27 @@ export const checkAuthGestor = async (req,res, next) => {
         //     console.log('tu perfil aun no esta habilitado')
         //     return res.status(401).send('tu perfil no esta habilitado. Espere a que nuestro administrador le active la cuenta. Si despues de varios dias su cuenta no esta de alta llame al 99429214')
         // }
-        console.log('perfil habilitado')
         
         req.gestorV = gestor
+        next()
+    } catch (e) {
+        res.status(498).send({error: 'token no exsiste', msg: e})
+    }
+    
+}
+
+export const checkAuthAdmin = async (req,res, next) => {
+    try {
+        const tokenFromCookies = req.cookies.tokenAcces
+
+        const tokenFromClient = req.headers.authorization
+        const tokenData = jwt.verify(tokenFromClient, process.env.secretWord)
+        const id = tokenData.id
+
+      
+        const admin = await AdminModel.findOne({ refUser: id })
+        
+        req.gestorV = admin
         next()
     } catch (e) {
         res.status(498).send({error: 'token no exsiste', msg: e})
@@ -41,9 +59,8 @@ export const checkAuthEstudiante = async (req,res, next) => {
         // if(tokenFromCookies !== tokenFromClient) {
         //     return res.status(498).send({error: 'token no es el mismo'})
         // }
-        const tokenData = jwt.verify(tokenFromCookies, process.env.SecretWord)
+        const tokenData = jwt.verify(tokenFromClient, process.env.SecretWord)
         const id = tokenData.id
-        console.log(tokenData)
         // if (tokenData.role !== 'alumno') {
         //     res.status(401).send('Tu cuenta no es de un alumno')
         // }
@@ -104,7 +121,6 @@ export const getUserToken = async (req) => {
                 return res.send({error: 'token no es el mismo'})
             }
             const tokenData = jwt.verify(tokenFromCookies, process.env.secretWord)
-            console.log(tokenData.name)
             
             req.idToken = tokenData.id
             next()
