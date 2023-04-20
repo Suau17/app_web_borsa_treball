@@ -15,6 +15,7 @@ import { TableEmpresa } from './pages/empresa'
 import { EspecificUser } from './pages/especificUser'
 import { RegisterC} from './pages/crearCiclos'
 import { AuthProvider } from './context/Autenticate'
+import { PageInscripcionesAlumne } from './pages/Alumne/inscripcionesAlumno'
 import RoleProtectedRoute from './components/RoleProtectedRoute'
 import { Toaster, toast } from 'sonner'
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
@@ -59,6 +60,7 @@ function App() {
             <Route path="/search/user/:id" element={<EspecificUser />} />
           </Route>
 
+          <Route path="/inscripciones" element={<PageInscripcionesAlumne />} />
           <Route path="/TableEmpresa" element={<TableEmpresa />} />
           <Route path="/tableOfertas" element={<TableOfertas />} />
           <Route path='/oferta/:idOferta' element={<ShowOfertas />} />
