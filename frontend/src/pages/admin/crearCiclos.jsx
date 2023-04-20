@@ -1,5 +1,5 @@
 import React from 'react'
-import  {CrearCiclo} from '../components/registerCiclo'
+import  {CrearCiclo} from '../../components/registerCiclo'
 
 function RegisterC(){
     return (

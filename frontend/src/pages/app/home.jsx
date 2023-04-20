@@ -1,5 +1,5 @@
 import React from 'react'
-import '../assets/menu.css'
+import '../../assets/menu.css'
 // import {Menu} from '../components/menu'
 function Home() {
 

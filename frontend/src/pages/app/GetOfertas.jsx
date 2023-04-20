@@ -1,5 +1,5 @@
 import React from 'react'
-import { GetOfertas } from '../components/VerOferta'
+import { GetOfertas } from '../../components/VerOferta'
 
 
 

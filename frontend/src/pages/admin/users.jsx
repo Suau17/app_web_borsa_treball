@@ -1,5 +1,5 @@
 import React from 'react'
-import { GetUsers } from '../components/tableUsers'
+import { GetUsers } from '../../components/tableUsers'
 
 
 function PageUsers() {

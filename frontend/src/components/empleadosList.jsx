@@ -45,7 +45,7 @@ export function TableEmployees() {
             </>
         )
     } else {
-        html = <div class="lds-ring"><div></div><div></div><div></div><div></div></div>
+        html = <div className="lds-ring"><div></div><div></div><div></div><div></div></div>
     }
     return html
 }

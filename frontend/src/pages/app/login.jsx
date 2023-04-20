@@ -1,17 +1,17 @@
 import React from 'react'
-import  RegisterForm  from '../components/register'
+import { LoginForm } from '../../components/login'
 
 
-function Register() {
+function Login() {
   let token = localStorage.getItem('vToken')
   if(token){
     history.back()
   }
   return (
     <>
-      <RegisterForm />
+      <LoginForm />
     </>
   )
 }
 
-export { Register }
+export { Login }
