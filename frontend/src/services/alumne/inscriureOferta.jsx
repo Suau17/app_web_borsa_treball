@@ -30,7 +30,7 @@ export async function inscriureOferta(props){
     } else if (response.status === 401){
         toast.error("Ya estás registrado en la oferta.")
     } else {
-        toast.error("Error al registrarse en la oferta")
+        toast.error("Error al registrarse en la oferta.")
     }
     
 }
