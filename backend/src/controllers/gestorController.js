@@ -4,6 +4,7 @@ import EmpresaModel from '#schemas/empresaSchema.js'
 import OfertaLaboral from "#schemas/ofertaLaboral.js"
 import * as userController from '#controllers/user.controller.js'
 import { empresaRegistrerController } from "./empresa.controller.js"
+import mongoose from "mongoose"
 import { hash } from 'bcrypt'
 
 export const gestorRegistrerController = async (req, res) => {
@@ -136,5 +137,33 @@ export const getOfertasEmpresa = async (req, res, next) => {
         return res.status(500).send(error)
     }
 }
+
+export const deleteEmpleados = async (req, res) => {
+    const idEmpleado = req.body.id
+    const gestor = req.gestorV;
+    const idUsuario = gestor.refUser;
+
+    const empresa = await EmpresaModel.findOne({ empleados: { $in: [idUsuario] } });
+    if (!idUsuario || !empresa.empleados.includes(gestor.refUser) || gestor.responsable == true) {
+        res.status(401).send({ msg: 'No tienes los permisos para actualizar una oferta de trabajo en esta empresa' })
+        return;
+    }
+    const user = await UserModel.findById(idUsuario)
+    function removeItemFromArr( arr, item ) {
+      const pos =  arr.indexOf(item)
+        console.log(pos)
+        return arr.slice(pos, pos)
+    };
+    let newEmpleados = removeItemFromArr(empresa.empleados, idEmpleado )
+    console.log(newEmpleados)
+    // await GestorModel.deleteOne({ refUser: idEmpleado })
+    // await UserModel.deleteOne({ _id: idEmpleado })
+
+    // Enviamos un código de estado HTTP 200 (OK)
+    res.status(200).send({ msg: 'Usuario eliminado correctamente' })
+
+}
+
+
 
 

@@ -4,7 +4,9 @@ export async function VerEmpresas(){
 
     const requestOptions = {
         method: 'GET',
-        headers: { 'Content-Type': 'application/json' },
+        headers: { 'Content-Type': 'application/json',
+        // 
+     },
         
     };
 

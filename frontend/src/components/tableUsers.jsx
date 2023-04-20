@@ -30,9 +30,9 @@ export function GetUsers() {
 
 
                 <h1 className=" ml-80 mr-80 text-4xl font-extrabold font-serif leading-none tracking-tight text-gray-900 md:text-5xl lg:text-4xl dark:text-black mt-5 sm:rounded-lg">USUARIOS</h1>
-                <div className="users relative overflow-x-auto shadow-md sm:rounded-lg ml-80 my-4 w-2/3 text-4xl">
+                <div className=" usuarios relative   sm:rounded-lg  my-4  text-4xl">
 
-                    <table className="w-full text-sm text-left    ">
+                    <table className="formUser text-sm text-left    ">
                         <thead className="border-b border-neutral-800  text-neutral-50 dark:border-neutral-600  bg-blue-900">
                             <th scope="col" className="px-6 py-3">Nombre</th>
                             <th scope="col" className="px-6 py-3">Gmail</th>

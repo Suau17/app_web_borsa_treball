@@ -9,6 +9,7 @@ export async function deleteEmployee(id) {
           'Content-Type': 'application/json',
           'Authorization': `${token}`
         },
+        body: JSON.stringify({ "id": id })
       };
 
     const response = await fetch(url,requestOptions)

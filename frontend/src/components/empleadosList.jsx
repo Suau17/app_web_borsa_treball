@@ -11,7 +11,7 @@ export function TableEmployees() {
 
     console.log(empleados)
     let html = '';
-    if (empleados.length > 1) {
+    if (empleados.length > 0) {
         html = (
             <>
             <div className="relative overflow-x-auto shadow-md sm:rounded-lg ml-80 my-4 w-2/3 ">
