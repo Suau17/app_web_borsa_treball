@@ -1,8 +1,8 @@
 import { useEffect, useState } from "react";
 import { useParams, Link, useNavigate } from 'react-router-dom'
-import { GetOferta } from "../services/detailsOferta";
+import { GetOferta } from "../services/app/detailsOferta";
 import { deleteOferta } from "../services/gestor/deleteOferta";
-import { GetInscripciones } from "../services/inscripciones";
+import { GetInscripciones } from "../services/app/inscripciones";
 import { cambiarEstado } from "../services/gestor/cambiarEstado";
 import { updateOferta } from "../services/gestor/ofertaUpdate";
 import { inscriureOferta } from "../services/alumne/inscriureOferta"

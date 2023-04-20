@@ -1,6 +1,6 @@
 import { UserProfile } from './pages/profile'
 import { Login } from './pages/login'
-import { Logout } from './services/login'
+import { Logout } from './services/app/login'
 import { Home } from './pages/home'
 import { Register } from './pages/register'
 import { PageOfertas } from './pages/GetOfertas'

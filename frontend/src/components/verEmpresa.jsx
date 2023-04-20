@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { VerEmpresas } from "../services/infoEmpresa";
+import { VerEmpresas } from "../services/app/infoEmpresa";
 import '../App.css'
 import '../assets/oferta.css'
 

@@ -1,5 +1,5 @@
-import { GetProfile } from "../services/getProfile";
-import { editUser } from '../services/userUpdate'
+import { GetProfile } from "../services/app/getProfile";
+import { editUser } from '../services/app/userUpdate'
 import { useState, useEffect } from "react";
 import '../assets/perfil.css'
 export  function Profile() {

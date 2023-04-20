@@ -1,9 +1,9 @@
 import { updateEmpresa } from "../services/gestor/empresaUpdate";
-import { RegisterResponsable } from "../services/register";
+import { RegisterResponsable } from "../services/app/register";
 import { RegisterOferta } from '../services/gestor/ofertaRegister';
 import { useState, useEffect } from "react";
 import { getEmpresa } from "../services/gestor/empresaGet";
-import { getCiclos } from "../services/ciclos";
+import { getCiclos } from "../services/app/ciclos";
 import '../assets/empresa.css'
 import '../assets/register.css'
 

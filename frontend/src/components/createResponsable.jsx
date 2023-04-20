@@ -1,4 +1,4 @@
-import { RegisterResponsable } from "../services/register"
+import { RegisterResponsable } from "../services/app/register"
 
 export function FormResponsable() {
 

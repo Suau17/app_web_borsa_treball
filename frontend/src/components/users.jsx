@@ -1,5 +1,5 @@
 import React, {useEffect, useState} from "react";
-import { viewUsers } from '../services/users'
+import { viewUsers } from '../services/app/users'
 
 
 export function GetUsers(){

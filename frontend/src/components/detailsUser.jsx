@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import { useParams } from "react-router";
-import { GetUser } from "../services/getUser";
+import { GetUser } from "../services/app/getUser";
 import '../assets/perfil.css'
 export  function DetailsUser() {
     let [profile, setProfile] = useState([])

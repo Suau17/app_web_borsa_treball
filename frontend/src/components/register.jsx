@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router';
-import { RegisterGestor, RegisterAlumno } from '../services/register';
+import { RegisterGestor, RegisterAlumno } from '../services/app/register';
 import '../assets/register.css'
 
 

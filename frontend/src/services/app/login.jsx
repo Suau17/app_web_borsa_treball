@@ -1,6 +1,6 @@
 import { useNavigate } from 'react-router-dom';
 import { useEffect } from 'react';
-import { setCookie, removeCookie } from '../context/cookies';
+import { setCookie, removeCookie } from '../../context/cookies';
 const url = `${import.meta.env.VITE_URL}/user/login`;
 
 export async function LoginApi(props) {

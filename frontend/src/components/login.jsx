@@ -1,7 +1,7 @@
 import React from "react";
 import { useState } from "react";
-import { LoginApi } from "../services/login";
-import { getUsers } from "../services/usersGestor";
+import { LoginApi } from "../services/app/login";
+import { getUsers } from "../services/app/usersGestor";
 import { useNavigate } from 'react-router-dom';
 import '../assets/login.css'
 

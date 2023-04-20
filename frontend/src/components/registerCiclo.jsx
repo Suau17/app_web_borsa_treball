@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { RegisterCiclo } from '../services/ciclosList';
+import { RegisterCiclo } from '../services/app/ciclosList';
 import '../assets/register.css'
 export function CrearCiclo(){
 

@@ -1,7 +1,7 @@
 import { RegisterOferta } from '../services/gestor/ofertaRegister';
 import { useState, useEffect } from "react";
 import { getEmpresa } from "../services/gestor/empresaGet";
-import { getCiclos } from "../services/ciclos";
+import { getCiclos } from "../services/app/ciclos";
 import '../assets/empresa.css'
 import '../assets/register.css'
 
