@@ -11,13 +11,20 @@ export function GetUsers() {
 
 
     const [currentPage, setCurrentPage] = useState(1);
-    
+
 
     // Cuando la variable '[]' cambie, entonces se ejecuta el useEffect
     useEffect(() => {
         viewUsers(currentPage).then(user => setUsers(user))
     }, [currentPage])
 
+    const habilitarGestoresCallback = useCallback((id) => {
+        habilitarGestores({ id });
+    }, []);
+
+    const deleteUserCallback = useCallback((id) => {
+        deleteUser({ id });
+    }, []);
 
 
     let view;
@@ -51,12 +58,12 @@ export function GetUsers() {
 
                                         {e.rolUser === "gestor" && // Only render the button if role is "gestor"
 
-                                            <button name="btn" className=" bg-blue-500 text-white font-semibold  py-2 px-4 border border-blue-500 rounded " onClick={() => {console.log(e), habilitarGestores({ id: e._id }) }} >Habilitar </button>
+                                            <button name="btn" className=" bg-blue-500 text-white font-semibold  py-2 px-4 border border-blue-500 rounded " onClick={() => {console.log(e), habilitarGestoresCallback(e._id) }} >Habilitar </button>
 
                                         }
 
                                         {console.log(e._id)}
-                                        <button className=" bg-red-500 text-white font-semibold  py-2 px-4 border border-red-500 rounded ml-3" onClick={() => { deleteUser({ id: e._id }) }}>Eliminar</button></td>
+                                        <button className=" bg-red-500 text-white font-semibold  py-2 px-4 border border-red-500 rounded ml-3" onClick={() => { deleteUserCallback(e._id) }}>Eliminar</button></td>
                                 </tr>
                             )}
                         </tbody>

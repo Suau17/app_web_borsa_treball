@@ -139,29 +139,28 @@ export const getOfertasEmpresa = async (req, res, next) => {
 }
 
 export const deleteEmpleados = async (req, res) => {
-    const idEmpleado = req.body.id
+    try {
+        
+
+    const idEmpleado = req.body.id;
     const gestor = req.gestorV;
     const idUsuario = gestor.refUser;
 
-    const empresa = await EmpresaModel.findOne({ empleados: { $in: [idUsuario] } });
-    if (!idUsuario || !empresa.empleados.includes(gestor.refUser) || gestor.responsable == true) {
-        res.status(401).send({ msg: 'No tienes los permisos para actualizar una oferta de trabajo en esta empresa' })
+    const empresa = await EmpresaModel.findOne({ empleados: { $in: [idEmpleado] } });
+
+    if (!empresa|| !empresa.empleados.includes(idUsuario)  || !empresa.empleados.includes(idEmpleado) || gestor.responsable === true || gestor.refUser == idEmpleado) {
+        res.status(401).send({ msg: 'No tienes los permisos para actualizar una oferta de trabajo en esta empresa' });
         return;
     }
-    const user = await UserModel.findById(idUsuario)
-    function removeItemFromArr( arr, item ) {
-      const pos =  arr.indexOf(item)
-        console.log(pos)
-        return arr.slice(pos, pos)
-    };
-    let newEmpleados = removeItemFromArr(empresa.empleados, idEmpleado )
-    console.log(newEmpleados)
-    // await GestorModel.deleteOne({ refUser: idEmpleado })
-    // await UserModel.deleteOne({ _id: idEmpleado })
 
-    // Enviamos un código de estado HTTP 200 (OK)
-    res.status(200).send({ msg: 'Usuario eliminado correctamente' })
+    await empresa.updateOne({ $pull: { empleados: idEmpleado } });
+    await GestorModel.deleteOne({ refUser: idEmpleado });
+    await UserModel.deleteOne({ _id: idEmpleado });
 
+    res.status(200).send({ msg: 'Usuario eliminado correctamente' });
+} catch (error) {
+    res.status(401).send({ msg: 'Ha habido un error al eliminar el empleado ' });
+}
 }
 
 
