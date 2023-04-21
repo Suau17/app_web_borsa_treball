@@ -1,14 +1,16 @@
 import { toast } from "sonner";
 const url = `${import.meta.env.VITE_URL}/gestor/empresa/empleado/delete`
 
-export async function deleteEmployee(id) {
+export async function deleteEmployee(props) {
     let token = localStorage.getItem('vToken')
+    const {id} = props;
     const requestOptions = {
         method: 'DELETE',
         headers: {
           'Content-Type': 'application/json',
           'Authorization': `${token}`
         },
+        body: JSON.stringify({ id })
       };
 
     const response = await fetch(url,requestOptions)

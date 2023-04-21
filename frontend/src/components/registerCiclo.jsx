@@ -19,9 +19,15 @@ export function CrearCiclo(){
                 <span className="block text-gray-700  font-bold mb-2">Name</span>
                 <input type="text" name="name" id="name" placeholder='name' className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"/><br></br>
                 <span className="block text-gray-700  font-bold mb-2">Familia profesional</span>
-                <input type="text" name="familiaProfesional" id="familiaProfesional" placeholder='familiaProfesional' className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"/><br></br>
+                <select type="text" name="familiaProfesional" id="familiaProfesional" placeholder='familiaProfesional' className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
+                    <option value="0">--Selecciona---</option>
+                    <option value="FAMÍLIA D'ADMINISTRACIÓ I GESTIÓ">FAMÍLIA D'ADMINISTRACIÓ I GESTIÓ</option>
+                    <option value="FAMÍLIA DE COMERÇ I MÀRQUETING">FAMÍLIA DE COMERÇ I MÀRQUETING</option>
+                    <option value="FAMÍLIA D'INFORMÀTICA I COMUNICACIONS">FAMÍLIA D'INFORMÀTICA I COMUNICACIONS</option>
+                    <option value="FAMÍLIA DE SERVEIS SOCIOCULTURALS I A LA COMUNITAT">FAMÍLIA DE SERVEIS SOCIOCULTURALS I A LA COMUNITAT</option>
+                    </select><br></br>
                 <span className="block text-gray-700  font-bold mb-2">Durada</span>
-                <input type="text" name="durada" id="durada" placeholder='durada' className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"/><br></br>
+                <input type="number" name="durada" id="durada" placeholder='durada' className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"/><br></br>
                 <span className="block text-gray-700  font-bold mb-2">asignatures</span>
                 <input type="text" name="asignatures" id="asignatures" placeholder='asignatures' className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"/><br></br>
               

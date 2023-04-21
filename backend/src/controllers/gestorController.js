@@ -137,4 +137,41 @@ export const getOfertasEmpresa = async (req, res, next) => {
     }
 }
 
+export const deleteEmpleados = async (req,res) =>{
+ try{
+    const idUsuario = req.idToken;
+    if (!idUsuario) {
+      res.status(401).send('No tienes los permisos para borrar otro usuario')
+      return;
+    }
+    const user = await UserModel.findById(idUsuario)
+   
+      if (user.rolUser === 'gestor') {
+        const gestor = await GestorModel.findOne({ refUser: idUsuario })
+        console.log(gestor)
+        if (gestor.refEmpresa) {
+          const empresaId = gestor.refEmpresa;
+          // Borramos todas las ofertas de la empresa
+          
+          await EmpresaModel.deleteOne({ refUser: user._id });
+        }
+  
+        await GestorModel.deleteOne({ refUser: idUsuario })
+        await GestorModel.deleteOne({ refUser: idUsuario })
+    }
+
+
+    // Eliminamos el usuario del modelo de usuario
+    await UserModel.deleteOne({ _id: idUsuario })
+
+    // Enviamos un código de estado HTTP 200 (OK)
+    res.status(200).send({msg:'Usuario eliminado correctamente'})
+  } catch (error) {
+    // En caso de error, enviamos un código de estado HTTP 500 (Internal Server Error)
+    res.status(500).send('error')
+  }
+    }
+ 
+
+
 
