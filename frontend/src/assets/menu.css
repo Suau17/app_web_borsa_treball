@@ -122,4 +122,30 @@ header {
       transform: rotate(360deg);
     }
   }
+
+  footer {
+    position: absolute; /* Establece la posición del footer */
+    bottom: 0; /* Fija el footer en la parte inferior de la página */
+    width: 100%; /* Establece el ancho del footer al 100% del ancho de la página */
+    background-color: #0f283f; /* Color gris claro */
+    padding: 10px; /* Añade espacio alrededor del contenido */
+    font-size: 14px;
+    text-align: center; /* Centra el contenido del footer */
+    color: white;
+  }
+
+  .infoEmpresa {
+    border: solid 2px black;
+    width: 50%;
+    text-align: center;
+    margin-bottom: 2%;
+    
+    border-radius: 10px;
+    padding: 1.5%;
+    padding-left: 30px;
+    min-width: 210px;
+    font-family: Arial, Helvetica, sans-serif;
+    cursor: pointer;
+}
+  
   
