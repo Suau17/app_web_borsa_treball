@@ -41,6 +41,10 @@ gestorRouter.delete('/oferta/remove/:ofertaId', oferta.removeOfertaController)
 // ver postulantes a la oferta
 // cambiar estado de la inscripcion
 
+//treballador
+gestorRouter.delete('/empresa/empleado/delete', gestor.deleteEmpleados)
+
+
 
 gestorRouter.put('/oferta/estado/:idInscripcion', empresa.cambiarEstadoInscripcion)  
 

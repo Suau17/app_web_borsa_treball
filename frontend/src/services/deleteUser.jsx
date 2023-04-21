@@ -1,12 +1,16 @@
 import { toast } from "sonner";
+import { getCookie } from "../context/cookies";
 const Url = `${import.meta.env.VITE_URL}/admin/deleteUser`
 
 export async function deleteUser(props){
     console.log(props)
     const {id} = props;
+    const token = getCookie('vToken')
     const requestOptions = {
         method: 'DELETE',
-        headers: { 'Content-Type': 'application/json' },
+        headers: { 'Content-Type': 'application/json',
+        'Authorization': `${token}`
+       },
         body: JSON.stringify({ id })
         
     };
@@ -21,7 +25,7 @@ export async function deleteUser(props){
         } else {
           toast.error(`Ha ocorregut un error al eliminar l'usuari`);
         }
-        location.reload();
+        console.log(data)
         return data;
         
 }

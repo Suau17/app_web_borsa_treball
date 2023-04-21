@@ -1,7 +1,9 @@
+import { getCookie } from "../../context/cookies";
+
 const url = `${import.meta.env.VITE_URL}/gestor/empresa`;
 
 export async function getEmpresa() {
-    let token = localStorage.getItem('vToken')
+    let token = getCookie('vToken')
     const requestOptions = {
         method: 'GET',
         headers: {

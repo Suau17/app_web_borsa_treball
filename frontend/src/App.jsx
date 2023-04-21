@@ -22,8 +22,9 @@ import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 
 
 import './App.css'
+import { getCookie } from './context/cookies'
 
-let token = localStorage.getItem('vToken')
+let token = getCookie('vToken')
 
 function App() {
 

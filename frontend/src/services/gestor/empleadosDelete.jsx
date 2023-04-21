@@ -1,14 +1,16 @@
 import { toast } from "sonner";
+import { getCookie } from "../../context/cookies";
 const url = `${import.meta.env.VITE_URL}/gestor/empresa/empleado/delete`
 
 export async function deleteEmployee(id) {
-    let token = localStorage.getItem('vToken')
+    let token = getCookie('vToken')
     const requestOptions = {
         method: 'DELETE',
         headers: {
           'Content-Type': 'application/json',
           'Authorization': `${token}`
         },
+        body: JSON.stringify({ "id": id })
       };
 
     const response = await fetch(url,requestOptions)

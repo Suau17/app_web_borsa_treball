@@ -50,3 +50,17 @@
 .pagination button{
     margin-left: 5%;
 }
+
+.formUser{
+    width: 80%;
+    margin-left: 10%;
+    box-shadow: 20px 20px 20px lightgray;
+}
+
+.formEmpresa{
+    width: 80%;
+    margin-left: 3%;
+    box-shadow: 20px 20px 20px lightgray;
+}
+
+

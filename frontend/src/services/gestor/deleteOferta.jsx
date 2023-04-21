@@ -1,9 +1,10 @@
 import { toast } from 'sonner';
+import { getCookie } from '../../context/cookies';
 
 export async function deleteOferta(props) {
     const { id } = props;
     const Url = `${import.meta.env.VITE_URL}/gestor/oferta/remove/${id}`
-    let token = localStorage.getItem('vToken')
+    let token = getCookie('vToken')
     const requestOptions = {
         method: 'DELETE',
         headers: {

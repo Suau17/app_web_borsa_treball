@@ -1,8 +1,9 @@
 const url = `${import.meta.env.VITE_URL}/gestor/oferta/registrar`
 import {  toast } from 'sonner'
+import { getCookie } from '../../context/cookies'
 export async function RegisterOferta(props) {
     const { title, description, requirements, skills, ciclo, dateOfPublication } = props
-    let token = localStorage.getItem('vToken')
+    let token = getCookie('vToken')
     const bodySend = {
         "title": title,
         "description": description,

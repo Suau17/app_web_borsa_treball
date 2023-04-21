@@ -24,13 +24,7 @@ export  function Profile() {
     editUser(perfil)
     }
 
-    function handleClickEdit(event){
-        event.preventDefault()
-        const edit = Object.fromEntries(
-          new window.FormData(event.target)
-        )
-        GetProfile(edit)
-    }
+ 
 
 
     useEffect(() => {
@@ -138,7 +132,7 @@ export  function Profile() {
                                     <span className="block text-gray-700  font-bold mb-2">telefon</span>
                                     <input type="text" name='telefon' placeholder='telefon' className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" />
                                     <span className="block text-gray-700  font-bold mb-2">Dni</span>
-                                    <input type="text" name='dni' placeholder='DNI' className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" />
+                                    <input type="text" name='telefon' placeholder='DNI' className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" />
 
                                 </div>
                             ) : (

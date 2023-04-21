@@ -27,8 +27,8 @@ export function OfertasT() {
             <>
             
             <h1 className="mb-4 text-4xl font-extrabold leading-none tracking-tight text-gray-900 md:text-5xl lg:text-4xl dark:text-black mt-5 ">OFERTAS </h1>
-            <div className="relative overflow-x-auto shadow-md sm:rounded-lg ml-80 my-4 w-2/3 ">
-              <table class="w-full text-sm text-left text-black-500 dark:text-black-400 w-50  ">
+            <div className="relative  sm:rounded-lg ml-80 my-4  ">
+              <table class=" formEmpresa text-sm text-left text-black-500 dark:text-black-400   ">
                 <thead class="border-b border-neutral-800  text-neutral-50 dark:border-neutral-600  bg-blue-900">
                   <th scope="col" className="px-6 py-3">Titulo</th>
                   <th scope="col" className="px-6 py-3">Description</th>
