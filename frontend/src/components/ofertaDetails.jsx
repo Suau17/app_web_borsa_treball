@@ -90,8 +90,7 @@ export function OfertaDetails() {
     function ButtonsGestionOferta() {
         let role = getCookie('vRole')
         let button = null;
-        if (role === 'alumno') {
-            console.log('alumno')
+        if (role != 'alumno') {
             button = (
                 <>
                     <button onClick={handleFormEdit} className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
@@ -124,7 +123,7 @@ export function OfertaDetails() {
                     <div className="detailOferta border-double border-4 border-blue-900 ... bg-slate-100 shadow-xl  font-serif text-lg pl-5 ">
                         <h1 className="mb-4 text-4xl font-extrabold leading-none tracking-tight text-gray-900 md:text-5xl lg:text-4xl dark:text-black mt-5 ">{oferta.oferta.title}</h1>
 
-                        {ButtonsGestionOferta}
+                        {ButtonsGestionOferta()}
 
                         <h3 className="uppercase font-bold ">Id de la Empresa:</h3> {oferta.oferta.idEmpresa}
                         <h3 className="uppercase font-bold">Fecha de publicacion: </h3>{formattedDate}
@@ -144,7 +143,7 @@ export function OfertaDetails() {
                                     }
                                     let html2 = ''
                                     let role = getCookie('vRole')
-                                    if (getCookie('vToken') && (role === 'gestor' || role === 'responsable')) {
+                                    if (getCookie('vToken') && role === 'gestor' ) {
                                         if (inscripcion.estado == 'aceptado') {
                                             html2 = (
                                                 <div key={inscripcion._id} className='bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded w-2/4 mb-4'>
