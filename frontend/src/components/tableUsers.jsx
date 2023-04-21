@@ -18,7 +18,12 @@ export function GetUsers() {
         viewUsers(currentPage).then(user => setUsers(user))
     }, [currentPage])
 
-
+    function miFuncion() {
+        // Aquí va el código que realiza la función del botón
+      
+        // Deshabilita el botón
+        document.getElementById("btn").disabled = true;
+      }
 
     let view;
 
@@ -51,7 +56,7 @@ export function GetUsers() {
 
                                         {e.rolUser === "gestor" && // Only render the button if role is "gestor"
 
-                                            <button name="btn" className=" bg-blue-500 text-white font-semibold  py-2 px-4 border border-blue-500 rounded " onClick={() => {console.log(e), habilitarGestores({ id: e._id }) }} >Habilitar </button>
+                                            <button  name="btn"  className=" bg-blue-500 text-white font-semibold  py-2 px-4 border border-blue-500 rounded " onClick={() => {console.log(e), habilitarGestores({ id: e._id }),miFuncion() }}  >Habilitar </button>
 
                                         }
 
