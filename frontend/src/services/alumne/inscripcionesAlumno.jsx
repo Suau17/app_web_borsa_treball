@@ -1,7 +1,9 @@
+import { getCookie } from "../../context/cookies";
+
 const url = `${import.meta.env.VITE_URL}/estudiante/verInscripciones`;
 
 export async function misInscripciones() {
-    let token = localStorage.getItem('vToken')
+    let token = getCookie('vToken')
     const requestOptions = {
         method: 'GET',
         headers: {

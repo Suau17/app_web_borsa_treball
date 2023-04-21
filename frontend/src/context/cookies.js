@@ -1,7 +1,7 @@
 export function setCookie(name, value, days) {
-    var expires = "";
+    let expires = "";
     if (days) {
-      var date = new Date();
+      let date = new Date();
       days = parseInt(days)
       date.setTime(date.getTime() + (days * 24 * 60 * 60 * 1000));
       expires = "; expires=" + date.toUTCString();
@@ -9,11 +9,11 @@ export function setCookie(name, value, days) {
     document.cookie = name + "=" + value + expires + "; path=/";
   }
 export function getCookie(name) {
-    var cookieName = name + "=";
-    var decodedCookie = decodeURIComponent(document.cookie);
-    var cookies = decodedCookie.split(';');
-    for (var i = 0; i < cookies.length; i++) {
-      var currentCookie = cookies[i].trim();
+    let cookieName = name + "=";
+    let decodedCookie = decodeURIComponent(document.cookie);
+    let cookies = decodedCookie.split(';');
+    for (let i = 0; i < cookies.length; i++) {
+      let currentCookie = cookies[i].trim();
       if (currentCookie.indexOf(cookieName) === 0) {
         return currentCookie.substring(cookieName.length, currentCookie.length);
       }

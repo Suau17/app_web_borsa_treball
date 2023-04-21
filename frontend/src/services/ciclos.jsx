@@ -1,7 +1,9 @@
+import { getCookie } from "../context/cookies";
+
 const url = `${import.meta.env.VITE_URL}/app/ciclo`;
 
 export async function getCiclos() {
-    let token = localStorage.getItem('vToken')
+    let token = getCookie('vToken')
     const requestOptions = {
         method: 'GET',
         headers: {

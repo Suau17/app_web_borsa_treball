@@ -24,13 +24,7 @@ export  function Profile() {
     editUser(perfil)
     }
 
-    function handleClickEdit(event){
-        event.preventDefault()
-        const edit = Object.fromEntries(
-          new window.FormData(event.target)
-        )
-        GetProfile(edit)
-    }
+ 
 
 
     useEffect(() => {

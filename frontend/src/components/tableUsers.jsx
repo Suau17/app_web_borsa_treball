@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useCallback } from "react";
 import { viewUsers } from '../services/users'
 import { deleteUser } from '../services/deleteUser'
 import { habilitarGestores } from "../services/habilitarGestores";
@@ -7,7 +7,6 @@ import '../assets/oferta.css'
 export function GetUsers() {
 
     let [users, setUsers] = useState([]);
-
 
 
     const [currentPage, setCurrentPage] = useState(1);
@@ -20,11 +19,17 @@ export function GetUsers() {
 
     const habilitarGestoresCallback = useCallback((id) => {
         habilitarGestores({ id });
-    }, []);
+    }, [users]);
 
     const deleteUserCallback = useCallback((id) => {
-        deleteUser({ id });
-    }, []);
+
+        deleteUser({ id }).then(() =>
+            setUsers((prevUsers) =>
+                prevUsers.filter((user) => user._id !== id)
+            )
+        )
+    }, [setUsers]
+    );
 
 
     let view;
@@ -58,7 +63,7 @@ export function GetUsers() {
 
                                         {e.rolUser === "gestor" && // Only render the button if role is "gestor"
 
-                                            <button name="btn" className=" bg-blue-500 text-white font-semibold  py-2 px-4 border border-blue-500 rounded " onClick={() => {console.log(e), habilitarGestoresCallback(e._id) }} >Habilitar </button>
+                                            <button name="btn" className=" bg-blue-500 text-white font-semibold  py-2 px-4 border border-blue-500 rounded " onClick={() => { console.log(e), habilitarGestoresCallback(e._id) }} >Habilitar </button>
 
                                         }
 

@@ -1,10 +1,11 @@
+import { getCookie } from "../context/cookies";
 
 
 export async function editUser(props){
     
     
-    const token = localStorage.getItem("vToken")
-    const role = localStorage.getItem('vRole')
+    const token = getCookie("vToken")
+    const role = getCookie('vRole')
     let url;
     let user;
     let requestOptions;

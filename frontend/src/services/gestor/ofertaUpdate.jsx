@@ -1,9 +1,10 @@
 import { toast } from "sonner"
+import { getCookie } from "../../context/cookies"
 export async function updateOferta(props) {
     const {id, titulo, ciclo, requirments, skills,descripcion, sector, fechaExpiracion} = props
     
     const url = `${import.meta.env.VITE_URL}/gestor/oferta/update/${id}`
-    const token = localStorage.getItem('vToken')
+    const token = getCookie('vToken')
     const bodySend = {
         title : titulo,
         description : descripcion,

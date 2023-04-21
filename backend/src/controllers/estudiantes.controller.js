@@ -48,6 +48,7 @@ export const estudianteRegistrerController = async (req, res) => {
     const msg = {
       token: token,
       role: 'alumno',
+      id,
       resposta: 'Token enviado como cookie'
     };
     return res.send(msg);

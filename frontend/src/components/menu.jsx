@@ -1,5 +1,6 @@
 import '../App.css'
 import '../assets/menu.css'
+import { getCookie } from '../context/cookies'
 import { linksGestor, linksResponsable } from './linksMenu'
 import { linksAlumne } from './linksMenu'
 import { linksAdmin } from './linksMenu'
@@ -7,8 +8,9 @@ import { BrowserRouter as Router, Route, Routes, Link } from 'react-router-dom';
 
 export function Menu() {
 
-    let token = localStorage.getItem('vToken')
-    let role = localStorage.getItem('vRole')
+
+    let token = getCookie('vToken')
+    let role = getCookie('vRole')
 
     function validarRol(role) {
         console.log(role)
