@@ -128,6 +128,7 @@ export function OfertaDetails() {
                         <h3 className="uppercase font-bold ">Id de la Empresa:</h3> {oferta.oferta.idEmpresa}
                         <h3 className="uppercase font-bold">Fecha de publicacion: </h3>{formattedDate}
                         <p className="pt-5"><b>Requeriments:</b> {oferta.oferta.requirements}</p>
+                        <p className="pt-5"><b>ciclo:</b>{oferta.oferta.ciclo}</p>
                         <p className="pt-5"><b>Skills:</b> {oferta.oferta.skills}</p>
                         <p className="pt-5"><b>Descripción:</b> {oferta.oferta.description}</p>
 

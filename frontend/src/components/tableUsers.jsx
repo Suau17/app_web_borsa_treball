@@ -17,6 +17,14 @@ export function GetUsers() {
         viewUsers(currentPage, role).then(user => setUsers(user))
     }, [currentPage])
 
+
+    function miFuncion() {
+        // Aquí va el código que realiza la función del botón
+      
+        // Deshabilita el botón
+        document.getElementById("btn").disabled = true;
+      }
+
     const habilitarGestoresCallback = useCallback((id) => {
         habilitarGestores({ id }).then(location.reload);
     }, [users]);
@@ -30,6 +38,7 @@ export function GetUsers() {
         )
     }, [setUsers]
     );
+
 
 
     let view;
@@ -61,6 +70,7 @@ export function GetUsers() {
                                     {console.log(users)}
                                     <td className="px-6 py-4">
 
+
                                         {e.rolUser === "gestor" && (
                                             <>
                                                 {(e.description === 'true' && e.rolUser === 'gestor') ?
@@ -70,6 +80,7 @@ export function GetUsers() {
                                                 }
                                             </>
                                         )}
+
 
                                         {console.log(e._id)}
                                         <button className=" bg-red-500 text-white font-semibold  py-2 px-4 border border-red-500 rounded ml-3" onClick={() => { deleteUserCallback(e._id) }}>Eliminar</button></td>

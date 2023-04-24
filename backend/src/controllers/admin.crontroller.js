@@ -148,6 +148,7 @@ export const cicloRegistrerController = async (req, res) => {
 
     return res.status(200).send(msg)
   } catch (error) {
+    console.log(error.message)
     return res.status(400).send({ resposta: 'Ha habido un problema al crear el ciclo', error })
   }
 }

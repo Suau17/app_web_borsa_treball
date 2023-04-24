@@ -58,8 +58,27 @@ header {
   }
   
   .home{
-   
+    font-size: 48px;
+  font-weight: bold;
+  text-align: center;
+  
+  margin-bottom: 5vh;
+  text-transform: uppercase;
+  letter-spacing: 4px;
+  color: #333;
+  font-family: Arial, sans-serif;
     font-size: 3em;
+  }
+  .vidal{
+    font-size: 32px;
+    font-weight: bold;
+    text-align: center;
+    
+    margin-bottom: 5vh;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    color: #333;
+    font-family: Arial, sans-serif;
   }
   .menuH{
     animation-duration: 3s;
@@ -122,4 +141,76 @@ header {
       transform: rotate(360deg);
     }
   }
+
+
+
+  /*home css*/
+  footer {
+    position: absolute; /* Establece la posición del footer */
+    bottom: 0; /* Fija el footer en la parte inferior de la página */
+    width: 100%; /* Establece el ancho del footer al 100% del ancho de la página */
+    background-color: #0f283f; /* Color gris claro */
+    padding: 10px; /* Añade espacio alrededor del contenido */
+    font-size: 14px;
+    text-align: center; /* Centra el contenido del footer */
+    color: white;
+  }
+
+
+  .infoEmpresa {
+    border: outset 4px #0f283f;
+    font-weight: bold;
+    width: 35%;
+    text-align: center;
+    margin-bottom: 2%;
+    
+    
+    padding: 1.5%;
+    padding-left: 30px;
+    min-width: 210px;
+    font-family: Arial, Helvetica, sans-serif;
+    background-color: #F5F5F5;
+    
+}
+
+.infoUser {
+  border: outset 4px #0f283f;
+  width: 35%;
+  text-align: center;
+  margin-bottom: 2%;
+  margin-left: 5%;
+  font-weight: bold;
+  padding: 1.5%;
+  padding-left: 30px;
+  min-width: 210px;
+  font-family: Arial, Helvetica, sans-serif;
+  background-color: #F5F5F5;
+}
+.infoUser h3{
+  font-size: 1.3em;
+}
+
+.generalDiv{
+  display: flex;
+  padding-left: 5%;
+  margin-left: 10%;
+  margin-top: 5%;
+  
+}
+
+.imagenes{
+  border: outset 4px #0f283f;
+  width: 35%;
+  text-align: center;
+  margin-bottom: 2%;
+  margin-left: 30%;
+  margin-top: 4%;
+  padding: 1.5%;
+  padding-left: 30px;
+  min-width: 210px;
+  font-family: Arial, Helvetica, sans-serif;
+  background-color: #F5F5F5;
+  
+}
+  
   

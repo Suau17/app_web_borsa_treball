@@ -4,6 +4,8 @@ import * as userC from '#controllers/user.controller.js'
 import * as estudiante from '#controllers/estudiantes.controller.js'
 import * as empresa from '#controllers/empresa.controller.js'
 import * as oferta from '#controllers/oferta.controller.js';
+import * as validacion from "#Lib/validaciones/validacion.js";
+import * as rules from '#Lib/validaciones/rules.js';
 
 const estudianteRouter = Router()
 
