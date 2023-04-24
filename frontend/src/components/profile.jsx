@@ -57,7 +57,6 @@ export  function Profile() {
         console.log(profile)
          html = (
             <>
-            {/* <h1 class="">Informacion del Usuario</h1> */}
             <div className={activeForm === 'perfil' ? 'form-container sign-up-container' : 'form-container sign-up-container hidden'}>
             <div className="card">
             <div className="img">
@@ -84,7 +83,7 @@ export  function Profile() {
 
                 <div className=" perfUser ">
         <div className={activeForm === 'edit' ? 'form-container sign-up-container' : 'form-container sign-up-container hidden'}>
-        <button onClick={handlePerfil} class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline mt-2">Perfil</button>
+        <button onClick={handlePerfil} className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline mt-2">Perfil</button>
        
         <form onSubmit = { handleClickAlumne } id="editarAlumne" className="bg-white shadow-md rounded px-8 pt-10 pb-8 mb-4 text-lg ">
         <h1 className="block text-gray-700 text-xl font-bold ">Edita la informació d'usuari</h1>
@@ -113,9 +112,12 @@ export  function Profile() {
 
                             {profile.user.rolUser === "alumno" ? (
                                 <div>
+                                    <span>Descripcion</span>
                                     <textarea name="cartaPresentacion" defaultValue={profile.estudiante.cartaPresentacion} placeholder='hola me llamo xxxx y ....'
                                         id="" cols="45" rows="6" className='textAreaCV shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline'  >
                                     </textarea>
+                                    <span>Link:</span>
+                                    <input type="text" name="link" placeholder='link de la teva pagina (linkedin, repositori, github)' defaultValue={profile.estudiante.link} className='textAreaCV shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline' /><br />
                                     <i>curriculum (img o pdf):</i>
                                     <input type="file" name='cvFile' accept="image/*,.pdf" className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" />
                                 </div>

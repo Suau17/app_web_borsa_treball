@@ -3,40 +3,40 @@
 <head>
   <%- include('../partials/head'); %>
 </head>
-<body class="container">
+<body className="container">
 
 <header>
   <%- include('../partials/header'); %>
 </header>
 
 <main>
-	<div class="card mt-2">
+	<div className="card mt-2">
 		
-		<div class="card-header">
-	     <h5 class="card-title">BORSA TREBALL</h5>
+		<div className="card-header">
+	     <h5 className="card-title">BORSA TREBALL</h5>
 	  </div>
 
 
     <form action="registerOferta/" method="post" style="margin: 2em;">
-      <div class="form-group">
+      <div className="form-group">
         <label for="exampleInputEmail1">title</label>
-        <input type="text" class="form-control" name="title" id="title" aria-describedby="emailHelp" placeholder="Entra titulo de la oferta">
+        <input type="text" className="form-control" name="title" id="title" aria-describedby="emailHelp" placeholder="Entra titulo de la oferta">
       </div>
-      <div class="form-group">
+      <div className="form-group">
         <label for="exampleInputPassword1">description</label>
-        <input type="text" class="form-control" name="description" id="description" placeholder="Entra la descripcion">
+        <input type="text" className="form-control" name="description" id="description" placeholder="Entra la descripcion">
       </div>
-      <div class="form-group">
+      <div className="form-group">
         <label for="exampleInputEmail1">requirements</label>
-        <input type="text" class="form-control" name="requirements" id="requirements"placeholder="java, js, html.....">
+        <input type="text" className="form-control" name="requirements" id="requirements"placeholder="java, js, html.....">
       </div>
-      <div class="form-group">
+      <div className="form-group">
         <label for="exampleInputPassword1">skills</label>
-        <input type="text" class="form-control" name="skills" id="skills" placeholder="skills">
+        <input type="text" className="form-control" name="skills" id="skills" placeholder="skills">
       </div>
-      <div class="form-group">
+      <div className="form-group">
         <label for="exampleInputPassword1">ciclo</label>
-        <input type="text" class="form-control" name="ciclo" id="ciclo" placeholder="skills">
+        <input type="text" className="form-control" name="ciclo" id="ciclo" placeholder="skills">
       </div>
 
       <!-- <select name="ciclo" id="ciclo">
@@ -46,7 +46,7 @@
         
     </select> -->
 <br>
-      <button type="submit" class="btn btn-primary">Submit</button>
+      <button type="submit" className="btn btn-primary">Submit</button>
     </form>
 
 	

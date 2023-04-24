@@ -30,7 +30,8 @@ const upload = multer({ storage: storage })
 
 export const estudianteRegistrerController = async (req, res) => {
   upload.single('curriculum', 5)(req, res, async () => {
-    const { cartaPresentacion } = req.body;
+    const { cartaPresentacion, link } = req.body;
+    if(!link) link = ''
     req.body.rolUser = 'alumno';
     let estudis = req.body.estudis;
     const { id, token } = await userController.userRegistrerController(req, res);
@@ -38,7 +39,8 @@ export const estudianteRegistrerController = async (req, res) => {
     const estudianteData = {
       refUser: id,
       cartaPresentacion,
-      estudis
+      estudis,
+      link
     };
     if (req.file) {
       estudianteData.curriculum = req.file.filename;
@@ -83,7 +85,7 @@ export const downloadCurriculumController = async (req, res) => {
 
 export const updateEstudianteController = async (req, res) => {
   upload.single('curriculum', 5)(req, res, async () => {
-    const { cartaPresentacion, estudis } = req.body;
+    const { cartaPresentacion, estudis, link } = req.body;
     const id = req.idToken;
     console.log(id)
     let estudiante = await EstudianteModel.findOne({refUser : id});
@@ -107,6 +109,9 @@ export const updateEstudianteController = async (req, res) => {
 
     estudiante.cartaPresentacion = cartaPresentacion;
     estudiante.estudis = estudis;
+    if(link){
+      estudiante.link = link
+    }
 
     await estudiante.save();
     return res.send('Estudiante actualizado correctamente');
