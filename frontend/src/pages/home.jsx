@@ -1,5 +1,6 @@
 import React from 'react'
 import '../assets/menu.css'
+
 // import {Menu} from '../components/menu'
 function Home() {
 
@@ -18,9 +19,7 @@ function Home() {
      </div>
 
      <div className='imagenes'>imagenes empresas</div>
-     <footer>
-      <p>Vidal I Barraquer</p>
-     </footer>
+      
     </>
   )
 }

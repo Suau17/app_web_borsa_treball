@@ -19,6 +19,7 @@ import { PageInscripcionesAlumne } from './pages/Alumne/inscripcionesAlumno'
 import RoleProtectedRoute from './components/RoleProtectedRoute'
 import { Toaster, toast } from 'sonner'
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
+import {Footer} from './components/footerShow';
 
 
 import './App.css'
@@ -68,11 +69,13 @@ function App() {
           <Route path='users' element={<PageUsers />} />
           <Route path="/editAlumne" element={<PageEditAlumne />} />
           <Route path="/crearCiclos" element={<RegisterC />} />
-
+            
         </Routes>
       </AuthProvider>
+      <Footer />
     </Router>
-
+    
+            
   )
 }
 
