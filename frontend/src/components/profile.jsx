@@ -111,7 +111,7 @@ export  function Profile() {
 
                             {profile.user.rolUser === "alumno" ? (
                                 <div>
-                                    <textarea name="cartaPresentacion" placeholder='hola me llamo xxxx y ....'
+                                    <textarea name="cartaPresentacion" defaultValue={profile.estudiante.cartaPresentacion} placeholder='hola me llamo xxxx y ....'
                                         id="" cols="45" rows="6" className='textAreaCV shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline'  >
                                     </textarea>
                                     <i>curriculum (img o pdf):</i>
