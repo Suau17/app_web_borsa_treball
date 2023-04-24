@@ -60,8 +60,8 @@ export function GestionOperaciones() {
   return (
     <>
       <div className="buttons">
-        <button onClick={handleFormEmpresa}>formulari empresa</button>
-        <button onClick={handleFormResp}>formulari responsable</button>
+        <button onClick={handleFormEmpresa}>Editar Empresa</button>
+        <button onClick={handleFormResp}>Registrar responsable</button>
         <button onClick={handleFormOferta}>Registrar Oferta</button>
       </div>
 

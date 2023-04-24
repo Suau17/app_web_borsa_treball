@@ -76,10 +76,31 @@ export function OfertaDetails() {
         let button = null;
         if (role === 'alumno') {
             console.log('alumno')
-            button = 
-            <button onClick={handleClickOferta} className="bg-blue-500 hover:bg-blue-400 text-white font-bold px-4 border-b-2 border-blue-700 hover:border-blue-500 rounded ml-3">
-                {inscrito ? "Inscrito" : "Inscribirse"}
-            </button>
+            button =
+                <button onClick={handleClickOferta} className="bg-blue-500 hover:bg-blue-400 text-white font-bold px-4 border-b-2 border-blue-700 hover:border-blue-500 rounded ml-3">
+                    {inscrito ? "Inscrito" : "Inscribirse"}
+                </button>
+        }
+        return (
+            <div>
+                {button}
+            </div>
+        )
+    }
+    function ButtonsGestionOferta() {
+        let role = getCookie('vRole')
+        let button = null;
+        if (role != 'alumno') {
+            button = (
+                <>
+                    <button onClick={handleFormEdit} className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
+                        <img src="/public/iconos/editar.png" alt="papelera" />
+                    </button>
+                    <button onClick={() => { handleClickDelete() }} className="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded">
+                        <img src="/public/iconos/eliminar.png" alt="papelera" />
+                    </button>
+                </>
+            )
         }
         return (
             <div>
@@ -102,12 +123,8 @@ export function OfertaDetails() {
                     <div className="detailOferta border-double border-4 border-blue-900 ... bg-slate-100 shadow-xl  font-serif text-lg pl-5 ">
                         <h1 className="mb-4 text-4xl font-extrabold leading-none tracking-tight text-gray-900 md:text-5xl lg:text-4xl dark:text-black mt-5 ">{oferta.oferta.title}</h1>
 
-                        <button onClick={handleFormEdit} className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
-                            <img src="/public/iconos/editar.png" alt="papelera" />
-                        </button>
-                        <button onClick={() => { handleClickDelete() }} className="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded">
-                            <img src="/public/iconos/eliminar.png" alt="papelera" />
-                        </button>
+                        {ButtonsGestionOferta()}
+
                         <h3 className="uppercase font-bold ">Id de la Empresa:</h3> {oferta.oferta.idEmpresa}
                         <h3 className="uppercase font-bold">Fecha de publicacion: </h3>{formattedDate}
                         <p className="pt-5"><b>Requeriments:</b> {oferta.oferta.requirements}</p>
@@ -116,18 +133,18 @@ export function OfertaDetails() {
                         <p className="pt-5"><b>Descripción:</b> {oferta.oferta.description}</p>
 
                         <div>
-                           {ButtonInscriureOferta()}
+                            {ButtonInscriureOferta()}
 
                             {
                                 inscripciones.map(inscripcion => {
                                     <h3>Inscritos:</h3>
-                                    
-                                    if(inscripcion.refUser._id == getCookie('vID') && inscrito == false){
+
+                                    if (inscripcion.refUser._id == getCookie('vID') && inscrito == false) {
                                         setInscrito(true)
                                     }
                                     let html2 = ''
                                     let role = getCookie('vRole')
-                                    if (getCookie('vToken') && (role === 'gestor' || role === 'responsable')) {
+                                    if (getCookie('vToken') && role === 'gestor' ) {
                                         if (inscripcion.estado == 'aceptado') {
                                             html2 = (
                                                 <div key={inscripcion._id} className='bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded w-2/4 mb-4'>
