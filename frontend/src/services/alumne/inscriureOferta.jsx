@@ -1,13 +1,17 @@
-import React, { useTransition } from "react";
-import axios from "axios";
-
-const url = `${import.meta.env.VITE_URL}/estudiante/inscOferta`;
+import { toast } from 'sonner'
+import { getCookie } from '../../context/cookies';
 
 export async function inscriureOferta(props){
 
-    let token = localStorage.getItem("vToken")
+    const { idOferta } = props;
+    console.log(props)
 
-    console.log(user)
+    const url = `${import.meta.env.VITE_URL}/estudiante/oferta/inscribirse`;
+    let token = getCookie('vToken')
+
+    const sendBody = {
+        idOferta: idOferta,
+    }
 
     const requestOptions = {
         method: 'PUT',
@@ -15,11 +19,19 @@ export async function inscriureOferta(props){
             'Content-Type': 'application/json',
             'Authorization': `${token}`
         },
-        body: JSON.stringify(user)
+        body: JSON.stringify(sendBody),
     };
-
+    console.log("put hecho")
     const response = await fetch(url, requestOptions)
+    const data = await response.json();
 
-    const data = response;
+
+    if (response.status === 200){
+        toast.success("Registrado en la oferta con éxito.")
+    } else if (response.status === 401){
+        toast.error("Ya estás registrado en la oferta.")
+    } else {
+        toast.error("Error al registrarse en la oferta.")
+    }
     
 }

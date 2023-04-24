@@ -1,6 +1,7 @@
 import OfertaLaboral from "#schemas/ofertaLaboral.js";
 import InscripcionModel from "#schemas/inscripcion.js";
 import EstudianteModel from "#schemas/estudiante.js"
+import fs from 'fs';
 import UserModel from "#schemas/User.js"
 import * as userController from '#controllers/user.controller.js'
 import { hash } from 'bcrypt'
@@ -20,6 +21,7 @@ const storage = multer.diskStorage({
     cb(null, 'uploads')
   },
   filename: function (req, file, cb) {
+    console.log(cb.fieldname)
     cb(null, file.fieldname + '-' + Date.now() + '.pdf')
   }
 })
@@ -46,6 +48,7 @@ export const estudianteRegistrerController = async (req, res) => {
     const msg = {
       token: token,
       role: 'alumno',
+      id,
       resposta: 'Token enviado como cookie'
     };
     return res.send(msg);
@@ -77,35 +80,39 @@ export const downloadCurriculumController = async (req, res) => {
  * @param {*} res 
  * @returns 
  */
+
 export const updateEstudianteController = async (req, res) => {
-
-  // Obtenemos el id del gestor y los datos a actualizar proporcionados
-  const data = req.body
-  const idUsuario = req.idToken;
-
-  if ('rolUser' in data) {
-    return res.status(401).send('no puedes modificar tu rol')
-  }
-
-  // Actualizamos el registro del gestor en la base de datos
-  const estudiante = await EstudianteModel.findOneAndUpdate({ refUser: idUsuario }, req.body, { new: true });
-
-  const idUser = estudiante.refUser
-
-  if (data.password || data.name || data.email || data.description) {
-    if (data.password) {
-      data.password = await hash(data.password, 12)
+  upload.single('curriculum', 5)(req, res, async () => {
+    const { cartaPresentacion, estudis } = req.body;
+    const id = req.idToken;
+    console.log(id)
+    let estudiante = await EstudianteModel.findOne({refUser : id});
+    if (!estudiante) {
+      return res.status(404).send('Estudiante no encontrado');
     }
-    await UserModel.findByIdAndUpdate(idUser, req.body, { new: true })
-  }
-  // Encriptamos la contraseña del gestor si se proporciona en los datos a actualizar
 
+    if (estudiante.curriculum) {
+      const currPath = path.join('./uploads/', estudiante.curriculum);
+      console.log(currPath)
+      fs.unlink(currPath, (err) => {
+        if (err) console.log(err);
+        console.log('Currículum anterior eliminado');
+      });
+    }
 
+    if (req.file) {
+      console.log(req.file.filename+'afaff')
+      estudiante.curriculum = req.file.filename;
+    }
 
-  // Enviamos un mensaje de éxito
-  return res.status(200).send('Datos del estudiante actualizados con éxito')
+    estudiante.cartaPresentacion = cartaPresentacion;
+    estudiante.estudis = estudis;
 
-}
+    await estudiante.save();
+    return res.send('Estudiante actualizado correctamente');
+  });
+};
+
 
 
 /**
@@ -151,7 +158,7 @@ export const inscribirseOferta = async (req, res) => {
     const idUsuarioToken = req.idToken;
     
     if (!idUsuarioToken) {
-      res.status(401).send('No tienes los permisos para inscribir a otro usuario')
+      res.status(401).send({msg:'No tienes los permisos para inscribir a otro usuario'})
       return;
     }
     // Comprobar que el estudiante no tenga inscripción en la misma oferta
@@ -160,7 +167,7 @@ export const inscribirseOferta = async (req, res) => {
     // PARA REVISAR
     const inscripcionrepetida = await InscripcionModel.findOne({ refOfertaLaboral: idOferta, refUser: idUsuarioToken });
     if (inscripcionrepetida) {
-      res.status(401).send('Ya estás inscrito en esta oferta.');
+      res.status(401).send({msg: 'Ya estás inscrito en esta oferta.'});
       return;
     }
 
@@ -177,7 +184,7 @@ export const inscribirseOferta = async (req, res) => {
     )
     const data = await inscripcion.save();
     // Realiza alguna acción para inscribir al estudiante a la oferta
-    const msg = { mensaje: "Estudiante inscrito a la oferta" , data} 
+    const msg = { msg: "Estudiante inscrito a la oferta" , data} 
     return res.status(200).send(msg);
   } catch (error) {
     res.status(500).send(error);

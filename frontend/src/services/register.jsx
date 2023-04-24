@@ -2,6 +2,7 @@ import React, { useTransition } from "react";
 import axios from "axios";
 import { useCookies } from 'react-cookie';
 import { toast } from "sonner";
+import { getCookie, setCookie } from "../context/cookies";
 const URL = {
     urlGestor: `${import.meta.env.VITE_URL}/user/register/gestor`,
     urlEstudiante: `${import.meta.env.VITE_URL}/user/register/estudiante`,
@@ -42,15 +43,16 @@ export async function RegisterGestor(props) {
     } else {
       toast.error(`Ha ocorregut un error al registrar el gestor`);
     }
-    localStorage.setItem('vToken', data.token)
-    localStorage.setItem('vRole', data.role)
+ 
+    setCookie('vToken', data.token, 1)
+    setCookie('vRole', data.role, 1)
     location.reload()
 
 }
 
 export async function RegisterResponsable(props) {
     const { name, email, password, cargo, telefon} = props
-    let token = localStorage.getItem('vToken')
+    let token = getCookie('vToken')
     const bodySend = {
         "name": name,
         "email": email,
@@ -104,8 +106,13 @@ export async function RegisterAlumno(props) {
     const data = await response.json();
     console.log(data.role)
     console.log(data.token)
-    localStorage.setItem('vToken', data.token)
-    localStorage.setItem('vRole', data.role)
+    setCookie('vToken',data.token, 1)
+    setCookie('vRole',data.role, 1)
+
+
+    if(data.id){
+      setCookie('vID',data.id, 1)
+    }
     if (response.status === 200) {
       toast.success(`Alumne registrat amb éxit`);
     } else if (response.status >= 500 && response.status < 600) {

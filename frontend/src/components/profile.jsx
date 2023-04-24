@@ -1,5 +1,5 @@
 import { GetProfile } from "../services/getProfile";
-import { editUser } from '../services/alumne/alumneupdate'
+import { editUser } from '../services/userUpdate'
 import { useState, useEffect } from "react";
 import '../assets/perfil.css'
 export  function Profile() {
@@ -24,13 +24,7 @@ export  function Profile() {
     editUser(perfil)
     }
 
-    function handleClickEdit(event){
-        event.preventDefault()
-        const edit = Object.fromEntries(
-          new window.FormData(event.target)
-        )
-        GetProfile(edit)
-    }
+ 
 
 
     useEffect(() => {
@@ -91,6 +85,7 @@ export  function Profile() {
                 <div className=" perfUser ">
         <div className={activeForm === 'edit' ? 'form-container sign-up-container' : 'form-container sign-up-container hidden'}>
         <button onClick={handlePerfil} class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline mt-2">Perfil</button>
+       
         <form onSubmit = { handleClickAlumne } id="editarAlumne" className="bg-white shadow-md rounded px-8 pt-10 pb-8 mb-4 text-lg ">
         <h1 className="block text-gray-700 text-xl font-bold ">Edita la informació d'usuari</h1>
             <span  className="block text-gray-700  font-bold mb-2">Nom</span>

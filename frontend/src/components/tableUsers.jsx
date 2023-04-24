@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useCallback } from "react";
 import { viewUsers } from '../services/users'
 import { deleteUser } from '../services/deleteUser'
 import { habilitarGestores } from "../services/habilitarGestores";
@@ -9,14 +9,14 @@ export function GetUsers() {
     let [users, setUsers] = useState([]);
 
 
-
     const [currentPage, setCurrentPage] = useState(1);
-    
+
 
     // Cuando la variable '[]' cambie, entonces se ejecuta el useEffect
     useEffect(() => {
         viewUsers(currentPage).then(user => setUsers(user))
     }, [currentPage])
+
 
     function miFuncion() {
         // Aquí va el código que realiza la función del botón
@@ -24,6 +24,22 @@ export function GetUsers() {
         // Deshabilita el botón
         document.getElementById("btn").disabled = true;
       }
+
+    const habilitarGestoresCallback = useCallback((id) => {
+        habilitarGestores({ id });
+    }, [users]);
+
+    const deleteUserCallback = useCallback((id) => {
+
+        deleteUser({ id }).then(() =>
+            setUsers((prevUsers) =>
+                prevUsers.filter((user) => user._id !== id)
+            )
+        )
+    }, [setUsers]
+    );
+
+
 
     let view;
 
@@ -56,12 +72,16 @@ export function GetUsers() {
 
                                         {e.rolUser === "gestor" && // Only render the button if role is "gestor"
 
+
                                             <button  name="btn"  className=" bg-blue-500 text-white font-semibold  py-2 px-4 border border-blue-500 rounded " onClick={() => {console.log(e), habilitarGestores({ id: e._id }),miFuncion() }}  >Habilitar </button>
+
+                                            <button name="btn" className=" bg-blue-500 text-white font-semibold  py-2 px-4 border border-blue-500 rounded " onClick={() => { console.log(e), habilitarGestoresCallback(e._id) }} >Habilitar </button>
+
 
                                         }
 
                                         {console.log(e._id)}
-                                        <button className=" bg-red-500 text-white font-semibold  py-2 px-4 border border-red-500 rounded ml-3" onClick={() => { deleteUser({ id: e._id }) }}>Eliminar</button></td>
+                                        <button className=" bg-red-500 text-white font-semibold  py-2 px-4 border border-red-500 rounded ml-3" onClick={() => { deleteUserCallback(e._id) }}>Eliminar</button></td>
                                 </tr>
                             )}
                         </tbody>

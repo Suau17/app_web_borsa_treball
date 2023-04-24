@@ -67,6 +67,7 @@ export const userLoginController = async (req, res) => {
   const msg = {
     token: token,
     role: exsistingUserByEmail.rolUser,
+    id : exsistingUserByEmail._id,
     resposta: 'Token enviado como cookie'
   }
   res.send(msg);
