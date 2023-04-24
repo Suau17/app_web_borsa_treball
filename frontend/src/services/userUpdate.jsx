@@ -31,7 +31,7 @@ export async function editUser(props){
     }
 
     if(role === 'alumno'){
-        const {name, email, password, confirmpassword, cartaPresentacion, cvFile} = props
+        const {name, email, password, confirmpassword,link, cartaPresentacion, cvFile} = props
         console.log(props)
         url = `${import.meta.env.VITE_URL}/estudiante/actualizar`;
         const user = new FormData();
@@ -41,6 +41,7 @@ export async function editUser(props){
         user.append("passwordHash", password);
         user.append("cartaPresentacion", cartaPresentacion);
         user.append("curriculum", cvFile, cvFile.name);
+        user.append('link', link)
         console.log(user)
         requestOptions = {
             method: "PUT",

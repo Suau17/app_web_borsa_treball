@@ -3,7 +3,7 @@
 <head>
   <%- include('../partials/head'); %>
 </head>
-<body class="container">
+<body className="container">
 
 <header>
   <%- include('../partials/header'); %>
@@ -12,32 +12,32 @@
 
 <form action="/user/update/<%= user.id %>" method="POST">
   <fieldset >
-    <div class="form-group">
+    <div className="form-group">
       <label for="disabledTextInput">Nom</label>
       <input type="text" name="name" id="name" value="<%= user.name %>">
     </div>
-    <div class="form-group">
+    <div className="form-group">
       <label for="description">Description</label>
       <input type="text" name="description" id="description"  value="<%= user.description %>">
     </div>
-    <div class="form-group">
+    <div className="form-group">
       <label for="disabledTextInput">Email</label>
-      <input type="text" name="email" id="email" class="form-control"  value="<%= user.email %>">
+      <input type="text" name="email" id="email" className="form-control"  value="<%= user.email %>">
     </div>
-    <div class="form-group">
+    <div className="form-group">
       <label for="disabledTextInput">Password</label>
-      <input type="text"  name="passwordHash" id="passwordHash" class="form-control"  value="<%= user.passwordHash %>">
+      <input type="text"  name="passwordHash" id="passwordHash" className="form-control"  value="<%= user.passwordHash %>">
     </div>
     
      
-    <div class="form-group">
+    <div className="form-group">
       <label for="disabledSelect">rolUser</label>
       <input type="text" name="rolUser" id=""  value="<%= user.rolUser %>">
       
     </div>
     
     
-    <button type="submit" class="btn btn-primary">Submit</button>
+    <button type="submit" className="btn btn-primary">Submit</button>
   </fieldset>
 </form>
 
