@@ -57,7 +57,7 @@ function RegisterForm() {
               <span>Registrar com empresa i publica ofertes de treball</span>
               <input type="text" name='empresa' placeholder="nom de l'empresa" />
               <input type="text" name='direction' placeholder='Calle de la empresa/oficina' />
-              <input type="text" name='sector' placeholder="nom de l'empresa" />
+              <input type="text" name='sector' placeholder="sector" />
               <button>Sign Up</button>
             </form>
           </div>

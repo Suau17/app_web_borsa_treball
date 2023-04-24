@@ -42,8 +42,13 @@ export const rulesOferta = [
     body('requeriments').exists().not().isEmpty().isLength({max:250}),
     body('skills').exists().not().isEmpty().isLength({max:250}),
     body('ciclo').exists().not().isEmpty().isLength({max:250}),
-    body('dateOfPublication').exists().not().isEmpty().isISO8601().withMessage('La fecha debe estar en formato  (YYYY-MM-DD)'),
-    body('expirationDate').exists().not().isEmpty().isISO8601().withMessage('La fecha debe estar en formato (YYYY-MM-DD)')
+    body('dateOfPublication').exists().not().isEmpty().toDate().isISO8601().withMessage('La fecha debe estar en formato (YYYY-MM-DD)').custom((value) => {
+        return value.toLocaleDateString('es-ES', { day: '2-digit', month: '2-digit', year: 'numeric' }) === value;
+    }).withMessage('La fecha debe estar en formato (DD-MM-YYYY)'),
+    
+    body('expirationDate').exists().not().isEmpty().toDate().isISO8601().withMessage('La fecha debe estar en formato (YYYY-MM-DD)').custom((value) => {
+        return value.toLocaleDateString('es-ES', { day: '2-digit', month: '2-digit', year: 'numeric' }) === value;
+    }).withMessage('La fecha debe estar en formato (DD-MM-YYYY)')
 ]
 
 export const rulesEstudiante = [

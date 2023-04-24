@@ -98,8 +98,8 @@ export  function Profile() {
             <input type = "password" name = "confirmpassword" placeholder = "Confirma la teva contrassenya" className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"/>
             {profile.user.rolUser === "gestor" ? (
                                 <div>
-                                    <span className="block text-gray-700  font-bold mb-2">Carrec</span>
-                                    <input type="text" name='cargo' placeholder='carrec a la empresa (ex : responsable IT)' className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" />
+                                    <span className="block text-gray-700  font-bold mb-2" >Carrec</span>
+                                    <input type="text" name='cargo' placeholder='carrec a la empresa (ex : responsable IT)' defaultValue={profile.user.cargo} className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" />
                                     <span className="block text-gray-700  font-bold mb-2">telefon</span>
                                     <input type="text" name='telefon' placeholder='telefon' className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" />
                                 </div>

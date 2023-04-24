@@ -13,7 +13,7 @@ const gestorRouter = Router()
 // ///// GESTOR
 
 
-gestorRouter.put('/update/', gestor.updateGestorController)
+gestorRouter.put('/update/',rules.rulesGestor, validacion.validarCampos, gestor.updateGestorController)
 
 // //// RESPONSABLE
 
@@ -21,8 +21,8 @@ gestorRouter.post('/register/responsable',gestor.createResponsableController)
 // eliminar responsable
 
 // //// EMPRESA
-gestorRouter.post('/empresa/registrar', empresa.empresaRegistrerController)
-gestorRouter.put('/empresa/update/',empresa.updateEmpresaController)
+gestorRouter.post('/empresa/registrar',rules.rulesEmpresa, validacion.validarCampos, empresa.empresaRegistrerController)
+gestorRouter.put('/empresa/update/', rules.rulesEmpresa, validacion.validarCampos ,empresa.updateEmpresaController)
 gestorRouter.delete('/empresa/delete/', empresa.deleteEmpresaController)
 gestorRouter.post('/empresa/ofertas/:idOferta/eliminar', gestor.createResponsableController)
 gestorRouter.get('/empresa', empresa.getEmpresaControllers)
@@ -35,7 +35,7 @@ gestorRouter.get('/getOfertas', oferta.getOfertaEmpresaController)
 gestorRouter.post('/oferta/registrar', oferta.ofertaRegisterController) 
 
 
-gestorRouter.put('/oferta/update/:id', oferta.updateOfertaController)  
+gestorRouter.put('/oferta/update/:id',rules.rulesOferta,validacion.validarCampos, oferta.updateOfertaController)  
 gestorRouter.delete('/oferta/remove/:ofertaId', oferta.removeOfertaController)  
 
 // ver postulantes a la oferta
