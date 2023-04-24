@@ -77,7 +77,8 @@ function RegisterForm() {
               <textarea name="cartaPresentacion" placeholder='hola me llamo xxxx y ....'
                 id="" cols="45" rows="6" className='textAreaCV' >
               </textarea>
-              <i>curriculum (img o pdf):</i>
+              <input type="text" name="link" placeholder='link de la teva pagina (linkedin, repositori, github)' />
+              <i>curriculum (pdf):</i>
               <input type="file" name='cvFile' accept="image/*,.pdf" />
               <button className='btnSign'>Sign Up</button>
             </form>

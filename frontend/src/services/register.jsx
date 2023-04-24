@@ -86,7 +86,7 @@ export async function RegisterResponsable(props) {
 }
 
 export async function RegisterAlumno(props) {
-    const { name, email, password, cartaPresentacion, cvFile } = props
+    const { name, email, password, cartaPresentacion, cvFile, link } = props
 
     const formData = new FormData();
     formData.append("name", name);
@@ -95,6 +95,7 @@ export async function RegisterAlumno(props) {
     formData.append("passwordHash", password);
     formData.append("cartaPresentacion", cartaPresentacion);
     formData.append("curriculum", cvFile, cvFile.name);
+    formData.append('link', link)
     console.log('aqdfaqfaq')
     console.log(formData)
     const requestOptions = {
