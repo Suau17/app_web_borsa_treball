@@ -38,17 +38,28 @@ export async function RegisterGestor(props) {
     const data = await response.json();
     console.log(data)
     if (response.status === 200) {
-      toast.success(`Gestor registrat amb éxit`);
+      toast.success(`Responsable registrat amb éxit`);
+      console.log(data.role)
+      console.log(data.token)
+      setCookie('vToken',data.token, 1)
+      setCookie('vRole',data.role, 1)
+      location.reload()
     } 
     else if(response.status === 400 ){
-      console.log(response)
+      console.log('error 400')
+      console.log(data.errors)
       toast.custom((t) => (
-        <div>
+        <div className="border-2 text-red-500  bg-red-200 border-red-600 pl-2">
           <ul>
-          {errores.map((error, index) => (
-          <li key={index}>{error.response}</li>
-        ))}
-              </ul> <button onClick={() => toast.dismiss(t)}>close</button>
+            {data.errors
+              .filter((error, index, self) => self.findIndex((e) => e.msg === error.msg) === index) // Filtrar elementos duplicados
+              .map((error, index) => (
+                <li className="" key={index}>
+                  {error.msg}
+                </li>
+              ))}
+          </ul>
+          <button onClick={() => toast.dismiss(t)}>close</button>
         </div>
       ));
     }
@@ -58,9 +69,7 @@ export async function RegisterGestor(props) {
       toast.error(`Ha ocorregut un error al registrar el gestor`);
     }
  
-    setCookie('vToken', data.token, 1)
-    setCookie('vRole', data.role, 1)
-    location.reload()
+  
 
 }
 
@@ -97,7 +106,26 @@ export async function RegisterResponsable(props) {
       setCookie('vToken',data.token, 1)
       setCookie('vRole',data.role, 1)
       location.reload()
-    } else if (response.status >= 500 && response.status < 600) {
+    } 
+    else if(response.status === 400 ){
+      console.log('error 400')
+      console.log(data.errors)
+      toast.custom((t) => (
+        <div className="border-2 text-red-500  bg-red-200 border-red-600 pl-2">
+          <ul>
+            {data.errors
+              .filter((error, index, self) => self.findIndex((e) => e.msg === error.msg) === index) // Filtrar elementos duplicados
+              .map((error, index) => (
+                <li className="" key={index}>
+                  {error.msg}
+                </li>
+              ))}
+          </ul>
+          <button onClick={() => toast.dismiss(t)}>close</button>
+        </div>
+      ));
+    }
+    else if (response.status >= 500 && response.status < 600) {
       toast.error('Ha ocorregut un error en el servidor');
     } else {
       toast.error(`Ha ocorregut un error al registrar el responsable`);
@@ -140,8 +168,22 @@ export async function RegisterAlumno(props) {
       location.reload()
     } 
     else if(response.status === 400 ){
-      console.log(response)
-      toast.error('Falten camps per a completar')
+      console.log('error 400')
+      console.log(data.errors)
+      toast.custom((t) => (
+        <div className="border-2 text-red-500  bg-red-200 border-red-600 pl-2">
+          <ul>
+            {data.errors
+              .filter((error, index, self) => self.findIndex((e) => e.msg === error.msg) === index) // Filtrar elementos duplicados
+              .map((error, index) => (
+                <li className="" key={index}>
+                  {error.msg}
+                </li>
+              ))}
+          </ul>
+          <button onClick={() => toast.dismiss(t)}>close</button>
+        </div>
+      ));
     }
     else if (response.status >= 500 && response.status < 600) {
       toast.error('Ha ocorregut un error en el servidor');
