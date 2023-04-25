@@ -83,6 +83,7 @@ function RegisterForm() {
               <button className='btnSign'>Sign Up</button>
             </form>
           </div>
+          
         </div>
       </section>
     </>

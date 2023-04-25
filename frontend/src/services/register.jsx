@@ -33,12 +33,26 @@ export async function RegisterGestor(props) {
         body: JSON.stringify(bodySend)
     };
 
+
     const response = await fetch(URL.urlGestor, requestOptions)
     const data = await response.json();
     console.log(data)
     if (response.status === 200) {
       toast.success(`Gestor registrat amb éxit`);
-    } else if (response.status >= 500 && response.status < 600) {
+    } 
+    else if(response.status === 400 ){
+      console.log(response)
+      toast.custom((t) => (
+        <div>
+          <ul>
+          {errores.map((error, index) => (
+          <li key={index}>{error.response}</li>
+        ))}
+              </ul> <button onClick={() => toast.dismiss(t)}>close</button>
+        </div>
+      ));
+    }
+    else if (response.status >= 500 && response.status < 600) {
       toast.error('Ha ocorregut un error en el servidor');
     } else {
       toast.error(`Ha ocorregut un error al registrar el gestor`);
@@ -78,6 +92,11 @@ export async function RegisterResponsable(props) {
 
     if (response.status === 200) {
       toast.success(`Responsable registrat amb éxit`);
+      console.log(data.role)
+      console.log(data.token)
+      setCookie('vToken',data.token, 1)
+      setCookie('vRole',data.role, 1)
+      location.reload()
     } else if (response.status >= 500 && response.status < 600) {
       toast.error('Ha ocorregut un error en el servidor');
     } else {
@@ -105,10 +124,8 @@ export async function RegisterAlumno(props) {
 
     const response = await fetch(URL.urlEstudiante, requestOptions)
     const data = await response.json();
-    console.log(data.role)
-    console.log(data.token)
-    setCookie('vToken',data.token, 1)
-    setCookie('vRole',data.role, 1)
+    
+ 
 
 
     if(data.id){
@@ -116,12 +133,22 @@ export async function RegisterAlumno(props) {
     }
     if (response.status === 200) {
       toast.success(`Alumne registrat amb éxit`);
-    } else if (response.status >= 500 && response.status < 600) {
+      console.log(data.role)
+      console.log(data.token)
+      setCookie('vToken',data.token, 1)
+      setCookie('vRole',data.role, 1)
+      location.reload()
+    } 
+    else if(response.status === 400 ){
+      console.log(response)
+      toast.error('Falten camps per a completar')
+    }
+    else if (response.status >= 500 && response.status < 600) {
       toast.error('Ha ocorregut un error en el servidor');
     } else {
       toast.error(`Ha ocorregut un error al registrar el alumne`);
     }
-    location.reload()
+    
 
 }
 
