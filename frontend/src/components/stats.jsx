@@ -3,7 +3,8 @@ import { RegisterResponsable } from "../services/register";
 import { RegisterOferta } from '../services/gestor/ofertaRegister';
 import { useState, useEffect } from "react";
 import { getEmpresa } from "../services/gestor/empresaGet";
-import { statsOfertas } from "../services/stats";
+import { statsOfertas, statsUsers } from "../services/stats";
+
 import '../assets/empresa.css'
 import '../assets/register.css'
 
@@ -11,12 +12,13 @@ import '../assets/register.css'
 export function EstadisticasApp() {
   const [activeForm, setActiveForm] = useState("upEmpresa");
   const [ofertas, setStatsOfertas] = useState([])
+  const [users, setStatsUsers] = useState([])
   const [ciclos, setCiclos] = useState([])
   let resultado = [];
   useEffect(() => {
 
     statsOfertas().then(ofertas => setStatsOfertas(ofertas));
-
+    statsUsers().then(users => setStatsUsers(users))
   }, [])
 
   const handleFormEmpresa = () => {
@@ -33,9 +35,7 @@ export function EstadisticasApp() {
   }
 
 
-if(ofertas.ofertasPorCiclo) {
-    
-
+if(ofertas.ofertasPorCiclo) {   
 for (const propiedad in ofertas.ofertasPorCiclo) {
   const objeto = {
     name: propiedad,
@@ -43,8 +43,9 @@ for (const propiedad in ofertas.ofertasPorCiclo) {
   };
   resultado.push(objeto);
 }
-
 }
+
+if(users){console.log(users)}
 
 const ListarOfertas = () =>{
     return resultado.map((e) => (
@@ -72,6 +73,7 @@ const ListarOfertas = () =>{
 
       <div className={activeForm === 'resp' ? 'form-container sign-up-container' : 'form-container sign-up-container hidden'}>
             <h1>Usuarios</h1>
+            {users ? <p>{users.msg}</p>:''}
       </div>
       <div className={activeForm === 'oferta' ? 'form-container sign-up-container' : 'form-container sign-up-container hidden'}>
        <h1>Empresas</h1>

@@ -98,6 +98,7 @@ export const contarUsuariosEsteAño = async (req, res) => {
   const cantidadUsuarios = usuarios.length
 
   const msg = {
+    data : usuarios,
     msg: `Hay ${cantidadUsuarios} usuarios registrados en la base de datos este año.`
   }
 

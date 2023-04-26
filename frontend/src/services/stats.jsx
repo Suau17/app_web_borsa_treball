@@ -19,3 +19,22 @@ export async function statsOfertas() {
     return data
 
 }
+
+export async function statsUsers() {
+
+    let token = getCookie('vToken')
+
+    const requestOptions = {
+        method: 'GET',
+        headers: {
+            'Content-Type': 'application/json',
+            'Authorization': `${token}`
+        },
+    };
+
+    const response = await fetch((Url+'user'), requestOptions);
+    const data = await response.json();
+    console.log(response)
+    return data
+
+}
