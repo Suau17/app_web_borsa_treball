@@ -22,7 +22,7 @@ userRouter.get('/profile', checkAuthUser, userC.infoUser ) // funciona (json no 
 // }); 
 userRouter.post('/login', userC.userLoginController)
 userRouter.delete('/delete/', auth.checkAuth ,userC.deleteUserController)
-userRouter.post('/register/gestor', rules.rules, rules.rulesGestor, validacion.validarCampos,  gestor.gestorRegistrerController)
+userRouter.post('/register/gestor', rules.rules, rules.rulesGestor,rules.rulesEmpresa, validacion.validarCampos,  gestor.gestorRegistrerController)
 userRouter.post('/register/admin',  admin.adminRegistrerController)
 userRouter.post('/register/estudiante', rules.rules,rules.rulesEstudiante, validacion.validarCampos, estudiante.estudianteRegistrerController)
 // ruta para recuperar contraseña
