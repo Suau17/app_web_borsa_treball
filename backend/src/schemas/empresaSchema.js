@@ -5,6 +5,7 @@ const {model ,Schema} = mongoose
 const empresaSchema = new Schema({
     nom: { type: 'string', required: true, minLenght: 4,  maxLength: 20},    
     direccion : { type: 'string', required: true, minLenght: 4,  maxLength: 60},
+    sector : { type: 'string', required: true, minLenght: 4,  maxLength: 60},
     /*  ofertaLaboralPublicada : [{
         type: Schema.type.ObjectId,
         ref: 'ofertaLaboral'

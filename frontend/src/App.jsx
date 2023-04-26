@@ -14,6 +14,7 @@ import { PageEmpresa } from './pages/Gestor/empresa'
 import { TableEmpresa } from './pages/empresa'
 import { EspecificUser } from './pages/especificUser'
 import { RegisterC} from './pages/crearCiclos'
+import { EstadisticasApp } from './components/stats'
 import { AuthProvider } from './context/Autenticate'
 import { PageInscripcionesAlumne } from './pages/Alumne/inscripcionesAlumno'
 import RoleProtectedRoute from './components/RoleProtectedRoute'
@@ -36,11 +37,9 @@ function App() {
       <AuthProvider>
         <Routes>
         {token ? (
-            // si el usuario ya está autenticado, redirigirlo a la página principal o a cualquier otra ruta que desees
             <>
             </>
           ) : (
-            // si el usuario no está autenticado, permitir el acceso a las rutas de registro y login
             <>
               <Route path="/register" element={<Register />} />
               <Route path="/login" element={<Login />} />
@@ -59,6 +58,10 @@ function App() {
             <Route path="/empresa" element={<PageEmpresa />} />
             <Route path="/empleados" element={<PageEmployees />} />
             <Route path="/search/user/:id" element={<EspecificUser />} />
+          </Route>
+
+          <Route element={<RoleProtectedRoute allowedRoles={['admin']} />}>
+            <Route path="/stats" element={<EstadisticasApp />} />
           </Route>
 
           <Route path="/inscripciones" element={<PageInscripcionesAlumne />} />
