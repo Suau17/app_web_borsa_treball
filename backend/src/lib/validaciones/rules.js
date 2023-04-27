@@ -20,20 +20,26 @@ export const rules = [
 ]
 
 export const rulesEmpresa = [
+
     body('nameEmpresa','Introdueix un nom').exists().isLength({min:3, max:15}).custom(async(value,{req})=>{
+
         const empresa = await empresaModel.findOne({ nom: value });
         if(empresa){
             throw new Error('El nom ya esta en us');
         }
     }),
+
     body('direccion','introdueix una direcció valida').exists().not().isEmpty(),
     body('empleados').exists()
+
 ]
 
 export const rulesGestor = [
-    body('carrec').exists().not().isEmpty().isLength({min:3,max:20}),
+    body('cargo').exists().not().isEmpty().isLength({min:3,max:20}),
     body('telefon').not().isEmpty().isLength({min:4,max:20}),
+
     body('nameEmpresa', 'introduesi el nom de la mpresa en la que treballes').exists().not().isEmpty(),
+
 ]
 
 export const rulesOferta = [

@@ -11,7 +11,9 @@ export async function editUser(props){
     let user;
     let requestOptions;
     if(role === 'gestor' || role === 'responsable'){
+
         const {name, email, password, confirmpassword, carrec, telefon} = props
+
         url = `${import.meta.env.VITE_URL}/gestor/update/`;
         user = {
             name: name,
