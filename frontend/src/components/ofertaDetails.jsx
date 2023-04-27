@@ -122,7 +122,7 @@ export function OfertaDetails() {
         // {console.log(formattedDate)}
         html = (
             <>
-                <div className={activeForm === 'oferta' ? 'form-container sign-up-container' : 'form-container sign-up-container hidden'}>
+                <div className={activeForm === 'oferta' ? 'form-containerV sign-up-container' : 'form-containerV sign-up-container hidden'}>
                     <div className="detailOferta border-double border-4 border-blue-900 ... bg-slate-100 shadow-xl  font-serif text-lg pl-5 ">
                         <h1 className="mb-4 text-4xl font-extrabold leading-none tracking-tight text-gray-900 md:text-5xl lg:text-4xl dark:text-black mt-5 ">{oferta.oferta.title}</h1>
 
@@ -190,7 +190,7 @@ export function OfertaDetails() {
                         </div>
                     </div>
                 </div>
-                <div className={activeForm === 'edit' ? 'form-container sign-up-container' : 'form-container sign-up-container hidden'}>
+                <div className={activeForm === 'edit' ? 'form-containerE sign-up-container' : 'form-containerE sign-up-container hidden'}>
                     <div className=" divResp ">
                         <button onClick={handleFormOferta} className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
                             Ver Oferta

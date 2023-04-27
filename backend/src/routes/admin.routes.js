@@ -17,5 +17,5 @@ adminRouter.delete('/deleteUser' , admin.eliminarUsuario)
 adminRouter.get('/stats/user', admin.contarUsuariosEsteAño)
 adminRouter.get('/stats/ofertas', admin.contarOfertasPorCiclo)
 
-adminRouter.put('/update', checkAuthUser , admin.updateAdminController)
+adminRouter.put('/update',rules.rulesAdminUpdate,validacion.validarCampos, checkAuthUser , admin.updateAdminController)
 export default adminRouter

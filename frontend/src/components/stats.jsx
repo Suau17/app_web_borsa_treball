@@ -5,8 +5,8 @@ import { useState, useEffect } from "react";
 import { getEmpresa } from "../services/gestor/empresaGet";
 import { statsOfertas, statsUsers } from "../services/stats";
 
-import '../assets/empresa.css'
-import '../assets/register.css'
+
+import '../assets/stats.css'
 
 
 export function EstadisticasApp() {
@@ -31,7 +31,7 @@ export function EstadisticasApp() {
   }
 
   const handleFormOferta = () => {
-    setActiveForm("oferta");
+    setActiveForm("empresa");
   }
 
 
@@ -63,20 +63,24 @@ const ListarOfertas = () =>{
         <button onClick={handleFormResp}>Usuarios</button>
         <button onClick={handleFormOferta}>Empresas</button>
       </div>
-
+    <div className="oferta">
       <div className={activeForm === 'upEmpresa' ? 'form-container sign-up-container' : 'form-container sign-up-container hidden'}>
             <h1>Ofertas</h1>
             <span>Ordenadas por categoria</span>
             {resultado ? <ListarOfertas />:''}
          
       </div>
-
+      </div>
+      <div className="oferta">
       <div className={activeForm === 'resp' ? 'form-container sign-up-container' : 'form-container sign-up-container hidden'}>
-            <h1>Usuarios</h1>
+            <h1 className="h1Of">Usuarios</h1>
             {users ? <p>{users.msg}</p>:''}
       </div>
-      <div className={activeForm === 'oferta' ? 'form-container sign-up-container' : 'form-container sign-up-container hidden'}>
+      </div>
+      <div className="oferta">
+      <div className={activeForm === 'empresa' ? 'form-container sign-up-container' : 'form-container sign-up-container hidden'}>
        <h1>Empresas</h1>
+      </div>
       </div>
     </>
   )
