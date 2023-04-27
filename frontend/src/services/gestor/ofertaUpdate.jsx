@@ -13,7 +13,7 @@ export async function updateOferta(props) {
         ciclo : ciclo,
         expirationDate : fechaExpiracion,
     }
-
+    
     const requestOptions = {
         method: 'PUT',
         headers: {
@@ -27,7 +27,26 @@ export async function updateOferta(props) {
     const data = await response.json()
     if (response.status === 200) {
         toast.success('Oferta Actualizada con éxito');
-      } else if (response.status >= 500 && response.status < 600) {
+      } 
+      else if(response.status === 400 ){
+        console.log('error 400')
+        console.log(data.errors)
+        toast.custom((t) => (
+          <div className="border-2 text-red-500  bg-red-200 border-red-600 pl-2">
+            <ul>
+              {data.errors
+                .filter((error, index, self) => self.findIndex((e) => e.msg === error.msg) === index) // Filtrar elementos duplicados
+                .map((error, index) => (
+                  <li className="" key={index}>
+                    {error.msg}
+                  </li>
+                ))}
+            </ul>
+            <button onClick={() => toast.dismiss(t)}>close</button>
+          </div>
+        ));
+      }
+      else if (response.status >= 500 && response.status < 600) {
         toast.error('Ha ocurrido un error en el servidor');
       } else {
         toast.error('Ha ocurrido un error al actualizar la oferta');
