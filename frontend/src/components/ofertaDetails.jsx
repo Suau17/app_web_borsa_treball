@@ -6,6 +6,7 @@ import { GetInscripciones } from "../services/inscripciones";
 import { cambiarEstado } from "../services/gestor/cambiarEstado";
 import { updateOferta } from "../services/gestor/ofertaUpdate";
 import { inscriureOferta } from "../services/alumne/inscriureOferta"
+import { getCiclos } from "../services/ciclos";
 import '../assets/empresa.css'
 import '../assets/register.css'
 import { getCookie } from "../context/cookies";
@@ -13,12 +14,14 @@ export function OfertaDetails() {
     const { idOferta } = useParams();
     let [oferta, setOferta] = useState([])
     let [inscripciones, setInscripciones] = useState([])
+    const [ciclos, setCiclos] = useState([])
     const navigate = useNavigate();
     // const [rolUser, setRol] = useState('user');
     const [activeForm, setActiveForm] = useState("oferta");
     const [inscrito, setInscrito] = useState(false);
     useEffect(() => {
         GetOferta(idOferta).then(oferta => setOferta(oferta))
+        getCiclos().then(ciclos => setCiclos(ciclos))
     }, [])
 
     useEffect(() => {
@@ -144,7 +147,7 @@ export function OfertaDetails() {
                                     }
                                     let html2 = ''
                                     let role = getCookie('vRole')
-                                    if (getCookie('vToken') && role === 'gestor' ) {
+                                    if (getCookie('vToken') && role === 'gestor') {
                                         if (inscripcion.estado == 'aceptado') {
                                             html2 = (
                                                 <div key={inscripcion._id} className='bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded w-2/4 mb-4'>
@@ -197,11 +200,15 @@ export function OfertaDetails() {
                             <input type="text" name="titulo" defaultValue={oferta.oferta.title} className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" /><br />
 
                             <span className="block text-gray-700 text-sm font-bold mb-2">Ciclo</span>
-                            <select name="ciclo" defaultValue={oferta.oferta.ciclo} className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
-                                <option value="ciclo1">Ciclo 1</option>
-                                <option value="ciclo2">Ciclo 2</option>
-                                <option value="ciclo3">Ciclo 3</option>
-                            </select><br />
+                            <select name="ciclo" id="ciclo" placeholder='ciclo' className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
+                                <option value="0">--- INSERTA ---</option>
+                                {
+                                    ciclos ? ciclos.map(e => {
+                                        console.log(e.name)
+                                        return (<option>{e.name}</option>)
+                                    }) : ''
+                                }
+                            </select>
 
                             <span className="block text-gray-700 text-sm font-bold mb-2">Requerimientos</span>
                             <input type="text" name="requirements" defaultValue={oferta.oferta.requirements} className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" /><br />
