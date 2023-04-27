@@ -11,14 +11,14 @@ export async function editUser(props){
     let user;
     let requestOptions;
     if(role === 'gestor' || role === 'responsable'){
-        const {name, email, password, confirmpassword, cargo, telefon} = props
+        const {name, email, password, confirmpassword, carrec, telefon} = props
         url = `${import.meta.env.VITE_URL}/gestor/update/`;
         user = {
             name: name,
             email: email,
             password: password,
             confirmpassword : confirmpassword,
-            cargo : cargo,
+            carrec : carrec,
             telefon : telefon
         }
         requestOptions = {
@@ -41,7 +41,7 @@ export async function editUser(props){
         user.append("description", "lo quitaremos?");
         user.append("passwordHash", password);
         user.append("cartaPresentacion", cartaPresentacion);
-        user.append("curriculum", cvFile, cvFile.name);
+        user.append("curriculum", cvFile);
         user.append('link', link)
         console.log(user)
         requestOptions = {
@@ -79,9 +79,11 @@ export async function editUser(props){
 
 
     const response = await fetch(url, requestOptions)
-    const data =  response
+    const data = await response.json();
     if (response.status === 200) {
         toast.success(`Empresa actualitzada amb éxit`);
+      
+      
       } 
       else if(response.status === 400 ){
         console.log('error 400')
@@ -107,5 +109,5 @@ export async function editUser(props){
         toast.error(`Ha ocorregut un error al actualitzar l'oferta`);
       }
     console.log(response)
-    location.reload()
+    
 }

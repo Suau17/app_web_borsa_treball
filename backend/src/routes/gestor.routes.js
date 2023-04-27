@@ -12,8 +12,8 @@ const gestorRouter = Router()
 
 // ///// GESTOR
 
-
-gestorRouter.put('/update/', gestor.updateGestorController)
+//hecho
+gestorRouter.put('/update/',rules.rulesGestorUpdate, validacion.validarCampos, gestor.updateGestorController)
 
 // //// RESPONSABLE
 
@@ -34,7 +34,7 @@ gestorRouter.get('/getOfertas', oferta.getOfertaEmpresaController)
 //gestorRouter.post('/oferta/registrar',rules.rulesOferta,validacion.validarCampos, oferta.ofertaRegisterController) 
 gestorRouter.post('/oferta/registrar',rules.rulesOferta, validacion.validarCampos, oferta.ofertaRegisterController) 
 
-
+// falta validar
 gestorRouter.put('/oferta/update/:id', oferta.updateOfertaController)  
 gestorRouter.delete('/oferta/remove/:ofertaId', oferta.removeOfertaController)  
 
