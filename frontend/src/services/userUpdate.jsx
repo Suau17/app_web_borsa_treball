@@ -1,4 +1,5 @@
 import { getCookie } from "../context/cookies";
+import { toast } from "sonner"
 
 
 export async function editUser(props){
@@ -10,14 +11,16 @@ export async function editUser(props){
     let user;
     let requestOptions;
     if(role === 'gestor' || role === 'responsable'){
-        const {name, email, password, confirmpassword, cargo, telefon} = props
+
+        const {name, email, password, confirmpassword, carrec, telefon} = props
+
         url = `${import.meta.env.VITE_URL}/gestor/update/`;
         user = {
             name: name,
             email: email,
             password: password,
             confirmpassword : confirmpassword,
-            cargo : cargo,
+            carrec : carrec,
             telefon : telefon
         }
         requestOptions = {
@@ -40,7 +43,7 @@ export async function editUser(props){
         user.append("description", "lo quitaremos?");
         user.append("passwordHash", password);
         user.append("cartaPresentacion", cartaPresentacion);
-        user.append("curriculum", cvFile, cvFile.name);
+        user.append("curriculum", cvFile);
         user.append('link', link)
         console.log(user)
         requestOptions = {
@@ -78,6 +81,35 @@ export async function editUser(props){
 
 
     const response = await fetch(url, requestOptions)
-    const data = response;
+    const data = await response.json();
+    if (response.status === 200) {
+        toast.success(`Empresa actualitzada amb éxit`);
+      
+      
+      } 
+      else if(response.status === 400 ){
+        console.log('error 400')
+        console.log(data.errors)
+        toast.custom((t) => (
+          <div className="border-2 text-red-500  bg-red-200 border-red-600 pl-2">
+            <ul>
+              {data.errors
+                .filter((error, index, self) => self.findIndex((e) => e.msg === error.msg) === index) // Filtrar elementos duplicados
+                .map((error, index) => (
+                  <li className="" key={index}>
+                    {error.msg}
+                  </li>
+                ))}
+            </ul>
+            <button onClick={() => toast.dismiss(t)}>close</button>
+          </div>
+        ));
+      }
+      else if (response.status >= 500 && response.status < 600) {
+        toast.error('Ha ocorregut un error en el servidor');
+      } else {
+        toast.error(`Ha ocorregut un error al actualitzar l'oferta`);
+      }
+    console.log(response)
     
 }

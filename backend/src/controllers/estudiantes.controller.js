@@ -83,6 +83,8 @@ export const downloadCurriculumController = async (req, res) => {
  * @returns 
  */
 
+//mirar si faltan campos
+
 export const updateEstudianteController = async (req, res) => {
   upload.single('curriculum', 5)(req, res, async () => {
     const { cartaPresentacion, estudis, link } = req.body;

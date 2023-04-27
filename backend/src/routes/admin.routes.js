@@ -9,7 +9,7 @@ import * as rules from '#Lib/validaciones/rules.js';
 
 const adminRouter = Router();
 
-adminRouter.post('/ciclo/register', admin.cicloRegistrerController)
+adminRouter.post('/ciclo/register',rules.rulesCiclo, validacion.validarCampos, admin.cicloRegistrerController)
 adminRouter.put('/habilitarGestor/:id', admin.habilitarGestorController)  
 adminRouter.get('/eliminarUsuario/:id', admin.eliminarUsuario)
 adminRouter.delete('/deleteUser' , admin.eliminarUsuario)

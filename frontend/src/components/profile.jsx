@@ -99,7 +99,7 @@ export  function Profile() {
                                 <div>
 
                                     <span  className="block text-gray-700  font-bold mb-2">Carrec</span>
-                                    <input defaultValue={profile.gestor.carrec} type="text" name='cargo' placeholder='carrec a la empresa (ex : responsable IT)' className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" />
+                                    <input defaultValue={profile.gestor.carrec} type="text" name='carrec' placeholder='carrec a la empresa (ex : responsable IT)' className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" />
 
                                     <span className="block text-gray-700  font-bold mb-2">telefon</span>
                                     <input defaultValue={profile.gestor.telefon}  type="text" name='telefon' placeholder='telefon' className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" />
@@ -112,14 +112,14 @@ export  function Profile() {
 
                             {profile.user.rolUser === "alumno" ? (
                                 <div>
-                                    <span>Descripcion</span>
+                                    <span>Carta Presentacio</span>
                                     <textarea name="cartaPresentacion" defaultValue={profile.estudiante.cartaPresentacion} placeholder='hola me llamo xxxx y ....'
                                         id="" cols="45" rows="6" className='textAreaCV shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline'  >
                                     </textarea>
                                     <span>Link:</span>
                                     <input type="text" name="link" placeholder='link de la teva pagina (linkedin, repositori, github)' defaultValue={profile.estudiante.link} className='textAreaCV shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline' /><br />
                                     <i>curriculum (img o pdf):</i>
-                                    <input type="file" name='cvFile' accept="image/*,.pdf" className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" />
+                                    <input type="file" name='curriculum' accept="image/*,.pdf" className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" />
                                 </div>
                             ) : (
                                 <div>
@@ -132,7 +132,7 @@ export  function Profile() {
                             {profile.user.rolUser === "admin" ? (
                                 <div>
                                    <span className="block text-gray-700  font-bold mb-2">Carrec</span>
-                                    <input type="text" name='cargo' placeholder='carrec a la empresa (ex : responsable IT)' className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" />
+                                    <input type="text" name='carrec' placeholder='carrec a la empresa (ex : responsable IT)' className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" />
                                     <span className="block text-gray-700  font-bold mb-2">telefon</span>
                                     <input type="text" name='telefon' placeholder='telefon' className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" />
                                     <span className="block text-gray-700  font-bold mb-2">Dni</span>
