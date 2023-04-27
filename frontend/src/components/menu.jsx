@@ -42,12 +42,10 @@ export function Menu() {
             <nav id='menu'>
                 <ul>
 
+                    <li><Link to="/getOfertas">Ofertas</Link></li>
                     <li><Link to="/login">Login</Link></li>
                     <li><Link to="/register">Register</Link> </li> 
-                    <li><Link to="/getOfertas">Ofertas</Link></li>
-                        <li><Link to="/registerOferta"></Link></li>
                     
-                    {/* <li><Link to="/users">Users</Link></li> */}
                 </ul>
             </nav>
         </header>

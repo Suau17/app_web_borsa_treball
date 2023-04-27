@@ -54,19 +54,19 @@ export const rulesOferta = [
 export const rulesEstudiante = [
     body('cartaPresentacion').exists().not().isEmpty().isLength({min:3,max:450}),
     body('link').exists().not().isEmpty(),
-    body('curriculum').custom((value, { req }) => {
-        if (!value) {
-          throw new Error('El curriculum es requerido');
-        }
-        if (value.mimetype !== 'application/pdf' && !value.mimetype.startsWith('image/')) {
-          throw new Error('El curriculum debe ser una imagen o un archivo PDF');
-        }
-        if (value.size > 1024 * 1024 * 5) {
-          throw new Error('El tamaño máximo permitido para el curriculum es de 5 MB');
-        }
-        // Validar el nombre del archivo aquí y asegurarse de que sea único
-        return true;
-      })
+     body('curriculum').custom((value, { req }) => {
+    if (!value) {
+      throw new Error('El curriculum es requerido');
+    }
+    if (value.mimetype !== 'application/pdf' && !value.mimetype.startsWith('image/')) {
+      throw new Error('El curriculum debe ser una imagen o un archivo PDF');
+    }
+    if (value.size > 1024 * 1024 * 5) {
+      throw new Error('El tamaño máximo permitido para el curriculum es de 5 MB');
+    }
+    // Validar el nombre del archivo aquí y asegurarse de que sea único
+    return true;
+  })
 ]
 
 export const rulesResp = [

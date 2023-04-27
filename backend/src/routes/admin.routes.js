@@ -13,5 +13,9 @@ adminRouter.post('/ciclo/register',rules.rulesCiclo, validacion.validarCampos, a
 adminRouter.put('/habilitarGestor/:id', admin.habilitarGestorController)  
 adminRouter.get('/eliminarUsuario/:id', admin.eliminarUsuario)
 adminRouter.delete('/deleteUser' , admin.eliminarUsuario)
+
+adminRouter.get('/stats/user', admin.contarUsuariosEsteAño)
+adminRouter.get('/stats/ofertas', admin.contarOfertasPorCiclo)
+
 adminRouter.put('/update', checkAuthUser , admin.updateAdminController)
 export default adminRouter
