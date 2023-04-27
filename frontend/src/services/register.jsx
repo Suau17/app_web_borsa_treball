@@ -105,10 +105,7 @@ export async function RegisterAlumno(props) {
 
     const response = await fetch(URL.urlEstudiante, requestOptions)
     const data = await response.json();
-    console.log(data.role)
-    console.log(data.token)
-    setCookie('vToken',data.token, 1)
-    setCookie('vRole',data.role, 1)
+
 
 
     if(data.id){
@@ -116,12 +113,16 @@ export async function RegisterAlumno(props) {
     }
     if (response.status === 200) {
       toast.success(`Alumne registrat amb éxit`);
+      console.log(data.role)
+      console.log(data.token)
+      setCookie('vToken',data.token, 1)
+      setCookie('vRole',data.role, 1)
+      location.reload()
     } else if (response.status >= 500 && response.status < 600) {
       toast.error('Ha ocorregut un error en el servidor');
     } else {
       toast.error(`Ha ocorregut un error al registrar el alumne`);
     }
-    location.reload()
 
 }
 

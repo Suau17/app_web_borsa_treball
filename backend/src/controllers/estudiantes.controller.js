@@ -168,6 +168,15 @@ export const inscribirseOferta = async (req, res) => {
     }
     // Comprobar que el estudiante no tenga inscripción en la misma oferta
     const oferta = await OfertaLaboral.findById(idOferta)
+    let expirationDate = oferta.expirationDate
+    let timestampExpirationDate = new Date(expirationDate).getTime();
+    let timestampActual = new Date().getTime()
+    
+    if(timestampActual > timestampExpirationDate){ 
+      console.log('NO')
+      res.status(401).send({msg: 'NO.'});
+      return
+    }
 
     // PARA REVISAR
     const inscripcionrepetida = await InscripcionModel.findOne({ refOfertaLaboral: idOferta, refUser: idUsuarioToken });

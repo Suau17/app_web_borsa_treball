@@ -20,20 +20,19 @@ export const rules = [
 ]
 
 export const rulesEmpresa = [
-    body('nameEmpresa','Introduce un nombre').exists().isLength({min:3, max:15}).custom(async(value,{req})=>{
+    body('nom','Introduce un nombre').exists().isLength({min:3, max:15}).custom(async(value,{req})=>{
         const empresa = await empresaModel.findOne({ nom: value });
         if(empresa){
             throw new Error('Nombre already in use');
         }
     }),
     body('direccion','introduce una direccion valida').exists().not().isEmpty(),
-    body('empleados').exists()
+    body('sector').exists()
 ]
 
 export const rulesGestor = [
-    body('carrec').exists().not().isEmpty().isLength({min:3,max:20}),
+    body('cargo').exists().not().isEmpty().isLength({min:3,max:20}),
     body('telefon').not().isEmpty().isLength({min:4,max:20}),
-    body('nameEmpresa', 'introduce el nombre de la empresa en la que trabajas').exists().not().isEmpty(),
 ]
 
 export const rulesOferta = [
