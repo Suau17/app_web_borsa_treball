@@ -57,7 +57,7 @@ export  function Profile() {
         console.log(profile)
          html = (
             <>
-            <div className={activeForm === 'perfil' ? 'form-container sign-up-container' : 'form-container sign-up-container hidden'}>
+            <div className={activeForm === 'perfil' ? 'form-containerP sign-up-container' : 'form-containerP sign-up-container hidden'}>
             <div className="card">
             <div className="img">
                 <img src="public\img\usuario.png" alt="" />
@@ -82,7 +82,7 @@ export  function Profile() {
                 {/* probar a hacer boton para editar usuario dentro de la carta */}
 
                 <div className=" perfUser ">
-        <div className={activeForm === 'edit' ? 'form-container sign-up-container' : 'form-container sign-up-container hidden'}>
+        <div className={activeForm === 'edit' ? 'form-containerP sign-up-container' : 'form-containerP sign-up-container hidden'}>
         <button onClick={handlePerfil} className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline mt-2">Perfil</button>
        
         <form onSubmit = { handleClickAlumne } id="editarAlumne" className="bg-white shadow-md rounded px-8 pt-10 pb-8 mb-4 text-lg ">
@@ -132,11 +132,11 @@ export  function Profile() {
                             {profile.user.rolUser === "admin" ? (
                                 <div>
                                    <span className="block text-gray-700  font-bold mb-2">Carrec</span>
-                                    <input type="text" name='carrec' placeholder='carrec a la empresa (ex : responsable IT)' className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" />
+                                    <input type="text" name='cargo' placeholder='carrec a la empresa (ex : responsable IT)' className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" />
                                     <span className="block text-gray-700  font-bold mb-2">telefon</span>
                                     <input type="text" name='telefon' placeholder='telefon' className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" />
                                     <span className="block text-gray-700  font-bold mb-2">Dni</span>
-                                    <input type="text" name='telefon' placeholder='DNI' className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" />
+                                    <input type="text" name='dni' placeholder='DNI' className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" />
 
                                 </div>
                             ) : (

@@ -20,26 +20,20 @@ export const rules = [
 ]
 
 export const rulesEmpresa = [
-
     body('nameEmpresa','Introdueix un nom').exists().isLength({min:3, max:15}).custom(async(value,{req})=>{
-
         const empresa = await empresaModel.findOne({ nom: value });
         if(empresa){
             throw new Error('El nom ya esta en us');
         }
     }),
-
     body('direccion','introdueix una direcció valida').exists().not().isEmpty(),
     body('empleados').exists()
-
 ]
 
 export const rulesGestor = [
-    body('cargo').exists().not().isEmpty().isLength({min:3,max:20}),
+    body('carrec').exists().not().isEmpty().isLength({min:3,max:20}),
     body('telefon').not().isEmpty().isLength({min:4,max:20}),
-
     body('nameEmpresa', 'introduesi el nom de la mpresa en la que treballes').exists().not().isEmpty(),
-
 ]
 
 export const rulesOferta = [
@@ -60,19 +54,19 @@ export const rulesOferta = [
 export const rulesEstudiante = [
     body('cartaPresentacion').exists().not().isEmpty().isLength({min:3,max:450}),
     body('link').exists().not().isEmpty(),
-    body('curriculum').custom((value, { req }) => {
-        if (!value) {
-          throw new Error('El curriculum es requerido');
-        }
-        if (value.mimetype !== 'application/pdf' && !value.mimetype.startsWith('image/')) {
-          throw new Error('El curriculum debe ser una imagen o un archivo PDF');
-        }
-        if (value.size > 1024 * 1024 * 5) {
-          throw new Error('El tamaño máximo permitido para el curriculum es de 5 MB');
-        }
-        // Validar el nombre del archivo aquí y asegurarse de que sea único
-        return true;
-      })
+     body('curriculum').custom((value, { req }) => {
+    if (!value) {
+      throw new Error('El curriculum es requerido');
+    }
+    if (value.mimetype !== 'application/pdf' && !value.mimetype.startsWith('image/')) {
+      throw new Error('El curriculum debe ser una imagen o un archivo PDF');
+    }
+    if (value.size > 1024 * 1024 * 5) {
+      throw new Error('El tamaño máximo permitido para el curriculum es de 5 MB');
+    }
+    // Validar el nombre del archivo aquí y asegurarse de que sea único
+    return true;
+  })
 ]
 
 export const rulesResp = [
@@ -121,4 +115,15 @@ export const rulesGestorUpdate = [
     .notEmpty().withMessage('El camp de teléfono es obligatori')
     .matches(/^[0-9]{10}$/).withMessage('El telefon ha de tindre 10 caracters')
    
+]
+
+export const rulesAdminUpdate = [
+     body('name','Introduexi un nom').exists().isLength({min:3 ,max:20}),
+    
+    body('cargo').exists().not().isEmpty().isLength({min:3,max:20}),
+    body('telefon')
+    .notEmpty().withMessage('El camp de teléfono es obligatori')
+    .matches(/^[0-9]{10}$/).withMessage('El telefon ha de tindre 10 caracters'),
+    body('dni').matches(/^\d{8}[a-zA-Z]$/),
+
 ]

@@ -40,7 +40,7 @@ function RegisterForm() {
           <button onClick={handleFormGestor}>Registrar Gestor</button>
         </div>
         <div >
-          <div className={activeForm === 'gestor' ? 'form-container sign-up-container' : 'form-container sign-up-container hidden'}>
+          <div className={activeForm === 'gestor' ? 'form-containerR sign-up-container' : 'form-containerR sign-up-container hidden'}>
 
             {/* EMPRESA */}
 
@@ -67,7 +67,7 @@ function RegisterForm() {
 
           {/* ALUMNE */}
 
-          <div className={activeForm === 'alumno' ? 'form-container sign-up-container' : 'form-container sign-up-container hidden'}>
+          <div className={activeForm === 'alumno' ? 'form-containerR sign-up-container' : 'form-containerR sign-up-container hidden'}>
             <form onSubmit={handleClickAlumno} id="alumno-form" className="form">
               <h1>Alumne</h1>
               <span>Registrat com estudiant i comença a inscriuret a ofertes</span>

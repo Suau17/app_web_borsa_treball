@@ -65,7 +65,7 @@ export function GestionOperaciones() {
         <button onClick={handleFormOferta}>Registrar Oferta</button>
       </div>
 
-      <div className={activeForm === 'upEmpresa' ? 'form-container sign-up-container' : 'form-container sign-up-container hidden'}>
+      <div className={activeForm === 'upEmpresa' ? 'form-containerE sign-up-container' : 'form-containerE sign-up-container hidden'}>
         <div className=" divResp ">
           <h1 className="block text-gray-700 text-xl font-bold mb-2">Empresa Update</h1>
           <form onSubmit={handleClickEmpresa} className="bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4">
@@ -81,7 +81,7 @@ export function GestionOperaciones() {
         </div>
       </div>
 
-      <div className={activeForm === 'resp' ? 'form-container sign-up-container' : 'form-container sign-up-container hidden'}>
+      <div className={activeForm === 'resp' ? 'form-containerE sign-up-container' : 'form-containerE sign-up-container hidden'}>
         <div className=" divResp">
           <h1 className="block text-gray-700 text-xl font-bold mb-2">Crear Responsable</h1>
 
@@ -101,7 +101,7 @@ export function GestionOperaciones() {
           </form>
         </div>
       </div>
-      <div className={activeForm === 'oferta' ? 'form-container sign-up-container' : 'form-container sign-up-container hidden'}>
+      <div className={activeForm === 'oferta' ? 'form-containerE sign-up-container' : 'form-containerE sign-up-container hidden'}>
         <div className=" divResp">
           <h1 className="block text-gray-700 text-xl font-bold mb-2">Registrar Oferta de trabajo</h1>
           <form onSubmit={handleClickOferta} id="ofertaR" className="bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4">

@@ -210,7 +210,13 @@ header {
   min-width: 210px;
   font-family: Arial, Helvetica, sans-serif;
   background-color: #F5F5F5;
+  display: flex;
   
 }
-  
+
+.img-Inetum{
+  max-width: 30%;
+  height: 30%;
+  padding-left: 5%
+}
   

@@ -14,6 +14,9 @@ export async function editUser(props){
 
         const {name, email, password, confirmpassword, carrec, telefon} = props
 
+        
+
+
         url = `${import.meta.env.VITE_URL}/gestor/update/`;
         user = {
             name: name,
