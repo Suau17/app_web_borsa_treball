@@ -60,29 +60,30 @@ export const cicloGetController = async (req, res) => {
 }
 
 export const habilitarGestorController = async (req, res) => {
-
-
   // Obtenemos el id del gestor y los datos a actualizar proporcionados
-  const id = req.params.id
-  console.log(id)
-  // Actualizamos el registro del gestor en la base de datos
-  const gestor = await GestorModel.findOneAndUpdate({ refUser: id }, { perfilHabilitado: true }, { new: true })
-  console.log(gestor)
+  const id = req.params.id;
+
+  // Buscamos el registro del gestor en la base de datos
+  const gestor = await GestorModel.findOne({ refUser: id });
+  const mailTo = await UserModel.findById(gestor.refUser)
+  console.log(mailTo.email)
+  
+  await GestorModel.findOneAndUpdate(
+    { refUser: id },
+    { perfilHabilitado: !gestor.perfilHabilitado },
+    { new: true }
+  );
+    let bodyHTML;
+    if(gestor.perfilHabilitado){
+       bodyHTML = `hola ${mailTo.name} ,soy ${console.log('admin')} represento al vidal i barraquer y hemos deshabilitado su cuenta de la borsa de treball del vidal i barraquer `     
+    } else {
+      bodyHTML = `hola ${mailTo.name} ,soy ${console.log('admin')} represento al vidal i barraquer y hemos habilitado su cuenta de la borsa de treball del vidal i barraquer `     
+    }
+
   // Enviamos un mensaje de éxito
-  return res.status(200).send({ msg: 'Datos del gestor actualizados con éxito' })
+  return res.status(200).send({ msg: 'Datos del gestor actualizados con éxito' });
+};
 
-}
-
-const dataYear = async () => {
-  const ofertas = database.collection("ofertalaborals");
-
-  // Estimate the total number of documents in the collection
-
-  // and print out the count.
-
-  const estimate = await ofertas.estimatedDocumentCount();
-  console.log(estimate)
-}
 
 export const contarUsuariosEsteAño = async (req, res) => {
   const fechaActual = new Date()
@@ -159,8 +160,9 @@ export const eliminarUsuario = async (req, res) => {
       await OfertaLaboral.deleteMany({ idEmpresa: empresaId });
       await EmpresaModel.deleteOne({ refUser: user._id });
     }
-
-    await GestorModel.deleteOne({ refUser: idUsuario })
+    console.log('eliminamos gestor')
+    await GestorModel.deleteOne({ refUser: user._id })
+    console.log('gestor eliminado')
   }
 
 
