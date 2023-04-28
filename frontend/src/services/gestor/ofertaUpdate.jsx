@@ -1,19 +1,18 @@
 import { toast } from "sonner"
 import { getCookie } from "../../context/cookies"
 export async function updateOferta(props) {
-    const {id, titulo, ciclo, requirments, skills,descripcion, sector, fechaExpiracion} = props
-    
+    const {id, titulo, ciclo, requirements, skills,descripcion, sector, fechaExpiracion} = props
+    console.log(props)
     const url = `${import.meta.env.VITE_URL}/gestor/oferta/update/${id}`
     const token = getCookie('vToken')
     const bodySend = {
         title : titulo,
         description : descripcion,
-        requirements : requirments,
+        requirements : requirements,
         skills : skills,
         ciclo : ciclo,
         expirationDate : fechaExpiracion,
     }
-    
     const requestOptions = {
         method: 'PUT',
         headers: {
