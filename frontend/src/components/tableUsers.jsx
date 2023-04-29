@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { viewUsers } from '../services/app/users'
 import { deleteUser } from '../services/app/deleteUser'
-import { habilitarGestores } from "../services/app/habilitarGestores";
+import { habilitarGestores } from "../services/admin/habilitarGestores";
 import '../assets/oferta.css'
 
 export function GetUsers() {
