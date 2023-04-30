@@ -1,6 +1,7 @@
 import OfertaLaboral from "#schemas/ofertaLaboral.js";
 import InscripcionModel from "#schemas/inscripcion.js";
 import EstudianteModel from "#schemas/estudiante.js"
+import fs from 'fs';
 import UserModel from "#schemas/User.js"
 import * as userController from '#controllers/user.controller.js'
 import { hash } from 'bcrypt'
@@ -20,6 +21,7 @@ const storage = multer.diskStorage({
     cb(null, 'uploads')
   },
   filename: function (req, file, cb) {
+    console.log(cb.fieldname)
     cb(null, file.fieldname + '-' + Date.now() + '.pdf')
   }
 })
@@ -28,7 +30,8 @@ const upload = multer({ storage: storage })
 
 export const estudianteRegistrerController = async (req, res) => {
   upload.single('curriculum', 5)(req, res, async () => {
-    const { cartaPresentacion } = req.body;
+    const { cartaPresentacion, link } = req.body;
+    if(!link) link = ''
     req.body.rolUser = 'alumno';
     let estudis = req.body.estudis;
     const { id, token } = await userController.userRegistrerController(req, res);
@@ -36,7 +39,8 @@ export const estudianteRegistrerController = async (req, res) => {
     const estudianteData = {
       refUser: id,
       cartaPresentacion,
-      estudis
+      estudis,
+      link
     };
     if (req.file) {
       estudianteData.curriculum = req.file.filename;
@@ -46,6 +50,7 @@ export const estudianteRegistrerController = async (req, res) => {
     const msg = {
       token: token,
       role: 'alumno',
+      id,
       resposta: 'Token enviado como cookie'
     };
     return res.send(msg);
@@ -77,35 +82,44 @@ export const downloadCurriculumController = async (req, res) => {
  * @param {*} res 
  * @returns 
  */
+
+//mirar si faltan campos
+
 export const updateEstudianteController = async (req, res) => {
-
-  // Obtenemos el id del gestor y los datos a actualizar proporcionados
-  const data = req.body
-  const idUsuario = req.idToken;
-
-  if ('rolUser' in data) {
-    return res.status(401).send('no puedes modificar tu rol')
-  }
-
-  // Actualizamos el registro del gestor en la base de datos
-  const estudiante = await EstudianteModel.findOneAndUpdate({ refUser: idUsuario }, req.body, { new: true });
-
-  const idUser = estudiante.refUser
-
-  if (data.password || data.name || data.email || data.description) {
-    if (data.password) {
-      data.password = await hash(data.password, 12)
+  upload.single('curriculum', 5)(req, res, async () => {
+    const { cartaPresentacion, estudis, link } = req.body;
+    const id = req.idToken;
+    console.log(id)
+    let estudiante = await EstudianteModel.findOne({refUser : id});
+    if (!estudiante) {
+      return res.status(404).send('Estudiante no encontrado');
     }
-    await UserModel.findByIdAndUpdate(idUser, req.body, { new: true })
-  }
-  // Encriptamos la contraseña del gestor si se proporciona en los datos a actualizar
 
+    if (estudiante.curriculum) {
+      const currPath = path.join('./uploads/', estudiante.curriculum);
+      console.log(currPath)
+      fs.unlink(currPath, (err) => {
+        if (err) console.log(err);
+        console.log('Currículum anterior eliminado');
+      });
+    }
 
+    if (req.file) {
+      console.log(req.file.filename+'afaff')
+      estudiante.curriculum = req.file.filename;
+    }
 
-  // Enviamos un mensaje de éxito
-  return res.status(200).send('Datos del estudiante actualizados con éxito')
+    estudiante.cartaPresentacion = cartaPresentacion;
+    estudiante.estudis = estudis;
+    if(link){
+      estudiante.link = link
+    }
 
-}
+    await estudiante.save();
+    return res.send('Estudiante actualizado correctamente');
+  });
+};
+
 
 
 /**
@@ -156,6 +170,15 @@ export const inscribirseOferta = async (req, res) => {
     }
     // Comprobar que el estudiante no tenga inscripción en la misma oferta
     const oferta = await OfertaLaboral.findById(idOferta)
+    let expirationDate = oferta.expirationDate
+    let timestampExpirationDate = new Date(expirationDate).getTime();
+    let timestampActual = new Date().getTime()
+    
+    if(timestampActual > timestampExpirationDate){ 
+      console.log('NO')
+      res.status(401).send({msg: 'NO.'});
+      return
+    }
 
     // PARA REVISAR
     const inscripcionrepetida = await InscripcionModel.findOne({ refOfertaLaboral: idOferta, refUser: idUsuarioToken });

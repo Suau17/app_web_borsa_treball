@@ -1,9 +1,10 @@
 import { toast } from "sonner";
+import { getCookie } from "../../context/cookies";
 export async function habilitarGestores(props) {
     const {id} = props
     console.log(id)
     const url = `${import.meta.env.VITE_URL}/admin/habilitarGestor/${id}`
-    let token = localStorage.getItem('vToken')
+    let token = getCookie('vToken')
     const requestOptions = {
         method: 'PUT',
         headers: { 

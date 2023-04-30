@@ -23,7 +23,7 @@ db.once('open', function() {
 });
 // Llegir els arxius JSON
 const users = JSON.parse(
-    fs.readFileSync(path.join(__dirname, 'gestor.json'), 'utf8')
+    fs.readFileSync(path.join(__dirname, 'users.json'), 'utf8')
 );
 const gestor = JSON.parse(
     fs.readFileSync(path.join(__dirname, 'gestor2.json'), 'utf8')

@@ -84,6 +84,51 @@ const dataYear = async () => {
   console.log(estimate)
 }
 
+export const contarUsuariosEsteAño = async (req, res) => {
+  const fechaActual = new Date()
+  const añoActual = fechaActual.getFullYear()
+
+  const usuarios = await UserModel.find({
+    createdAt: {
+      $gte: new Date(añoActual, 0, 1),
+      $lt: new Date(añoActual + 1, 0, 1)
+    }
+  })
+
+  const cantidadUsuarios = usuarios.length
+
+  const msg = {
+    data : usuarios,
+    msg: `Hay ${cantidadUsuarios} usuarios registrados en la base de datos este año.`
+  }
+
+  res.status(200).send(msg)
+}
+export const contarOfertasPorCiclo = async (req, res) => {
+  try {
+    const ofertas = await OfertaLaboral.find()
+
+    const ofertasPorCiclo = {}
+
+    ofertas.forEach((oferta) => {
+      const ciclo = oferta.ciclo
+      if (ofertasPorCiclo[ciclo]) {
+        ofertasPorCiclo[ciclo] += 1
+      } else {
+        ofertasPorCiclo[ciclo] = 1
+      }
+    })
+
+    const msg = {
+      ofertasPorCiclo
+    }
+
+    res.status(200).send(msg)
+  } catch (error) {
+    res.status(500).send({ error })
+  }
+}
+
 export const eliminarUsuario = async (req, res) => {
   console.log('dsd')
 

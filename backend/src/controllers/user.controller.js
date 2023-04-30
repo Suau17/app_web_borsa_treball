@@ -67,29 +67,36 @@ export const userLoginController = async (req, res) => {
   const msg = {
     token: token,
     role: exsistingUserByEmail.rolUser,
+    id : exsistingUserByEmail._id,
     resposta: 'Token enviado como cookie'
   }
   res.send(msg);
 }
 
 
-export const getUsersControllers = (req, res) => {
-try {
+export const getUsersControllers = async (req, res) => {
+  try {
     const page = req.query.page ? parseInt(req.query.page) : 1;
     const limit = req.query.limit ? parseInt(req.query.limit) : 8;
-  
-    UserModel.find()
+    const listUsers = await UserModel.find()
       .skip((page - 1) * limit)
-      .limit(limit)
-      .exec(function async(err, listUsers, next) {
-        if (err) {
-          return next(err)
+      .limit(limit);
+
+    const listaUsuarios = await Promise.all(listUsers.map(async (user) => {
+      if (user.rolUser === "gestor") {
+        const gestor = await GestorModel.findOne({ refUser: user._id });
+        if (gestor && gestor.perfilHabilitado) {
+          console.log('HABILITADO')
+          user.description = true
         }
-        res.status(200).send({ listaUsuarios: listUsers })
-      })  
-} catch (error) {
-  res.status(500).send({error}) 
-}
+      }
+      return user.toObject();
+    }));
+    
+    res.status(200).send({ listaUsuarios });
+  } catch (error) {
+    res.status(500).send({error});
+  }
 }
 
 export const searchUser = async (req, res) => {

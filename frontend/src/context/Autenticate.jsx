@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react';
+import { getCookie } from './cookies';
 
 const AuthContext = React.createContext();
 
@@ -11,7 +12,7 @@ const AuthProvider = ({children}) => {
     useEffect(() => {
         const getUserRole = async () => {
             // Obtén el rol del usuario y actualiza el estado
-            const role = localStorage.getItem('vRole')
+            const role = getCookie('vRole')
             setUser({ role });
             setLoading(false);
         };

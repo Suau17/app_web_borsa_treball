@@ -42,12 +42,12 @@ export function linksAlumne() {
 export function linksAdmin(){
     return(
     <>
-     <li><Link to="/users">Users</Link></li>
+    <li><Link to="/stats">Stats</Link></li>
+    <li><Link to="/users">Users</Link></li>
     <li><Link to="/TableEmpresa">Empresa</Link></li>
     <li><Link to="/tableOfertas">Ofertas</Link></li>
-    <li><Link to="/User">User Profile</Link></li>
-    {/* <li><a href="/inscripciones"  className='active'>inscripciones</a></li> */}
     <li><Link to="/crearCiclos">Registar ciclo</Link></li>
+    <li><Link to="/User">User Profile</Link></li>
     <li><a href="/logout">Logout</a></li>
     
     </>)

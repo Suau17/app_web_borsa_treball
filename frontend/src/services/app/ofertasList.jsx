@@ -1,5 +1,7 @@
-let role = localStorage.getItem('vRole')
-let token = localStorage.getItem('vToken')
+import { getCookie } from "../../context/cookies";
+
+let role = getCookie('vRole')
+let token = getCookie('vToken')
 let Url;
 let requestOptions;
 if (role == 'gestor') {

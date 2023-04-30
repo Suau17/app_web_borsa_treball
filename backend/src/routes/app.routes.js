@@ -6,6 +6,8 @@ import * as admin from '#controllers/admin.crontroller.js'
 import * as estudiante from '#controllers/estudiantes.controller.js'
 
 import * as empresa from '#controllers/empresa.controller.js'
+import * as validacion from "#Lib/validaciones/validacion.js";
+import * as rules from '#Lib/validaciones/rules.js';
 
 import {Router} from 'express';
 
@@ -24,6 +26,6 @@ appRouter.get('/ciclo', admin.cicloGetController)
 appRouter.get('/user/:id', userC.searchUser)
 appRouter.get('/oferta/:idOferta/inscripciones', oferta.getInscritosController)
 appRouter.get('/curriculum/:id', estudiante.downloadCurriculumController)
-appRouter.post('/register', gestor.gestorRegistrerController)
+appRouter.post('/register',  gestor.gestorRegistrerController)
 
 export default appRouter

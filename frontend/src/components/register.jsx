@@ -40,7 +40,7 @@ function RegisterForm() {
           <button onClick={handleFormGestor}>Registrar Gestor</button>
         </div>
         <div >
-          <div className={activeForm === 'gestor' ? 'form-container sign-up-container' : 'form-container sign-up-container hidden'}>
+          <div className={activeForm === 'gestor' ? 'form-containerR sign-up-container' : 'form-containerR sign-up-container hidden'}>
 
             {/* EMPRESA */}
 
@@ -57,7 +57,9 @@ function RegisterForm() {
               <span>Registrar com empresa i publica ofertes de treball</span>
               <input type="text" name='empresa' placeholder="nom de l'empresa" />
               <input type="text" name='direction' placeholder='Calle de la empresa/oficina' />
-              <input type="text" name='sector' placeholder="nom de l'empresa" />
+
+              <input type="text" name='sector' placeholder="sector de l'empresa" />
+
               <button>Sign Up</button>
             </form>
           </div>
@@ -65,7 +67,7 @@ function RegisterForm() {
 
           {/* ALUMNE */}
 
-          <div className={activeForm === 'alumno' ? 'form-container sign-up-container' : 'form-container sign-up-container hidden'}>
+          <div className={activeForm === 'alumno' ? 'form-containerR sign-up-container' : 'form-containerR sign-up-container hidden'}>
             <form onSubmit={handleClickAlumno} id="alumno-form" className="form">
               <h1>Alumne</h1>
               <span>Registrat com estudiant i comença a inscriuret a ofertes</span>
@@ -75,11 +77,13 @@ function RegisterForm() {
               <textarea name="cartaPresentacion" placeholder='hola me llamo xxxx y ....'
                 id="" cols="45" rows="6" className='textAreaCV' >
               </textarea>
-              <i>curriculum (img o pdf):</i>
+              <input type="text" name="link" placeholder='link de la teva pagina (linkedin, repositori, github)' />
+              <i>curriculum (pdf):</i>
               <input type="file" name='cvFile' accept="image/*,.pdf" />
               <button className='btnSign'>Sign Up</button>
             </form>
           </div>
+          
         </div>
       </section>
     </>

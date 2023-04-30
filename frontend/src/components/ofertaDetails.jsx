@@ -6,18 +6,21 @@ import { GetInscripciones } from "../services/app/inscripciones";
 import { cambiarEstado } from "../services/gestor/cambiarEstado";
 import { updateOferta } from "../services/gestor/ofertaUpdate";
 import { inscriureOferta } from "../services/alumne/inscriureOferta"
+import { getCiclos } from "../services/app/ciclos";
 import '../assets/empresa.css'
 import '../assets/register.css'
+import { getCookie } from "../context/cookies";
 export function OfertaDetails() {
     const { idOferta } = useParams();
     let [oferta, setOferta] = useState([])
     let [inscripciones, setInscripciones] = useState([])
+    const [ciclos, setCiclos] = useState([])
     const navigate = useNavigate();
     const [activeForm, setActiveForm] = useState("oferta");
     const [inscrito, setInscrito] = useState(false);
-
     useEffect(() => {
         GetOferta(idOferta).then(oferta => setOferta(oferta))
+        getCiclos().then(ciclos => setCiclos(ciclos))
     }, [])
 
     useEffect(() => {
@@ -29,7 +32,7 @@ export function OfertaDetails() {
             inscripcion: inscripcion,
             action: keyword
         }
-        cambiarEstado(body).then(navigate('/oferta/'+idOferta))
+        cambiarEstado(body).then(navigate('/oferta/' + idOferta))
     }
 
     const handleFormOferta = () => {
@@ -66,22 +69,45 @@ export function OfertaDetails() {
     }
 
     const handleClickOferta = () => {
-        console.log("Button Inscriure Oferta "+ idOferta)
-        inscriureOferta({idOferta: idOferta})
+        console.log("Button Inscriure Oferta " + idOferta)
+        inscriureOferta({ idOferta: idOferta })
         setInscrito(true);
     }
-    function ButtonInscriureOferta(props){
-        
-    
-    
-        return(
-            <>
-                <div>
-                    <button onClick={handleClickOferta}>
-                        {inscrito ? "Inscrito" : "Inscribirse"}
+    function ButtonInscriureOferta() {
+        let role = getCookie('vRole')
+        let button = null;
+        if (role === 'alumno') {
+            console.log('alumno')
+            button =
+                <button onClick={handleClickOferta} className="bg-blue-500 hover:bg-blue-400 text-white font-bold px-4 border-b-2 border-blue-700 hover:border-blue-500 rounded ml-3">
+                    {inscrito ? "Inscrito" : "Inscribirse"}
+                </button>
+        }
+        return (
+            <div>
+                {button}
+            </div>
+        )
+    }
+    function ButtonsGestionOferta() {
+        let role = getCookie('vRole')
+        let button = null;
+        if (role != 'alumno') {
+            button = (
+                <>
+                    <button onClick={handleFormEdit} className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
+                        <img src="/public/iconos/editar.png" alt="papelera" />
                     </button>
-                </div>
-            </>
+                    <button onClick={() => { handleClickDelete() }} className="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded">
+                        <img src="/public/iconos/eliminar.png" alt="papelera" />
+                    </button>
+                </>
+            )
+        }
+        return (
+            <div>
+                {button}
+            </div>
         )
     }
 
@@ -90,93 +116,98 @@ export function OfertaDetails() {
     if (oferta.oferta && inscripciones) {
 
         const isoDate = oferta.oferta.expirationDate;
-const dateObj = new Date(isoDate);
-const formattedDate = `${dateObj.getDate()}/${dateObj.getMonth() + 1}/${dateObj.getFullYear()}`;
-
+        const dateObj = new Date(isoDate);
+        const formattedDate = `${dateObj.getDate()}/${dateObj.getMonth() + 1}/${dateObj.getFullYear()}`;
+        // {console.log(formattedDate)}
         html = (
             <>
-
-                <div className={activeForm === 'oferta' ? 'form-container sign-up-container' : 'form-container sign-up-container hidden'}>
+                <div className={activeForm === 'oferta' ? 'form-containerV sign-up-container' : 'form-containerV sign-up-container hidden'}>
                     <div className="detailOferta border-double border-4 border-blue-900 ... bg-slate-100 shadow-xl  font-serif text-lg pl-5 ">
                         <h1 className="mb-4 text-4xl font-extrabold leading-none tracking-tight text-gray-900 md:text-5xl lg:text-4xl dark:text-black mt-5 ">{oferta.oferta.title}</h1>
 
-                        <button onClick={handleFormEdit} className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
-                        <img src="/public/iconos/editar.png" alt="papelera" />
-                        </button>
-                        <button onClick={() => { handleClickDelete() }} className="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded">
-                            <img src="/public/iconos/eliminar.png" alt="papelera" />
-                        </button>
+                        {ButtonsGestionOferta()}
+
                         <h3 className="uppercase font-bold ">Id de la Empresa:</h3> {oferta.oferta.idEmpresa}
                         <h3 className="uppercase font-bold">Fecha de publicacion: </h3>{formattedDate}
-                        <p className="pt-5"><b>Requeriments:</b> {oferta.oferta.requirements}</p>
+                        <p className="pt-5" ><b>Requeriments:</b> {oferta.oferta.requirements}</p>
+                        <p className="pt-5"><b>ciclo:</b>{oferta.oferta.ciclo}</p>
                         <p className="pt-5"><b>Skills:</b> {oferta.oferta.skills}</p>
                         <p className="pt-5"><b>Descripción:</b> {oferta.oferta.description}</p>
 
-                        <h3>Inscritos:</h3>
-                        <ul>
-
+                        <div>
+                            {ButtonInscriureOferta()}
 
                             {
                                 inscripciones.map(inscripcion => {
+                                    <h3>Inscritos:</h3>
+
+                                    if (inscripcion.refUser._id == getCookie('vID') && inscrito == false) {
+                                        setInscrito(true)
+                                    }
                                     let html2 = ''
-                                    if (inscripcion.estado == 'aceptado') {
-                                        html2 = (
-                                            <li key={inscripcion._id} className='cardInscrito'>
-                                                {console.log(inscripcion)}
-                                                <Link to={`/search/user/${inscripcion.refUser._id}`}>{inscripcion.refUser.name.toUpperCase()}</Link>
-                                                <span>ACEPTADO</span>
-                                            </li>
-                                        )
-                                    }
-                                    else if (inscripcion.estado == 'rechazado') {
-                                        html2 = (
-                                            <li key={inscripcion._id} className='cardInscrito'>
-                                                {console.log(inscripcion)}
-                                                <Link to={`/search/user/${inscripcion.refUser._id}`}>{inscripcion.refUser.name.toUpperCase()}</Link>
-                                                <span>RECHAZADO</span>
-                                            </li>
-                                        )
-                                    }
-                                    else {
-                                        html2 = (
-                                            <li key={inscripcion._id} className='cardInscrito'>
-                                                {console.log(inscripcion)}
-                                                <Link to={`/search/user/${inscripcion.refUser._id}`}>{inscripcion.refUser.name.toUpperCase()}</Link>
-                                                <button onClick={() => changeEstate(inscripcion._id, 'aceptar')}>Aceptar</button>
-                                                <button onClick={() => changeEstate(inscripcion._id, 'rechazar')}>Rechazar</button>
-                                            </li>
-                                        )
-                                    }
-                                    return html2
+                                    let role = getCookie('vRole')
+                                    if (getCookie('vToken') && role === 'gestor') {
+                                        if (inscripcion.estado == 'aceptado') {
+                                            html2 = (
+                                                <div key={inscripcion._id} className='bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded w-2/4 mb-4'>
+                                                    {console.log(inscripcion)}
+                                                    <Link to={`/search/user/${inscripcion.refUser._id}`}>{inscripcion.refUser.name.toUpperCase()}</Link>
+                                                    <span className="ml-3">ACEPTADO</span>
+                                                </div>
+                                            )
+                                        }
+                                        else if (inscripcion.estado == 'rechazado') {
+                                            html2 = (
+                                                <div key={inscripcion._id} className='cardInscrito'>
+                                                    {console.log(inscripcion)}
+                                                    <Link to={`/search/user/${inscripcion.refUser._id}`}>{inscripcion.refUser.name.toUpperCase()}</Link>
+                                                    <span>RECHAZADO</span>
+                                                </div>
+                                            )
+                                        }
+                                        else {
+                                            html2 = (
+                                                <div key={inscripcion._id} className=''>
+                                                    {console.log(inscripcion)}
+                                                    <Link to={`/search/user/${inscripcion.refUser._id}`}>{inscripcion.refUser.name.toUpperCase()}</Link>
 
+                                                    <button
+                                                        onClick={() => changeEstate(inscripcion._id, 'aceptar')} className="bg-blue-500 hover:bg-blue-400 text-white font-bold px-4 border-b-2 border-blue-700 hover:border-blue-500 rounded ml-3">Aceptar</button>
+                                                    <button
+                                                        onClick={() => changeEstate(inscripcion._id, 'rechazar')} className="bg-red-500 hover:bg-red-400 text-white font-bold  px-4 border-b-2 border-red-700 hover:border-red-500 rounded ml-4">Rechazar</button>
+                                                    {/* disabled={rolUser !== 'gestor'} */}
+                                                </div>
+                                            )
+                                        }
+                                        return html2
+                                    }
                                 }
-
                                 )
                             }
 
-                        </ul>
-                        {
-                            localStorage.getItem('vRole') === 'alumno' && (
-                              ButtonInscriureOferta()
-                            )
-                        }
+
+                        </div>
                     </div>
                 </div>
-                <div className={activeForm === 'edit' ? 'form-container sign-up-container' : 'form-container sign-up-container hidden'}>
+                <div className={activeForm === 'edit' ? 'form-containerE sign-up-container' : 'form-containerE sign-up-container hidden'}>
                     <div className=" divResp ">
                         <button onClick={handleFormOferta} className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
                             Ver Oferta
                         </button>
-                        <form onSubmit={(event)=>{event.preventDefault(); handleFormEditOferta(event);}} className="bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4">
+                        <form onSubmit={(event) => { event.preventDefault(); handleFormEditOferta(event); }} className="bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4">
                             <span className="block text-gray-700 text-sm font-bold mb-2">Título</span>
                             <input type="text" name="titulo" defaultValue={oferta.oferta.title} className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" /><br />
 
                             <span className="block text-gray-700 text-sm font-bold mb-2">Ciclo</span>
-                            <select name="ciclo" defaultValue={oferta.oferta.ciclo} className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
-                                <option value="ciclo1">Ciclo 1</option>
-                                <option value="ciclo2">Ciclo 2</option>
-                                <option value="ciclo3">Ciclo 3</option>
-                            </select><br />
+                            <select name="ciclo" id="ciclo" placeholder='ciclo' className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
+                                <option value="0">--- INSERTA ---</option>
+                                {
+                                    ciclos ? ciclos.map(e => {
+                                        console.log(e.name)
+                                        return (<option>{e.name}</option>)
+                                    }) : ''
+                                }
+                            </select>
 
                             <span className="block text-gray-700 text-sm font-bold mb-2">Requerimientos</span>
                             <input type="text" name="requirements" defaultValue={oferta.oferta.requirements} className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" /><br />
@@ -189,7 +220,7 @@ const formattedDate = `${dateObj.getDate()}/${dateObj.getMonth() + 1}/${dateObj.
 
                             <span className="block text-gray-700 text-sm font-bold mb-2">Fecha de expiración</span>
                             <input type="date" name="fechaExpiracion" defaultValue={new Date(oferta.oferta.expirationDate).toISOString().substr(0, 10)} className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" /><br />
-                            
+
                             <button className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline mt-2">Guardar</button>
                         </form>
 
@@ -201,7 +232,7 @@ const formattedDate = `${dateObj.getDate()}/${dateObj.getMonth() + 1}/${dateObj.
     } else {
         html = (
             <>
-                <div class="lds-ring"><div></div><div></div><div></div><div></div></div>
+                <div className="lds-ring"><div></div><div></div><div></div><div></div></div>
             </>
         )
     }

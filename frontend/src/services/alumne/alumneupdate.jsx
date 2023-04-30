@@ -1,12 +1,13 @@
 import React, { useTransition } from "react";
 import axios from "axios";
+import { getCookie } from "../../context/cookies";
 
 const url = `${import.meta.env.VITE_URL}/user/actualizar/`;
 
 export async function editUser(props){
 
     const {name, email, password, confirmpassword} = props
-    let token = localStorage.getItem("vToken")
+    let token = getCookie("vToken")
     const user = {
         name: name,
         email: email,

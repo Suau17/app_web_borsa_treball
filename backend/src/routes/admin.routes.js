@@ -4,12 +4,18 @@
 import * as admin from '#controllers/admin.crontroller.js';
 import { checkAuthUser } from '#Lib/auth.js';
 import {Router} from 'express';
+import * as validacion from "#Lib/validaciones/validacion.js";
+import * as rules from '#Lib/validaciones/rules.js';
 
 const adminRouter = Router();
 
-adminRouter.post('/ciclo/register', admin.cicloRegistrerController)
+adminRouter.post('/ciclo/register',rules.rulesCiclo, validacion.validarCampos, admin.cicloRegistrerController)
 adminRouter.put('/habilitarGestor/:id', admin.habilitarGestorController)  
 adminRouter.get('/eliminarUsuario/:id', admin.eliminarUsuario)
 adminRouter.delete('/deleteUser' , admin.eliminarUsuario)
-adminRouter.put('/update', checkAuthUser , admin.updateAdminController)
+
+adminRouter.get('/stats/user', admin.contarUsuariosEsteAño)
+adminRouter.get('/stats/ofertas', admin.contarOfertasPorCiclo)
+
+adminRouter.put('/update',rules.rulesAdminUpdate,validacion.validarCampos, checkAuthUser , admin.updateAdminController)
 export default adminRouter

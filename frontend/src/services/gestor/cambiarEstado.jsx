@@ -1,8 +1,9 @@
+import { getCookie } from "../../context/cookies";
 
 export async function cambiarEstado(props) {
     const { inscripcion, action } = props
     const url = `${import.meta.env.VITE_URL}/gestor/oferta/estado/${inscripcion}`
-    let token = localStorage.getItem('vToken')
+    let token = getCookie('vToken')
     const sendBody = {
         "estado": action,
     }

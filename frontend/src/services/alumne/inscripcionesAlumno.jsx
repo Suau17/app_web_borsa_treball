@@ -1,8 +1,8 @@
 import { getCookie } from "../../context/cookies";
 
-const url = `${import.meta.env.VITE_URL}/gestor/empresa`;
+const url = `${import.meta.env.VITE_URL}/estudiante/verInscripciones`;
 
-export async function getEmpresa() {
+export async function misInscripciones() {
     let token = getCookie('vToken')
     const requestOptions = {
         method: 'GET',
@@ -14,5 +14,6 @@ export async function getEmpresa() {
 
       const response = await fetch(url, requestOptions)
       const data = await response.json()
-      return data.empresa
+      //console.log(data.ofertasInscritas)
+      return data.ofertasInscritas
 }

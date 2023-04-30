@@ -1,13 +1,12 @@
-import { body, validationResult } from 'express-validator';
+import { body, check,validationResult } from 'express-validator';
 import UserModel from "#schemas/User.js"
 import empresaModel from '#schemas/empresaSchema.js';
+import EstudiosModel from '#schemas/estudios.schema.js';
 
 export const rules = [
-    //en esta regla estamos indicando al usuario que cuando se registre ç
-    //tenga una serie de requisitos como por ejemplo que el mail no sea repetido
     
-    body('name','Ingrese un nombre').exists().isLength({min:3 ,max:20}),
-    body('email','introduce un E-mail valido').exists().isEmail().custom(async (value, { req }) => {
+    body('name','Introduexi un nom').exists().isLength({min:3 ,max:20}),
+    body('email','introdueix un E-mail valido').exists().isEmail().custom(async (value, { req }) => {
         const user = await UserModel.findOne({ email: value });
         if (user) {
             throw new Error('Email already in use');
@@ -20,33 +19,102 @@ export const rules = [
 ]
 
 export const rulesEmpresa = [
-    body('nameEmpresa','Introduce un nombre').exists().isLength({min:3, max:15}).custom(async(value,{req})=>{
+    body('nameEmpresa','Introdueix un nom').exists().isLength({min:3, max:15}).custom(async(value,{req})=>{
         const empresa = await empresaModel.findOne({ nom: value });
         if(empresa){
-            throw new Error('Nombre already in use');
+            throw new Error('El nom ya esta en us');
         }
     }),
-    body('direccion','introduce una direccion valida').exists().not().isEmpty(),
+    body('direccion','introdueix una direcció valida').exists().not().isEmpty(),
     body('empleados').exists()
 ]
 
 export const rulesGestor = [
     body('carrec').exists().not().isEmpty().isLength({min:3,max:20}),
     body('telefon').not().isEmpty().isLength({min:4,max:20}),
-    body('nameEmpresa', 'introduce el nombre de la empresa en la que trabajas').exists().not().isEmpty(),
+    body('nameEmpresa', 'introduesi el nom de la mpresa en la que treballes').exists().not().isEmpty(),
 ]
 
 export const rulesOferta = [
-    body('title').exists().not().isEmpty().isLength({min:3,max:250}),
+    body('title').exists().not().isEmpty().isLength({min:3,max:250}).withMessage('omple el camp'),
     body('description').exists().not().isEmpty().isLength({max:250}),
-    body('requeriments').exists().not().isEmpty().isLength({max:250}),
+    body('requirements').exists().not().isEmpty().isLength({max:250}),
     body('skills').exists().not().isEmpty().isLength({max:250}),
-    body('ciclo').exists().not().isEmpty().isLength({max:250}),
-    body('dateOfPublication').exists().not().isEmpty().isISO8601().withMessage('La fecha debe estar en formato  (YYYY-MM-DD)'),
-    body('expirationDate').exists().not().isEmpty().isISO8601().withMessage('La fecha debe estar en formato (YYYY-MM-DD)')
+    body('ciclo').exists().custom(async(value)=>{
+        const ciclo = await EstudiosModel.findOne({ name: value });
+        console.log(ciclo)
+        if(!ciclo){
+            throw new Error('El cicle no exsisteix');
+        }
+    }).not().isEmpty().isLength({max:250}),
+    
+    body('expirationDate').exists().not().isEmpty().isISO8601().withMessage('La data ha de  estar en format (YYYY-MM-DD)')
+     
+    
 ]
 
 export const rulesEstudiante = [
     body('cartaPresentacion').exists().not().isEmpty().isLength({min:3,max:450}),
-    body('curriculum').exists().not().isEmpty().isIMEI('archivo/pdf', 'image/png').withMessage('el curriculum ha de ser un archivo pdf o png'),
+    body('link').exists().not().isEmpty(),
+     body('curriculum').custom((value, { req }) => {
+    if (!value) {
+      throw new Error('El curriculum es requerido');
+    }
+    if (value.mimetype !== 'application/pdf' && !value.mimetype.startsWith('image/')) {
+      throw new Error('El curriculum debe ser una imagen o un archivo PDF');
+    }
+    if (value.size > 1024 * 1024 * 5) {
+      throw new Error('El tamaño máximo permitido para el curriculum es de 5 MB');
+    }
+    // Validar el nombre del archivo aquí y asegurarse de que sea único
+    return true;
+  })
+]
+
+export const rulesResp = [
+    body('name','Ingrese un nom').exists().isLength({min:3 ,max:20}),
+    body('carrec').exists().not().isEmpty().isLength({min:3,max:20}),
+    body('telefon')
+    .notEmpty().withMessage('El camp de teléfono es obligatori')
+    .matches(/^[0-9]{10}$/).withMessage('El telefon ha de tindre 10 caracters')
+]
+
+export const rulesCiclo =[
+    body('name','Ingrese un nombre').exists().isLength({min:3 ,max:20}),
+    body('durada').exists().notEmpty().withMessage('El camp es obligatori')
+    .isNumeric().withMessage('El campo ha de ser un numero'),
+    body('asignaturas')
+    .notEmpty().withMessage('Posa una assignatura')
+]
+
+
+export const rulesUpdateEmpresa=[
+    body('nameEmpresa','Introdueix un nom').exists().isLength({min:3, max:15}).custom(async(value,{req})=>{
+        const empresa = await empresaModel.findOne({ nom: value });
+        if(empresa){
+            throw new Error('El nom ya esta en us');
+        }
+    }),
+    body('direccion','introdueix una direcció valida').exists().not().isEmpty(),
+]
+
+export const rulesGestorUpdate = [
+    body('name','Introduexi un nom').exists().isLength({min:3 ,max:20}),
+   
+    body('carrec').exists().not().isEmpty().isLength({min:3,max:20}),
+    body('telefon')
+    .notEmpty().withMessage('El camp de teléfono es obligatori')
+    .matches(/^[0-9]{10}$/).withMessage('El telefon ha de tindre 10 caracters')
+   
+]
+
+export const rulesAdminUpdate = [
+     body('name','Introduexi un nom').exists().isLength({min:3 ,max:20}),
+    
+    body('cargo').exists().not().isEmpty().isLength({min:3,max:20}),
+    body('telefon')
+    .notEmpty().withMessage('El camp de teléfono es obligatori')
+    .matches(/^[0-9]{10}$/).withMessage('El telefon ha de tindre 10 caracters'),
+    body('dni').matches(/^\d{8}[a-zA-Z]$/),
+
 ]

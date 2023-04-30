@@ -22,10 +22,9 @@ export async function LoginApi(props) {
     console.log(response)
     console.log(data)
 
-    localStorage.setItem('vToken', data.token)
-    localStorage.setItem('vRole', data.role)
     setCookie('vToken', data.token, 1)
     setCookie('vRole', data.role, 1)
+    setCookie('vID', data.id, 1)
     location.reload()
 }
 
@@ -33,8 +32,11 @@ export function Logout() {
     const navigate = useNavigate();
   
     useEffect(() => {
-      localStorage.removeItem('vToken');
-      localStorage.removeItem('vRole');
+      removeCookie('vToken')
+      removeCookie('vRole')
+      if(getCookie('vID')){
+        removeCookie('vID')
+      }
       navigate('/');
       location.reload()
     }, []);

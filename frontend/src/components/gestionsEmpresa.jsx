@@ -60,17 +60,17 @@ export function GestionOperaciones() {
   return (
     <>
       <div className="buttons">
-        <button onClick={handleFormEmpresa}>formulari empresa</button>
-        <button onClick={handleFormResp}>formulari responsable</button>
+        <button onClick={handleFormEmpresa}>Editar Empresa</button>
+        <button onClick={handleFormResp}>Registrar responsable</button>
         <button onClick={handleFormOferta}>Registrar Oferta</button>
       </div>
 
-      <div className={activeForm === 'upEmpresa' ? 'form-container sign-up-container' : 'form-container sign-up-container hidden'}>
+      <div className={activeForm === 'upEmpresa' ? 'form-containerE sign-up-container' : 'form-containerE sign-up-container hidden'}>
         <div className=" divResp ">
           <h1 className="block text-gray-700 text-xl font-bold mb-2">Empresa Update</h1>
           <form onSubmit={handleClickEmpresa} className="bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4">
             <span className="block text-gray-700 text-sm font-bold mb-2">Nom de l'empresa</span>
-            <input type="text" name="nom" defaultValue={empresa.nom} class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" /><br />
+            <input type="text" name="nameEmpresa" defaultValue={empresa.nom} className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" /><br />
             <span className="block text-gray-700 text-sm font-bold mb-2">Direccion de l'empresa</span>
             <input type="text" name="direccion" defaultValue={empresa.direccion} className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" /><br />
             <span className="block text-gray-700 text-sm font-bold mb-2"> Sector</span>
@@ -81,7 +81,7 @@ export function GestionOperaciones() {
         </div>
       </div>
 
-      <div className={activeForm === 'resp' ? 'form-container sign-up-container' : 'form-container sign-up-container hidden'}>
+      <div className={activeForm === 'resp' ? 'form-containerE sign-up-container' : 'form-containerE sign-up-container hidden'}>
         <div className=" divResp">
           <h1 className="block text-gray-700 text-xl font-bold mb-2">Crear Responsable</h1>
 
@@ -101,7 +101,7 @@ export function GestionOperaciones() {
           </form>
         </div>
       </div>
-      <div className={activeForm === 'oferta' ? 'form-container sign-up-container' : 'form-container sign-up-container hidden'}>
+      <div className={activeForm === 'oferta' ? 'form-containerE sign-up-container' : 'form-containerE sign-up-container hidden'}>
         <div className=" divResp">
           <h1 className="block text-gray-700 text-xl font-bold mb-2">Registrar Oferta de trabajo</h1>
           <form onSubmit={handleClickOferta} id="ofertaR" className="bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4">

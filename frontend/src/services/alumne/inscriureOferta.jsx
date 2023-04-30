@@ -1,4 +1,5 @@
 import { toast } from 'sonner'
+import { getCookie } from '../../context/cookies';
 
 export async function inscriureOferta(props){
 
@@ -6,7 +7,7 @@ export async function inscriureOferta(props){
     console.log(props)
 
     const url = `${import.meta.env.VITE_URL}/estudiante/oferta/inscribirse`;
-    let token = localStorage.getItem('vToken')
+    let token = getCookie('vToken')
 
     const sendBody = {
         idOferta: idOferta,
@@ -30,7 +31,7 @@ export async function inscriureOferta(props){
     } else if (response.status === 401){
         toast.error("Ya estás registrado en la oferta.")
     } else {
-        toast.error("Error al registrarse en la oferta")
+        toast.error("Error al registrarse en la oferta.")
     }
     
 }

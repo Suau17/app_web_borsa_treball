@@ -30,7 +30,7 @@ export function GestionOperacionesResponsable() {
   return (
     <>
 
-      <div className={activeForm === 'oferta' ? 'form-container sign-up-container' : 'form-container sign-up-container '}>
+      <div className={activeForm === 'oferta' ? 'form-containerP sign-up-container' : 'form-containerP sign-up-container '}>
         <div className=" divResp">
           <h1 className="block text-gray-700 text-xl font-bold mb-2">Registrar Oferta de trabajo</h1>
           <form onSubmit={handleClickOferta} id="ofertaR" className="bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4">
