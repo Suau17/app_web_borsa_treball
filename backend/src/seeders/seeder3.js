@@ -5,6 +5,7 @@ import * as path from 'path';
 import User from "#schemas/User.js"
 import GestorModel from "#schemas/Gestor.js"
 import { fileURLToPath } from 'url';
+import { hash } from 'bcrypt';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -30,6 +31,11 @@ const gestor = JSON.parse(
 );
 
 const importData = async () => {
+
+    for(var i =0; i<  users.length; i ++) {
+        users[i].passwordHash =  await hash(users[i].passwordHash,12);
+      }
+      
     try {
         // Crear usuarios
         const createdUsers = await User.create(users);
