@@ -10,7 +10,7 @@ export async function updateEmpresa(props) {
         "direccion":direccion,
         "sector":sector
     }
-console.log(token)
+    console.log(empresa)
     const requestOptions = {
         method: 'PUT',
         headers: { 

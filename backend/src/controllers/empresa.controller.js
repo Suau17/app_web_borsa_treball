@@ -93,14 +93,14 @@ export const updateEmpresaController = async (req, res) => {
     const empresa = await EmpresaModel.findOne({ refUser: idUsuario })
     const usuario = await UserModel.findById(idUsuario);
     const empleados = empresa.empleados.map(empleado => empleado.toString());
-    console.log(empleados)
    
     if (!empleados.includes(idUsuario.toString()) || usuario.rolUser !== 'gestor') {
       return res.status(401).send('No tienes los permisos para eliminar esta empresa.');
     }
     // Actualizamos el registro del gestor en la base de datos
     let empresaUpdated = await EmpresaModel.findByIdAndUpdate(empresa._id, req.body, { new: true })
-    await GestorModel.findOneAndUpdate({ refUser: idUsuario },{nameEmpresa:req.body.nom}, { new: true });
+   const ref =  await GestorModel.findOneAndUpdate({ refUser: idUsuario },{nameEmpresa:req.body.nom}, { new: true });
+    console.log(empresaUpdated)
     // Enviamos un mensaje de éxitol
    const msg = {
       data : empresaUpdated ,

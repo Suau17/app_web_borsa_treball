@@ -22,7 +22,8 @@ gestorRouter.post('/register/responsable',rules.rulesResp, validacion.validarCam
 
 // //// EMPRESA
 gestorRouter.post('/empresa/registrar',rules.rulesEmpresa, validacion.validarCampos, empresa.empresaRegistrerController)
-gestorRouter.put('/empresa/update/',rules.rulesUpdateEmpresa,  validacion.validarCampos ,empresa.updateEmpresaController)
+// gestorRouter.put('/empresa/update/',rules.rulesUpdateEmpresa,  validacion.validarCampos ,empresa.updateEmpresaController)
+gestorRouter.put('/empresa/update/',empresa.updateEmpresaController)
 gestorRouter.delete('/empresa/delete/', empresa.deleteEmpresaController)
 gestorRouter.post('/empresa/ofertas/:idOferta/eliminar', gestor.createResponsableController)
 gestorRouter.get('/empresa', empresa.getEmpresaControllers)

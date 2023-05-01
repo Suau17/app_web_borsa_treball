@@ -60,28 +60,34 @@ export const cicloGetController = async (req, res) => {
 }
 
 export const habilitarGestorController = async (req, res) => {
-  // Obtenemos el id del gestor y los datos a actualizar proporcionados
   const id = req.params.id;
+  const perfil = await GestorModel.findOne({ refUser: id });
+  let empresa = perfil.nameEmpresa
+  const gestores = await GestorModel.find({ nameEmpresa : empresa });
 
-  // Buscamos el registro del gestor en la base de datos
-  const gestor = await GestorModel.findOne({ refUser: id });
-  const mailTo = await UserModel.findById(gestor.refUser)
-  console.log(mailTo.email)
-  
-  await GestorModel.findOneAndUpdate(
-    { refUser: id },
-    { perfilHabilitado: !gestor.perfilHabilitado },
-    { new: true }
-  );
-    let bodyHTML;
-    if(gestor.perfilHabilitado){
-       bodyHTML = `hola ${mailTo.name} ,soy ${console.log('admin')} represento al vidal i barraquer y hemos deshabilitado su cuenta de la borsa de treball del vidal i barraquer `     
-    } else {
-      bodyHTML = `hola ${mailTo.name} ,soy ${console.log('admin')} represento al vidal i barraquer y hemos habilitado su cuenta de la borsa de treball del vidal i barraquer `     
-    }
+  for (const gestor of gestores) {
+    const mailTo = await UserModel.findById(gestor.refUser);
+    const newHabilitado = !gestor.perfilHabilitado;
 
-  // Enviamos un mensaje de éxito
-  return res.status(200).send({ msg: 'Datos del gestor actualizados con éxito' });
+    const gest = await GestorModel.findByIdAndUpdate(
+      gestor._id,
+      { perfilHabilitado: newHabilitado },
+      { new: true }
+    );
+
+      console.log(gest)
+
+    // let bodyHTML;
+    // if (newHabilitado) {
+    //   bodyHTML = `Hola ${mailTo.name}, soy ${console.log('admin')} represento al Vidal i Barraquer y hemos deshabilitado su cuenta de la bolsa de trabajo del Vidal i Barraquer.`;
+    // } else {
+    //   bodyHTML = `Hola ${mailTo.name}, soy ${console.log('admin')} represento al Vidal i Barraquer y hemos habilitado su cuenta de la bolsa de trabajo del Vidal i Barraquer.`;
+    // }
+
+    // Aquí puedes enviar el correo electrónico a "mailTo.email" con el contenido de "bodyHTML"
+  }
+
+  return res.status(200).send({ msg: `Datos de ${gestores.length} gestores actualizados con éxito` });
 };
 
 
@@ -163,6 +169,18 @@ export const eliminarUsuario = async (req, res) => {
     console.log('eliminamos gestor')
     await GestorModel.deleteOne({ refUser: user._id })
     console.log('gestor eliminado')
+  }
+  if (user.rolUser === 'responsable') {
+    const empresa = await EmpresaModel.findOne({ empleados: { $in: [user._id] } });
+
+    if (!empresa|| !empresa.empleados.includes(user._id)  || !empresa.empleados.includes(user._id)) {
+        res.status(401).send({ msg: 'No tienes los permisos para actualizar una oferta de trabajo en esta empresa' });
+        return;
+    }
+
+    await empresa.updateOne({ $pull: { empleados: user._id } });
+    await GestorModel.deleteOne({ refUser: user._id });
+    console.log('responsable eliminado')
   }
 
 

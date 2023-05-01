@@ -25,7 +25,9 @@ export function OfertaDetails() {
     }, [])
 
     useEffect(() => {
+        if(getCookie('vRole') === 'gestor'){
         GetInscripciones(idOferta).then(inscripciones => setInscripciones(inscripciones))
+        }
     }, [])
 
     const changeEstate = (inscripcion, keyword) => {
