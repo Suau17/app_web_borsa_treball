@@ -20,12 +20,7 @@ export const rules = [
 ]
 
 export const rulesEmpresa = [
-    body('nameEmpresa','Introdueix un nom').exists().isLength({min:3, max:15}).custom(async(value,{req})=>{
-        const empresa = await empresaModel.findOne({ nom: value });
-        if(empresa){
-            throw new Error('El nom ya esta en us');
-        }
-    }),
+    body('nameEmpresa','Introdueix un nom').isEmpty().isLength({min:3, max:15}),
     body('direccion','introdueix una direcció valida').exists().not().isEmpty(),
     body('empleados').exists()
 ]
