@@ -54,7 +54,7 @@ export async function editUser(props){
             headers: {
                 'Authorization': `${token}`
             },
-            body: user,
+            body: JSON.stringify(user),
         };
     }
     if(role === 'admin'){
