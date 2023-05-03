@@ -13,15 +13,14 @@ export const rules = [
         }
     }),
     body('description').exists().isLength({min:3,max:200}),
-    body('passwordHash').isLength({ min: 8 }).matches(/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[A-Za-z\d@$!%*?&]{8,}$/, "i")
-    .withMessage("password must contain at least 8 characters, 1 uppercase letter, 1 lowercase letter, 1 number and 1 special character"),
+    // body('passwordHash').isLength({ min: 8 }).matches(/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[A-Za-z\d@$!%*?&]{8,}$/, "i")
+    // .withMessage("password must contain at least 8 characters, 1 uppercase letter, 1 lowercase letter, 1 number and 1 special character"),
 
 ]
 
 export const rulesEmpresa = [
     body('nameEmpresa','Introdueix un nom').isEmpty().isLength({min:3, max:15}),
     body('direccion','introdueix una direcció valida').exists().not().isEmpty(),
-    body('empleados').exists()
 ]
 
 export const rulesGestor = [

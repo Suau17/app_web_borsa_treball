@@ -7,7 +7,6 @@ export function FormEmpresa() {
         const empresa = Object.fromEntries(
             new window.FormData(event.target)
         )
-        console.log(empresa)
         updateEmpresa(empresa)
     }
 

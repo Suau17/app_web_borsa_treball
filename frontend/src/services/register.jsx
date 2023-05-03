@@ -38,12 +38,12 @@ export async function RegisterGestor(props) {
     const data = await response.json();
     console.log(data)
     if (response.status === 200) {
-      toast.success(`Responsable registrat amb éxit`);
+      toast.success(`Gestor registrat amb éxit`);
       console.log(data.role)
       console.log(data.token)
       setCookie('vToken',data.token, 1)
       setCookie('vRole',data.role, 1)
-      location.reload()
+      return 'correct'
     } 
     else if(response.status === 400 ){
       console.log('error 400')
@@ -101,11 +101,6 @@ export async function RegisterResponsable(props) {
 
     if (response.status === 200) {
       toast.success(`Responsable registrat amb éxit`);
-      console.log(data.role)
-      console.log(data.token)
-      setCookie('vToken',data.token, 1)
-      setCookie('vRole',data.role, 1)
-      location.reload()
     } 
     else if(response.status === 400 ){
       console.log('error 400')

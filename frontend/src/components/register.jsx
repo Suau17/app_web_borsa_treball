@@ -20,7 +20,10 @@ function RegisterForm() {
     const gestor = Object.fromEntries(
       new window.FormData(event.target)
     )
-    RegisterGestor(gestor).then(navigate('/'))
+    RegisterGestor(gestor).then((key)=> {
+      if(key === 'correct') navigate('/')
+      location.reload()
+    })
   }
 
   function handleClickAlumno(event) {

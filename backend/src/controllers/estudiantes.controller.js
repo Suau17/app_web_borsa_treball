@@ -163,29 +163,38 @@ export const inscribirseOferta = async (req, res) => {
 
     const { idOferta } = req.body
     const idUsuarioToken = req.idToken;
-    
-    if (!idUsuarioToken) {
-      res.status(401).send({msg:'No tienes los permisos para inscribir a otro usuario'})
-      return;
-    }
+
     // Comprobar que el estudiante no tenga inscripción en la misma oferta
+
     const oferta = await OfertaLaboral.findById(idOferta)
+    const inscripcionrepetida = await InscripcionModel.findOne({ refOfertaLaboral: idOferta, refUser: idUsuarioToken });
+
+
+
+
+    if (inscripcionrepetida) {
+
+    if(inscripcionrepetida.estado === 'aceptado' || inscripcionrepetida.estado === 'rechazado'){
+      res.status(401).send({msg: 'La empresa ya ha gestionat la teva inscripció així que no pots borrar la inscripció'});
+      return;      
+    }
+
+      await InscripcionModel.deleteOne({ refOfertaLaboral: idOferta, refUser: idUsuarioToken });
+      res.status(401).send({msg: 'Ya se ha borrado la inscripcion de la oferta.'});
+      return;      
+    }
+
     let expirationDate = oferta.expirationDate
     let timestampExpirationDate = new Date(expirationDate).getTime();
     let timestampActual = new Date().getTime()
     
     if(timestampActual > timestampExpirationDate){ 
       console.log('NO')
-      res.status(401).send({msg: 'NO.'});
+      res.status(403).send({msg: 'oferta caducada'});
       return
     }
 
     // PARA REVISAR
-    const inscripcionrepetida = await InscripcionModel.findOne({ refOfertaLaboral: idOferta, refUser: idUsuarioToken });
-    if (inscripcionrepetida) {
-      res.status(401).send({msg: 'Ya estás inscrito en esta oferta.'});
-      return;
-    }
 
     const inscripcion = new InscripcionModel({
       refUser: idUsuarioToken,
