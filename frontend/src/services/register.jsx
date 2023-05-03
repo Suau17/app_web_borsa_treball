@@ -141,8 +141,9 @@ export async function RegisterAlumno(props) {
     formData.append("description", "lo quitaremos?");
     formData.append("passwordHash", password);
     formData.append("cartaPresentacion", cartaPresentacion);
-    formData.append("curriculum", cvFile, cvFile.name);
     formData.append('link', link)
+    formData.append("curriculum", cvFile, cvFile.name);
+    
     console.log('aqdfaqfaq')
     console.log(formData)
     const requestOptions = {
