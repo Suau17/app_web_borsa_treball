@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { getCiclos } from "../services/ciclos";
+import { getCiclos } from "../services/app/ciclos";
 
 export function CicloT(){
     let [estudios, setEstudios] = useState([]);

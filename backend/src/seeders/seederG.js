@@ -27,7 +27,7 @@ const users = JSON.parse(
     fs.readFileSync(path.join(__dirname, 'users.json'), 'utf8')
 );
 const gestor = JSON.parse(
-    fs.readFileSync(path.join(__dirname, 'gestor2.json'), 'utf8')
+    fs.readFileSync(path.join(__dirname, 'gestor.json'), 'utf8')
 );
 
 const importData = async () => {
@@ -39,19 +39,19 @@ const importData = async () => {
     try {
         // Crear usuarios
         const createdUsers = await User.create(users);
-        // Recorres todos los usuarios y comprobamos si es un gestor
-        console.log(createdUsers)
-        createdUsers.forEach(user => {
-            if (user.rolUser === "gestor") {
-                // Recorres todos los objetos de gestor 
-                gestor.forEach(g => {
-                    // Si refUser esta vacio lo asignamos
-                    if(!g.refUser) {
-                        g.refUser = user._id;
-                    }
-                });
-            }
-        });
+        // // Recorres todos los usuarios y comprobamos si es un gestor
+        // console.log(createdUsers)
+        // createdUsers.forEach(user => {
+        //     if (user.rolUser === "gestor") {
+        //         // Recorres todos los objetos de gestor 
+        //         gestor.forEach(g => {
+        //             // Si refUser esta vacio lo asignamos
+        //             if(!g.refUser) {
+        //                 g.refUser = user._id;
+        //             }
+        //         });
+        //     }
+        // });
         // aquí podrías guardar los cambios en gestor.json
         const createdGestores = await GestorModel.create(gestor);
         console.log("Dades importades...");
