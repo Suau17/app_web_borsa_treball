@@ -3,6 +3,7 @@ import { RegisterCiclo } from '../services/admin/ciclosList';
 import '../assets/register.css'
 export function CrearCiclo(){
 
+    
     function handleClickCiclo(event){
         event.preventDefault()
         const ciclo = Object.fromEntries(

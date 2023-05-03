@@ -61,7 +61,8 @@ export const createResponsableController = async (req, res) => {
                 telefon,
                 nameEmpresa,
                 refUser: id,
-                responsable: true
+                responsable: true,
+                perfilHabilitado : true
             })
             await gestor.save()
             console.log(gestor)

@@ -17,24 +17,17 @@ export function GetUsers() {
         viewUsers(currentPage, role).then(user => setUsers(user))
     }, [currentPage])
 
-
-    function miFuncion() {
-        // Aquí va el código que realiza la función del botón
-      
-        // Deshabilita el botón
-        document.getElementById("btn").disabled = true;
-      }
-
     const habilitarGestoresCallback = useCallback((id) => {
-        habilitarGestores({ id }).then(location.reload);
-    }, [users]);
+        habilitarGestores({ id }).then(() => {
+            viewUsers(currentPage, role).then(user => setUsers(user))
+        })
+       
+    }, [setUsers]);
 
     const deleteUserCallback = useCallback((id) => {
 
         deleteUser({ id }).then(() =>
-            setUsers((prevUsers) =>
-                prevUsers.filter((user) => user._id !== id)
-            )
+        viewUsers(currentPage, role).then(user => setUsers(user))
         )
     }, [setUsers]
     );
@@ -75,7 +68,7 @@ export function GetUsers() {
                                             <>
                                                 {(e.description === 'true' && e.rolUser === 'gestor') ?
 
-                                                    <button name="btn" className=" bg-blue-800 text-white font-semibold  py-2 px-4 border border-blue-500 rounded "  >Habilitado </button> :
+                                                    <button name="btn" className=" bg-blue-800 text-white font-semibold  py-2 px-4 border border-blue-500 rounded " onClick={() => { console.log(e), habilitarGestoresCallback(e._id) }}>Habilitado </button> :
                                                     <button name="btn" className=" bg-blue-500 text-white font-semibold  py-2 px-4 border border-blue-500 rounded " onClick={() => { console.log(e), habilitarGestoresCallback(e._id) }} >Habilitar </button>
                                                 }
                                             </>

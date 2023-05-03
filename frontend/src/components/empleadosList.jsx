@@ -38,6 +38,7 @@ export function TableEmployees() {
             </thead>
             <tbody className="bg-white border-2  border-blue-500  hover:bg-gray-200">
               {empleados.map((element) => (
+                console.log(element),
                 <tr
                   key={element._id}
                   className="bg-white border-2 border-blue-500  hover:bg-gray-200"
