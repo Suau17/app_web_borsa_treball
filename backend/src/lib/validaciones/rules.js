@@ -7,6 +7,7 @@ export const rules = [
     
     body('name','Introduexi un nom').exists().isLength({min:3 ,max:20}),
     body('email','introdueix un E-mail valido').exists().isEmail().custom(async (value, { req }) => {
+        console.log(value)
         const user = await UserModel.findOne({ email: value });
         if (user) {
             throw new Error('Email already in use');
@@ -48,26 +49,22 @@ export const rulesOferta = [
     }).not().isEmpty().isLength({max:250}),
     
     body('expirationDate').exists().not().isEmpty().isISO8601().withMessage('La data ha de  estar en format (YYYY-MM-DD)')
-     
-    
+  
 ]
 
 export const rulesEstudiante = [
+    body('name','Introduexi un nom').exists().isLength({min:3 ,max:20}),
+    body('email','introdueix un E-mail valido').exists().isEmail().custom(async (value, { req }) => {
+        console.log(value)
+        const user = await UserModel.findOne({ email: value });
+        if (user) {
+            throw new Error('Email already in use');
+        }
+    }),
+    body('description').exists().isLength({min:3,max:200}),
     body('cartaPresentacion').exists().not().isEmpty().isLength({min:3,max:450}),
     body('link').exists().not().isEmpty(),
-     body('curriculum').custom((value, { req }) => {
-    if (!value) {
-      throw new Error('El curriculum es requerido');
-    }
-    if (value.mimetype !== 'application/pdf' && !value.mimetype.startsWith('image/')) {
-      throw new Error('El curriculum debe ser una imagen o un archivo PDF');
-    }
-    if (value.size > 1024 * 1024 * 5) {
-      throw new Error('El tamaño máximo permitido para el curriculum es de 5 MB');
-    }
-    // Validar el nombre del archivo aquí y asegurarse de que sea único
-    return true;
-  })
+
 ]
 
 export const rulesResp = [
@@ -99,12 +96,10 @@ export const rulesUpdateEmpresa=[
 
 export const rulesGestorUpdate = [
     body('name','Introduexi un nom').exists().isLength({min:3 ,max:20}),
-   
     body('carrec').exists().not().isEmpty().isLength({min:3,max:20}),
     body('telefon')
     .notEmpty().withMessage('El camp de teléfono es obligatori')
     .matches(/^[0-9]{10}$/).withMessage('El telefon ha de tindre 10 caracters')
-   
 ]
 
 export const rulesAdminUpdate = [
