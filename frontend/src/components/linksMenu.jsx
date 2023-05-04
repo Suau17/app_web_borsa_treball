@@ -47,6 +47,7 @@ export function linksAdmin(){
     <li><Link to="/TableEmpresa">Empresa</Link></li>
     <li><Link to="/tableOfertas">Ofertas</Link></li>
     <li><Link to="/crearCiclos">Registar ciclo</Link></li>
+    <li><Link to="/tableCiclo">Ciclos</Link></li>
     <li><Link to="/User">User Profile</Link></li>
     <li><a href="/logout">Logout</a></li>
     

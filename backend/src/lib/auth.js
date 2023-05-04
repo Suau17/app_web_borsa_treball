@@ -17,10 +17,10 @@ export const checkAuthGestor = async (req,res, next) => {
 
       
         const gestor = await GestorModel.findOne({ refUser: id })
-        // if (gestor.perfilHabilitado === false)  {
-        //     console.log('tu perfil aun no esta habilitado')
-        //     return res.status(401).send('tu perfil no esta habilitado. Espere a que nuestro administrador le active la cuenta. Si despues de varios dias su cuenta no esta de alta llame al 99429214')
-        // }
+        if (gestor.perfilHabilitado === false)  {
+            console.log('tu perfil aun no esta habilitado')
+            return res.status(401).send('tu perfil no esta habilitado. Espere a que nuestro administrador le active la cuenta. Si despues de varios dias su cuenta no esta de alta llame al 99429214')
+        }
         
         req.gestorV = gestor
         next()
