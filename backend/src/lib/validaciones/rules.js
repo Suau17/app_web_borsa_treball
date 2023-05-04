@@ -119,7 +119,7 @@ export const rulesGestorUpdate = [
 
 export const rulesAdminUpdate = [
      body('name','Introduexi un nom').exists().isLength({min:3 ,max:20}),
-    
+     
     body('cargo').exists().not().isEmpty().isLength({min:3,max:20}),
     body('telefon')
     .notEmpty().withMessage('El camp de teléfono es obligatori')
