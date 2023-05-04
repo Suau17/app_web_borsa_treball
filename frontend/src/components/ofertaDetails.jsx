@@ -161,7 +161,7 @@ export function OfertaDetails() {
                                         }
                                         else if (inscripcion.estado == 'rechazado') {
                                             html2 = (
-                                                <div key={inscripcion._id} className='cardInscrito'>
+                                                <div key={inscripcion._id} className='cardInscrito bg-red-500  text-white font-bold py-2 px-4 rounded w-2/4 mb-4'>
                                                     {console.log(inscripcion)}
                                                     <Link to={`/search/user/${inscripcion.refUser._id}`}>{inscripcion.refUser.name.toUpperCase()}</Link>
                                                     <span>RECHAZADO</span>
