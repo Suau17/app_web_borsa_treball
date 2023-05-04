@@ -86,11 +86,24 @@ export const downloadCurriculumController = async (req, res) => {
 //mirar si faltan campos
 
 export const updateEstudianteController = async (req, res) => {
-  upload.single('curriculum', 5)(req, res, async () => {
-    const { cartaPresentacion, estudis, link } = req.body;
+  upload.single('curriculum', 5)(req, res, async (err) => {
+    if (err) {
+      return res.status(400).send(err.message);
+    }
+
+    const { cartaPresentacion, estudi, link } = req.body;
     const id = req.idToken;
-    console.log(id)
-    let estudiante = await EstudianteModel.findOne({refUser : id});
+
+    if (typeof cartaPresentacion !== 'string' || cartaPresentacion.trim() === '') {
+      return res.status(400).send('El campo "cartaPresentacion" es inválido');
+    }
+    
+  
+    if (!link) {
+      return res.status(400).send('Falta el campo "link"');
+    }
+
+    let estudiante = await EstudianteModel.findOne({ refUser: id });
     if (!estudiante) {
       return res.status(404).send('Estudiante no encontrado');
     }
@@ -99,26 +112,28 @@ export const updateEstudianteController = async (req, res) => {
       const currPath = path.join('./uploads/', estudiante.curriculum);
       console.log(currPath)
       fs.unlink(currPath, (err) => {
-        if (err) console.log(err);
+        if (err) {
+          console.log(err);
+        }
         console.log('Currículum anterior eliminado');
       });
     }
 
     if (req.file) {
-      console.log(req.file.filename+'afaff')
+      console.log(req.file.filename + 'afaff')
       estudiante.curriculum = req.file.filename;
     }
 
     estudiante.cartaPresentacion = cartaPresentacion;
     estudiante.estudis = estudis;
-    if(link){
-      estudiante.link = link
-    }
+    estudiante.link = link;
 
     await estudiante.save();
     return res.send('Estudiante actualizado correctamente');
   });
 };
+
+
 
 
 

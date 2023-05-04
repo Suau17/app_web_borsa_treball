@@ -49,10 +49,10 @@ export const rulesOferta = [
 
 export const rulesEstudiante = [
     body('name').notEmpty().withMessage('Name is required'),
-  body('email').isEmail().withMessage('Invalid email address'),
+  body('email').exists().isEmail().withMessage('Invalid email address'),
  
   body('cartaPresentacion').notEmpty().withMessage('Presentation letter is required'),
-  body('link').isURL({ protocols: ['https'] }).withMessage('Invalid URL format'),
+
  
   
 ]

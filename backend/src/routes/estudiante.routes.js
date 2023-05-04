@@ -19,7 +19,7 @@ estudianteRouter.delete('/eliminar/:userId', userC.deleteUserController)
 //falta validar-porque faltan cosas??
 // estudianteRouter.post('/registrar',rules.rulesEstudiante, validacion.validarCampos, estudiante.estudianteRegistrerController)
 estudianteRouter.get('/verInscripciones', estudiante.verOfertasInscrito)
-estudianteRouter.put('/actualizar',rules.rulesEstudiante,validacion.validarCampos,estudiante.updateEstudianteController)
+estudianteRouter.put('/actualizar', estudiante.updateEstudianteController)
 
 
 

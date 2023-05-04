@@ -65,21 +65,21 @@ const ListarOfertas = () =>{
       </div>
     <div className="oferta">
       <div className={activeForm === 'upEmpresa' ? 'form-container sign-up-container' : 'form-container sign-up-container hidden'}>
-            <h1>Ofertas</h1>
+            <h1 className="h1Of">Ofertas</h1>
             <span>Ordenadas por categoria</span>
             {resultado ? <ListarOfertas />:''}
          
       </div>
       </div>
-      <div className="oferta">
+      <div className="user">
       <div className={activeForm === 'resp' ? 'form-container sign-up-container' : 'form-container sign-up-container hidden'}>
             <h1 className="h1Of">Usuarios</h1>
             {users ? <p>{users.msg}</p>:''}
       </div>
       </div>
-      <div className="oferta">
+      <div className="empresa">
       <div className={activeForm === 'empresa' ? 'form-container sign-up-container' : 'form-container sign-up-container hidden'}>
-       <h1>Empresas</h1>
+       <h1 className="h1Of">Empresas</h1>
       </div>
       </div>
     </>
