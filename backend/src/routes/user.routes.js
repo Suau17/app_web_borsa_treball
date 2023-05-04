@@ -24,7 +24,7 @@ userRouter.post('/login', userC.userLoginController)
 userRouter.delete('/delete/', auth.checkAuth ,userC.deleteUserController)
 userRouter.post('/register/gestor', rules.rules, rules.rulesGestor,rules.rulesEmpresa, validacion.validarCampos,  gestor.gestorRegistrerController)
 userRouter.post('/register/admin',  admin.adminRegistrerController)
-userRouter.post('/register/estudiante', rules.rulesEstudiante, validacion.validarCampos, estudiante.estudianteRegistrerController)
+userRouter.post('/register/estudiante', estudiante.estudianteRegistrerController)
 // ruta para recuperar contraseña
 
 export default userRouter

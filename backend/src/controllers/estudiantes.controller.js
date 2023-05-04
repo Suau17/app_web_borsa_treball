@@ -8,6 +8,8 @@ import { hash } from 'bcrypt'
 import multer from 'multer'
 import * as path from 'path';
 import EmpresaModel from "#schemas/empresaSchema.js";
+import * as validacion from "#Lib/validaciones/validacion.js";
+import * as rules from '#Lib/validaciones/rules.js';
 
 
 /**
@@ -29,11 +31,15 @@ const upload = multer({ storage: storage })
 
 
 export const estudianteRegistrerController = async (req, res) => {
+
+  
   upload.single('curriculum', 5)(req, res, async () => {
     const { cartaPresentacion, link } = req.body;
     if(!link) link = ''
     req.body.rolUser = 'alumno';
     let estudis = req.body.estudis;
+    await validationResult(req).throw();
+
     const { id, token } = await userController.userRegistrerController(req, res);
     console.log('id' + id);
     const estudianteData = {

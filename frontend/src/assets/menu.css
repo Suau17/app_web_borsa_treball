@@ -154,6 +154,30 @@ header {
     font-size: 14px;
     text-align: center; /* Centra el contenido del footer */
     color: white;
+    margin-top: 100%;
+  }
+
+  @media only screen and (max-width: 768px) {
+    footer {
+      font-size: 12px;
+      padding: 5px;
+    }
+  }
+  
+  /* Estilos para pantallas medianas */
+  @media only screen and (min-width: 769px) and (max-width: 992px) {
+    footer {
+      font-size: 14px;
+      padding: 7px;
+    }
+  }
+  
+  /* Estilos para pantallas grandes */
+  @media only screen and (min-width: 993px) {
+    footer {
+      font-size: 16px;
+      padding: 10px;
+    }
   }
 
 
