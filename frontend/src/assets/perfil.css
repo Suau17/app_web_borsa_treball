@@ -3,7 +3,7 @@
 .card{
     margin-top: 10%;
     margin-left: 40%;
-    width: 320px;
+    width: 400px;
     height: 340px;
     background: white;
     border-radius: 10px;
@@ -11,6 +11,8 @@
     display: flex;
     cursor: pointer;
     justify-content: center;
+    font-family:Arial, Helvetica, sans-serif;
+    
     box-shadow: 0 0 20px rgb(0, 0,0, 0.13);
 }
 
@@ -89,11 +91,11 @@
 
 .btn{
     width: 95px;
-    padding: 10px;
+    padding: 12px;
     border-radius: 10px;
     outline: none;
     border: none;
-    transform: translateY(5px);
+    transform: translateY(25px);
     background:#0f283f;
     color: white;
 }
