@@ -30,19 +30,7 @@ const storage = multer.diskStorage({
   }
 })
 
-const multerFilter = (req, file, cb) => {
-  const errors = filterRegisterEstudiante(req);
-  if (errors.length > 0) {
-    cb(new Error(errors.join(', ')));
-  } else {
-    cb(null, true);
-  }
-};
-
-const upload = multer({ 
-  storage: storage,
-  fileFilter: multerFilter
-});
+const upload = multer({ storage: storage })
 
 
 export const estudianteRegistrerController = async (req, res) => {
@@ -56,7 +44,7 @@ try {
     const estudiantes = estudiantesJSON.estudiantes
    
     const estudiant = estudiantes.find((est) => est.dni === dni);
-    // if (!estudiant) return res.status(406).send({errors: 'No ets o has sigut alumne del centre'})
+    if (!estudiant) return res.status(406).send({errors: 'No ets o has sigut alumne del centre'})
     
 
     const errors = await filterRegisterEstudiante(req, res)
@@ -310,6 +298,7 @@ const filterRegisterEstudiante = async (req, res) => {
   if (!name || !email || !passwordHash || !dni) {
     errors.push('Faltan campos requeridos');
   }
+console.log( req.file.filename)
   // Validar que los campos cumplan con las restricciones necesarias
   if (name.length < 3 || name.length > 20) {
     errors.push('El nom te que tenir entre 3 y 20 caracteres');
