@@ -50,7 +50,7 @@ export async function RegisterGestor(props) {
       console.log(data.errors)
       toast.custom((t) => (
         <div className="border-2 text-red-500  bg-red-200 border-red-600 pl-2">
-          <ul>
+          <ul className="max-w-md space-y-1 text-red-500 list-disc list-inside">
             {data.errors
               .filter((error, index, self) => self.findIndex((e) => e.msg === error.msg) === index) // Filtrar elementos duplicados
               .map((error, index) => (
@@ -106,7 +106,7 @@ export async function RegisterResponsable(props) {
       console.log(data.errors)
       toast.custom((t) => (
         <div className="border-2 text-red-500  bg-red-200 border-red-600 pl-2">
-          <ul>
+          <ul className="max-w-md space-y-1 text-red-500 list-disc list-inside">
             {data.errors
               .filter((error, index, self) => self.findIndex((e) => e.msg === error.msg) === index) // Filtrar elementos duplicados
               .map((error, index) => (
@@ -127,12 +127,13 @@ export async function RegisterResponsable(props) {
 }
 
 export async function RegisterAlumno(props) {
-    const { name, email, password, cartaPresentacion, cvFile, link } = props
+    const { name, email, password, dni, cartaPresentacion, cvFile, link } = props
 
     const formData = new FormData();
     formData.append("name", name);
     formData.append("email", email);
     formData.append("description", "lo quitaremos?");
+    formData.append("dni", dni);
     formData.append("passwordHash", password);
     formData.append("cartaPresentacion", cartaPresentacion);
     formData.append("curriculum", cvFile, cvFile.name);
@@ -158,29 +159,31 @@ export async function RegisterAlumno(props) {
       console.log(data.token)
       setCookie('vToken',data.token, 1)
       setCookie('vRole',data.role, 1)
-      location.reload()
-
+      return 'correct'
     } 
     else if(response.status === 400 ){
       console.log('error 400')
       console.log(data.errors)
       toast.custom((t) => (
         <div className="border-2 text-red-500  bg-red-200 border-red-600 pl-2">
-          <ul>
-            {data.errors
-              .filter((error, index, self) => self.findIndex((e) => e.msg === error.msg) === index) // Filtrar elementos duplicados
-              .map((error, index) => (
+          <ul className="max-w-md space-y-1 text-red-500 list-disc list-inside">
+            {data.errors.map((error, index) => {
+              return (
                 <li className="" key={index}>
-                  {error.msg}
+                  {error}
                 </li>
-              ))}
+              );
+            })}
           </ul>
           <button onClick={() => toast.dismiss(t)}>close</button>
         </div>
       ));
     }
+    else if (response.status === 406)  {
+      console.log(data.errors)
+      toast.error(data.errors);
+    }
     else if (response.status >= 500 && response.status < 600) {
-
       toast.error('Ha ocorregut un error en el servidor');
     } else {
       toast.error(`Ha ocorregut un error al registrar el alumne`);

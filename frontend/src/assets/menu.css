@@ -146,14 +146,18 @@ header {
 
   /*home css*/
   footer {
-    position: absolute; /* Establece la posición del footer */
-    bottom: 0; /* Fija el footer en la parte inferior de la página */
-    width: 100%; /* Establece el ancho del footer al 100% del ancho de la página */
+
     background-color: #0f283f; /* Color gris claro */
-    padding: 10px; /* Añade espacio alrededor del contenido */
-    font-size: 14px;
-    text-align: center; /* Centra el contenido del footer */
+
+
+    position: fixed;
+    left: 0;
+    bottom: 0;
+    width: 100%;
+    padding: 1%;
     color: white;
+    text-align: center;
+
   }
 
 
