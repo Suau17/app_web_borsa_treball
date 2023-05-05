@@ -241,7 +241,7 @@ export const updateAdminController = async (req, res) => {
 
 
       // Enviamos un mensaje de éxito
-      return res.send('Datos del gestor actualizados con éxito')
+      return res.send({msg:'Administrador actualizat amb éxit'})
   } catch (error) {
       // En caso de error, enviamos un mensaje de error
       return res.status(500).send('Ocurrió un error inesperado. Por favor, intente nuevamente más tarde.')

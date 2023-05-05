@@ -37,65 +37,73 @@ const upload = multer({ storage: storage })
 
 export const estudianteRegistrerController = async (req, res) => {
 
-try {
+  try {
 
-  upload.single('curriculum', 5)(req, res, async () => {
-    let { cartaPresentacion, link, dni } = req.body;
-    const estudiantesJSON = JSON.parse(
-      fs.readFileSync(path.join(__dirname, '..' ,'estudiantes.json'), 'utf8')
-    );
-    const estudiantes = estudiantesJSON.estudiantes
-   
-    const estudiant = estudiantes.find((est) => est.dni === dni);
-   // if (!estudiant) return res.status(406).send({errors: 'No ets o has sigut alumne del centre'})
-    
+    upload.single('curriculum', 5)(req, res, async () => {
+      let { cartaPresentacion, link, dni, email } = req.body;
+      const estudiantesJSON = JSON.parse(
+        fs.readFileSync(path.join(__dirname, '..', 'estudiantes.json'), 'utf8')
+      );
+      const estudiantes = estudiantesJSON.estudiantes
 
-    const errors = await filterRegisterEstudiante(req, res)
-    if (errors.length > 0) {
-      if (req.file.filename) {
-        const currPath = path.join('./uploads/', req.file.filename);
-        console.log(currPath)
-        fs.unlink(currPath, (err) => {
-          if (err) {
-            console.log(err);
-          }
-          console.log('Currículum anterior eliminado');
-        });
+      const estudiant = estudiantes.find((est) => est.dni === dni);
+      // if (!estudiant) return res.status(406).send({errors: 'No ets o has sigut alumne del centre'})
+
+
+      const errors = await filterRegisterEstudiante(req, res)
+      const exsistingUserByEmail = await UserModel.findOne({ email })
+      if (exsistingUserByEmail) {
+        errors.push('El email ya exsisteix a la base de dades')
       }
-      return res.status(400).send({ errors });
-    }
+      const exsistingUserByDNI = await EstudianteModel.findOne({ dni })
+      if (exsistingUserByDNI) {
+        errors.push('El alumne ya esta registrat')
+      }
+      if (errors.length > 0) {
+        if (req.file) {
+          const currPath = path.join('./uploads/', req.file.filename);
+          console.log(currPath)
+          fs.unlink(currPath, (err) => {
+            if (err) {
+              console.log(err);
+            }
+            console.log('Currículum anterior eliminado');
+          });
+        }
+        return res.status(400).send({ errors });
+      }
 
-    
-    if(!link) link = ''
-    req.body.rolUser = 'alumno';
-    let estudis = req.body.estudis;
-   
 
-    const { id, token } = await userController.userRegistrerController(req, res);
-    console.log('id' + id);
-    const estudianteData = {
-      refUser: id,
-      cartaPresentacion,
-      estudis,
-      link,
-      dni
-    };
-    if (req.file) {
-      estudianteData.curriculum = req.file.filename;
-    }
-    const estudiante = new EstudianteModel(estudianteData);
-    await estudiante.save();
-    const msg = {
-      token: token,
-      role: 'alumno',
-      id,
-      resposta: 'Token enviado como cookie'
-    };
-    return res.send(msg);
-  });
-} catch (error) {
-  return res.status(500).send('Error al registrar alumno') 
-}
+      if (!link) link = ''
+      req.body.rolUser = 'alumno';
+      let estudis = req.body.estudis;
+
+
+      const { id, token } = await userController.userRegistrerController(req, res);
+      console.log('id' + id);
+      const estudianteData = {
+        refUser: id,
+        cartaPresentacion,
+        estudis,
+        link,
+        dni
+      };
+      if (req.file) {
+        estudianteData.curriculum = req.file.filename;
+      }
+      const estudiante = new EstudianteModel(estudianteData);
+      await estudiante.save();
+      const msg = {
+        token: token,
+        role: 'alumno',
+        id,
+        resposta: 'Token enviado como cookie'
+      };
+      return res.send(msg);
+    });
+  } catch (error) {
+    return res.status(500).send('Error al registrar alumno')
+  }
 };
 
 export const downloadCurriculumController = async (req, res) => {
@@ -129,23 +137,26 @@ export const updateEstudianteController = async (req, res) => {
 
   upload.single('curriculum', 5)(req, res, async () => {
     const { cartaPresentacion, estudis, link } = req.body;
-    
-    const errors = await filterRegisterEstudiante(req, res)
+    const errors = await filterRegisterEstudiante(req)
+    console.log(req.body)
     if (errors.length > 0) {
+      console.log('ERROR')
+      if (req.file) {
+        const currPath = path.join('./uploads/', req.file.filename);
+        console.log(currPath)
+        fs.unlink(currPath, (err) => {
+          if (err) {
+            console.log(err);
+          }
+          console.log('Currículum anterior eliminado');
+        });
+      }
       return res.status(400).send({ errors });
     }
 
 
     const id = req.idToken;
 
-    if (typeof cartaPresentacion !== 'string' || cartaPresentacion.trim() === '') {
-      return res.status(400).send('El campo "cartaPresentacion" es inválido');
-    }
-    
-  
-    if (!link) {
-      return res.status(400).send('Falta el campo "link"');
-    }
 
     let estudiante = await EstudianteModel.findOne({ refUser: id });
     if (!estudiante) {
@@ -154,7 +165,6 @@ export const updateEstudianteController = async (req, res) => {
 
     if (estudiante.curriculum) {
       const currPath = path.join('./uploads/', estudiante.curriculum);
-      console.log(currPath)
       fs.unlink(currPath, (err) => {
         if (err) {
           console.log(err);
@@ -164,7 +174,6 @@ export const updateEstudianteController = async (req, res) => {
     }
 
     if (req.file) {
-      console.log(req.file.filename + 'afaff')
       estudiante.curriculum = req.file.filename;
     }
 
@@ -172,8 +181,16 @@ export const updateEstudianteController = async (req, res) => {
     estudiante.estudis = estudis;
     estudiante.link = link;
 
+    let data = req.body
+    if (data.passwordHash || data.name || data.email || data.description) {
+      console.log(data.password)
+      if (data.passwordHash) {
+        data.passwordHash = await hash(data.passwordHash, 12)
+      }
+      await UserModel.findByIdAndUpdate(estudiante.refUser, req.body, { new: true })
+    }
     await estudiante.save();
-    return res.send('Estudiante actualizado correctamente');
+    return res.send({ msg: 'Estudiant actualizat correctament' });
   });
 };
 
@@ -233,23 +250,23 @@ export const inscribirseOferta = async (req, res) => {
 
     if (inscripcionrepetida) {
 
-    if(inscripcionrepetida.estado === 'aceptado' || inscripcionrepetida.estado === 'rechazado'){
-      res.status(401).send({msg: 'La empresa ya ha gestionat la teva inscripció així que no pots borrar la inscripció'});
-      return;      
-    }
+      if (inscripcionrepetida.estado === 'aceptado' || inscripcionrepetida.estado === 'rechazado') {
+        res.status(401).send({ msg: 'La empresa ya ha gestionat la teva inscripció així que no pots borrar la inscripció' });
+        return;
+      }
 
       await InscripcionModel.deleteOne({ refOfertaLaboral: idOferta, refUser: idUsuarioToken });
-      res.status(401).send({msg: 'Ya se ha borrado la inscripcion de la oferta.'});
-      return;      
+      res.status(401).send({ msg: 'Ya se ha borrado la inscripcion de la oferta.' });
+      return;
     }
 
     let expirationDate = oferta.expirationDate
     let timestampExpirationDate = new Date(expirationDate).getTime();
     let timestampActual = new Date().getTime()
-    
-    if(timestampActual > timestampExpirationDate){ 
+
+    if (timestampActual > timestampExpirationDate) {
       console.log('NO')
-      res.status(403).send({msg: 'oferta caducada'});
+      res.status(403).send({ msg: 'oferta caducada' });
       return
     }
 
@@ -268,7 +285,7 @@ export const inscribirseOferta = async (req, res) => {
     )
     const data = await inscripcion.save();
     // Realiza alguna acción para inscribir al estudiante a la oferta
-    const msg = { msg: "Estudiante inscrito a la oferta" , data} 
+    const msg = { msg: "Estudiante inscrito a la oferta", data }
     return res.status(200).send(msg);
   } catch (error) {
     res.status(500).send(error);
@@ -314,34 +331,30 @@ export const verOfertasInscrito = async (req, res) => {
   } catch (error) {
     res.status(500).send('Ha habido un error al mostrar las ofertas en las que estas inscrito')
   }
-}   
+}
 
 const filterRegisterEstudiante = async (req, res) => {
 
-  const { name, email, passwordHash, dni, cartaPresentacion, cvFile, link } = req.body;
+  const { name, email, passwordHash, cartaPresentacion, link } = req.body;
 
   const errors = [];
-
+  console.log(req.body)
   // Validar que los campos requeridos existan en el objeto FormData
-  if (!name || !email || !passwordHash || !dni) {
+  if (!name || !email || !passwordHash) {
     errors.push('Faltan campos requeridos');
   }
-console.log( req.file.filename)
   // Validar que los campos cumplan con las restricciones necesarias
   if (name.length < 3 || name.length > 20) {
     errors.push('El nom te que tenir entre 3 y 20 caracteres');
   }
 
-  const exsistingUserByEmail = await UserModel.findOne({ email })
-  if (exsistingUserByEmail) {
-    errors.push('El email ya exsisteix a la base de dades')
-  }
+
 
   if (!/\S+@\S+\.\S+/.test(email)) {
     errors.push('Introdueix un email valid');
   }
 
-  if (cartaPresentacion &&  cartaPresentacion.length < 3 || cartaPresentacion.length > 300) {
+  if (cartaPresentacion && cartaPresentacion.length < 3 || cartaPresentacion.length > 300) {
     errors.push('La carta de presentació hauria de tenir entre 3 y 300 caracteres');
   }
 
@@ -349,11 +362,7 @@ console.log( req.file.filename)
     errors.push('Introduce una url válida');
   }
 
-  const exsistingUserByDNI = await EstudianteModel.findOne({ dni })
-  if (exsistingUserByDNI) {
-    errors.push('El alumne ya esta registrat')
-  }
 
-  return  errors ;
+  return errors;
 
 }

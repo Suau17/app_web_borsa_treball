@@ -62,7 +62,7 @@ export const createResponsableController = async (req, res) => {
                 nameEmpresa,
                 refUser: id,
                 responsable: true,
-                perfilHabilitado : true
+                perfilHabilitado: true
             })
             await gestor.save()
             console.log(gestor)
@@ -118,7 +118,7 @@ export const updateGestorController = async (req, res) => {
 
 
         // Enviamos un mensaje de éxito
-        return res.send('Datos del gestor actualizados con éxito')
+        return res.send({ msg: 'Gestor actualizat amb éxit' })
     } catch (error) {
         // En caso de error, enviamos un mensaje de error
         return res.status(500).send('Ocurrió un error inesperado. Por favor, intente nuevamente más tarde.')
@@ -141,27 +141,27 @@ export const getOfertasEmpresa = async (req, res, next) => {
 
 export const deleteEmpleados = async (req, res) => {
     try {
-        
 
-    const idEmpleado = req.body.id;
-    const gestor = req.gestorV;
-    const idUsuario = gestor.refUser;
 
-    const empresa = await EmpresaModel.findOne({ empleados: { $in: [idEmpleado] } });
+        const idEmpleado = req.body.id;
+        const gestor = req.gestorV;
+        const idUsuario = gestor.refUser;
 
-    if (!empresa|| !empresa.empleados.includes(idUsuario)  || !empresa.empleados.includes(idEmpleado) || gestor.responsable === true || gestor.refUser == idEmpleado) {
-        res.status(401).send({ msg: 'No tienes los permisos para actualizar una oferta de trabajo en esta empresa' });
-        return;
+        const empresa = await EmpresaModel.findOne({ empleados: { $in: [idEmpleado] } });
+
+        if (!empresa || !empresa.empleados.includes(idUsuario) || !empresa.empleados.includes(idEmpleado) || gestor.responsable === true || gestor.refUser == idEmpleado) {
+            res.status(401).send({ msg: 'No tienes los permisos para actualizar una oferta de trabajo en esta empresa' });
+            return;
+        }
+
+        await empresa.updateOne({ $pull: { empleados: idEmpleado } });
+        await GestorModel.deleteOne({ refUser: idEmpleado });
+        await UserModel.deleteOne({ _id: idEmpleado });
+
+        res.status(200).send({ msg: 'Usuario eliminado correctamente' });
+    } catch (error) {
+        res.status(401).send({ msg: 'Ha habido un error al eliminar el empleado ' });
     }
-
-    await empresa.updateOne({ $pull: { empleados: idEmpleado } });
-    await GestorModel.deleteOne({ refUser: idEmpleado });
-    await UserModel.deleteOne({ _id: idEmpleado });
-
-    res.status(200).send({ msg: 'Usuario eliminado correctamente' });
-} catch (error) {
-    res.status(401).send({ msg: 'Ha habido un error al eliminar el empleado ' });
-}
 }
 
 

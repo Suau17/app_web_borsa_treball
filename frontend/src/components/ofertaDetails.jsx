@@ -6,6 +6,7 @@ import { GetInscripciones } from "../services/inscripciones";
 import { cambiarEstado } from "../services/gestor/cambiarEstado";
 import { updateOferta } from "../services/gestor/ofertaUpdate";
 import { inscriureOferta } from "../services/alumne/inscriureOferta"
+import { misInscripciones } from "../services/alumne/inscripcionesAlumno";
 import { getCiclos } from "../services/ciclos";
 import '../assets/empresa.css'
 import '../assets/register.css'
@@ -19,12 +20,19 @@ export function OfertaDetails() {
     const navigate = useNavigate();
     // const [rolUser, setRol] = useState('user');
     const [activeForm, setActiveForm] = useState("oferta");
-
+    const [ miInscripcion , setMiInscripcion] = useState([])
     const [inscrito, setInscrito] = useState(false);
+    const [currentPage, setCurrentPage] = useState(1);
+
     useEffect(() => {
         GetOferta(idOferta).then(oferta => setOferta(oferta))
         getCiclos().then(ciclos => setCiclos(ciclos))
 
+
+       if (getCookie('vRole') == 'alumno') {
+        misInscripciones(currentPage).then(ofertas => setMiInscripcion(ofertas))
+       }
+        
 
     }, [])
 
@@ -34,7 +42,10 @@ export function OfertaDetails() {
         }
     }, [])
 
-
+    if(miInscripcion.length > 0){
+        console.log(miInscripcion)
+        console.log('dadas')
+    }
 
     const changeEstate = (inscripcion, keyword) => {
         const body = {
@@ -206,7 +217,7 @@ export function OfertaDetails() {
                                 <tr>
                                     <th scope="col" className="px-6 py-3">nom</th>
                                     <th scope="col" className="px-6 py-3">email</th>
-                                    <th scope="col" className="px-6 py-3">operaciones</th>
+                                    <th scope="col" className="px-6 py-3">operacions</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -218,14 +229,20 @@ export function OfertaDetails() {
                                         <td className="px-6 py-4"> <Link to={`/search/user/${e.refUser._id}`}>{e.refUser.name.toUpperCase()}</Link></td>
                                         <td className="px-6 py-4">{e.refUser.email}</td>
                                         {console.log(e)}
-                                        <td className="bg-blue-800 bg-opacity-100 text-white">ACEPTADO</td>
+                                        <td>
+                                            <button className="bg-gray-500 hover:bg-gray-400 text-white font-bold px-4 border-b-2 border-gray-700 hover:border-gray-500 rounded ml-3"> <Link to={`/search/user/${e.refUser._id}`}>Perfil</Link></button>
+                                            <button className="bg-blue-800 text-white font-bold px-4 border-b-2 border-blue-700 rounded ml-3">ACCEPTAT</button>
+                                        </td>
                                     </tr>
                                     } else if (e.estado == 'rechazado') {
                                         html = <tr key={e._id} className="bg-white border-2 border-blue-500  hover:bg-gray-200">
                                             <td className="px-6 py-4"> <Link to={`/search/user/${e.refUser._id}`}>{e.refUser.name.toUpperCase()}</Link></td>
                                             <td className="px-6 py-4">{e.refUser.email}</td>
                                             {console.log(e)}
-                                            <td className="bg-red-800 bg-opacity-100 text-white">RECHAZADO</td>
+                                            <td>
+                                            <button className="bg-gray-500 hover:bg-gray-400 text-white font-bold px-4 border-b-2 border-gray-700 hover:border-gray-500 rounded ml-3"> <Link to={`/search/user/${e.refUser._id}`}>Perfil</Link></button>
+                                            <button className="bg-red-800 text-white font-bold px-4 border-b-2 border-red-700 rounded ml-3">REBUTJAT</button>
+                                        </td>
                                         </tr>
                                     } else {
                                         html =
@@ -233,11 +250,11 @@ export function OfertaDetails() {
                                                 <td className="px-6 py-4"> <Link to={`/search/user/${e.refUser._id}`}>{e.refUser.name.toUpperCase()}</Link> </td>
                                                 <td className="px-6 py-4">{e.refUser.email}</td>
                                                 {console.log(e)}
-                                                <td><button
-                                                    onClick={() => changeEstate(e._id, 'aceptar')} className="bg-blue-500 hover:bg-blue-400 text-white font-bold px-4 border-b-2 border-blue-700 hover:border-blue-500 rounded ml-3">Aceptar</button>
-                                                    <button
-                                                        onClick={() => changeEstate(e._id, 'rechazar')} className="bg-red-500 hover:bg-red-400 text-white font-bold  px-4 border-b-2 border-red-700 hover:border-red-500 rounded ml-4">Rechazar</button>
-                                                    {/* disabled={rolUser !== 'gestor'} */}</td>
+                                                <td>
+                                                    <button className="bg-gray-500 hover:bg-gray-400 text-white font-bold px-4 border-b-2 border-gray-700 hover:border-gray-500 rounded ml-3"> <Link to={`/search/user/${e.refUser._id}`}>Perfil</Link></button>
+                                                    <button onClick={() => changeEstate(e._id, 'aceptar')} className="bg-blue-500 hover:bg-blue-400 text-white font-bold px-4 border-b-2 border-blue-700 hover:border-blue-500 rounded ml-3">Aceptar</button>
+                                                    <button onClick={() => changeEstate(e._id, 'rechazar')} className="bg-red-500 hover:bg-red-400 text-white font-bold  px-4 border-b-2 border-red-700 hover:border-red-500 rounded ml-4">Rechazar</button>
+                                                </td>
                                             </tr>
                                     }
                                     return html
