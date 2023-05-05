@@ -5,9 +5,10 @@ import { deleteOferta } from "../services/gestor/deleteOferta";
 import { GetInscripciones } from "../services/app/inscripciones";
 import { cambiarEstado } from "../services/gestor/cambiarEstado";
 import { updateOferta } from "../services/gestor/ofertaUpdate";
-import { inscriureOferta } from "../services/alumne/inscriureOferta"
+import { inscriureOferta } from "../services/alumne/inscriureOferta";
 import { misInscripciones } from "../services/alumne/inscripcionesAlumno";
-import { getCiclos } from "../services/ciclos";
+import { getCiclos } from "../services/app/ciclos";
+
 import '../assets/empresa.css'
 import '../assets/register.css'
 import { getCookie } from "../context/cookies";
