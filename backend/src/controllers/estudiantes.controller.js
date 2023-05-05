@@ -2,11 +2,15 @@ import OfertaLaboral from "#schemas/ofertaLaboral.js";
 import InscripcionModel from "#schemas/inscripcion.js";
 import EstudianteModel from "#schemas/estudiante.js"
 import fs from 'fs';
+import * as path from 'path';
+import { fileURLToPath } from 'url';
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
 import UserModel from "#schemas/User.js"
 import * as userController from '#controllers/user.controller.js'
 import { hash } from 'bcrypt'
 import multer from 'multer'
-import * as path from 'path';
+
 import EmpresaModel from "#schemas/empresaSchema.js";
 import * as validacion from "#Lib/validaciones/validacion.js";
 import * as rules from '#Lib/validaciones/rules.js';
@@ -27,6 +31,7 @@ const storage = multer.diskStorage({
     cb(null, file.fieldname + '-' + Date.now() + '.pdf')
   }
 })
+
 const upload = multer({ storage: storage })
 
 
@@ -39,9 +44,20 @@ try {
 
 
   upload.single('curriculum', 5)(req, res, async () => {
-    let { cartaPresentacion, link } = req.body;
+    let { cartaPresentacion, link, dni } = req.body;
+    const estudiantesJSON = JSON.parse(
+      fs.readFileSync(path.join(__dirname, '..' ,'estudiantes.json'), 'utf8')
+    );
+    const estudiantes = estudiantesJSON.estudiantes
+   
+    const estudiant = estudiantes.find((est) => est.dni === dni);
+    if (!estudiant) return res.status(406).send({errors: 'No ets o has sigut alumne del centre'})
+    
 
-
+    const errors = await filterRegisterEstudiante(req, res)
+    if (errors.length > 0) {
+      return res.status(400).send({ errors });
+    }
 
     
     if(!link) link = ''
@@ -55,7 +71,8 @@ try {
       refUser: id,
       cartaPresentacion,
       estudis,
-      link
+      link,
+      dni
     };
     if (req.file) {
       estudianteData.curriculum = req.file.filename;
@@ -101,15 +118,18 @@ export const downloadCurriculumController = async (req, res) => {
  * @returns 
  */
 
-//mirar si faltan campos
 
 export const updateEstudianteController = async (req, res) => {
-  upload.single('curriculum', 5)(req, res, async (err) => {
-    if (err) {
-      return res.status(400).send(err.message);
+
+  upload.single('curriculum', 5)(req, res, async () => {
+    const { cartaPresentacion, estudis, link } = req.body;
+    
+    const errors = await filterRegisterEstudiante(req, res)
+    if (errors.length > 0) {
+      return res.status(400).send({ errors });
     }
 
-    const { cartaPresentacion, estudi, link } = req.body;
+
     const id = req.idToken;
 
     if (typeof cartaPresentacion !== 'string' || cartaPresentacion.trim() === '') {
@@ -263,7 +283,7 @@ export const borrarInscripcion = async (req, res) => {
     const id = req.params.idInscripcion
 
     const idUsuarioToken = req.idToken;
-    //PARA REVISAR
+    // PARA REVISAR
     const inscripcion = await InscripcionModel.findOne({ refOfertaLaboral: id, refUser: idUsuarioToken });
     if (!inscripcion) {
       res.status(401).send('No tienes los permisos para borrar esta inscripción');
@@ -289,3 +309,45 @@ export const verOfertasInscrito = async (req, res) => {
     res.status(500).send('Ha habido un error al mostrar las ofertas en las que estas inscrito')
   }
 }   
+
+const filterRegisterEstudiante = async (req, res) => {
+
+  const { name, email, passwordHash, dni, cartaPresentacion, cvFile, link } = req.body;
+
+  const errors = [];
+
+  // Validar que los campos requeridos existan en el objeto FormData
+  if (!name || !email || !passwordHash || !dni) {
+    errors.push('Faltan campos requeridos');
+  }
+console.log( req.file.filename)
+  // Validar que los campos cumplan con las restricciones necesarias
+  if (name.length < 3 || name.length > 20) {
+    errors.push('El nom te que tenir entre 3 y 20 caracteres');
+  }
+
+  const exsistingUserByEmail = await UserModel.findOne({ email })
+  if (exsistingUserByEmail) {
+    errors.push('El email ya exsisteix a la base de dades')
+  }
+
+  if (!/\S+@\S+\.\S+/.test(email)) {
+    errors.push('Introdueix un email valid');
+  }
+
+  if (cartaPresentacion &&  cartaPresentacion.length < 3 || cartaPresentacion.length > 300) {
+    errors.push('La carta de presentació hauria de tenir entre 3 y 300 caracteres');
+  }
+
+  if (link && /^(https?:\/\/)?(www\.)?[a-zA-Z0-9]+(\.[a-zA-Z]{2,}){1,}$/.test(link)) {
+    errors.push('Introduce una url válida');
+  }
+
+  const exsistingUserByDNI = await EstudianteModel.findOne({ dni })
+  if (exsistingUserByDNI) {
+    errors.push('El alumne ya esta registrat')
+  }
+
+  return  errors ;
+
+}
