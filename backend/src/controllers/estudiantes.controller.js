@@ -37,11 +37,7 @@ const upload = multer({ storage: storage })
 
 export const estudianteRegistrerController = async (req, res) => {
 
-
-  
-
 try {
-
 
   upload.single('curriculum', 5)(req, res, async () => {
     let { cartaPresentacion, link, dni } = req.body;
@@ -51,11 +47,21 @@ try {
     const estudiantes = estudiantesJSON.estudiantes
    
     const estudiant = estudiantes.find((est) => est.dni === dni);
-    if (!estudiant) return res.status(406).send({errors: 'No ets o has sigut alumne del centre'})
+   // if (!estudiant) return res.status(406).send({errors: 'No ets o has sigut alumne del centre'})
     
 
     const errors = await filterRegisterEstudiante(req, res)
     if (errors.length > 0) {
+      if (req.file.filename) {
+        const currPath = path.join('./uploads/', req.file.filename);
+        console.log(currPath)
+        fs.unlink(currPath, (err) => {
+          if (err) {
+            console.log(err);
+          }
+          console.log('Currículum anterior eliminado');
+        });
+      }
       return res.status(400).send({ errors });
     }
 
@@ -63,7 +69,7 @@ try {
     if(!link) link = ''
     req.body.rolUser = 'alumno';
     let estudis = req.body.estudis;
-    await validationResult(req).throw();
+   
 
     const { id, token } = await userController.userRegistrerController(req, res);
     console.log('id' + id);
