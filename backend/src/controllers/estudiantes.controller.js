@@ -116,7 +116,7 @@ export const downloadCurriculumController = async (req, res) => {
   console.log()
   return res.download(filePath, err => {
     if (err) {
-      return res.status(500).send('Error al descarregar el currículum.');
+      return res.status(500).send(err);
     }
   });
 };
@@ -137,10 +137,9 @@ export const updateEstudianteController = async (req, res) => {
     const errors = await filterRegisterEstudiante(req)
     console.log(req.body)
     if (errors.length > 0) {
-      console.log('ERROR')
       if (req.file) {
         const currPath = path.join('./uploads/', req.file.filename);
-        console.log(currPath)
+        console.log('ERRORRRRRRRRRRR')
         fs.unlink(currPath, (err) => {
           if (err) {
             console.log(err);
@@ -170,6 +169,7 @@ export const updateEstudianteController = async (req, res) => {
     }
 
     if (req.file) {
+      console.log('POPOAFPOAPFOAPOPFOPOFPOF'+req.file.filename)
       estudiante.curriculum = req.file.filename;
     }
 
@@ -179,7 +179,6 @@ export const updateEstudianteController = async (req, res) => {
 
     let data = req.body
     if (data.passwordHash || data.name || data.email || data.description) {
-      console.log(data.password)
       if (data.passwordHash) {
         data.passwordHash = await hash(data.passwordHash, 12)
       }

@@ -49,6 +49,7 @@ export const createResponsableController = async (req, res) => {
         req.body.rolUser = 'responsable'
         const { id, token } = await userController.userRegistrerController(req, res)
         const gestorToken = req.gestorV;
+        console.log(gestorToken)
         const nameEmpresa = gestorToken.nameEmpresa
         const { carrec, telefon } = req.body
         if (id) {

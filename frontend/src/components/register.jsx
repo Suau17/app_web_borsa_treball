@@ -21,7 +21,10 @@ function RegisterForm() {
       new window.FormData(event.target)
     )
     RegisterGestor(gestor).then((key)=> {
-      if(key === 'correct') navigate('/')
+      if(key === 'correct') {
+        navigate('/')
+        location.reload()
+      }
     })
   }
 

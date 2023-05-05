@@ -36,7 +36,6 @@ export const rules = [
 ]
 
 export const rulesEmpresa = [
-    body('nameEmpresa','Introdueix un nom').isEmpty().isLength({min:3, max:15}),
     body('direccion','introdueix una direcció valida').exists().not().isEmpty(),
 ]
 

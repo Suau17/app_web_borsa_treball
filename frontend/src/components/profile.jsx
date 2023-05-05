@@ -106,7 +106,7 @@ export  function Profile() {
                                     <span>Link:</span>
                                     <input type="text" name="link" placeholder='link de la teva pagina (linkedin, repositori, github)' defaultValue={profile.estudiante.link} className='textAreaCV shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline' /><br />
                                     <i>Currículum (img o pdf):</i>
-                                    <input type="file" name='curriculum' accept="image/*,.pdf" className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" />
+                                    <input type="file" name='cvFile' accept="image/*,.pdf" className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" />
                                 </div>
                             ) : (
                                 <div>

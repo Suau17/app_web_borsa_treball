@@ -157,7 +157,7 @@ export const ofertaRegisterController = async (req, res) => {
     const idUsuario = gestorToken.refUser;
 
     const dateOfPublication = Date.now();
-    const empresa = await EmpresaModel.findOne({ refUser: { $in: [idUsuario] } });
+    const empresa = await EmpresaModel.findOne({ empleados: { $in: [idUsuario] } });
     console.log(empresa)
     console.log(idUsuario)
     if (!idUsuario) {
@@ -166,6 +166,7 @@ export const ofertaRegisterController = async (req, res) => {
     }
 
     const createBy = idUsuario
+
     const idEmpresa = empresa._id
 
     const ofertaLaboral = new OfertaLaboral({

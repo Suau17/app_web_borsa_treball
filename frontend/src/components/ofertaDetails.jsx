@@ -37,7 +37,7 @@ export function OfertaDetails() {
     }, [])
 
     useEffect(() => {
-        if (getCookie('vRole') === 'gestor') {
+        if (getCookie('vRole') !== 'alumno') {
             GetInscripciones(idOferta).then(inscripciones => setInscripciones(inscripciones))
         }
     }, [])
