@@ -1,0 +1,19 @@
+{
+    "estudiantes": [
+      {
+        "dni": "12345678A",
+        "nombre": "Juan Pérez",
+        "curso": "DAW"
+      },
+      {
+        "dni": "87654321B",
+        "nombre": "María García",
+        "curso": "DAM"
+      },
+      {
+        "dni": "11223344C",
+        "nombre": "Pedro López",
+        "curso": "ASIX"
+      }
+    ]
+  }

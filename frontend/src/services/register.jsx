@@ -69,8 +69,6 @@ export async function RegisterGestor(props) {
     } else {
       toast.error(`Ha ocorregut un error al registrar el gestor`);
     }
- 
-  
 
 }
 
@@ -102,6 +100,7 @@ export async function RegisterResponsable(props) {
 
     if (response.status === 200) {
       toast.success(`Responsable registrat amb éxit`);
+      
     } 
     else if(response.status === 400 ){
       console.log('error 400')

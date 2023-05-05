@@ -77,14 +77,6 @@ export const habilitarGestorController = async (req, res) => {
 
       console.log(gest)
 
-    // let bodyHTML;
-    // if (newHabilitado) {
-    //   bodyHTML = `Hola ${mailTo.name}, soy ${console.log('admin')} represento al Vidal i Barraquer y hemos deshabilitado su cuenta de la bolsa de trabajo del Vidal i Barraquer.`;
-    // } else {
-    //   bodyHTML = `Hola ${mailTo.name}, soy ${console.log('admin')} represento al Vidal i Barraquer y hemos habilitado su cuenta de la bolsa de trabajo del Vidal i Barraquer.`;
-    // }
-
-    // Aquí puedes enviar el correo electrónico a "mailTo.email" con el contenido de "bodyHTML"
   }
 
   return res.status(200).send({ msg: `Datos de ${gestores.length} gestores actualizados con éxito` });

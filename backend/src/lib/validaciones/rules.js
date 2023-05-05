@@ -7,6 +7,7 @@ export const rules = [
     
     body('name','Introduexi un nom').exists().isLength({min:3 ,max:20}),
     body('email','introdueix un E-mail valido').exists().isEmail().custom(async (value, { req }) => {
+        console.log(value)
         const user = await UserModel.findOne({ email: value });
         if (user) {
             throw new Error('Email already in use');
@@ -43,18 +44,22 @@ export const rulesOferta = [
     }).not().isEmpty().isLength({max:250}),
     
     body('expirationDate').exists().not().isEmpty().isISO8601().withMessage('La data ha de  estar en format (YYYY-MM-DD)')
-     
-    
+  
 ]
 
 export const rulesEstudiante = [
-    body('name').notEmpty().withMessage('Name is required'),
-  body('email').exists().isEmail().withMessage('Invalid email address'),
- 
-  body('cartaPresentacion').notEmpty().withMessage('Presentation letter is required'),
+    body('name','Introduexi un nom').exists().isLength({min:3 ,max:20}),
+    body('email','introdueix un E-mail valido').exists().isEmail().custom(async (value, { req }) => {
+        console.log(value)
+        const user = await UserModel.findOne({ email: value });
+        if (user) {
+            throw new Error('Email already in use');
+        }
+    }),
+    body('description').exists().isLength({min:3,max:200}),
+    body('cartaPresentacion').exists().not().isEmpty().isLength({min:3,max:450}),
+    body('link').exists().not().isEmpty(),
 
- 
-  
 ]
 
 export const rulesResp = [
@@ -86,12 +91,10 @@ export const rulesUpdateEmpresa=[
 
 export const rulesGestorUpdate = [
     body('name','Introduexi un nom').exists().isLength({min:3 ,max:20}),
-   
     body('carrec').exists().not().isEmpty().isLength({min:3,max:20}),
     body('telefon')
     .notEmpty().withMessage('El camp de teléfono es obligatori')
     .matches(/^[0-9]{10}$/).withMessage('El telefon ha de tindre 10 caracters')
-   
 ]
 
 export const rulesAdminUpdate = [

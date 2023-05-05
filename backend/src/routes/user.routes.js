@@ -8,7 +8,6 @@ import { checkAuthUser } from '#Lib/auth.js'
 import * as validacion from "#Lib/validaciones/validacion.js";
 import * as rules from '#Lib/validaciones/rules.js';
 import { body, validationResult} from 'express-validator';
-
 // RUTAS GENERALES PARA GESTION CRUD USUARIOS
 
 const userRouter = Router()

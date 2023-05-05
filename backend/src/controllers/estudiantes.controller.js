@@ -32,9 +32,18 @@ const upload = multer({ storage: storage })
 
 export const estudianteRegistrerController = async (req, res) => {
 
+
   
+
+try {
+
+
   upload.single('curriculum', 5)(req, res, async () => {
-    const { cartaPresentacion, link } = req.body;
+    let { cartaPresentacion, link } = req.body;
+
+
+
+    
     if(!link) link = ''
     req.body.rolUser = 'alumno';
     let estudis = req.body.estudis;
@@ -61,6 +70,9 @@ export const estudianteRegistrerController = async (req, res) => {
     };
     return res.send(msg);
   });
+} catch (error) {
+  return res.status(500).send('Error al registrar alumno') 
+}
 };
 
 export const downloadCurriculumController = async (req, res) => {
