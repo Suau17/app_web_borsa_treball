@@ -13,7 +13,6 @@ export function GetOfertas() {
 
     useEffect(() => {
         VerOfertas(currentPage).then(ofertas => setOfertas(ofertas))
-        console.log(ofertas)
     }, [currentPage])
 
     let html;
@@ -45,7 +44,6 @@ export function GetOfertas() {
             </>
         )
     }
-    console.log(ofertas);
 
     return html
 

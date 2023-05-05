@@ -59,27 +59,27 @@ const ListarOfertas = () =>{
   return (
       <>
       <div className="buttons">
-        <button onClick={handleFormEmpresa}>Ofertas</button>
-        <button onClick={handleFormResp}>Usuarios</button>
-        <button onClick={handleFormOferta}>Empresas</button>
+        <button onClick={handleFormEmpresa}>Ofertes</button>
+        <button onClick={handleFormResp}>Usuaris</button>
+        <button onClick={handleFormOferta}>Empreses</button>
       </div>
     <div className="oferta">
       <div className={activeForm === 'upEmpresa' ? 'form-container sign-up-container' : 'form-container sign-up-container hidden'}>
-            <h1>Ofertas</h1>
-            <span>Ordenadas por categoria</span>
+            <h1>Ofertes</h1>
+            <span>Ordenades per categories</span>
             {resultado ? <ListarOfertas />:''}
          
       </div>
       </div>
       <div className="oferta">
       <div className={activeForm === 'resp' ? 'form-container sign-up-container' : 'form-container sign-up-container hidden'}>
-            <h1 className="h1Of">Usuarios</h1>
+            <h1 className="h1Of">Usuaris</h1>
             {users ? <p>{users.msg}</p>:''}
       </div>
       </div>
       <div className="oferta">
       <div className={activeForm === 'empresa' ? 'form-container sign-up-container' : 'form-container sign-up-container hidden'}>
-       <h1>Empresas</h1>
+       <h1>Empreses</h1>
       </div>
       </div>
     </>

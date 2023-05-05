@@ -51,7 +51,7 @@ export const estudianteRegistrerController = async (req, res) => {
       token: token,
       role: 'alumno',
       id,
-      resposta: 'Token enviado como cookie'
+      resposta: 'Token enviat com a cookie.'
     };
     return res.send(msg);
   });
@@ -62,15 +62,14 @@ export const downloadCurriculumController = async (req, res) => {
   const estudiante = await EstudianteModel.findById(id);
 
   if (!estudiante || !estudiante.curriculum) {
-    return res.status(404).send('El currículum no se encuentra');
+    return res.status(404).send('No es troba el currículum.');
   }
 
   const filePath = path.join('.', 'uploads', estudiante.curriculum);
   console.log()
   return res.download(filePath, err => {
     if (err) {
-      console.log(err);
-      return res.status(500).send('Error al descargar el currículum');
+      return res.status(500).send('Error al descarregar el currículum.');
     }
   });
 };
@@ -89,10 +88,9 @@ export const updateEstudianteController = async (req, res) => {
   upload.single('curriculum', 5)(req, res, async () => {
     const { cartaPresentacion, estudis, link } = req.body;
     const id = req.idToken;
-    console.log(id)
     let estudiante = await EstudianteModel.findOne({refUser : id});
     if (!estudiante) {
-      return res.status(404).send('Estudiante no encontrado');
+      return res.status(404).send('Estudiant no trobat.');
     }
 
     if (estudiante.curriculum) {
@@ -100,12 +98,10 @@ export const updateEstudianteController = async (req, res) => {
       console.log(currPath)
       fs.unlink(currPath, (err) => {
         if (err) console.log(err);
-        console.log('Currículum anterior eliminado');
       });
     }
 
     if (req.file) {
-      console.log(req.file.filename+'afaff')
       estudiante.curriculum = req.file.filename;
     }
 
@@ -116,7 +112,7 @@ export const updateEstudianteController = async (req, res) => {
     }
 
     await estudiante.save();
-    return res.send('Estudiante actualizado correctamente');
+    return res.send('Estudiant actualitzat correctament.');
   });
 };
 
@@ -175,12 +171,12 @@ export const inscribirseOferta = async (req, res) => {
     if (inscripcionrepetida) {
 
     if(inscripcionrepetida.estado === 'aceptado' || inscripcionrepetida.estado === 'rechazado'){
-      res.status(401).send({msg: 'La empresa ya ha gestionat la teva inscripció així que no pots borrar la inscripció'});
+      res.status(401).send({msg: 'La empresa ja ha gestionat la teva inscripció, així que no la pots esborrar.'});
       return;      
     }
 
       await InscripcionModel.deleteOne({ refOfertaLaboral: idOferta, refUser: idUsuarioToken });
-      res.status(401).send({msg: 'Ya se ha borrado la inscripcion de la oferta.'});
+      res.status(401).send({msg: `S'ha esborrat la inscripció de la oferta.`});
       return;      
     }
 
@@ -190,7 +186,7 @@ export const inscribirseOferta = async (req, res) => {
     
     if(timestampActual > timestampExpirationDate){ 
       console.log('NO')
-      res.status(403).send({msg: 'oferta caducada'});
+      res.status(403).send({msg: 'Oferta caducada'});
       return
     }
 
@@ -209,7 +205,7 @@ export const inscribirseOferta = async (req, res) => {
     )
     const data = await inscripcion.save();
     // Realiza alguna acción para inscribir al estudiante a la oferta
-    const msg = { msg: "Estudiante inscrito a la oferta" , data} 
+    const msg = { msg: "Estudiant inscrit a la oferta" , data} 
     return res.status(200).send(msg);
   } catch (error) {
     res.status(500).send(error);
@@ -233,14 +229,14 @@ export const borrarInscripcion = async (req, res) => {
     //PARA REVISAR
     const inscripcion = await InscripcionModel.findOne({ refOfertaLaboral: id, refUser: idUsuarioToken });
     if (!inscripcion) {
-      res.status(401).send('No tienes los permisos para borrar esta inscripción');
+      res.status(401).send('No tens els permissos per a esborrar aquesta inscripció.');
       return;
     }
     // Buscamos y borramos la inscripción en la base de datos
     await InscripcionModel.findByIdAndDelete(id)
 
     // Enviamos una respuesta exitosa al cliente
-    res.send({ mensaje: "Inscripción borrada exitosamente" });
+    res.send({ mensaje: "Inscripció esborrara am èxit." });
   } catch (error) {
     res.status(500).send(error);
   }
@@ -253,6 +249,6 @@ export const verOfertasInscrito = async (req, res) => {
     console.log(ofertasInscritas)
     res.send({ ofertasInscritas })
   } catch (error) {
-    res.status(500).send('Ha habido un error al mostrar las ofertas en las que estas inscrito')
+    res.status(500).send('Hi ha hagut un error al mostrar les ofertas a les que ets inscrit.')
   }
 }   

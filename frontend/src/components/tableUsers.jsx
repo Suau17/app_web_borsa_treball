@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useCallback } from "react";
 import { viewUsers } from '../services/app/users'
 import { deleteUser } from '../services/app/deleteUser'
 import { habilitarGestores } from "../services/admin/habilitarGestores";
@@ -37,7 +37,6 @@ export function GetUsers() {
     let view;
 
     if (users.listaUsuarios) {
-        console.log(users.listaUsuarios)
 
         view = (
             <>
@@ -48,10 +47,10 @@ export function GetUsers() {
 
                     <table className="formUser text-sm text-left    ">
                         <thead className="border-b border-neutral-800  text-neutral-50 dark:border-neutral-600  bg-blue-900">
-                            <th scope="col" className="px-6 py-3">Nombre</th>
-                            <th scope="col" className="px-6 py-3">Gmail</th>
+                            <th scope="col" className="px-6 py-3">Nom</th>
+                            <th scope="col" className="px-6 py-3">Email</th>
                             <th scope="col" className="px-6 py-3">Rol</th>
-                            <th scope="col" className="px-6 py-3">Operaciones</th>
+                            <th scope="col" className="px-6 py-3">Operacions</th>
                         </thead>
                         <tbody>
                             {users.listaUsuarios.map(e =>

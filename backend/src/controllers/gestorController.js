@@ -29,19 +29,19 @@ export const gestorRegistrerController = async (req, res) => {
             msg = {
                 token: token,
                 role: 'gestor',
-                resposta: 'Token enviado como cookie'
+                resposta: 'Token enviat com a cookie.'
             }
         } else {
             msg = {
                 token: token,
                 role: 'gestor',
-                resposta: 'error al crear el token'
+                resposta: 'Error al crear el token.'
             }
         }
         return res.send(msg)
 
     } catch (error) {
-        return res.status(500).send('Ocurrió un error inesperado. Por favor, intente nuevamente más tarde.');
+        return res.status(500).send(`S'ha produit un error inesperat. Intenta-ho de nou més endavant.`);
     }
 }
 
@@ -51,10 +51,7 @@ export const createResponsableController = async (req, res) => {
         const { id, token } = await userController.userRegistrerController(req, res)
         const gestorToken = req.gestorV;
         const nameEmpresa = gestorToken.nameEmpresa
-        console.log('RESPONSABLE USER')
         const { carrec, telefon } = req.body
-        console.log(id)
-        console.log(token)
         if (id) {
             const gestor = new GestorModel({
                 carrec,
@@ -73,7 +70,7 @@ export const createResponsableController = async (req, res) => {
             const msg = {
                 token: token,
                 role: 'responsable',
-                resposta: 'Token enviado como cookie'
+                resposta: 'Token enviat com a cookie'
             }
             return res.send(msg)
         }
@@ -92,15 +89,15 @@ export const updateGestorController = async (req, res) => {
         const idUsuario = gestorToken.refUser
 
         if (!idUsuario) {
-            res.status(401).send('No tienes los permisos para borrar otro usuario')
+            res.status(401).send('No tens els permissos per a esborrar un altre usuari.')
             return;
         }
 
         if ('rolUser' in data) {
-            return res.status(401).send('no puedes modificar tu rol')
+            return res.status(401).send('No pots modificar el teu rol.')
         }
         if ('perfilHabilitado' in data) {
-            return res.status(401).send('no puedes habilitar tu rol, solo el administrador de la app')
+            return res.status(401).send(`No pots habilitar el teu rol. Comunica-ho a l'administrador de la app.`)
         }
         // Actualizamos el registro del gestor en la base de datos
         const gestor = await GestorModel.findOneAndUpdate({ refUser: idUsuario }, req.body, { new: true });
@@ -118,10 +115,10 @@ export const updateGestorController = async (req, res) => {
 
 
         // Enviamos un mensaje de éxito
-        return res.send('Datos del gestor actualizados con éxito')
+        return res.send('Dades del gestor actualitzades amb èxit.')
     } catch (error) {
         // En caso de error, enviamos un mensaje de error
-        return res.status(500).send('Ocurrió un error inesperado. Por favor, intente nuevamente más tarde.')
+        return res.status(500).send(`S'ha produit un error inesperat. Intenta-ho de nou més endavant.`)
     }
 }
 
@@ -131,7 +128,7 @@ export const getOfertasEmpresa = async (req, res, next) => {
         const listOfertas = await OfertaLaboral.find({ idEmpresa: id }).populate('createBy');
         const msg = {
             listaOfertas: listOfertas,
-            resposta: 'ofertes de la empresa recuperades'
+            resposta: 'Ofertes de la empresa recuperades.'
         }
         return res.status(200).send(msg)
     } catch (error) {
@@ -150,7 +147,7 @@ export const deleteEmpleados = async (req, res) => {
     const empresa = await EmpresaModel.findOne({ empleados: { $in: [idEmpleado] } });
 
     if (!empresa|| !empresa.empleados.includes(idUsuario)  || !empresa.empleados.includes(idEmpleado) || gestor.responsable === true || gestor.refUser == idEmpleado) {
-        res.status(401).send({ msg: 'No tienes los permisos para actualizar una oferta de trabajo en esta empresa' });
+        res.status(401).send({ msg: 'No tens els permissos per a actualitzar una oferta de treball en aquesta empresa.' });
         return;
     }
 
@@ -158,9 +155,9 @@ export const deleteEmpleados = async (req, res) => {
     await GestorModel.deleteOne({ refUser: idEmpleado });
     await UserModel.deleteOne({ _id: idEmpleado });
 
-    res.status(200).send({ msg: 'Usuario eliminado correctamente' });
+    res.status(200).send({ msg: 'Usuari eliminat correctament.' });
 } catch (error) {
-    res.status(401).send({ msg: 'Ha habido un error al eliminar el empleado ' });
+    res.status(401).send({ msg: `S'ha produit un error al eliminar l'empleat.` });
 }
 }
 

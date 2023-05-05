@@ -30,7 +30,7 @@ export const getOfertasController = async (req, res, next) => {
         totalPages: Math.ceil(count / limit),
         currentPage: page,
         limit: limit,
-        resposta: 'ofertes recuperades amb èxit'
+        resposta: 'Ofertes recuperades amb èxit.'
       };
       return res.status(200).send(msg);
     } catch (error) {
@@ -50,16 +50,14 @@ export const getOfertasEmpresa = async (req, res, next) => {
         .limit(limit)
         .populate('createBy')
         .exec();
-      
-        console.log('dadsa')
-        console.log(listOfertas)
+
       const msg = {
         listaOfertas: listOfertas,
         totalCount: count,
         totalPages: Math.ceil(count / limit),
         currentPage: page,
         limit: limit,
-        resposta: 'ofertes de la empresa recuperades'
+        resposta: 'Ofertes de la empresa recuperades.'
       };
       return res.status(200).send(msg);
     } catch (error) {
@@ -72,8 +70,6 @@ export const getOfertaController = async (req, res, next) => {
         
 
     let id = req.params.idOferta;
-    console.log(req.params)
-    console.log(id)
     const oferta = await OfertaLaboral.findById(id)
     const inscritos = await Promise.all(oferta.refUsersInscritos.map(estudiante => UserModel.findById(estudiante)));
     const msg = {
@@ -115,12 +111,11 @@ export const getInscritosController = async (req, res, next) => {
  */
 export const getOfertaEmpresaController = async (req, res, next) => {
   
-      console.log('joa')
       const gestorToken = req.gestorV;
       const nameEmpresa = gestorToken.nameEmpresa;
       const empresa = await EmpresaModel.findOne({ nom: nameEmpresa });
       if (!empresa) {
-        return next({ error: "Empresa not found", msg: "error" });
+        return next({ error: "Empresa no trobada.", msg: "error" });
       }
       
       const page = req.query.page ? parseInt(req.query.page) : 1;
@@ -139,9 +134,8 @@ export const getOfertaEmpresaController = async (req, res, next) => {
         totalPages: totalPages,
         currentPage: page,
         limit: limit,
-        resposta: 'ofertes de la empresa recuperades'
-      };
-      console.log(msg)    
+        resposta: 'Ofertes de la empresa recuperades.'
+      };   
         res.status(200).send(msg);
  
   }
@@ -167,7 +161,7 @@ export const ofertaRegisterController = async (req, res) => {
     console.log(empresa)
     console.log(idUsuario)
     if (!idUsuario) {
-        res.status(401).send({error:'No tienes los permisos para registrar una oferta de trabajo en esta empresa'})
+        res.status(401).send({error: 'No tens els permissos per a registrar una oferta de treball en aquesta empresa.'})
         return;
     }
 
@@ -180,7 +174,7 @@ export const ofertaRegisterController = async (req, res) => {
     await ofertaLaboral.save()
     const msg = {
         oferta: ofertaLaboral,
-        resposta: 'oferta creada amb exit'
+        resposta: 'Oferta creada amb èxit.'
     }
     return res.status(200).send(msg)
 } catch (error) {
@@ -204,7 +198,7 @@ export const updateOfertaController = async (req, res) => {
         const oferta = await OfertaLaboral.findById(id)
         const empresa = await EmpresaModel.findOne({ empleados: { $in: [idUsuario] } });
         if (!idUsuario || !oferta.idEmpresa.equals(empresa._id)) {
-            res.status(401).send({error:'No tienes los permisos para actualizar una oferta de trabajo en esta empresa'})
+            res.status(401).send({error: 'No tens els permissos per a registrar una oferta de treball en aquesta empresa.'})
             return;
         }
 
@@ -234,15 +228,15 @@ export const removeOfertaController = async (req, res) => {
         const empresa = await EmpresaModel.findOne({ refUser: { $in: [idUsuario] } });
 
         if (!idUsuario || !oferta.idEmpresa.equals(empresa._id)) {
-            res.status(401).send({error:'No tienes los permisos para actualizar una oferta de trabajo en esta empresa'})
+            res.status(401).send({error:'No tens els permissos per a registrar una oferta de treball en aquesta empresa.'})
             return;
         }
 
         await InscripcionModel.deleteMany({ refOfertaLaboral: ofertaId })
         await OfertaLaboral.findByIdAndDelete(ofertaId)
-        res.status(200).send({msg:'Ofertsa eliminada con exito'})
+        res.status(200).send({msg:'Oferta eliminada amb èxit.'})
     } catch (error) {
-      res.status(500).send({ error: 'Ocurrió un error al  eliminar la oferta. Por favor, intente nuevamente más tarde.' })
+      res.status(500).send({ error: `S'ha produit un error inesperat al eliminar la oferta. Intenta-ho de nou més endavant.` })
     }
 
 }

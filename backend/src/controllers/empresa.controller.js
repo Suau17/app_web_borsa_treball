@@ -39,7 +39,7 @@ export const getAllEmpresaControllers = async (req, res) => {
     // Enviar las empresas en la respuesta
     res.send(response);
   } catch (error) {
-    res.status(500).send('Ocurrió un error al recuperar las empresas. Por favor, intente nuevamente más tarde.');
+    res.status(500).send(`S'ha produit un error inesperat al recuperar les empreses. Intenta-ho de nou més endavant.`);
   }
 };
 
@@ -53,7 +53,7 @@ export const getEmpresaControllers = async (req, res) => {
     // Enviar las empresas en la respuesta
     res.status(200).send({empresa});
   } catch (error) {
-    res.status(500).send('Ocurrió un error al recuperar las empresas. Por favor, intente nuevamente más tarde.');
+    res.status(500).send(`S'ha produit un error inesperat al recuperar les empreses. Intenta-ho de nou més endavant.`);
   }
 }
 
@@ -95,7 +95,7 @@ export const updateEmpresaController = async (req, res) => {
     const empleados = empresa.empleados.map(empleado => empleado.toString());
    
     if (!empleados.includes(idUsuario.toString()) || usuario.rolUser !== 'gestor') {
-      return res.status(401).send('No tienes los permisos para eliminar esta empresa.');
+      return res.status(401).send('No tens els permissos per a eliminar aquesta empresa.');
     }
     // Actualizamos el registro del gestor en la base de datos
     let empresaUpdated = await EmpresaModel.findByIdAndUpdate(empresa._id, req.body, { new: true })
@@ -104,12 +104,12 @@ export const updateEmpresaController = async (req, res) => {
     // Enviamos un mensaje de éxitol
    const msg = {
       data : empresaUpdated ,
-      resposta : 'Empresa Actualizada con exito'
+      resposta : 'Empresa actualitzada amb èxit.'
     }
     return res.send(msg)
   } catch (error) {
     // En caso de error, enviamos un mensaje de error
-    return res.status(500).send('Ocurrió un error inesperado. Por favor, intente nuevamente más tarde.')
+    return res.status(500).send(`S'ha produit un error inesperat. Intenta-ho de nou més endavant.`)
   }
 }
 
@@ -129,7 +129,7 @@ export const deleteEmpresaController = async (req, res) => {
     const usuario = await UserModel.findById(idUsuario);
     const empleados = empresa.empleados.map(empleado => empleado.toString());
     if (!empleados.includes(idUsuario) || usuario.rolUser !== 'gestor') {
-      return res.status(401).send('No tienes los permisos para eliminar esta empresa.');
+      return res.status(401).send('No tens els permissos per a eliminar aquesta empresa.');
     }
     // Borramos el registro de la empresa de la base de datos
     await InscripcionModel.deleteMany({ idEmpresa: empresa._id })
@@ -137,10 +137,10 @@ export const deleteEmpresaController = async (req, res) => {
     await EmpresaModel.deleteOne({ _id: empresa._id });
 
     // Enviamos un mensaje de éxito
-    return res.send('Empresa eliminada con éxito')
+    return res.send('Empresa eliminada con èxit')
   } catch (error) {
     // En caso de error, enviamos un mensaje de error
-    return res.status(500).send('Ocurrió un error inesperado. Por favor, intente nuevamente más tarde.')
+    return res.status(500).send(`S'ha produit un error inesperat. Intenta-ho de nou més endavant.`)
   }
 }
 
@@ -155,11 +155,11 @@ export const getEmployeesControllers = async (req, res) => {
     // Enviar las empresas en la respuesta
     const msg = {
       empleados : empleados ,
-      resposta : 'Empleados encontrados'
+      resposta : 'Empleats trobats.'
     }
     res.send(msg);
   } catch (error) {
-    res.status(500).send('Ocurrió un error al recuperar las empresas. Por favor, intente nuevamente más tarde.');
+    res.status(500).send(`S'ha produit un error inesperat al recuperar les empreses. Intenta-ho de nou més endavant.`);
   }
 }
 
@@ -183,7 +183,7 @@ export const cambiarEstadoInscripcion = async (req, res) => {
     const oferta = await OfertaLaboral.findById(idOferta)
     const empresa = await EmpresaModel.findOne({ _id: oferta.idEmpresa });
     if (!empresa.empleados.includes(empleado._id)) {
-      res.status(401).send('No tienes los permisos para cambiar el estado de esta inscripción');
+      res.status(401).send(`No tens els permissos per a canviar l'estat d'aquesta inscripció.`);
       return;
     }
     // obtener email del estudiante
@@ -196,8 +196,7 @@ export const cambiarEstadoInscripcion = async (req, res) => {
 
     // definir cuerpo del mensaje
     const bodyHTML = `
-      hola soy ${empleado.name} y hemos aceptado su solicitud a la oferta ${oferta.name} con el codigo de oferta ${oferta.id}
-    `
+      Hola, em dic ${empleado.name} i hem acceptat la seva sol·licitud a la oferta ${oferta.name} amb el codi ${oferta.id}.`
 
 
     const msg = {}
@@ -207,19 +206,19 @@ export const cambiarEstadoInscripcion = async (req, res) => {
         await InscripcionModel.findByIdAndUpdate(id, { estado: 'aceptado' }, { new: true })
       await sendMail(mailFrom, mailTO, 'nueva oferta', bodyHTML)
 
-      msg.msg = 'Candidatura aceptada'
+      msg.msg = 'Candidatura acceptada.'
       msg.code = 1
     }
     if (data.estado === 'rechazar') {
       // enviar email
       await InscripcionModel.findByIdAndUpdate(id, { estado: 'rechazado' }, { new: true })
-      msg.msg = 'Candidatura Rechazada'
+      msg.msg = 'Candidatura rebutjada.'
       msg.code = 0
     }
     return res.send(msg)
   } catch (error) {
 
-    return res.status(402).send({ msg: 'error al modificar la postulacion', error })
+    return res.status(402).send({ msg: 'Error al modificar la postulació.', error })
 
   }
 

@@ -14,7 +14,6 @@ export function GetUsers(){
     let view;
 
     if(users.listaUsuarios){
-        console.log(users.listaUsuarios)
 
         view = (
             <>

@@ -22,7 +22,7 @@ export function GetEmpresaT() {
                     <table className="formEmpresa text-sm text-left   ">
                         <thead className="border-b border-neutral-800  text-neutral-50 dark:border-neutral-600  bg-blue-900">
                             <th scope="col" className="px-6 py-3">Nom</th>
-                            <th scope="col" className="px-6 py-3">Direccion</th>
+                            <th scope="col" className="px-6 py-3">Direcció</th>
                             <th scope="col" className="px-6 py-3">Sector</th>
                         </thead>
                         <tbody>

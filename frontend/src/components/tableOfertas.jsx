@@ -76,7 +76,6 @@ export function OfertasT() {
             </>
         )
     }
-  console.log(ofertas);
 
     return html
    
