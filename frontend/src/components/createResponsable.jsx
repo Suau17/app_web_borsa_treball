@@ -19,10 +19,10 @@ export function FormResponsable() {
             <form onSubmit={crearResponsable} className="bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4">
                 <span className="block text-gray-700 text-sm font-bold mb-2">Nom</span>
                 <input type="text" name='name' placeholder="Name" className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"/><br />
-                <span className="block text-gray-700 text-sm font-bold mb-2">Email</span>
-                <input type="email" name='email' placeholder="Email" className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"/><br />
+                <span className="block text-gray-700 text-sm font-bold mb-2" >Email</span>
+                <input type="email" name='email' placeholder="Email" required className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"/><br />
                 <span className="block text-gray-700 text-sm font-bold mb-2">Password</span>
-                <input type="password" name='password' placeholder="Password" className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"/><br />
+                <input type="password" name='password' required placeholder="Password" className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"/><br />
                 <span className="block text-gray-700 text-sm font-bold mb-2">Carrec empresa</span>
                 <input type="text" name='cargo' placeholder='carrec a la empresa (ex : responsable IT)' className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"/><br />
                 <span className="block text-gray-700 text-sm font-bold mb-2">telefon</span>

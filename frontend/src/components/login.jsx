@@ -24,12 +24,12 @@ export function LoginForm() {
         <form  onSubmit={handleClick}>
 				<div className="login__field">
                 <span className="login__field_span">Email</span>
-	                <input type="email" name="username" id="username" placeholder="prueba@vidalibarraquer.net"  onChange={(e) => setEmail(e.target.value)}/><br />
+	                <input type="email" name="username" id="username" required placeholder="prueba@vidalibarraquer.net"  onChange={(e) => setEmail(e.target.value)}/><br />
 				</div>
 				
 				<div className="login__field">
                 <span className="login__field_span">Contrassenya</span>
-                    <input type="password" name="password" id="password" onChange={(e) => setPassword(e.target.value)} /><br />
+                    <input type="password" name="password" required id="password" onChange={(e) => setPassword(e.target.value)} /><br />
 				</div>
 				
 				<button className="button login__submit">

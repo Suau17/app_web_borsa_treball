@@ -7,6 +7,9 @@ import { cambiarEstado } from "../services/gestor/cambiarEstado";
 import { updateOferta } from "../services/gestor/ofertaUpdate";
 import { inscriureOferta } from "../services/alumne/inscriureOferta"
 import { getCiclos } from "../services/app/ciclos";
+import { GetProfile } from "../services/app/getProfile";
+
+
 import '../assets/empresa.css'
 import '../assets/register.css'
 import { getCookie } from "../context/cookies";
@@ -111,7 +114,7 @@ export function OfertaDetails() {
         if (role == 'gestor' || role == 'responsable') {
             return (
                 <div>
-                    <button onClick={handelFormInscrito} className='bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded w-2/4 mb-4'>Veure usuaris inscrits</button>
+                    <button onClick={handelFormInscrito} className='bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 w-60 rounded  mb-4'> inscrits</button><br />
                     <button onClick={handleFormEdit} className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
                         <img src="/public/iconos/editar.png" alt="papelera" />
                     </button>
@@ -196,7 +199,7 @@ export function OfertaDetails() {
                 </div>
 
                 <div className={activeForm === 'inscritos' ? 'form-containerE sign-up-container' : 'form-containerE sign-up-container hidden'}>
-                    <button onClick={handleFormOferta} className='bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded w-2/4 mb-4'>Oferta</button>
+                    <button onClick={handleFormOferta} className='bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded w-60 mb-4 ml-60 mt-8'>Oferta</button>
                     <div className=" usuarios relative   sm:rounded-lg  my-4  text-4xl">
                         <table className="formUser text-sm text-left    ">
                             <thead className="border-b border-neutral-800  text-neutral-50 dark:border-neutral-600  bg-blue-900">
@@ -204,6 +207,8 @@ export function OfertaDetails() {
                                     <th scope="col" className="px-6 py-3">Nom</th>
                                     <th scope="col" className="px-6 py-3">Email</th>
                                     <th scope="col" className="px-6 py-3">Operacions</th>
+                                    <th scope="col" className="px-6 py-3">Perfil</th>
+
                                 </tr>
                             </thead>
                             <tbody>
@@ -230,13 +235,16 @@ export function OfertaDetails() {
                                                 <td className="px-6 py-4"> <Link to={`/search/user/${e.refUser._id}`}>{e.refUser.name.toUpperCase()}</Link> </td>
                                                 <td className="px-6 py-4">{e.refUser.email}</td>
                                                 {console.log(e)}
+                                                
                                                 <td><button
                                                     onClick={() => changeEstate(e._id, 'aceptar')} className="bg-blue-500 hover:bg-blue-400 text-white font-bold px-4 border-b-2 border-blue-700 hover:border-blue-500 rounded ml-3">Acceptar</button>
                                                     <button
                                                         onClick={() => changeEstate(e._id, 'rechazar')} className="bg-red-500 hover:bg-red-400 text-white font-bold  px-4 border-b-2 border-red-700 hover:border-red-500 rounded ml-4">Rebutjar</button>
                                                     {/* disabled={rolUser !== 'gestor'} */}</td>
+                                                   
                                             </tr>
                                     }
+                                  
                                     return html
                                 }
 

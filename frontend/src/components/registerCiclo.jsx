@@ -20,7 +20,7 @@ export function CrearCiclo(){
                 <span className="block text-gray-700  font-bold mb-2">Nom</span>
                 <input type="text" name="name" id="name" placeholder='name' className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"/><br></br>
                 <span className="block text-gray-700  font-bold mb-2">Familia profesional</span>
-                <select type="text" name="familiaProfesional" id="familiaProfesional" placeholder='familiaProfesional' className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
+                <select type="text" name="familiaProfesional" id="familiaProfesional" required placeholder='familiaProfesional' className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
                     <option value="0">--Selecciona---</option>
                     <option value="FAMÍLIA D'ADMINISTRACIÓ I GESTIÓ">FAMÍLIA D'ADMINISTRACIÓ I GESTIÓ</option>
                     <option value="FAMÍLIA DE COMERÇ I MÀRQUETING">FAMÍLIA DE COMERÇ I MÀRQUETING</option>

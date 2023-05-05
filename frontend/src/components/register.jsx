@@ -53,8 +53,8 @@ function RegisterForm() {
               <h2>Gestor:</h2>
               <span>Dades de contacte de qui gestiona el compte de la empresa:</span>
               <input type="text" name='name' placeholder="Name" />
-              <input type="email" name='email' placeholder="Email" />
-              <input type="password" name='password' placeholder="Password" />
+              <input type="email" name='email' required placeholder="Email" />
+              <input type="password" name='password' required placeholder="Password" />
               <input type="text" name='cargo' placeholder='carrec a la empresa (ex : responsable IT)' />
               <input type="text" name='telefon' placeholder='telefon' />
               <h2>Empresa:</h2>
@@ -76,8 +76,8 @@ function RegisterForm() {
               <h1>Alumne</h1>
               <span>Registra't com estudiant i comença a inscriure't a ofertes</span>
               <input type="text" name='name' placeholder="Name" />
-              <input type="email" name='email' placeholder="Email" />
-              <input type="password" name='password' placeholder="Password" />
+              <input type="email" name='email' required placeholder="Email" />
+              <input type="password" name='password' required placeholder="Password" />
               <input type="text" name='dni' placeholder='DNI: 1111111D' />
               <textarea name="cartaPresentacion" placeholder='hola me llamo xxxx y ....'
                 id="" cols="45" rows="6" className='textAreaCV' >
