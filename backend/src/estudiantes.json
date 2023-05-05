@@ -11,6 +11,11 @@
         "curso": "DAW"
       },
       {
+        "dni": "12345678C",
+        "nombre": "Juan fafasf",
+        "curso": "DAM"
+      },
+      {
         "dni": "11223344C",
         "nombre": "Gerard Suau Gumbau",
         "curso": "DAW"

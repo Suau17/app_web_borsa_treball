@@ -79,7 +79,7 @@ export const rulesOferta = [
 
 export const rulesResp = [
     body('name','Ingrese un nom').exists().isLength({min:3 ,max:20}),
-    body('carrec').exists().not().isEmpty().isLength({min:3,max:20}),
+    body('carrec').exists().not().isEmpty().isLength({min:3,max:100}),
     body('telefon')
     .notEmpty().withMessage('El camp de teléfono es obligatori')
     .matches(/^[0-9]{10}$/).withMessage('El telefon ha de tindre 10 caracters')
@@ -106,10 +106,6 @@ export const rulesUpdateEmpresa=[
 
 export const rulesGestorUpdate = [
     body('name','Introduexi un nom').exists().isLength({min:3 ,max:20}),
-    body('carrec').exists().not().isEmpty().isLength({min:3,max:20}),
-    body('telefon')
-    .notEmpty().withMessage('El camp de teléfono es obligatori')
-    .matches(/^[0-9]{10}$/).withMessage('El telefon ha de tindre 10 caracters')
 ]
 
 export const rulesAdminUpdate = [

@@ -34,7 +34,10 @@ function RegisterForm() {
       new window.FormData(event.target)
     )
     RegisterAlumno(alumno).then((key)=> {
-      if(key === 'correct') navigate('/')
+      if(key === 'correct')  {
+        navigate('/')
+        location.reload()
+      }
     })
   }
 
