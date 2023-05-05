@@ -1,5 +1,5 @@
 import { toast } from "sonner";
-import { getCookie } from "../context/cookies";
+import { getCookie } from "../../context/cookies";
 const Url = `${import.meta.env.VITE_URL}/admin/deleteUser`
 
 export async function deleteUser(props){

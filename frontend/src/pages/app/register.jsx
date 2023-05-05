@@ -1,6 +1,6 @@
 import React from 'react'
-import  RegisterForm  from '../components/register'
-import { getCookie } from '../context/cookies'
+import  RegisterForm  from '../../components/register'
+import { getCookie } from '../../context/cookies'
 
 
 function Register() {

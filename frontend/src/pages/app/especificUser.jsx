@@ -1,5 +1,5 @@
 import React from 'react'
-import { DetailsUser } from '../components/detailsUser'
+import { DetailsUser } from '../../components/detailsUser'
 
 
 function EspecificUser() {

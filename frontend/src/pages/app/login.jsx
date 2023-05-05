@@ -1,6 +1,6 @@
 import React from 'react'
-import { LoginForm } from '../components/login'
-import { getCookie } from '../context/cookies'
+import { LoginForm } from '../../components/login'
+import { getCookie } from '../../context/cookies'
 
 
 function Login() {

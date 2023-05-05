@@ -15,7 +15,6 @@ export function Menu() {
     function validarRol(role) {
         console.log(role)
         if(role == 'gestor'){
-            console.log('dasfasf')
           return  linksGestor()
         }
         if(role == 'alumno'){
@@ -42,7 +41,7 @@ export function Menu() {
             <nav id='menu'>
                 <ul>
 
-                    <li><Link to="/getOfertas">Ofertas</Link></li>
+                    <li><Link to="/getOfertas">Ofertes</Link></li>
                     <li><Link to="/login">Login</Link></li>
                     <li><Link to="/register">Register</Link> </li> 
                     

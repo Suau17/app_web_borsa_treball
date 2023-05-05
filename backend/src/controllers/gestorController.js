@@ -4,7 +4,6 @@ import EmpresaModel from '#schemas/empresaSchema.js'
 import OfertaLaboral from "#schemas/ofertaLaboral.js"
 import * as userController from '#controllers/user.controller.js'
 import { empresaRegistrerController } from "./empresa.controller.js"
-import mongoose from "mongoose"
 import { hash } from 'bcrypt'
 
 export const gestorRegistrerController = async (req, res) => {
@@ -29,19 +28,19 @@ export const gestorRegistrerController = async (req, res) => {
             msg = {
                 token: token,
                 role: 'gestor',
-                resposta: 'Token enviado como cookie'
+                resposta: 'Token enviat com a cookie.'
             }
         } else {
             msg = {
                 token: token,
                 role: 'gestor',
-                resposta: 'error al crear el token'
+                resposta: 'Error al crear el token.'
             }
         }
         return res.send(msg)
 
     } catch (error) {
-        return res.status(500).send('Ocurrió un error inesperado. Por favor, intente nuevamente más tarde.');
+        return res.status(500).send(`S'ha produit un error inesperat. Intenta-ho de nou més endavant.`);
     }
 }
 
@@ -51,10 +50,7 @@ export const createResponsableController = async (req, res) => {
         const { id, token } = await userController.userRegistrerController(req, res)
         const gestorToken = req.gestorV;
         const nameEmpresa = gestorToken.nameEmpresa
-        console.log('RESPONSABLE USER')
         const { carrec, telefon } = req.body
-        console.log(id)
-        console.log(token)
         if (id) {
             const gestor = new GestorModel({
                 carrec,
@@ -73,7 +69,7 @@ export const createResponsableController = async (req, res) => {
             const msg = {
                 token: token,
                 role: 'responsable',
-                resposta: 'Token enviado como cookie'
+                resposta: 'Token enviat com a cookie'
             }
             return res.send(msg)
         }
@@ -92,15 +88,15 @@ export const updateGestorController = async (req, res) => {
         const idUsuario = gestorToken.refUser
 
         if (!idUsuario) {
-            res.status(401).send('No tienes los permisos para borrar otro usuario')
+            res.status(401).send('No tens els permissos per a esborrar un altre usuari.')
             return;
         }
 
         if ('rolUser' in data) {
-            return res.status(401).send('no puedes modificar tu rol')
+            return res.status(401).send('No pots modificar el teu rol.')
         }
         if ('perfilHabilitado' in data) {
-            return res.status(401).send('no puedes habilitar tu rol, solo el administrador de la app')
+            return res.status(401).send(`No pots habilitar el teu rol. Comunica-ho a l'administrador de la app.`)
         }
         // Actualizamos el registro del gestor en la base de datos
         const gestor = await GestorModel.findOneAndUpdate({ refUser: idUsuario }, req.body, { new: true });
@@ -121,7 +117,7 @@ export const updateGestorController = async (req, res) => {
         return res.send({ msg: 'Gestor actualizat amb éxit' })
     } catch (error) {
         // En caso de error, enviamos un mensaje de error
-        return res.status(500).send('Ocurrió un error inesperado. Por favor, intente nuevamente más tarde.')
+        return res.status(500).send(`S'ha produit un error inesperat. Intenta-ho de nou més endavant.`)
     }
 }
 
@@ -131,7 +127,7 @@ export const getOfertasEmpresa = async (req, res, next) => {
         const listOfertas = await OfertaLaboral.find({ idEmpresa: id }).populate('createBy');
         const msg = {
             listaOfertas: listOfertas,
-            resposta: 'ofertes de la empresa recuperades'
+            resposta: 'Ofertes de la empresa recuperades.'
         }
         return res.status(200).send(msg)
     } catch (error) {

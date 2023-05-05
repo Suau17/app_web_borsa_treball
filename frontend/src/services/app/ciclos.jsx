@@ -1,4 +1,4 @@
-import { getCookie } from "../context/cookies";
+import { getCookie } from "../../context/cookies";
 
 const url = `${import.meta.env.VITE_URL}/app/ciclo`;
 

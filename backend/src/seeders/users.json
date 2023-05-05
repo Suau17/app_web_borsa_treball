@@ -1,6 +1,5 @@
 [
     {
-
         "name": "Marc",
         "description": "Gruber",
         "email": "a@hola.com",
@@ -14,13 +13,5 @@
         "email": "b@hola.com",
         "passwordHash" : "Gurororo",
         "rolUser" : "gestor"    
-    },
-
-    {
-        "name": "Helder",
-        "description": "Rivas",
-        "email": "c@hola.com",
-        "passwordHash" : "Gurororo",
-        "rolUser" : "gestor"
     }
 ]

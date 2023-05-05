@@ -1,4 +1,4 @@
-import { getCookie } from "../context/cookies";
+import { getCookie } from "../../context/cookies";
 
 let role = getCookie('vRole')
 let token = getCookie('vToken')

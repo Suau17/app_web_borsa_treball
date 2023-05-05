@@ -11,9 +11,7 @@ import * as userController from '#controllers/user.controller.js'
 import { hash } from 'bcrypt'
 import multer from 'multer'
 
-import EmpresaModel from "#schemas/empresaSchema.js";
-import * as validacion from "#Lib/validaciones/validacion.js";
-import * as rules from '#Lib/validaciones/rules.js';
+
 
 
 /**
@@ -47,7 +45,7 @@ export const estudianteRegistrerController = async (req, res) => {
       const estudiantes = estudiantesJSON.estudiantes
 
       const estudiant = estudiantes.find((est) => est.dni === dni);
-      // if (!estudiant) return res.status(406).send({errors: 'No ets o has sigut alumne del centre'})
+      if (!estudiant) return res.status(406).send({errors: 'No ets o has sigut alumne del centre'})
 
 
       const errors = await filterRegisterEstudiante(req, res)
@@ -111,15 +109,14 @@ export const downloadCurriculumController = async (req, res) => {
   const estudiante = await EstudianteModel.findById(id);
 
   if (!estudiante || !estudiante.curriculum) {
-    return res.status(404).send('El currículum no se encuentra');
+    return res.status(404).send('No es troba el currículum.');
   }
 
   const filePath = path.join('.', 'uploads', estudiante.curriculum);
   console.log()
   return res.download(filePath, err => {
     if (err) {
-      console.log(err);
-      return res.status(500).send('Error al descargar el currículum');
+      return res.status(500).send('Error al descarregar el currículum.');
     }
   });
 };
@@ -160,7 +157,7 @@ export const updateEstudianteController = async (req, res) => {
 
     let estudiante = await EstudianteModel.findOne({ refUser: id });
     if (!estudiante) {
-      return res.status(404).send('Estudiante no encontrado');
+      return res.status(404).send('Estudiant no trobat.');
     }
 
     if (estudiante.curriculum) {
@@ -169,7 +166,6 @@ export const updateEstudianteController = async (req, res) => {
         if (err) {
           console.log(err);
         }
-        console.log('Currículum anterior eliminado');
       });
     }
 
@@ -309,14 +305,14 @@ export const borrarInscripcion = async (req, res) => {
     // PARA REVISAR
     const inscripcion = await InscripcionModel.findOne({ refOfertaLaboral: id, refUser: idUsuarioToken });
     if (!inscripcion) {
-      res.status(401).send('No tienes los permisos para borrar esta inscripción');
+      res.status(401).send('No tens els permissos per a esborrar aquesta inscripció.');
       return;
     }
     // Buscamos y borramos la inscripción en la base de datos
     await InscripcionModel.findByIdAndDelete(id)
 
     // Enviamos una respuesta exitosa al cliente
-    res.send({ mensaje: "Inscripción borrada exitosamente" });
+    res.send({ mensaje: "Inscripció esborrara am èxit." });
   } catch (error) {
     res.status(500).send(error);
   }
@@ -329,7 +325,7 @@ export const verOfertasInscrito = async (req, res) => {
     console.log(ofertasInscritas)
     res.send({ ofertasInscritas })
   } catch (error) {
-    res.status(500).send('Ha habido un error al mostrar las ofertas en las que estas inscrito')
+    res.status(500).send('Hi ha hagut un error al mostrar les ofertas a les que ets inscrit.')
   }
 }
 

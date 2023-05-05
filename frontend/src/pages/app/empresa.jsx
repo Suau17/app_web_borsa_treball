@@ -1,5 +1,5 @@
 import React from 'react'
-import { GetEmpresaT } from '../components/verEmpresa'
+import { GetEmpresaT } from '../../components/verEmpresa'
 
 function TableEmpresa() {
   return (

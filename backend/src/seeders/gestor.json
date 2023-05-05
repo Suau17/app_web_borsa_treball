@@ -1,18 +1,23 @@
 [
     {
-
         "name": "Marc",
         "description": "Gruber",
-        "email": "a2@hola.com",
+        "email": "a@hola.com",
         "passwordHash" : "Gurororo",
-        "rolUser" : "gestor"
+        "rolUser" : "gestor",
+        "carrec": "Fullstack developer",
+        "telefon": "8932425",
+        "nameEmpresa": "Gruber SL"
     },
 
     {
         "name": "Gerard",
         "description": "Suau",
-        "email": "b2@hola.com",
+        "email": "b@hola.com",
         "passwordHash" : "Gurororo",
-        "rolUser" : "gestor"    
+        "rolUser" : "gestor", 
+        "carrec": "Administrador de sistemas",
+        "telefon": "8932423",
+        "nameEmpresa": "Suau SL"
     }
 ]

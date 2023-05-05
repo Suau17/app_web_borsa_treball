@@ -1,8 +1,8 @@
 import { useEffect, useState } from "react";
 import { useParams, Link, useNavigate } from 'react-router-dom'
-import { GetOferta } from "../services/detailsOferta";
+import { GetOferta } from "../services/app/detailsOferta";
 import { deleteOferta } from "../services/gestor/deleteOferta";
-import { GetInscripciones } from "../services/inscripciones";
+import { GetInscripciones } from "../services/app/inscripciones";
 import { cambiarEstado } from "../services/gestor/cambiarEstado";
 import { updateOferta } from "../services/gestor/ofertaUpdate";
 import { inscriureOferta } from "../services/alumne/inscriureOferta"
@@ -18,7 +18,6 @@ export function OfertaDetails() {
     const [ciclos, setCiclos] = useState([])
     const [verInscritos, setVerInscritos] = useState([])
     const navigate = useNavigate();
-    // const [rolUser, setRol] = useState('user');
     const [activeForm, setActiveForm] = useState("oferta");
     const [ miInscripcion , setMiInscripcion] = useState([])
     const [inscrito, setInscrito] = useState(false);
@@ -92,7 +91,6 @@ export function OfertaDetails() {
     }
 
     const handleClickDelete = () => {
-        console.log('dsad')
         deleteOferta({ id: idOferta }).then(navigate('/getOfertas'))
 
     }
@@ -106,7 +104,6 @@ export function OfertaDetails() {
         let role = getCookie('vRole')
         let button = null;
         if (role === 'alumno') {
-            console.log('alumno')
             button =
                 <button onClick={handleClickOferta} className="bg-blue-500 hover:bg-blue-400 text-white font-bold px-4 border-b-2 border-blue-700 hover:border-blue-500 rounded ml-3">
                     {inscrito ? "Inscrito" : "Inscribirse"}
@@ -122,10 +119,10 @@ export function OfertaDetails() {
     function ButtonsGestionOferta() {
         let role = getCookie('vRole')
         let button;
-        if (role != 'alumno') {
+        if (role == 'gestor' || role == 'responsable') {
             return (
                 <div>
-                    <button onClick={handelFormInscrito} className='bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded w-2/4 mb-4'>ver Inscritos</button>
+                    <button onClick={handelFormInscrito} className='bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded w-2/4 mb-4'>Veure usuaris inscrits</button>
                     <button onClick={handleFormEdit} className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
                         <img src="/public/iconos/editar.png" alt="papelera" />
                     </button>
@@ -158,12 +155,12 @@ export function OfertaDetails() {
 
                         {<ButtonsGestionOferta />}
 
-                        <h3 className="uppercase font-bold ">Id de la Empresa:</h3> {oferta.oferta.idEmpresa}
-                        <h3 className="uppercase font-bold">Fecha de publicacion: </h3>{formattedDate}
+                        <h3 className="uppercase font-bold ">ID de l'empresa:</h3> {oferta.oferta.idEmpresa}
+                        <h3 className="uppercase font-bold">Data de publicació: </h3>{formattedDate}
                         <p className="pt-5" ><b>Requeriments:</b> {oferta.oferta.requirements}</p>
-                        <p className="pt-5"><b>ciclo:</b>{oferta.oferta.ciclo}</p>
-                        <p className="pt-5"><b>Skills:</b> {oferta.oferta.skills}</p>
-                        <p className="pt-5"><b>Descripción:</b> {oferta.oferta.description}</p>
+                        <p className="pt-5"><b>Cicle:</b>{oferta.oferta.ciclo}</p>
+                        <p className="pt-5"><b>Habilitats:</b> {oferta.oferta.skills}</p>
+                        <p className="pt-5"><b>Descripció:</b> {oferta.oferta.description}</p>
 
                         <div>
                             {ButtonInscriureOferta()}
@@ -173,15 +170,15 @@ export function OfertaDetails() {
                 <div className={activeForm === 'edit' ? 'form-containerE sign-up-container' : 'form-containerE sign-up-container hidden'}>
                     <div className=" divResp ">
                         <button onClick={handleFormOferta} className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
-                            Ver Oferta
+                            Veure oferta
                         </button>
                         <form onSubmit={(event) => { event.preventDefault(); handleFormEditOferta(event); }} className="bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4">
-                            <span className="block text-gray-700 text-sm font-bold mb-2">Título</span>
+                            <span className="block text-gray-700 text-sm font-bold mb-2">Títol</span>
                             <input type="text" name="titulo" defaultValue={oferta.oferta.title} className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" /><br />
 
-                            <span className="block text-gray-700 text-sm font-bold mb-2">Ciclo</span>
+                            <span className="block text-gray-700 text-sm font-bold mb-2">Cicle</span>
                             <select name="ciclo" id="ciclo" placeholder='ciclo' className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
-                                <option value="0">--- INSERTA ---</option>
+                                <option value="0">--- INSEREIX ---</option>
                                 {
                                     ciclos ? ciclos.map(e => {
                                         console.log(e.name)
@@ -190,16 +187,16 @@ export function OfertaDetails() {
                                 }
                             </select>
 
-                            <span className="block text-gray-700 text-sm font-bold mb-2">Requerimientos</span>
+                            <span className="block text-gray-700 text-sm font-bold mb-2">Requeriments</span>
                             <input type="text" name="requirements" defaultValue={oferta.oferta.requirements} className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" /><br />
 
-                            <span className="block text-gray-700 text-sm font-bold mb-2">Skills</span>
+                            <span className="block text-gray-700 text-sm font-bold mb-2">Habilitats</span>
                             <input type="text" name="skills" defaultValue={oferta.oferta.skills} className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" /><br />
 
-                            <span className="block text-gray-700 text-sm font-bold mb-2">Descripcion</span>
+                            <span className="block text-gray-700 text-sm font-bold mb-2">Descripció</span>
                             <textarea type="text" name="descripcion" defaultValue={oferta.oferta.description} className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" /><br />
 
-                            <span className="block text-gray-700 text-sm font-bold mb-2">Fecha de expiración</span>
+                            <span className="block text-gray-700 text-sm font-bold mb-2">Data d'expiració</span>
                             <input type="date" name="fechaExpiracion" defaultValue={new Date(oferta.oferta.expirationDate).toISOString().substr(0, 10)} className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" /><br />
 
                             <button className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline mt-2">Guardar</button>
@@ -210,7 +207,7 @@ export function OfertaDetails() {
                 </div>
 
                 <div className={activeForm === 'inscritos' ? 'form-containerE sign-up-container' : 'form-containerE sign-up-container hidden'}>
-                    <button onClick={handleFormOferta} className='bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded w-2/4 mb-4'>oferta</button>
+                    <button onClick={handleFormOferta} className='bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded w-2/4 mb-4'>Oferta</button>
                     <div className=" usuarios relative   sm:rounded-lg  my-4  text-4xl">
                         <table className="formUser text-sm text-left    ">
                             <thead className="border-b border-neutral-800  text-neutral-50 dark:border-neutral-600  bg-blue-900">

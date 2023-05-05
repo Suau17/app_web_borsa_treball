@@ -46,7 +46,6 @@ export function GetInscripciones() {
             </>
         )
     }
-    console.log(ofertas);
 
     return html
 

@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { VerOfertas } from "../services/ofertasList";
+import { VerOfertas } from "../services/app/ofertasList";
 import { CardOferta } from "./cardOferta";
 import '../App.css'
 import '../assets/oferta.css'
@@ -13,7 +13,6 @@ export function GetOfertas() {
 
     useEffect(() => {
         VerOfertas(currentPage).then(ofertas => setOfertas(ofertas))
-        console.log(ofertas)
     }, [currentPage])
 
     let html;
@@ -45,7 +44,6 @@ export function GetOfertas() {
             </>
         )
     }
-    console.log(ofertas);
 
     return html
 
