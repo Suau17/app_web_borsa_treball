@@ -21,8 +21,8 @@ function RegisterForm() {
       new window.FormData(event.target)
     )
     RegisterGestor(gestor).then((key)=> {
+      console.log('PPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPP'+key)
       if(key === 'correct') navigate('/')
-      location.reload()
     })
   }
 
@@ -31,7 +31,9 @@ function RegisterForm() {
     const alumno = Object.fromEntries(
       new window.FormData(event.target)
     )
-    RegisterAlumno(alumno)
+    RegisterAlumno(alumno).then((key)=> {
+      if(key === 'correct') navigate('/')
+    })
   }
 
   return (
@@ -76,6 +78,7 @@ function RegisterForm() {
               <input type="text" name='name' placeholder="Name" />
               <input type="email" name='email' placeholder="Email" />
               <input type="password" name='password' placeholder="Password" />
+              <input type="text" name='dni' placeholder='DNI: 1111111D' />
               <textarea name="cartaPresentacion" placeholder='hola me llamo xxxx y ....'
                 id="" cols="45" rows="6" className='textAreaCV' >
               </textarea>

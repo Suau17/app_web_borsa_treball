@@ -10,7 +10,7 @@ export function CardOferta(props) {
 
     return (
 
-        <div onClick={buscarOferta} className="cardOferta border-double border-4 border-blue-900 ... bg-slate-100 shadow-xl  font-serif text-xl">
+        <div onClick={buscarOferta} className="cardOferta  border-2 border-blue-900 ... bg-white shadow-xl  font-calibri text-xl">
 
             <h4 className="uppercase font-bold">Títol</h4>{data.title}
             

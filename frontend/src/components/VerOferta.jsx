@@ -19,7 +19,7 @@ export function GetOfertas() {
     if (ofertas.listaOfertas) {
         html =
             <>
-                <h1 className="mb-4 text-4xl font-extrabold leading-none tracking-tight text-gray-900 md:text-5xl lg:text-4xl dark:text-black mt-5 ">OFERTAS</h1>
+                <h1 className="mb-4 text-4xl font-helvetica font-extrabold leading-none tracking-tight text-gray-900 md:text-5xl lg:text-4xl dark:text-black mt-5 ">OFERTAS</h1>
                 <div className="div-principal ">
                     {ofertas.listaOfertas.map(e =>
                         <CardOferta key={e._id} data={e} />
