@@ -61,8 +61,8 @@ header {
     font-size: 48px;
   font-weight: bold;
   text-align: center;
-  
-  margin-bottom: 5vh;
+  margin-top: 2%;
+  margin-bottom: 2px;
   text-transform: uppercase;
   letter-spacing: 4px;
   color: #333;
@@ -76,8 +76,8 @@ header {
     
     margin-bottom: 5vh;
     text-transform: uppercase;
-    letter-spacing: 2px;
-    color: #333;
+    letter-spacing: 1.5px;
+    color: black;
     font-family: Arial, sans-serif;
   }
   .menuH{
@@ -146,24 +146,32 @@ header {
 
   /*home css*/
   footer {
-    position: absolute; /* Establece la posición del footer */
-    bottom: 0; /* Fija el footer en la parte inferior de la página */
-    width: 100%; /* Establece el ancho del footer al 100% del ancho de la página */
+
+
+
     background-color: #0f283f; /* Color gris claro */
-    padding: 10px; /* Añade espacio alrededor del contenido */
-    font-size: 14px;
-    text-align: center; /* Centra el contenido del footer */
+
+
+    position: fixed;
+    left: 0;
+    bottom: 0;
+    width: 100%;
+    padding: 1%;
     color: white;
+
+    text-align: center;
+
+
   }
 
 
   .infoEmpresa {
-    border: outset 4px #0f283f;
-    font-weight: bold;
+    border-radius: 5px;
+    
     width: 35%;
     text-align: center;
     margin-bottom: 2%;
-    
+    box-shadow: 7px 5px 5px grey;
     
     padding: 1.5%;
     padding-left: 30px;
@@ -172,14 +180,18 @@ header {
     background-color: #F5F5F5;
     
 }
+.infoEmpresa h3{
+  font-size: 1.4em;
+}
 
 .infoUser {
-  border: outset 4px #0f283f;
-  width: 35%;
+  box-shadow: 7px 5px 5px grey;
+  border-radius: 5px;
+  width: 37%;
   text-align: center;
   margin-bottom: 2%;
   margin-left: 5%;
-  font-weight: bold;
+  
   padding: 1.5%;
   padding-left: 30px;
   min-width: 210px;
@@ -187,36 +199,70 @@ header {
   background-color: #F5F5F5;
 }
 .infoUser h3{
-  font-size: 1.3em;
+  font-size: 1.4em;
 }
 
 .generalDiv{
   display: flex;
   padding-left: 5%;
-  margin-left: 10%;
-  margin-top: 5%;
+  margin-left: 15%;
+  margin-top: 3%;
   
 }
 
 .imagenes{
-  border: outset 4px #0f283f;
-  width: 35%;
+ 
+  width: 50%;
   text-align: center;
-  margin-bottom: 2%;
-  margin-left: 30%;
-  margin-top: 4%;
+  margin-bottom: 5%;
+  margin-left: 25%;
+  
   padding: 1.5%;
   padding-left: 30px;
   min-width: 210px;
   font-family: Arial, Helvetica, sans-serif;
-  background-color: #F5F5F5;
+  
   display: flex;
   
 }
+.listaH{
+  padding-top: 5%;
+  padding-left: 2%;
+  text-align: left;
+  list-style-type: square;
+}
+.listaH li{
+  
+  list-style-type: square;
+}
+
+.listaH li:hover{
+  
+  scale: 3em;
+  color: #0f283f;
+}
+
 
 .img-Inetum{
   max-width: 30%;
   height: 30%;
   padding-left: 5%
+}
+.img-Inetum:hover{
+  transform: scale(0.9);
+}
+
+.imgIns{
+  max-width: 28%;
+  height: 30%;
+  padding-left: 5%
+}
+.imgH2{
+  display: flex;
+  font-weight: bold;
+  font-size: 1.3em;
+  font-family: Arial, Helvetica, sans-serif;
+  text-align: center;
+  margin-left: 37%;
 }
   

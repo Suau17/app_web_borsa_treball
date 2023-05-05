@@ -2,12 +2,16 @@ import OfertaLaboral from "#schemas/ofertaLaboral.js";
 import InscripcionModel from "#schemas/inscripcion.js";
 import EstudianteModel from "#schemas/estudiante.js"
 import fs from 'fs';
+import * as path from 'path';
+import { fileURLToPath } from 'url';
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
 import UserModel from "#schemas/User.js"
 import * as userController from '#controllers/user.controller.js'
 import { hash } from 'bcrypt'
 import multer from 'multer'
-import * as path from 'path';
-import EmpresaModel from "#schemas/empresaSchema.js";
+
+
 
 
 /**
@@ -25,36 +29,79 @@ const storage = multer.diskStorage({
     cb(null, file.fieldname + '-' + Date.now() + '.pdf')
   }
 })
+
 const upload = multer({ storage: storage })
 
 
 export const estudianteRegistrerController = async (req, res) => {
-  upload.single('curriculum', 5)(req, res, async () => {
-    const { cartaPresentacion, link } = req.body;
-    if(!link) link = ''
-    req.body.rolUser = 'alumno';
-    let estudis = req.body.estudis;
-    const { id, token } = await userController.userRegistrerController(req, res);
-    console.log('id' + id);
-    const estudianteData = {
-      refUser: id,
-      cartaPresentacion,
-      estudis,
-      link
-    };
-    if (req.file) {
-      estudianteData.curriculum = req.file.filename;
-    }
-    const estudiante = new EstudianteModel(estudianteData);
-    await estudiante.save();
-    const msg = {
-      token: token,
-      role: 'alumno',
-      id,
-      resposta: 'Token enviado como cookie'
-    };
-    return res.send(msg);
-  });
+
+  try {
+
+    upload.single('curriculum', 5)(req, res, async () => {
+      let { cartaPresentacion, link, dni, email } = req.body;
+      const estudiantesJSON = JSON.parse(
+        fs.readFileSync(path.join(__dirname, '..', 'estudiantes.json'), 'utf8')
+      );
+      const estudiantes = estudiantesJSON.estudiantes
+
+      const estudiant = estudiantes.find((est) => est.dni === dni);
+      if (!estudiant) return res.status(406).send({errors: 'No ets o has sigut alumne del centre'})
+
+
+      const errors = await filterRegisterEstudiante(req, res)
+      const exsistingUserByEmail = await UserModel.findOne({ email })
+      if (exsistingUserByEmail) {
+        errors.push('El email ya exsisteix a la base de dades')
+      }
+      const exsistingUserByDNI = await EstudianteModel.findOne({ dni })
+      if (exsistingUserByDNI) {
+        errors.push('El alumne ya esta registrat')
+      }
+      if (errors.length > 0) {
+        if (req.file) {
+          const currPath = path.join('./uploads/', req.file.filename);
+          console.log(currPath)
+          fs.unlink(currPath, (err) => {
+            if (err) {
+              console.log(err);
+            }
+            console.log('Currículum anterior eliminado');
+          });
+        }
+        return res.status(400).send({ errors });
+      }
+
+
+      if (!link) link = ''
+      req.body.rolUser = 'alumno';
+      let estudis = req.body.estudis;
+
+
+      const { id, token } = await userController.userRegistrerController(req, res);
+      console.log('id' + id);
+      const estudianteData = {
+        refUser: id,
+        cartaPresentacion,
+        estudis,
+        link,
+        dni
+      };
+      if (req.file) {
+        estudianteData.curriculum = req.file.filename;
+      }
+      const estudiante = new EstudianteModel(estudianteData);
+      await estudiante.save();
+      const msg = {
+        token: token,
+        role: 'alumno',
+        id,
+        resposta: 'Token enviado como cookie'
+      };
+      return res.send(msg);
+    });
+  } catch (error) {
+    return res.status(500).send('Error al registrar alumno')
+  }
 };
 
 export const downloadCurriculumController = async (req, res) => {
@@ -62,15 +109,14 @@ export const downloadCurriculumController = async (req, res) => {
   const estudiante = await EstudianteModel.findById(id);
 
   if (!estudiante || !estudiante.curriculum) {
-    return res.status(404).send('El currículum no se encuentra');
+    return res.status(404).send('No es troba el currículum.');
   }
 
   const filePath = path.join('.', 'uploads', estudiante.curriculum);
   console.log()
   return res.download(filePath, err => {
     if (err) {
-      console.log(err);
-      return res.status(500).send('Error al descargar el currículum');
+      return res.status(500).send(err);
     }
   });
 };
@@ -83,42 +129,67 @@ export const downloadCurriculumController = async (req, res) => {
  * @returns 
  */
 
-//mirar si faltan campos
 
 export const updateEstudianteController = async (req, res) => {
+
   upload.single('curriculum', 5)(req, res, async () => {
     const { cartaPresentacion, estudis, link } = req.body;
+    const errors = await filterRegisterEstudiante(req)
+    console.log(req.body)
+    if (errors.length > 0) {
+      if (req.file) {
+        const currPath = path.join('./uploads/', req.file.filename);
+        console.log('ERRORRRRRRRRRRR')
+        fs.unlink(currPath, (err) => {
+          if (err) {
+            console.log(err);
+          }
+          console.log('Currículum anterior eliminado');
+        });
+      }
+      return res.status(400).send({ errors });
+    }
+
+
     const id = req.idToken;
-    console.log(id)
-    let estudiante = await EstudianteModel.findOne({refUser : id});
+
+
+    let estudiante = await EstudianteModel.findOne({ refUser: id });
     if (!estudiante) {
-      return res.status(404).send('Estudiante no encontrado');
+      return res.status(404).send('Estudiant no trobat.');
     }
 
     if (estudiante.curriculum) {
       const currPath = path.join('./uploads/', estudiante.curriculum);
-      console.log(currPath)
       fs.unlink(currPath, (err) => {
-        if (err) console.log(err);
-        console.log('Currículum anterior eliminado');
+        if (err) {
+          console.log(err);
+        }
       });
     }
 
     if (req.file) {
-      console.log(req.file.filename+'afaff')
+      console.log('POPOAFPOAPFOAPOPFOPOFPOF'+req.file.filename)
       estudiante.curriculum = req.file.filename;
     }
 
     estudiante.cartaPresentacion = cartaPresentacion;
     estudiante.estudis = estudis;
-    if(link){
-      estudiante.link = link
-    }
+    estudiante.link = link;
 
+    let data = req.body
+    if (data.passwordHash || data.name || data.email || data.description) {
+      if (data.passwordHash) {
+        data.passwordHash = await hash(data.passwordHash, 12)
+      }
+      await UserModel.findByIdAndUpdate(estudiante.refUser, req.body, { new: true })
+    }
     await estudiante.save();
-    return res.send('Estudiante actualizado correctamente');
+    return res.send({ msg: 'Estudiant actualizat correctament' });
   });
 };
+
+
 
 
 
@@ -174,23 +245,23 @@ export const inscribirseOferta = async (req, res) => {
 
     if (inscripcionrepetida) {
 
-    if(inscripcionrepetida.estado === 'aceptado' || inscripcionrepetida.estado === 'rechazado'){
-      res.status(401).send({msg: 'La empresa ya ha gestionat la teva inscripció així que no pots borrar la inscripció'});
-      return;      
-    }
+      if (inscripcionrepetida.estado === 'aceptado' || inscripcionrepetida.estado === 'rechazado') {
+        res.status(401).send({ msg: 'La empresa ya ha gestionat la teva inscripció així que no pots borrar la inscripció' });
+        return;
+      }
 
       await InscripcionModel.deleteOne({ refOfertaLaboral: idOferta, refUser: idUsuarioToken });
-      res.status(401).send({msg: 'Ya se ha borrado la inscripcion de la oferta.'});
-      return;      
+      res.status(401).send({ msg: 'Ya se ha borrado la inscripcion de la oferta.' });
+      return;
     }
 
     let expirationDate = oferta.expirationDate
     let timestampExpirationDate = new Date(expirationDate).getTime();
     let timestampActual = new Date().getTime()
-    
-    if(timestampActual > timestampExpirationDate){ 
+
+    if (timestampActual > timestampExpirationDate) {
       console.log('NO')
-      res.status(403).send({msg: 'oferta caducada'});
+      res.status(403).send({ msg: 'oferta caducada' });
       return
     }
 
@@ -209,7 +280,7 @@ export const inscribirseOferta = async (req, res) => {
     )
     const data = await inscripcion.save();
     // Realiza alguna acción para inscribir al estudiante a la oferta
-    const msg = { msg: "Estudiante inscrito a la oferta" , data} 
+    const msg = { msg: "Estudiante inscrito a la oferta", data }
     return res.status(200).send(msg);
   } catch (error) {
     res.status(500).send(error);
@@ -230,17 +301,17 @@ export const borrarInscripcion = async (req, res) => {
     const id = req.params.idInscripcion
 
     const idUsuarioToken = req.idToken;
-    //PARA REVISAR
+    // PARA REVISAR
     const inscripcion = await InscripcionModel.findOne({ refOfertaLaboral: id, refUser: idUsuarioToken });
     if (!inscripcion) {
-      res.status(401).send('No tienes los permisos para borrar esta inscripción');
+      res.status(401).send('No tens els permissos per a esborrar aquesta inscripció.');
       return;
     }
     // Buscamos y borramos la inscripción en la base de datos
     await InscripcionModel.findByIdAndDelete(id)
 
     // Enviamos una respuesta exitosa al cliente
-    res.send({ mensaje: "Inscripción borrada exitosamente" });
+    res.send({ mensaje: "Inscripció esborrara am èxit." });
   } catch (error) {
     res.status(500).send(error);
   }
@@ -253,6 +324,40 @@ export const verOfertasInscrito = async (req, res) => {
     console.log(ofertasInscritas)
     res.send({ ofertasInscritas })
   } catch (error) {
-    res.status(500).send('Ha habido un error al mostrar las ofertas en las que estas inscrito')
+    res.status(500).send('Hi ha hagut un error al mostrar les ofertas a les que ets inscrit.')
   }
-}   
+}
+
+const filterRegisterEstudiante = async (req, res) => {
+
+  const { name, email, passwordHash, cartaPresentacion, link } = req.body;
+
+  const errors = [];
+  console.log(req.body)
+  // Validar que los campos requeridos existan en el objeto FormData
+  if (!name || !email || !passwordHash) {
+    errors.push('Faltan campos requeridos');
+  }
+  // Validar que los campos cumplan con las restricciones necesarias
+  if (name.length < 3 || name.length > 20) {
+    errors.push('El nom te que tenir entre 3 y 20 caracteres');
+  }
+
+
+
+  if (!/\S+@\S+\.\S+/.test(email)) {
+    errors.push('Introdueix un email valid');
+  }
+
+  if (cartaPresentacion && cartaPresentacion.length < 3 || cartaPresentacion.length > 300) {
+    errors.push('La carta de presentació hauria de tenir entre 3 y 300 caracteres');
+  }
+
+  if (link && /^(https?:\/\/)?(www\.)?[a-zA-Z0-9]+(\.[a-zA-Z]{2,}){1,}$/.test(link)) {
+    errors.push('Introduce una url válida');
+  }
+
+
+  return errors;
+
+}

@@ -7,9 +7,8 @@ import InscripcionModel from "#schemas/inscripcion.js"
 import EstudianteModel from "#schemas/estudiante.js"
 import OfertaLaboral from "#schemas/ofertaLaboral.js"
 import EstudiosModel from "#schemas/estudios.schema.js"
-import { hash, compare } from 'bcrypt'
-import jwt from 'jsonwebtoken'
-import { inscribirseOferta } from "./estudiantes.controller.js"
+import { hash } from 'bcrypt'
+
 
 export const adminRegistrerController = async (req, res) => {
   try {
@@ -17,7 +16,7 @@ export const adminRegistrerController = async (req, res) => {
     let msg;
 
     const { carrec, telefon, dni, access } = req.body
-    if (access != process.env.SecretWord) res.status(498).send('la clave de acceso es incorrecta')
+    if (access !== process.env.SecretWord) res.status(498).send(`La clau d'accés és incorrecta.`)
     req.body.rolUser = 'admin';
     const { id, token } = await userController.userRegistrerController(req, res)
     req.idToken = id
@@ -34,12 +33,12 @@ export const adminRegistrerController = async (req, res) => {
     msg = {
       token: token,
       role: 'admin',
-      resposta: 'Token enviado como cookie'
+      resposta: 'Token enviat com a cookie.'
     }
 
     return res.status(200).send(msg)
   } catch (error) {
-    return res.status(500).send('error al registrar admin')
+    return res.status(500).send('Error al registrar admininistrador.')
   }
 }
 
@@ -50,12 +49,12 @@ export const cicloGetController = async (req, res) => {
 
     const msg = {
       estudios,
-      resposta: 'Estudios han sido recuperados'
+      resposta: 'Els estudis han sigut recuperats.'
     }
 
     return res.send(msg)
   } catch (error) {
-    return res.send('error al registrar admin')
+    return res.send('Error al registrar admininistrador.')
   }
 }
 
@@ -77,17 +76,9 @@ export const habilitarGestorController = async (req, res) => {
 
       console.log(gest)
 
-    // let bodyHTML;
-    // if (newHabilitado) {
-    //   bodyHTML = `Hola ${mailTo.name}, soy ${console.log('admin')} represento al Vidal i Barraquer y hemos deshabilitado su cuenta de la bolsa de trabajo del Vidal i Barraquer.`;
-    // } else {
-    //   bodyHTML = `Hola ${mailTo.name}, soy ${console.log('admin')} represento al Vidal i Barraquer y hemos habilitado su cuenta de la bolsa de trabajo del Vidal i Barraquer.`;
-    // }
-
-    // Aquí puedes enviar el correo electrónico a "mailTo.email" con el contenido de "bodyHTML"
   }
 
-  return res.status(200).send({ msg: `Datos de ${gestores.length} gestores actualizados con éxito` });
+  return res.status(200).send({ msg: `Dades de ${gestores.length} gestors actualitzats amb èxit.` });
 };
 
 
@@ -106,7 +97,7 @@ export const contarUsuariosEsteAño = async (req, res) => {
 
   const msg = {
     data : usuarios,
-    msg: `Hay ${cantidadUsuarios} usuarios registrados en la base de datos este año.`
+    msg: `Hi ha ${cantidadUsuarios} usuaris registrats a la base de dades aquest any.`
   }
 
   res.status(200).send(msg)
@@ -142,7 +133,7 @@ export const eliminarUsuario = async (req, res) => {
   const idUsuario = req.body.id
   console.log(idUsuario)
   if (!idUsuario) {
-    res.status(401).send('No tienes los permisos para borrar otro usuario')
+    res.status(401).send('No tens els permissos per a esborrar un altre usuari.')
     return;
   }
   const user = await UserModel.findById(idUsuario)
@@ -166,21 +157,18 @@ export const eliminarUsuario = async (req, res) => {
       await OfertaLaboral.deleteMany({ idEmpresa: empresaId });
       await EmpresaModel.deleteOne({ refUser: user._id });
     }
-    console.log('eliminamos gestor')
     await GestorModel.deleteOne({ refUser: user._id })
-    console.log('gestor eliminado')
   }
   if (user.rolUser === 'responsable') {
     const empresa = await EmpresaModel.findOne({ empleados: { $in: [user._id] } });
 
     if (!empresa|| !empresa.empleados.includes(user._id)  || !empresa.empleados.includes(user._id)) {
-        res.status(401).send({ msg: 'No tienes los permisos para actualizar una oferta de trabajo en esta empresa' });
+        res.status(401).send({ msg: 'No gtens els permissos per a actualitzar una oferta de treball en aquesta empresa.' });
         return;
     }
 
     await empresa.updateOne({ $pull: { empleados: user._id } });
     await GestorModel.deleteOne({ refUser: user._id });
-    console.log('responsable eliminado')
   }
 
 
@@ -188,7 +176,7 @@ export const eliminarUsuario = async (req, res) => {
   await UserModel.deleteOne({ _id: idUsuario })
   // Enviamos un código de estado HTTP 200 (OK)
   const msg = {
-    msg: 'usuario eliminado correctament'
+    msg: 'Usuari eliminat correctament.'
   }
   res.status(200).send(msg)
 }
@@ -208,13 +196,13 @@ export const cicloRegistrerController = async (req, res) => {
     })
     await ciclo.save()
     const msg = {
-      resposta: 'Ciclo registrado correctamente'
+      resposta: 'Cicle registrat correctament.'
     }
 
     return res.status(200).send(msg)
   } catch (error) {
     console.log(error.message)
-    return res.status(400).send({ resposta: 'Ha habido un problema al crear el ciclo', error })
+    return res.status(400).send({ resposta: `S'ha produit un problema al crear el cicle`, error })
   }
 }
 
@@ -226,12 +214,12 @@ export const updateAdminController = async (req, res) => {
       const idUsuario = req.idToken
 
       if (!idUsuario) {
-          res.status(401).send('No tienes los permisos para borrar otro usuario')
+          res.status(401).send('No tens els permissos per a esborrar un altre usuari.')
           return;
       }
 
       if ('rolUser' in data) {
-          return res.status(401).send('no puedes modificar tu rol')
+          return res.status(401).send('No pots modificar el teu rol.')
       }
       // Actualizamos el registro del gestor en la base de datos
       const admin = await AdminModel.findOneAndUpdate({ refUser: idUsuario }, req.body, { new: true });
@@ -249,9 +237,9 @@ export const updateAdminController = async (req, res) => {
 
 
       // Enviamos un mensaje de éxito
-      return res.send('Datos del gestor actualizados con éxito')
+      return res.send({msg:'Administrador actualizat amb éxit'})
   } catch (error) {
       // En caso de error, enviamos un mensaje de error
-      return res.status(500).send('Ocurrió un error inesperado. Por favor, intente nuevamente más tarde.')
+      return res.status(500).send(`S'ha produit un error inesperat. Intenta-ho de nou més endavant.`)
   }
 }

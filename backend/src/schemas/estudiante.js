@@ -7,9 +7,11 @@ const estudianteSchema = new Schema({
       ref:'User',
       cascade: true
     },
+    dni :  { type: String},
     cartaPresentacion: { type: String},
+    link: { type: String },
     curriculum: { type: String},
-    link: { type: String }
+   
   });
   
   const EstudianteModel =  model('Estudiante', estudianteSchema);

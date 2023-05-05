@@ -5,7 +5,7 @@ const ofertaLaboralSchema = new Schema({
     title : { type: 'string', required: true,  maxLength: 100},    
     description : { type: 'string', required: true},
     requirements : { type: 'string', required: true},
-    skills : { type: 'string', required: true},
+    skills : { type: 'string'},
     ciclo : { type: 'string', required: true, maxLength: 150},
     dateOfPublication : { type: 'date',  default: Date.now },
     expirationDate : { type: 'date'},

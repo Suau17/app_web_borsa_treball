@@ -1,0 +1,19 @@
+{
+    "estudiantes": [
+      {
+        "dni": "12345678A",
+        "nombre": "Marc Gruber Lopez",
+        "curso": "DAW"
+      },
+      {
+        "dni": "12345678B",
+        "nombre": "Helder Rivas Duque",
+        "curso": "DAW"
+      },
+      {
+        "dni": "11223344C",
+        "nombre": "Gerard Suau Gumbau",
+        "curso": "DAW"
+      }
+    ]
+  }

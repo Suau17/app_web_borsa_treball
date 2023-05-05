@@ -10,14 +10,14 @@ export function CardOferta(props) {
 
     return (
 
-        <div onClick={buscarOferta} className="cardOferta border-double border-4 border-blue-900 ... bg-slate-100 shadow-xl  font-serif text-xl">
+        <div onClick={buscarOferta} className="cardOferta  border-2 border-blue-900 ... bg-white shadow-xl  font-calibri text-xl">
 
-            <h4 className="uppercase font-bold">Titulo</h4>{data.title}
+            <h4 className="uppercase font-bold">Títol</h4>{data.title}
             
-            <h4 className="uppercase font-bold">Requerimientos</h4>{data.requeriments}
-            <h4 className="uppercase font-bold">Skills</h4>{data.skills}
+            <h4 className="uppercase font-bold">Requeriments</h4>{data.requeriments}
+            <h4 className="uppercase font-bold">Habilitats</h4>{data.skills}
             
-            <h4 className="uppercase font-bold">Fecha de Publicacion</h4>{data.dateOfPublication}
+            <h4 className="uppercase font-bold">Data de publicació</h4>{data.dateOfPublication}
 
         </div>
 

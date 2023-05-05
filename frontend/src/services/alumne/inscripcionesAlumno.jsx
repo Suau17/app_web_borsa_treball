@@ -14,6 +14,5 @@ export async function misInscripciones() {
 
       const response = await fetch(url, requestOptions)
       const data = await response.json()
-      //console.log(data.ofertasInscritas)
       return data.ofertasInscritas
 }

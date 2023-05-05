@@ -14,9 +14,7 @@ import jwt from 'jsonwebtoken';
 export const userRegistrerController = async (req, res) => {
   try {
     const { name, email, passwordHash, rolUser, description } = req.body
-console.log({name, email, passwordHash, rolUser, description})
     const exsistingUserByEmail = await UserModel.findOne({ email })
-    console.log(exsistingUserByEmail)
     if (exsistingUserByEmail) return { id: false }
 
     const hashedPassword = await hash(passwordHash, 12)
@@ -35,7 +33,6 @@ console.log({name, email, passwordHash, rolUser, description})
       role: rolUser
     }
     const token = jwt.sign(userForToken, process.env.SecretWord, { expiresIn: '23h' })
-    console.log('token' + token)
     return { id: user._id, token: token }
 
   } catch (error) {
@@ -68,7 +65,7 @@ export const userLoginController = async (req, res) => {
     token: token,
     role: exsistingUserByEmail.rolUser,
     id : exsistingUserByEmail._id,
-    resposta: 'Token enviado como cookie'
+    resposta: 'Token enviat com a cookie.'
   }
   res.send(msg);
 }
@@ -86,7 +83,6 @@ export const getUsersControllers = async (req, res) => {
       if (user.rolUser === "gestor") {
         const gestor = await GestorModel.findOne({ refUser: user._id });
         if (gestor && gestor.perfilHabilitado) {
-          console.log('HABILITADO')
           user.description = true
         }
       }
@@ -117,7 +113,7 @@ export const deleteUserController = async (req, res) => {
   try {
     const idUsuario = req.idToken;
     if (!idUsuario) {
-      res.status(401).send('No tienes los permisos para borrar otro usuario')
+      res.status(401).send('No tens els permissos per a esborrar un altre usuari.')
       return;
     }
     const user = await UserModel.findById(idUsuario)
@@ -129,7 +125,6 @@ export const deleteUserController = async (req, res) => {
     }
     if (user.rolUser === 'gestor') {
       const gestor = await GestorModel.findOne({ refUser: idUsuario })
-      console.log(gestor)
       if (gestor.refEmpresa) {
         const empresaId = gestor.refEmpresa;
         // Borramos todas las ofertas de la empresa
@@ -146,7 +141,7 @@ export const deleteUserController = async (req, res) => {
     await UserModel.deleteOne({ _id: idUsuario })
 
     // Enviamos un código de estado HTTP 200 (OK)
-    res.status(200).send({msg:'Usuario eliminado correctamente'})
+    res.status(200).send({msg:'Usuari eliminat correctament.'})
   } catch (error) {
     // En caso de error, enviamos un código de estado HTTP 500 (Internal Server Error)
     res.status(500).send('error')
@@ -161,7 +156,7 @@ export const infoUser = async (req, res) => {
     const idUsuario = req.idToken;
 
     if (!idUsuario) {
-      res.status(401).send('No tienes los permisos para obtener informacion de otro usuario')
+      res.status(401).send(`No tens els permissos per a obtenir informació d'un altre usuari.`)
       return;
     }
     // Buscamos el documento del usuario en la base de datos
@@ -192,7 +187,7 @@ export const infoUser = async (req, res) => {
     data.user = user;
     const msg = {
       data: data,
-      resposta: 'Informacion de usuario recuperada'
+      resposta: `Informació d'usuari recuperada`
     }
     res.status(200).send(msg)
   } catch (error) {

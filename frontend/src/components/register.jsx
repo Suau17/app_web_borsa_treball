@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router';
-import { RegisterGestor, RegisterAlumno } from '../services/register';
+import { RegisterGestor, RegisterAlumno } from '../services/app/register';
 import '../assets/register.css'
 
 
@@ -21,8 +21,10 @@ function RegisterForm() {
       new window.FormData(event.target)
     )
     RegisterGestor(gestor).then((key)=> {
-      if(key === 'correct') navigate('/')
-      location.reload()
+      if(key === 'correct') {
+        navigate('/')
+        location.reload()
+      }
     })
   }
 
@@ -31,15 +33,16 @@ function RegisterForm() {
     const alumno = Object.fromEntries(
       new window.FormData(event.target)
     )
-    RegisterAlumno(alumno)
-    console.log(alumno)
+    RegisterAlumno(alumno).then((key)=> {
+      if(key === 'correct') navigate('/')
+    })
   }
 
   return (
     <>
       <section className='containerRegister'>
       <div className="buttonsR">
-          <button onClick={handleFormAlumno}>Registrar Alumno</button>
+          <button onClick={handleFormAlumno}>Registrar Alumne</button>
           <button onClick={handleFormGestor}>Registrar Gestor</button>
         </div>
         <div >
@@ -48,16 +51,16 @@ function RegisterForm() {
             {/* EMPRESA */}
 
             <form onSubmit={handleClickEmpresa} id="alumno-form" className="form">
-              <h1>Registrat com empresa</h1>
+              <h1>Registra't com a empresa</h1>
               <h2>Gestor:</h2>
-              <span>Dades de contacte del que gestiona el compte de la empresa:</span>
+              <span>Dades de contacte de qui gestiona el compte de la empresa:</span>
               <input type="text" name='name' placeholder="Name" />
               <input type="email" name='email' placeholder="Email" />
               <input type="password" name='password' placeholder="Password" />
               <input type="text" name='cargo' placeholder='carrec a la empresa (ex : responsable IT)' />
               <input type="text" name='telefon' placeholder='telefon' />
               <h2>Empresa:</h2>
-              <span>Registrar com empresa i publica ofertes de treball</span>
+              <span>Registrar com empresa i publicar ofertes de treball</span>
               <input type="text" name='empresa' placeholder="nom de l'empresa" />
               <input type="text" name='direction' placeholder='Calle de la empresa/oficina' />
 
@@ -73,15 +76,16 @@ function RegisterForm() {
           <div className={activeForm === 'alumno' ? 'form-containerR sign-up-container' : 'form-containerR sign-up-container hidden'}>
             <form onSubmit={handleClickAlumno} id="alumno-form" className="form">
               <h1>Alumne</h1>
-              <span>Registrat com estudiant i comença a inscriuret a ofertes</span>
+              <span>Registra't com estudiant i comença a inscriure't a ofertes</span>
               <input type="text" name='name' placeholder="Name" />
               <input type="email" name='email' placeholder="Email" />
               <input type="password" name='password' placeholder="Password" />
+              <input type="text" name='dni' placeholder='DNI: 1111111D' />
               <textarea name="cartaPresentacion" placeholder='hola me llamo xxxx y ....'
                 id="" cols="45" rows="6" className='textAreaCV' >
               </textarea>
               <input type="text" name="link" placeholder='link de la teva pagina (linkedin, repositori, github)' />
-              <i>curriculum (pdf):</i>
+              <i>Currículum (pdf):</i>
               <input type="file" name='cvFile' accept="image/*,.pdf" />
               <button className='btnSign'>Sign Up</button>
             </form>

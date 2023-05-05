@@ -1,7 +1,7 @@
 import React from "react";
 import { useState } from "react";
-import { LoginApi } from "../services/login";
-import { getUsers } from "../services/usersGestor";
+import { LoginApi } from "../services/app/login";
+import { getUsers } from "../services/app/usersGestor";
 import { useNavigate } from 'react-router-dom';
 import '../assets/login.css'
 
@@ -23,17 +23,17 @@ export function LoginForm() {
 		<div className="screen__content">
         <form  onSubmit={handleClick}>
 				<div className="login__field">
-                <span className="login__field_span">Username</span>
+                <span className="login__field_span">Email</span>
 	                <input type="email" name="username" id="username" placeholder="prueba@vidalibarraquer.net"  onChange={(e) => setEmail(e.target.value)}/><br />
 				</div>
 				
 				<div className="login__field">
-                <span className="login__field_span">Password</span>
+                <span className="login__field_span">Contrassenya</span>
                     <input type="password" name="password" id="password" onChange={(e) => setPassword(e.target.value)} /><br />
 				</div>
 				
 				<button className="button login__submit">
-					<span className="button__text">Log In Now</span>
+					<span className="button__text">Log In</span>
 					<i className="button__icon fas fa-chevron-right"></i>
 				</button>	
 							
