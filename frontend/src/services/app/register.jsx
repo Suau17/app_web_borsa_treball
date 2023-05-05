@@ -3,7 +3,7 @@ import React, { useTransition } from "react";
 import axios from "axios";
 import { useCookies } from 'react-cookie';
 import { toast } from "sonner";
-import { getCookie, setCookie } from "../context/cookies";
+import { getCookie, setCookie } from "../../context/cookies";
 const URL = {
     urlGestor: `${import.meta.env.VITE_URL}/user/register/gestor`,
     urlEstudiante: `${import.meta.env.VITE_URL}/user/register/estudiante`,

@@ -1,5 +1,5 @@
 import React from 'react'
-import { OfertasT } from '../components/tableOfertas'
+import { OfertasT } from '../../components/tableOfertas'
 
 
 function TableOfertas() {

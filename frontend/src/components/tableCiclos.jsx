@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { getCiclos } from "../services/ciclos";
+import { getCiclos } from "../services/app/ciclos";
 
 export function CicloT(){
     let [estudios, setEstudios] = useState([]);
@@ -20,10 +20,10 @@ export function CicloT(){
             <div className="relative  sm:rounded-lg ml-80 my-4  ">
               <table className=" formEmpresa text-sm text-left text-black-500 dark:text-black-400   ">
                 <thead className="border-b border-neutral-800  text-neutral-50 dark:border-neutral-600  bg-blue-900">
-                  <th scope="col" className="px-6 py-3">Name</th>
+                  <th scope="col" className="px-6 py-3">Nom</th>
                   <th scope="col" className="px-6 py-3">Familia Profesional</th>
-                  <th scope="col" className="px-6 py-3">durada</th>
-                  <th scope="col" className="px-6 py-3">asignatures</th>
+                  <th scope="col" className="px-6 py-3">Durada</th>
+                  <th scope="col" className="px-6 py-3">Assignatures</th>
                   
                 </thead>
                 <tbody>
@@ -66,7 +66,6 @@ export function CicloT(){
            </>
        )
    }
-console.log(estudios)
 
    return html
 }

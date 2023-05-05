@@ -27,13 +27,13 @@ export function TableEmployees() {
           <table className="w-full text-sm text-left   ">
             <thead className="border-b border-neutral-800  text-neutral-50 dark:border-neutral-600  bg-blue-900">
               <th scope="col" className="px-6 py-3">
-                Nombre
+                Nom
               </th>
               <th scope="col" className="px-6 py-3">
                 Email
               </th>
               <th scope="col" className="px-6 py-3">
-                Operaciones
+                Operacions
               </th>
             </thead>
             <tbody className="bg-white border-2  border-blue-500  hover:bg-gray-200">

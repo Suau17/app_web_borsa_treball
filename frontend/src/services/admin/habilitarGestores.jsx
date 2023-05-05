@@ -1,5 +1,5 @@
 import { toast } from "sonner";
-import { getCookie } from "../context/cookies";
+import { getCookie } from "../../context/cookies";
 export async function habilitarGestores(props) {
     const {id} = props
     console.log(id)

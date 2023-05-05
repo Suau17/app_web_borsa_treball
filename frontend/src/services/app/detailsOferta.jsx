@@ -1,4 +1,4 @@
-import { getCookie } from "../context/cookies";
+import { getCookie } from "../../context/cookies";
 
 
 export async function GetOferta(id) {
