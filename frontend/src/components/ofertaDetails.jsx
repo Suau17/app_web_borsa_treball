@@ -14,6 +14,7 @@ import '../assets/register.css'
 import { getCookie } from "../context/cookies";
 export function OfertaDetails() {
     const { idOferta } = useParams();
+    let estadoInscrito;
     let [oferta, setOferta] = useState([])
     let [inscripciones, setInscripciones] = useState([])
     const [ciclos, setCiclos] = useState([])
@@ -43,8 +44,14 @@ export function OfertaDetails() {
     }, [])
 
     if(miInscripcion.length > 0){
-        console.log(miInscripcion)
-        console.log('dadas')
+      
+
+        const miInscripcionFiltrada = miInscripcion.filter((inscripcion) => {
+          return inscripcion.refOfertaLaboral._id === idOferta;
+        });
+        if(miInscripcionFiltrada[0]){
+        estadoInscrito = miInscripcionFiltrada[0].estado
+        }
     }
 
     const changeEstate = (inscripcion, keyword) => {
@@ -107,7 +114,7 @@ export function OfertaDetails() {
         if (role === 'alumno') {
             button =
                 <button onClick={handleClickOferta} className="bg-blue-500 hover:bg-blue-400 text-white font-bold px-4 border-b-2 border-blue-700 hover:border-blue-500 rounded ml-3">
-                    {inscrito ? "Inscrito" : "Inscribirse"}
+                    {estadoInscrito ? estadoInscrito : "Inscribirse"}
                 </button>
         }
         return (
