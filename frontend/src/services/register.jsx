@@ -1,4 +1,5 @@
 import React, { useTransition } from "react";
+
 import axios from "axios";
 import { useCookies } from 'react-cookie';
 import { toast } from "sonner";
@@ -59,7 +60,7 @@ export async function RegisterGestor(props) {
                 </li>
               ))}
           </ul>
-          <button onClick={() => toast.dismiss(t)}>close</button>
+          <button className="bg-red-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded" onClick={() => toast.dismiss(t)}>close</button>
         </div>
       ));
     }
@@ -136,8 +137,9 @@ export async function RegisterAlumno(props) {
     formData.append("dni", dni);
     formData.append("passwordHash", password);
     formData.append("cartaPresentacion", cartaPresentacion);
-    formData.append("curriculum", cvFile, cvFile.name);
     formData.append('link', link)
+    formData.append("curriculum", cvFile, cvFile.name);
+    
     console.log('aqdfaqfaq')
     console.log(formData)
     const requestOptions = {
@@ -175,7 +177,7 @@ export async function RegisterAlumno(props) {
               );
             })}
           </ul>
-          <button onClick={() => toast.dismiss(t)}>close</button>
+          <button className="bg-red-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded" onClick={() => toast.dismiss(t)}>close</button>
         </div>
       ));
     }

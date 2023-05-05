@@ -9,6 +9,29 @@
 .oferta li{
     list-style: circle;
 }
+
+.user {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-top: 10%;
+  
+}
+.user li{
+    list-style: circle;
+}
+
+.empresa {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-top: 10%;
+  margin-bottom: 10%;
+  
+}
+.empresa li{
+    list-style: circle;
+}
 /* Estilos para el contenedor del formulario */
 .form-container {
   display: flex;

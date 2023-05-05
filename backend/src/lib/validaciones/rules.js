@@ -36,12 +36,7 @@ export const rules = [
 ]
 
 export const rulesEmpresa = [
-    body('nameEmpresa','Introdueix un nom').exists().isLength({min:3, max:15}).custom(async(value,{req})=>{
-        const empresa = await empresaModel.findOne({ nom: value });
-        if(empresa){
-            throw new Error('El nom ya esta en us');
-        }
-    }),
+    body('nameEmpresa','Introdueix un nom').isEmpty().isLength({min:3, max:15}),
     body('direccion','introdueix una direcció valida').exists().not().isEmpty(),
 ]
 
@@ -92,10 +87,10 @@ export const rulesResp = [
 ]
 
 export const rulesCiclo =[
-    body('name','Ingrese un nombre').exists().isLength({min:3 ,max:20}),
+    body('name','Ingrese un nombre').exists().notEmpty().isLength({min:3 ,max:20}),
     body('durada').exists().notEmpty().withMessage('El camp es obligatori')
     .isNumeric().withMessage('El campo ha de ser un numero'),
-    body('asignaturas')
+    body('asignatures')
     .notEmpty().withMessage('Posa una assignatura')
 ]
 
@@ -120,7 +115,7 @@ export const rulesGestorUpdate = [
 
 export const rulesAdminUpdate = [
      body('name','Introduexi un nom').exists().isLength({min:3 ,max:20}),
-    
+     
     body('cargo').exists().not().isEmpty().isLength({min:3,max:20}),
     body('telefon')
     .notEmpty().withMessage('El camp de teléfono es obligatori')

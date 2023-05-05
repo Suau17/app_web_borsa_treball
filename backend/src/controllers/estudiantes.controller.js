@@ -12,6 +12,8 @@ import { hash } from 'bcrypt'
 import multer from 'multer'
 
 import EmpresaModel from "#schemas/empresaSchema.js";
+import * as validacion from "#Lib/validaciones/validacion.js";
+import * as rules from '#Lib/validaciones/rules.js';
 
 
 /**
@@ -34,7 +36,12 @@ const upload = multer({ storage: storage })
 
 
 export const estudianteRegistrerController = async (req, res) => {
+
+
+  
+
 try {
+
 
   upload.single('curriculum', 5)(req, res, async () => {
     let { cartaPresentacion, link, dni } = req.body;
@@ -56,6 +63,8 @@ try {
     if(!link) link = ''
     req.body.rolUser = 'alumno';
     let estudis = req.body.estudis;
+    await validationResult(req).throw();
+
     const { id, token } = await userController.userRegistrerController(req, res);
     console.log('id' + id);
     const estudianteData = {
@@ -111,6 +120,7 @@ export const downloadCurriculumController = async (req, res) => {
 
 
 export const updateEstudianteController = async (req, res) => {
+
   upload.single('curriculum', 5)(req, res, async () => {
     const { cartaPresentacion, estudis, link } = req.body;
     
@@ -119,9 +129,19 @@ export const updateEstudianteController = async (req, res) => {
       return res.status(400).send({ errors });
     }
 
+
     const id = req.idToken;
-    console.log(id)
-    let estudiante = await EstudianteModel.findOne({refUser : id});
+
+    if (typeof cartaPresentacion !== 'string' || cartaPresentacion.trim() === '') {
+      return res.status(400).send('El campo "cartaPresentacion" es inválido');
+    }
+    
+  
+    if (!link) {
+      return res.status(400).send('Falta el campo "link"');
+    }
+
+    let estudiante = await EstudianteModel.findOne({ refUser: id });
     if (!estudiante) {
       return res.status(404).send('Estudiante no encontrado');
     }
@@ -130,26 +150,28 @@ export const updateEstudianteController = async (req, res) => {
       const currPath = path.join('./uploads/', estudiante.curriculum);
       console.log(currPath)
       fs.unlink(currPath, (err) => {
-        if (err) console.log(err);
+        if (err) {
+          console.log(err);
+        }
         console.log('Currículum anterior eliminado');
       });
     }
 
     if (req.file) {
-      console.log(req.file.filename+'afaff')
+      console.log(req.file.filename + 'afaff')
       estudiante.curriculum = req.file.filename;
     }
 
     estudiante.cartaPresentacion = cartaPresentacion;
     estudiante.estudis = estudis;
-    if(link){
-      estudiante.link = link
-    }
+    estudiante.link = link;
 
     await estudiante.save();
     return res.send('Estudiante actualizado correctamente');
   });
 };
+
+
 
 
 

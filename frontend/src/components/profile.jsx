@@ -69,10 +69,11 @@ export  function Profile() {
                 
                 <div className="center">
                     <div className="box">
-                    <span className=" " >Email: {profile.user.email}</span>
+                    <span className=" " >{profile.user.email}</span>
                     </div>
+                    
                     <div className="box">
-                    <span className=" " >Rol: {profile.user.rolUser}</span>
+                    <span className=" " >{profile.user.rolUser}</span>
                     </div>
                 </div>
                     <button onClick={handleFormEdit} className="btn">Editar</button>

@@ -17,6 +17,7 @@ import { RegisterC} from './pages/crearCiclos'
 import { EstadisticasApp } from './components/stats'
 import { AuthProvider } from './context/Autenticate'
 import { PageInscripcionesAlumne } from './pages/Alumne/inscripcionesAlumno'
+import { TableCiclo } from './pages/tableCiclos'
 import RoleProtectedRoute from './components/RoleProtectedRoute'
 import { Toaster, toast } from 'sonner'
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
@@ -72,7 +73,7 @@ function App() {
           <Route path='users' element={<PageUsers />} />
           <Route path="/editAlumne" element={<PageEditAlumne />} />
           <Route path="/crearCiclos" element={<RegisterC />} />
-            
+           <Route path="/tableCiclo" element={<TableCiclo/>}/>
         </Routes>
       </AuthProvider>
       <Footer />

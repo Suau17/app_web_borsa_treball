@@ -46,16 +46,18 @@ export async function editUser(props){
         user.append("description", "lo quitaremos?");
         user.append("passwordHash", password);
         user.append("cartaPresentacion", cartaPresentacion);
-        user.append("curriculum", cvFile);
         user.append('link', link)
+        user.append("curriculum", cvFile);
+        
         console.log(user)
         requestOptions = {
             method: "PUT",
             headers: {
                 'Authorization': `${token}`
             },
-            body: user,
+            body: JSON.stringify(user),
         };
+        
     }
     if(role === 'admin'){
         const {name, email, password, confirmpassword, cargo, telefon, dni} = props
@@ -104,7 +106,7 @@ export async function editUser(props){
                   </li>
                 ))}
             </ul>
-            <button onClick={() => toast.dismiss(t)}>close</button>
+            <button className="bg-red-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded" onClick={() => toast.dismiss(t)}>close</button>
           </div>
         ));
       }
