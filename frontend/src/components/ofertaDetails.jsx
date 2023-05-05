@@ -107,7 +107,7 @@ export function OfertaDetails() {
             </div>
         )
     }
-    
+
     function ButtonsGestionOferta() {
         let role = getCookie('vRole')
         let button;
@@ -156,57 +156,6 @@ export function OfertaDetails() {
 
                         <div>
                             {ButtonInscriureOferta()}
-
-                            {
-                                inscripciones.map(inscripcion => {
-                                    <h3>Inscritos:</h3>
-
-                                    if (inscripcion.refUser._id == getCookie('vID') && inscrito == false) {
-                                        setInscrito(true)
-                                    }
-                                    let html2 = ''
-                                    let role = getCookie('vRole')
-                                    // if (getCookie('vToken') && role === 'gestor') {
-                                    //     if (inscripcion.estado == 'aceptado') {
-                                    //         html2 = (
-                                    //             <div key={inscripcion._id} className='bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded w-2/4 mb-4'>
-                                    //                 {console.log(inscripcion)}
-                                    //                 <Link to={`/search/user/${inscripcion.refUser._id}`}>{inscripcion.refUser.name.toUpperCase()}</Link>
-                                    //                 <span className="ml-3">ACEPTADO</span>
-                                    //             </div>
-                                    //         )
-                                    //     }
-                                    //     else if (inscripcion.estado == 'rechazado') {
-                                    //         html2 = (
-                                    //             <div key={inscripcion._id} className='cardInscrito bg-red-500  text-white font-bold py-2 px-4 rounded w-2/4 mb-4'>
-                                    //                 {console.log(inscripcion)}
-                                    //                 <Link to={`/search/user/${inscripcion.refUser._id}`}>{inscripcion.refUser.name.toUpperCase()}</Link>
-                                    //                 <span>  RECHAZADO</span>
-                                    //             </div>
-                                    //         )
-                                    //     }
-                                    //     else {
-                                    //         html2 = (
-                                    //             <div key={inscripcion._id} className=''>
-                                    //                 {console.log(inscripcion)}
-                                    //                 <Link to={`/search/user/${inscripcion.refUser._id}`}>{inscripcion.refUser.name.toUpperCase()}</Link>
-
-                                    //                 <button
-                                    //                     onClick={() => changeEstate(inscripcion._id, 'aceptar')} className="bg-blue-500 hover:bg-blue-400 text-white font-bold px-4 border-b-2 border-blue-700 hover:border-blue-500 rounded ml-3">Aceptar</button>
-                                    //                 <button
-                                    //                     onClick={() => changeEstate(inscripcion._id, 'rechazar')} className="bg-red-500 hover:bg-red-400 text-white font-bold  px-4 border-b-2 border-red-700 hover:border-red-500 rounded ml-4">Rechazar</button>
-                                    //                 {/* disabled={rolUser !== 'gestor'} */}
-
-                                    //             </div>
-                                    //         )
-                                    //     }
-                                    //     return html2
-                                    // }
-                                }
-                                )
-                            }
-
-
                         </div>
                     </div>
                 </div>
@@ -254,24 +203,47 @@ export function OfertaDetails() {
                     <div className=" usuarios relative   sm:rounded-lg  my-4  text-4xl">
                         <table className="formUser text-sm text-left    ">
                             <thead className="border-b border-neutral-800  text-neutral-50 dark:border-neutral-600  bg-blue-900">
-                                <th scope="col" className="px-6 py-3">nom</th>
-                                <th scope="col" className="px-6 py-3">email</th>
-                                <th scope="col" className="px-6 py-3">operaciones</th>
+                                <tr>
+                                    <th scope="col" className="px-6 py-3">nom</th>
+                                    <th scope="col" className="px-6 py-3">email</th>
+                                    <th scope="col" className="px-6 py-3">operaciones</th>
+                                </tr>
                             </thead>
                             <tbody>
                                 {console.log(inscripciones)}
-                                {inscripciones.map(e =>
-
-                                    <tr key={e._id} className="bg-white border-2 border-blue-500  hover:bg-gray-200">
-                                        <td className="px-6 py-4">{e.refUser.name}</td>
+                                {inscripciones.map(e => {
+                                    let html = ''
+                                    if (e.estado == 'aceptado') {
+                                        html = <tr key={e._id} className="bg-white border-2 border-blue-500  hover:bg-gray-200">
+                                        <td className="px-6 py-4"> <Link to={`/search/user/${e.refUser._id}`}>{e.refUser.name.toUpperCase()}</Link></td>
                                         <td className="px-6 py-4">{e.refUser.email}</td>
                                         {console.log(e)}
-                                        <td><button
-                                            onClick={() => changeEstate(e._id, 'aceptar')} className="bg-blue-500 hover:bg-blue-400 text-white font-bold px-4 border-b-2 border-blue-700 hover:border-blue-500 rounded ml-3">Aceptar</button>
-                                            <button
-                                                onClick={() => changeEstate(e._id, 'rechazar')} className="bg-red-500 hover:bg-red-400 text-white font-bold  px-4 border-b-2 border-red-700 hover:border-red-500 rounded ml-4">Rechazar</button>
-                                            {/* disabled={rolUser !== 'gestor'} */}</td>
+                                        <td className="bg-blue-800 bg-opacity-100 text-white">ACEPTADO</td>
                                     </tr>
+                                    } else if (e.estado == 'rechazado') {
+                                        html = <tr key={e._id} className="bg-white border-2 border-blue-500  hover:bg-gray-200">
+                                            <td className="px-6 py-4"> <Link to={`/search/user/${e.refUser._id}`}>{e.refUser.name.toUpperCase()}</Link></td>
+                                            <td className="px-6 py-4">{e.refUser.email}</td>
+                                            {console.log(e)}
+                                            <td className="bg-red-800 bg-opacity-100 text-white">RECHAZADO</td>
+                                        </tr>
+                                    } else {
+                                        html =
+                                            <tr key={e._id} className="bg-white border-2 border-blue-500  hover:bg-gray-200">
+                                                <td className="px-6 py-4"> <Link to={`/search/user/${e.refUser._id}`}>{e.refUser.name.toUpperCase()}</Link> </td>
+                                                <td className="px-6 py-4">{e.refUser.email}</td>
+                                                {console.log(e)}
+                                                <td><button
+                                                    onClick={() => changeEstate(e._id, 'aceptar')} className="bg-blue-500 hover:bg-blue-400 text-white font-bold px-4 border-b-2 border-blue-700 hover:border-blue-500 rounded ml-3">Aceptar</button>
+                                                    <button
+                                                        onClick={() => changeEstate(e._id, 'rechazar')} className="bg-red-500 hover:bg-red-400 text-white font-bold  px-4 border-b-2 border-red-700 hover:border-red-500 rounded ml-4">Rechazar</button>
+                                                    {/* disabled={rolUser !== 'gestor'} */}</td>
+                                            </tr>
+                                    }
+                                    return html
+                                }
+
+
 
                                 )}
                             </tbody>
