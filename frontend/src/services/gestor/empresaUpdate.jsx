@@ -30,7 +30,7 @@ export async function updateEmpresa(props) {
         console.log(data.errors)
         toast.custom((t) => (
           <div className="border-2 text-red-500  bg-red-200 border-red-600 pl-2">
-            <ul>
+            <ul className="max-w-md space-y-1 text-red-500 list-disc list-inside">
               {data.errors
                 .filter((error, index, self) => self.findIndex((e) => e.msg === error.msg) === index) // Filtrar elementos duplicados
                 .map((error, index) => (

@@ -3,6 +3,22 @@ import UserModel from "#schemas/User.js"
 import empresaModel from '#schemas/empresaSchema.js';
 import EstudiosModel from '#schemas/estudios.schema.js';
 
+
+export const rulesEstudiante = [
+    body('name','Introduexi un nom').exists().isLength({min:3 ,max:20}),
+    body('email','introdueix un E-mail valido').exists().isEmail().custom(async (value, { req }) => {
+        console.log(value)
+        const user = await UserModel.findOne({ email: value });
+        if (user) {
+            throw new Error('Email already in use');
+        }
+    }),
+    body('description').exists().isLength({min:3,max:200}),
+    body('cartaPresentacion').exists().not().isEmpty().isLength({min:3,max:450}),
+    body('link').exists().not().isEmpty(),
+
+]
+
 export const rules = [
     
     body('name','Introduexi un nom').exists().isLength({min:3 ,max:20}),
@@ -47,20 +63,20 @@ export const rulesOferta = [
   
 ]
 
-export const rulesEstudiante = [
-    body('name','Introduexi un nom').exists().isLength({min:3 ,max:20}),
-    body('email','introdueix un E-mail valido').exists().isEmail().custom(async (value, { req }) => {
-        console.log(value)
-        const user = await UserModel.findOne({ email: value });
-        if (user) {
-            throw new Error('Email already in use');
-        }
-    }),
-    body('description').exists().isLength({min:3,max:200}),
-    body('cartaPresentacion').exists().not().isEmpty().isLength({min:3,max:450}),
-    body('link').exists().not().isEmpty(),
+// export const rulesEstudiante = [
+//     body('name','Introduexi un nom').exists().isLength({min:3 ,max:20}),
+//     body('email','introdueix un E-mail valido').exists().isEmail().custom(async (value, { req }) => {
+//         console.log(value)
+//         const user = await UserModel.findOne({ email: value });
+//         if (user) {
+//             throw new Error('Email already in use');
+//         }
+//     }),
+//     body('description').exists().isLength({min:3,max:200}),
+//     body('cartaPresentacion').exists().not().isEmpty().isLength({min:3,max:450}),
+//     body('link').exists().not().isEmpty(),
 
-]
+// ]
 
 export const rulesResp = [
     body('name','Ingrese un nom').exists().isLength({min:3 ,max:20}),
