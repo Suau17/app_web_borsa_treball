@@ -7,9 +7,8 @@ import InscripcionModel from "#schemas/inscripcion.js"
 import EstudianteModel from "#schemas/estudiante.js"
 import OfertaLaboral from "#schemas/ofertaLaboral.js"
 import EstudiosModel from "#schemas/estudios.schema.js"
-import { hash, compare } from 'bcrypt'
-import jwt from 'jsonwebtoken'
-import { inscribirseOferta } from "./estudiantes.controller.js"
+import { hash } from 'bcrypt'
+
 
 export const adminRegistrerController = async (req, res) => {
   try {
@@ -17,7 +16,7 @@ export const adminRegistrerController = async (req, res) => {
     let msg;
 
     const { carrec, telefon, dni, access } = req.body
-    if (access != process.env.SecretWord) res.status(498).send(`La clau d'accés és incorrecta.`)
+    if (access !== process.env.SecretWord) res.status(498).send(`La clau d'accés és incorrecta.`)
     req.body.rolUser = 'admin';
     const { id, token } = await userController.userRegistrerController(req, res)
     req.idToken = id
@@ -238,7 +237,7 @@ export const updateAdminController = async (req, res) => {
 
 
       // Enviamos un mensaje de éxito
-      return res.send('Dades del gestor actualitzades amb èxit.')
+      return res.send({msg:'Administrador actualizat amb éxit'})
   } catch (error) {
       // En caso de error, enviamos un mensaje de error
       return res.status(500).send(`S'ha produit un error inesperat. Intenta-ho de nou més endavant.`)

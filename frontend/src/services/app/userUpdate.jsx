@@ -55,7 +55,7 @@ export async function editUser(props){
             headers: {
                 'Authorization': `${token}`
             },
-            body: JSON.stringify(user),
+            body: user,
         };
         
     }
@@ -88,7 +88,7 @@ export async function editUser(props){
     const response = await fetch(url, requestOptions)
     const data = await response.json();
     if (response.status === 200) {
-        toast.success(`Empresa actualitzada amb éxit`);
+        toast.success(data.msg);
       
       
       } 
