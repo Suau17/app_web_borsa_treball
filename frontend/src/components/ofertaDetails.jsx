@@ -15,20 +15,32 @@ export function OfertaDetails() {
     let [oferta, setOferta] = useState([])
     let [inscripciones, setInscripciones] = useState([])
     const [ciclos, setCiclos] = useState([])
+    const [verInscritos, setVerInscritos] = useState([])
     const navigate = useNavigate();
     // const [rolUser, setRol] = useState('user');
     const [activeForm, setActiveForm] = useState("oferta");
+    
     const [inscrito, setInscrito] = useState(false);
     useEffect(() => {
         GetOferta(idOferta).then(oferta => setOferta(oferta))
         getCiclos().then(ciclos => setCiclos(ciclos))
+        
+
     }, [])
 
     useEffect(() => {
-        if(getCookie('vRole') === 'gestor'){
-        GetInscripciones(idOferta).then(inscripciones => setInscripciones(inscripciones))
+        if (getCookie('vRole') === 'gestor') {
+            GetInscripciones(idOferta).then(inscripciones => setInscripciones(inscripciones))
         }
     }, [])
+
+    useEffect(() => {
+        async function obtenerInscripciones() {
+          const inscripciones = await InscripcionModel.find().populate('refUser');
+          setInscripciones(inscripciones);
+        }
+        obtenerInscripciones();
+      }, []);
 
     const changeEstate = (inscripcion, keyword) => {
         const body = {
@@ -44,6 +56,9 @@ export function OfertaDetails() {
 
     const handleFormEdit = () => {
         setActiveForm("edit");
+    }
+    const handelFormInscrito = () => {
+        setActiveForm("inscritos")
     }
 
     useEffect(() => { }, [activeForm]);
@@ -63,6 +78,12 @@ export function OfertaDetails() {
             new window.FormData(event.target)
         )
 
+    }
+    function handleClickInscrito(event) {
+        event.preventDefault()
+        const inscripcion = Object.FormData.fromEntries(
+            new window.FormData(event.target)
+        )
     }
 
     const handleClickDelete = () => {
@@ -98,7 +119,7 @@ export function OfertaDetails() {
         if (role != 'alumno') {
             button = (
                 <>
-                
+
                     <button onClick={handleFormEdit} className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
                         <img src="/public/iconos/editar.png" alt="papelera" />
                     </button>
@@ -128,7 +149,7 @@ export function OfertaDetails() {
                 <div className={activeForm === 'oferta' ? 'form-containerV sign-up-container' : 'form-containerV sign-up-container hidden'}>
                     <div className="detailOferta border-double border-4 border-blue-900 ... bg-slate-100 shadow-xl  font-serif text-lg pl-5 ">
                         <h1 className="mb-4 text-4xl font-extrabold leading-none tracking-tight text-gray-900 md:text-5xl lg:text-4xl dark:text-black mt-5 ">{oferta.oferta.title}</h1>
-
+                        <div><button onClick={handelFormInscrito} className='bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded w-2/4 mb-4'>ver Inscritos</button></div>
                         {ButtonsGestionOferta()}
 
                         <h3 className="uppercase font-bold ">Id de la Empresa:</h3> {oferta.oferta.idEmpresa}
@@ -180,6 +201,7 @@ export function OfertaDetails() {
                                                     <button
                                                         onClick={() => changeEstate(inscripcion._id, 'rechazar')} className="bg-red-500 hover:bg-red-400 text-white font-bold  px-4 border-b-2 border-red-700 hover:border-red-500 rounded ml-4">Rechazar</button>
                                                     {/* disabled={rolUser !== 'gestor'} */}
+
                                                 </div>
                                             )
                                         }
@@ -230,6 +252,35 @@ export function OfertaDetails() {
 
 
                     </div>
+                </div>
+
+                <div className={activeForm === 'inscritos' ? 'form-containerE sign-up-container' : 'form-containerE sign-up-container hidden'}>
+                   <button onClick={handleFormOferta} className='bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded w-2/4 mb-4'>oferta</button>
+                    <div className=" usuarios relative   sm:rounded-lg  my-4  text-4xl">
+                    <table className="formUser text-sm text-left    ">
+                        <thead className="border-b border-neutral-800  text-neutral-50 dark:border-neutral-600  bg-blue-900">
+                            <th scope="col" className="px-6 py-3">nom</th>
+                            <th scope="col" className="px-6 py-3">email</th>
+                            <th scope="col" className="px-6 py-3">operaciones</th>
+                        </thead>
+                        <tbody>
+                            {console.log(inscripciones)}
+                            {inscripciones.map(e =>
+                                
+                                <tr key={e._id} className="bg-white border-2 border-blue-500  hover:bg-gray-200">
+                                        <td className="px-6 py-4">{e.refUser.name}</td>
+                                        <td className="px-6 py-4">{e.refUser.email}</td>
+                                        <td><button
+                                                        onClick={() => changeEstate(inscripcion._id, 'aceptar')} className="bg-blue-500 hover:bg-blue-400 text-white font-bold px-4 border-b-2 border-blue-700 hover:border-blue-500 rounded ml-3">Aceptar</button>
+                                                    <button
+                                                        onClick={() => changeEstate(inscripcion._id, 'rechazar')} className="bg-red-500 hover:bg-red-400 text-white font-bold  px-4 border-b-2 border-red-700 hover:border-red-500 rounded ml-4">Rechazar</button>
+                                                    {/* disabled={rolUser !== 'gestor'} */}</td>
+                                </tr>
+                                
+                            )}
+                        </tbody>
+                    </table>
+                </div>
                 </div>
             </>
         )
