@@ -20,3 +20,9 @@ Esta herramienta es útil y fácil de usar para los alumnos y exalumnos del cent
      
 
 
+### Videos
+ 
+- [Rol Administrador](https://youtu.be/Qm7TG6TQkkc)
+- [Rol Estudiante](https://youtu.be/Tbtd2zjOO_M)
+- [Rol Gestor ( Empresa )](https://youtu.be/1x64DfsErAI)
+- [Rol Responsable ( Empresa )](https://youtu.be/r7JAY1Pa-pM)
